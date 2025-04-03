@@ -21,7 +21,7 @@ html, body {
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 15px 0;
+    padding: 12px 0;
 }
 
 .navbar-container {
@@ -39,32 +39,89 @@ html, body {
     color: #000;
 }
 
-.navbar-center {
+/* Navigation Links */
+.navbar-links {
     flex-grow: 1;
     display: flex;
     justify-content: center;
 }
 
-/* Apple/Splice inspired expanded menu */
-.menu-container {
-    position: relative;
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-link {
+    color: #000;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 12px;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #555;
+}
+
+.nav-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: #000;
+}
+
+.trigger-content {
     display: inline-block;
 }
 
-.menu-btn {
-    background-color: white;
-    color: black;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 20px;
+/* Navbar Buttons */
+.navbar-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
-.menu-btn:hover, .menu-btn:focus {
-    background-color: #f8f8f8;
+.nav-button {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #000;
+    font-size: 0.95rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background-color: #000;
+    color: #fff;
+}
+
+.primary-button:hover {
+    background-color: #333;
+}
+
+/* Expanded Menu Styles - Spline Inspired */
+.expanded-menu {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 62px; /* Match your navbar height */
+    background-color: white;
+    z-index: 1000;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.menu-left, .menu-right {
+    width: 50%;
+    padding: 0 15px;
 }
 
 .expanded-menu {
@@ -72,80 +129,91 @@ html, body {
     position: fixed;
     left: 0;
     right: 0;
-    top: 70px; /* Adjust based on your navbar height */
+    top: 62px;
     background-color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    padding: 30px 0;
-    overflow: hidden;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.menu-items-container {
+    z-index: 999;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 30px 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.expanded-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.menu-left, .menu-right {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    min-width: 250px;
+    max-width: 400px;
+    padding: 0 20px;
 }
 
 .menu-item {
-    color: black;
-    text-decoration: none;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 200px;
-    padding: 20px;
-    transition: all 0.2s ease;
-    border-radius: 10px;
+    gap: 15px;
+    padding: 12px;
+    text-decoration: none;
+    color: #000;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .menu-item:hover {
-    background-color: #f8f8f8;
-    transform: translateY(-3px);
+    background-color: #f5f5f5;
 }
 
-.sky-emoji {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+.menu-icon {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
 }
 
-.sky-name {
+.item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-title {
     font-weight: 500;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
+    font-size: 1rem;
 }
 
-.sky-description {
+.item-subtitle {
     font-size: 0.85rem;
     color: #666;
-    text-align: center;
-    line-height: 1.4;
 }
 
-/* Show the expanded menu when the button is clicked */
-.show {
-    display: block;
-    animation: fadeIn 0.3s;
-}
-
-/* Add backdrop when menu is open */
+/* Backdrop styles */
 .menu-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 998;
     display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+.menu-backdrop.show {
+    opacity: 1;
+    display: block;
 }
 
 /* Content area */
@@ -158,17 +226,26 @@ html, body {
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     .navbar-container {
+        flex-wrap: wrap;
+    }
+    
+    .navbar-links {
+        order: 3;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .nav-links {
+        justify-content: center;
+    }
+    
+    .expanded-menu {
         flex-direction: column;
-        padding: 10px;
+        align-items: center;
     }
     
-    .navbar-brand, .navbar-center {
-        margin-bottom: 10px;
-    }
-    
-    .dropdown-content {
-        min-width: 280px;
-        left: 0;
-        transform: none;
+    .menu-left, .menu-right {
+        width: 100%;
+        max-width: 100%;
     }
 }
