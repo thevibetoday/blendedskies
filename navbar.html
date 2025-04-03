@@ -102,6 +102,26 @@
     </div>
 
     <!-- Load JavaScript at the end to ensure DOM is loaded -->
+    <script>
+    // This will help identify which elements are missing
+    document.addEventListener('DOMContentLoaded', function() {
+        const requiredSelectors = [
+            '.sky-selector',
+            '.selector-orb',
+            '.sky-panorama',
+            '.sky-option',
+            '.sky-backdrop',
+            '.stars-container',
+            '.cosmic-navbar',
+            '.orb-inner'
+        ];
+        
+        requiredSelectors.forEach(selector => {
+            const element = document.querySelector(selector);
+            console.log(selector + ': ' + (element ? 'Found' : 'MISSING'));
+        });
+    });
+    </script>
     <script src="navbar.js" defer></script>
 </body>
 </html>
