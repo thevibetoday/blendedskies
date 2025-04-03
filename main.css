@@ -1,0 +1,756 @@
+/* Main Page Styling */
+:root {
+    --primary-color: #1E90FF;
+    --primary-light: #87CEEB;
+    --primary-dark: #4169E1;
+    --accent-color: #FF6B6B;
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #fff;
+    --card-bg: #f9f9f9;
+    --gradient-sky: linear-gradient(135deg, #1E90FF, #87CEEB);
+    --gradient-sunset: linear-gradient(135deg, #FF6B6B, #FFD700);
+    --gradient-night: linear-gradient(135deg, #191970, #483D8B);
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(135, 206, 250, 0.2);
+    --border-radius: 10px;
+    --transition-fast: 0.3s ease;
+    --transition-medium: 0.5s ease;
+    --transition-slow: 0.8s ease;
+}
+
+/* Main Content Container */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: var(--gradient-sky);
+    color: white;
+    box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(135, 206, 250, 0.4);
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.secondary-btn:hover {
+    background: rgba(135, 206, 250, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    padding: 100px 0 80px;
+    position: relative;
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    background: var(--gradient-sky);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-title span {
+    display: block;
+    font-weight: 700;
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 500px;
+}
+
+.sky-sphere {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: var(--gradient-sky);
+    box-shadow: 0 10px 30px rgba(135, 206, 250, 0.3),
+                inset 0 5px 15px rgba(255, 255, 255, 0.5),
+                inset 0 -5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: background 1s ease;
+}
+
+.sky-sphere::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.sky-sphere-clear-blue {
+    background: var(--gradient-sky);
+}
+
+.sky-sphere-sunset-glow {
+    background: var(--gradient-sunset);
+}
+
+.sky-sphere-storm-brewing {
+    background: linear-gradient(135deg, #708090, #A9A9A9);
+}
+
+.sky-sphere-starry-night {
+    background: var(--gradient-night);
+}
+
+.sky-sphere-rainbow-sky {
+    background: linear-gradient(135deg, #FF69B4, #9370DB, #3CB371, #FFD700);
+}
+
+.floating-clouds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.cloud::before,
+.cloud::after {
+    content: "";
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    width: 100px;
+    height: 40px;
+    top: 20%;
+    left: 10%;
+    animation: float 20s linear infinite;
+}
+
+.cloud-1::before {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+    left: 15px;
+}
+
+.cloud-1::after {
+    width: 50px;
+    height: 50px;
+    top: -20px;
+    left: 50px;
+}
+
+.cloud-2 {
+    width: 80px;
+    height: 30px;
+    top: 50%;
+    right: 15%;
+    animation: float 25s linear infinite reverse;
+}
+
+.cloud-2::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
+}
+
+.cloud-2::after {
+    width: 40px;
+    height: 40px;
+    top: -15px;
+    left: 40px;
+}
+
+.cloud-3 {
+    width: 60px;
+    height: 25px;
+    bottom: 25%;
+    left: 35%;
+    animation: float 30s linear infinite;
+}
+
+.cloud-3::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 8px;
+}
+
+.cloud-3::after {
+    width: 30px;
+    height: 30px;
+    top: -12px;
+    left: 30px;
+}
+
+@keyframes float {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100px); }
+    100% { transform: translateX(0); }
+}
+
+/* Sky Showcase Section */
+.sky-showcase {
+    padding: 100px 0;
+    background-color: #f8f9fa;
+    border-radius: 30px;
+    margin: 50px 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    background: var(--gradient-sky);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sky-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.sky-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.sky-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-visual {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--gradient-sky);
+    position: relative;
+    overflow: hidden;
+}
+
+.sky-card[data-sky="clear-blue"] .card-visual {
+    background: var(--gradient-sky);
+}
+
+.sky-card[data-sky="sunset-glow"] .card-visual {
+    background: var(--gradient-sunset);
+}
+
+.sky-card[data-sky="starry-night"] .card-visual {
+    background: var(--gradient-night);
+}
+
+.sky-preview-lg {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.sky-emoji-lg {
+    font-size: 4rem;
+    line-height: 1;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.card-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.card-content p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.card-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--gradient-sky);
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+}
+
+.card-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+}
+
+/* About Section */
+.about-section {
+    padding: 100px 0;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-light);
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.features {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.feature {
+    flex: 1;
+    min-width: 200px;
+    padding: 25px;
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast);
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.feature p {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 100px 0;
+    background: var(--gradient-sky);
+    margin: 50px 0;
+    border-radius: 30px;
+    color: white;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.cta-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.cta-section .primary-btn {
+    background: white;
+    color: var(--primary-color);
+}
+
+.cta-section .primary-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Footer */
+.site-footer {
+    background: #f8f9fa;
+    padding: 70px 0 20px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 30px;
+}
+
+.footer-brand h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    background: var(--gradient-sky);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-brand p {
+    color: var(--text-light);
+}
+
+.footer-links {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.link-group {
+    min-width: 150px;
+    margin-bottom: 30px;
+}
+
+.link-group h4 {
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.link-group ul {
+    list-style: none;
+    padding: 0;
+}
+
+.link-group li {
+    margin-bottom: 10px;
+}
+
+.link-group a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.link-group a:hover {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 50px auto 0;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 70px 0;
+    }
+    
+    .hero-content {
+        padding-right: 0;
+        margin-bottom: 50px;
+    }
+    
+    .hero-text {
+        margin: 0 auto 30px;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .sky-sphere {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+    
+    .hero-visual {
+        height: 400px;
+    }
+    
+    .sky-sphere {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .features {
+        flex-direction: column;
+    }
+    
+    .feature {
+        width: 100%;
+    }
+    
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-text {
+        font-size: 1rem;
+    }
+    
+    .sky-sphere {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .hero-visual {
+        height: 300px;
+    }
+    
+    .sky-showcase {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+    
+    .sky-cards {
+        gap: 20px;
+    }
+    
+    .sky-card {
+        min-width: 100%;
+    }
+    
+    .about-content p {
+        font-size: 1rem;
+    }
+    
+    .cta-section {
+        padding: 60px 0;
+    }
+    
+    .cta-content h2 {
+        font-size: 1.6rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
+
+/* Sky Theme Classes for Body */
+body.sky-clear-blue {
+    background-color: rgba(240, 248, 255, 0.3);
+}
+
+body.sky-sunset-glow {
+    background-color: rgba(255, 222, 173, 0.3);
+}
+
+body.sky-storm-brewing {
+    background-color: rgba(211, 211, 211, 0.3);
+}
+
+body.sky-starry-night {
+    background-color: rgba(25, 25, 112, 0.05);
+}
+
+body.sky-rainbow-sky {
+    background-color: rgba(255, 250, 250, 0.3);
+}
+
+/* Reusable Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Page Transitions */
+.page-transition {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Additional Hover Effects */
+.feature:hover .feature-icon {
+    animation: float-y 3s ease-in-out infinite;
+}
+
+.sky-card:hover .sky-emoji-lg {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Navbar Integration */
+.cosmic-navbar + .main-content {
+    padding-top: 30px;
+}
+
+/* Loading Animation */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(135, 206, 250, 0.2);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: rotate-slow 1s linear infinite;
+}
