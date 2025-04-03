@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#1E90FF">
+    <title>Collection | Blend of Skies</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="inventory.css">
+</head>
+<body class="inventory-body sky-blended">
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
+    <nav class="cosmic-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="orbit-icon">
+                    <div class="planet"></div>
+                    <div class="satellite"></div>
+                </div>
+            </div>
+            <h1 class="brand-name">Blend of Skies</h1>
+        </div>
+        
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">🌤️</div>
+            </div>
+        </div>
+        
+        <div class="empty-space"></div>
+    </nav>
+    
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="blended">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌥️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Blended Sky</h3>
+                    <p>Our signature blend of atmospheric elements</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌤️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌅</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <div class="sky-icon">⛈️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌌</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌈</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="inventory-container">
+        <div class="filter-panel">
+            <div class="filter-header">
+                <h2>Browse Collection</h2>
+                <button class="filter-toggle">Filters</button>
+            </div>
+            
+            <div class="filter-groups">
+                <div class="filter-group">
+                    <h3 class="filter-title">Sky</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="blended" checked>
+                            <span class="option-text">Blended Sky</span>
+                            <span class="option-icon">🌥️</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="clear-blue">
+                            <span class="option-text">Clear Blue</span>
+                            <span class="option-icon">🌤️</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="sunset-glow">
+                            <span class="option-text">Sunset Glow</span>
+                            <span class="option-icon">🌅</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="storm-brewing">
+                            <span class="option-text">Storm Brewing</span>
+                            <span class="option-icon">⛈️</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="starry-night">
+                            <span class="option-text">Starry Night</span>
+                            <span class="option-icon">🌌</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="sky" value="rainbow-sky">
+                            <span class="option-text">Rainbow Sky</span>
+                            <span class="option-icon">🌈</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Type</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="tee" checked>
+                            <span class="option-text">T-Shirt</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="long-sleeve">
+                            <span class="option-text">Long Sleeve</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="hoodie">
+                            <span class="option-text">Hoodie</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="sweater">
+                            <span class="option-text">Sweater</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="tank">
+                            <span class="option-text">Tank Top</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Size</h3>
+                    <div class="filter-options size-options">
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="xs">
+                            <span class="option-text">XS</span>
+                        </label>
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="s">
+                            <span class="option-text">S</span>
+                        </label>
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="m" checked>
+                            <span class="option-text">M</span>
+                        </label>
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="l">
+                            <span class="option-text">L</span>
+                        </label>
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="xl">
+                            <span class="option-text">XL</span>
+                        </label>
+                        <label class="filter-option size-circle">
+                            <input type="checkbox" name="size" value="xxl">
+                            <span class="option-text">XXL</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Color</h3>
+                    <div class="filter-options color-options">
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="white">
+                            <span class="color-swatch" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                            <span class="color-name">White</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="black">
+                            <span class="color-swatch" style="background-color: #000000;"></span>
+                            <span class="color-name">Black</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="gray">
+                            <span class="color-swatch" style="background-color: #808080;"></span>
+                            <span class="color-name">Gray</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="blue" checked>
+                            <span class="color-swatch" style="background-color: #1E90FF;"></span>
+                            <span class="color-name">Blue</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="navy">
+                            <span class="color-swatch" style="background-color: #000080;"></span>
+                            <span class="color-name">Navy</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="orange">
+                            <span class="color-swatch" style="background-color: #FF6B6B;"></span>
+                            <span class="color-name">Orange</span>
+                        </label>
+                        <label class="filter-option color-circle">
+                            <input type="checkbox" name="color" value="purple">
+                            <span class="color-swatch" style="background-color: #9370DB;"></span>
+                            <span class="color-name">Purple</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="clear-filters">Clear All</button>
+                    <button class="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-container">
+            <div class="results-header">
+                <div class="results-count">24 Items</div>
+                <div class="results-sort">
+                    <label for="sort-select">Sort by:</label>
+                    <select id="sort-select">
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="bestsellers">Bestsellers</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="product-grid">
+                <div class="product-card" data-sky="clear-blue" data-type="tee" data-sizes="xs,s,m,l,xl" data-colors="blue,white">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Clarity Tee">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="clear-blue">🌤️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Clarity Tee</h3>
+                        <div class="product-price">$45</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #1E90FF;"></span>
+                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="sunset-glow" data-type="tee" data-sizes="s,m,l,xl" data-colors="orange,white">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Horizon Crew">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="sunset-glow">🌅</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Horizon Crew</h3>
+                        <div class="product-price">$48</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #FF6B6B;"></span>
+                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="storm-brewing" data-type="hoodie" data-sizes="s,m,l,xl,xxl" data-colors="gray,black">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Tempest Hoodie">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="storm-brewing">⛈️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Tempest Hoodie</h3>
+                        <div class="product-price">$65</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #808080;"></span>
+                                <span class="color-dot" style="background-color: #000000;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="starry-night" data-type="long-sleeve" data-sizes="s,m,l,xl" data-colors="navy,black">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Cosmos Long Sleeve">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="starry-night">🌌</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Cosmos Long Sleeve</h3>
+                        <div class="product-price">$52</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #000080;"></span>
+                                <span class="color-dot" style="background-color: #000000;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="rainbow-sky" data-type="tee" data-sizes="xs,s,m,l" data-colors="white,purple">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Prism Tee">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="rainbow-sky">🌈</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Prism Tee</h3>
+                        <div class="product-price">$45</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                                <span class="color-dot" style="background-color: #9370DB;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="clear-blue" data-type="tank" data-sizes="xs,s,m,l" data-colors="blue,white">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Azure Tank">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="clear-blue">🌤️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Azure Tank</h3>
+                        <div class="product-price">$38</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #1E90FF;"></span>
+                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="blended" data-type="tee" data-sizes="xs,s,m,l,xl,xxl" data-colors="gray,white,black">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Blend Signature Tee">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="blended">🌥️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Blend Signature Tee</h3>
+                        <div class="product-price">$42</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #808080;"></span>
+                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
+                                <span class="color-dot" style="background-color: #000000;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="sunset-glow" data-type="sweater" data-sizes="s,m,l,xl" data-colors="orange,gray">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x350" alt="Sunset Sweater">
+                        <div class="quick-add">Quick Add</div>
+                        <div class="product-badge">
+                            <span class="sky-indicator" data-sky="sunset-glow">🌅</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sunset Sweater</h3>
+                        <div class="product-price">$58</div>
+                        <div class="product-meta">
+                            <div class="available-colors">
+                                <span class="color-dot" style="background-color: #FF6B6B;"></span>
+                                <span class="color-dot" style="background-color: #808080;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button class="page-arrow prev" disabled>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button class="page-number active">1</button>
+                <button class="page-number">2</button>
+                <button class="page-number">3</button>
+                <span class="page-ellipsis">...</span>
+                <button class="page-number">8</button>
+                <button class="page-arrow next">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="inventory.js"></script>
+</body>
+</html>
