@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Get DOM elements
     const skyTrigger = document.getElementById('sky-trigger');
     const skyMenuContent = document.getElementById('sky-menu-content');
     const menuBackdrop = document.querySelector('.menu-backdrop');
