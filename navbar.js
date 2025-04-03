@@ -1,84 +1,105 @@
-// Get the menu button and expanded menu
-const menuBtn = document.querySelector('.menu-btn');
-const expandedMenu = document.querySelector('.expanded-menu');
-
-// Create backdrop element for when menu is open
-const backdrop = document.createElement('div');
-backdrop.classList.add('menu-backdrop');
-document.body.appendChild(backdrop);
-
-// Toggle menu visibility when clicking the button
-menuBtn.addEventListener('click', function() {
-    expandedMenu.classList.toggle('show');
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const skyTrigger = document.getElementById('sky-trigger');
+    const skyMenuContent = document.getElementById('sky-menu-content');
+    const menuBackdrop = document.querySelector('.menu-backdrop');
+    const menuItems = document.querySelectorAll('.menu-item');
     
-    // Toggle backdrop
-    if (expandedMenu.classList.contains('show')) {
-        backdrop.style.display = 'block';
-        // Prevent scrolling on body when menu is open
-        document.body.style.overflow = 'hidden';
-    } else {
-        backdrop.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-});
-
-// Close the menu if clicked outside
-backdrop.addEventListener('click', function() {
-    expandedMenu.classList.remove('show');
-    backdrop.style.display = 'none';
-    document.body.style.overflow = '';
-});
-
-// Close menu with escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && expandedMenu.classList.contains('show')) {
-        expandedMenu.classList.remove('show');
-        backdrop.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-});
-
-// Smooth scrolling effect for the navbar
-let lastScrollTop = 0;
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.sticky-navbar');
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    // Add shadow when scrolling down
-    if (scrollTop > 10) {
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = 'none';
-    }
-    
-    lastScrollTop = scrollTop;
-});
-
-// Handle sky selection
-const skyOptions = document.querySelectorAll('.menu-item');
-skyOptions.forEach(option => {
-    option.addEventListener('click', function(e) {
+    // Toggle sky menu when clicking the trigger
+    skyTrigger.addEventListener('click', function(e) {
         e.preventDefault();
         
-        // Remove active class from all options
-        skyOptions.forEach(opt => opt.classList.remove('active'));
+        // Toggle the expanded menu visibility
+        skyMenuContent.classList.toggle('show');
         
-        // Add active class to clicked option
-        this.classList.add('active');
+        // Toggle backdrop
+        menuBackdrop.classList.toggle('show');
         
-        // Update the menu button text to show selected sky
-        const skyEmoji = this.querySelector('.sky-emoji').textContent;
-        const skyName = this.querySelector('.sky-name').textContent;
-        menuBtn.textContent = skyEmoji + ' ' + skyName;
+        // Toggle aria-expanded attribute for accessibility
+        const isExpanded = skyMenuContent.classList.contains('show');
+        skyTrigger.setAttribute('aria-expanded', isExpanded);
         
-        // Close the menu after selection
-        expandedMenu.classList.remove('show');
-        backdrop.style.display = 'none';
-        document.body.style.overflow = '';
+        // Set focus to the menu if opened (for accessibility)
+        if (isExpanded) {
+            skyMenuContent.querySelector('.menu-item').focus();
+        }
     });
-});
-
-// Add slight transition delay to each menu item for staggered animation
-document.querySelectorAll('.menu-item').forEach((item, index) => {
-    item.style.transitionDelay = (index * 0.05) + 's';
+    
+    // Close menu when clicking on backdrop
+    menuBackdrop.addEventListener('click', function() {
+        closeMenu();
+    });
+    
+    // Close menu with escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && skyMenuContent.classList.contains('show')) {
+            closeMenu();
+        }
+    });
+    
+    // Handle sky selection
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all items
+            menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get the selected sky data
+            const skyType = this.getAttribute('data-sky');
+            const skyEmoji = this.querySelector('.menu-icon').textContent;
+            const skyName = this.querySelector('.item-title').textContent;
+            
+            // Update the trigger button text
+            skyTrigger.querySelector('.trigger-content').textContent = skyName;
+            
+            // You could also dispatch a custom event to notify other parts of your app
+            const selectedEvent = new CustomEvent('skySelected', {
+                detail: {
+                    type: skyType,
+                    name: skyName,
+                    emoji: skyEmoji
+                }
+            });
+            document.dispatchEvent(selectedEvent);
+            
+            // Close the menu
+            closeMenu();
+        });
+    });
+    
+    // Function to close the menu
+    function closeMenu() {
+        skyMenuContent.classList.remove('show');
+        menuBackdrop.classList.remove('show');
+        skyTrigger.setAttribute('aria-expanded', false);
+    }
+    
+    // Handle click outside to close menu (excluding the trigger)
+    document.addEventListener('click', function(event) {
+        const isClickInsideMenu = skyMenuContent.contains(event.target);
+        const isClickOnTrigger = skyTrigger.contains(event.target);
+        
+        if (!isClickInsideMenu && !isClickOnTrigger && skyMenuContent.classList.contains('show')) {
+            closeMenu();
+        }
+    });
+    
+    // Navbar scroll effect
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.sticky-navbar');
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 10) {
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.boxShadow = 'none';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
 });
