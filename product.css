@@ -1,6 +1,3 @@
-/* Innovative Product Experience Styles */
-
-/* Base styles */
 :root {
     --primary-color: #1E90FF;
     --primary-light: #87CEEB;
@@ -34,10 +31,9 @@ body.product-experience {
     position: relative;
 }
 
-/* Context bar with product info and navigation */
 .context-bar {
     position: sticky;
-    top: 70px; /* Adjust based on navbar height */
+    top: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,29 +102,27 @@ body.product-experience {
     color: var(--text-color);
 }
 
-/* Horizontal scrolling container */
 .scroll-container {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .scroll-container::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
+    display: none;
 }
 
 .experience-section {
     flex: 0 0 100%;
     min-width: 100%;
-    height: calc(100vh - 140px); /* Adjust based on navbar and context bar height */
+    height: calc(100vh - 140px);
     scroll-snap-align: start;
     overflow-y: auto;
     padding: 40px;
 }
 
-/* Section 1: Essence - Product Visuals */
 #essence {
     background-color: var(--bg-color);
 }
@@ -265,7 +259,6 @@ body.product-experience {
     100% { opacity: 0.6; transform: translateX(0); }
 }
 
-/* Section 2: Details - Fabric & Quality */
 .fabric-showcase {
     display: flex;
     height: 100%;
@@ -428,7 +421,6 @@ body.product-experience {
     transform: scale(1);
 }
 
-/* Section 3: Story - Brand Philosophy */
 .story-showcase {
     display: flex;
     height: 100%;
@@ -525,7 +517,6 @@ body.product-experience {
     color: var(--text-light);
 }
 
-/* Section 4: Purchase - Decision & Customization */
 .purchase-interface {
     display: flex;
     flex-direction: column;
@@ -786,7 +777,131 @@ body.product-experience {
     margin-bottom: 10px;
 }
 
-/* Mobile and Tablet Experience Enhancements */
+.cart-success {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.cart-success.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.touch-device .touch-active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}
+
+.fade-in-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reduced-motion .fade-in-element {
+    transition: none;
+    opacity: 1;
+    transform: none;
+}
+
+.swipe-indicator {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+    opacity: 0.9;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.swipe-indicator.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+}
+
+.swipe-icon {
+    animation: swipe-hint 2s infinite;
+}
+
+@keyframes swipe-hint {
+    0%, 100% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+}
+
+.no-sticky-support .context-bar {
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+body.sky-clear-blue {
+    background-color: rgba(240, 248, 255, 0.3);
+}
+
+body.sky-sunset-glow {
+    background-color: rgba(255, 222, 173, 0.3);
+}
+
+body.sky-storm-brewing {
+    background-color: rgba(211, 211, 211, 0.3);
+}
+
+body.sky-starry-night {
+    background-color: rgba(25, 25, 112, 0.05);
+}
+
+body.sky-rainbow-sky {
+    background-color: rgba(255, 250, 250, 0.3);
+}
+
+@media (max-width: 1200px) {
+    .product-showcase,
+    .fabric-showcase,
+    .story-showcase {
+        flex-direction: column;
+        gap: 30px;
+        overflow-y: auto;
+    }
+    
+    .experience-section {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .product-essence,
+    .fabric-details,
+    .story-narrative {
+        padding: 0;
+    }
+    
+    .story-narrative {
+        order: -1;
+    }
+}
+
 @media (max-width: 1024px) {
     .scroll-container {
         scroll-snap-type: y mandatory;
@@ -805,21 +920,47 @@ body.product-experience {
         padding: 40px 20px;
     }
     
-    /* Improve scrolling performance */
     .experience-section {
         will-change: transform;
         -webkit-overflow-scrolling: touch;
     }
     
-    /* Add more space between sections */
     .experience-section:not(:last-child) {
         padding-bottom: 60px;
     }
     
-    /* Adjust progress steps for tablet */
     .progress-step {
         font-size: 0.85rem;
         padding: 5px 8px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .product-showcase {
+        flex-direction: row;
+    }
+    
+    .fabric-showcase {
+        flex-direction: row;
+    }
+    
+    .story-showcase {
+        flex-direction: row;
+    }
+    
+    .product-essence,
+    .fabric-details,
+    .story-narrative {
+        padding: 0 20px;
+    }
+    
+    .visual-dot {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .size-option {
+        height: 55px;
     }
 }
 
@@ -827,10 +968,9 @@ body.product-experience {
     .context-bar {
         padding: 10px 15px;
         position: sticky;
-        top: 60px; /* Adjust based on mobile navbar height */
+        top: 60px;
     }
     
-    /* Create alternative mobile progress indicator */
     .experience-progress {
         display: flex;
         position: fixed;
@@ -855,7 +995,6 @@ body.product-experience {
         bottom: -10px;
     }
     
-    /* Optimize all section layouts for mobile */
     .product-showcase,
     .fabric-showcase,
     .story-showcase {
@@ -863,12 +1002,10 @@ body.product-experience {
         gap: 30px;
     }
     
-    /* Add more space around content */
     .experience-section {
-        padding: 20px 15px 80px; /* Extra bottom padding for fixed progress bar */
+        padding: 20px 15px 80px;
     }
     
-    /* Visual section improvements */
     .image-frame {
         max-height: 50vh;
         width: 100%;
@@ -881,7 +1018,6 @@ body.product-experience {
         max-height: 50vh;
     }
     
-    /* Text size adjustments */
     .product-essence h1 {
         font-size: 1.8rem;
     }
@@ -892,7 +1028,6 @@ body.product-experience {
         font-size: 1.6rem;
     }
     
-    /* Fabric section improvements */
     .material-composition {
         flex-direction: column;
         align-items: center;
@@ -906,7 +1041,6 @@ body.product-experience {
         height: 150px;
     }
     
-    /* Purchase section improvements */
     .purchase-decision {
         flex-direction: column;
         align-items: stretch;
@@ -914,7 +1048,7 @@ body.product-experience {
     }
     
     .add-bag-button {
-        height: 50px; /* Larger touch target */
+        height: 50px;
     }
     
     .save-button {
@@ -922,7 +1056,6 @@ body.product-experience {
         width: 50px;
     }
     
-    /* Tabs improvements */
     .info-tabs {
         justify-content: space-between;
     }
@@ -933,7 +1066,6 @@ body.product-experience {
         padding: 10px 5px;
     }
     
-    /* Add touch-specific optimizations */
     .add-bag-button, 
     .save-button,
     .size-option,
@@ -943,9 +1075,7 @@ body.product-experience {
     }
 }
 
-/* Small Mobile Optimizations */
 @media (max-width: 480px) {
-    /* Adjust context bar for very small screens */
     .context-bar {
         padding: 8px 10px;
     }
@@ -959,12 +1089,10 @@ body.product-experience {
         padding: 3px 8px;
     }
     
-    /* Optimize product visuals */
     .image-frame {
         max-height: 45vh;
     }
     
-    /* Further reduce text sizes */
     .product-essence h1 {
         font-size: 1.5rem;
     }
@@ -980,7 +1108,6 @@ body.product-experience {
         margin-bottom: 20px;
     }
     
-    /* Simplify material visualization */
     .chart-segment {
         height: 120px;
         width: 40px;
@@ -990,7 +1117,6 @@ body.product-experience {
         font-size: 0.8rem;
     }
     
-    /* Optimize story section */
     .narrative-content {
         max-height: none;
     }
@@ -1000,7 +1126,6 @@ body.product-experience {
         font-size: 0.95rem;
     }
     
-    /* Optimize purchase interface */
     .size-option {
         font-size: 0.9rem;
         height: 45px;
@@ -1010,7 +1135,6 @@ body.product-experience {
         font-size: 1.3rem;
     }
     
-    /* Care icons arrangement */
     .care-icons {
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -1020,33 +1144,31 @@ body.product-experience {
     .care-icon {
         width: 60px;
     }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .image-frame {
+        max-height: 70vh;
+    }
     
-    /* Add landscape orientation fixes */
-    @media (max-height: 500px) and (orientation: landscape) {
-        .image-frame {
-            max-height: 70vh;
-        }
-        
-        .experience-section {
-            padding-top: 10px;
-            padding-bottom: 60px;
-        }
-        
-        .product-essence h1,
-        .fabric-details h2,
-        .story-narrative h2,
-        .sizing-section h2 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        
-        .narrative-content {
-            max-height: 40vh;
-        }
+    .experience-section {
+        padding-top: 10px;
+        padding-bottom: 60px;
+    }
+    
+    .product-essence h1,
+    .fabric-details h2,
+    .story-narrative h2,
+    .sizing-section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .narrative-content {
+        max-height: 40vh;
     }
 }
 
-/* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
     .scroll-container {
         scroll-behavior: auto !important;
@@ -1060,7 +1182,6 @@ body.product-experience {
     }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
     :root {
         --primary-color: #0066cc;
@@ -1083,7 +1204,6 @@ body.product-experience {
     }
 }
 
-/* Touch device optimization */
 @media (hover: none) {
     .visual-dot:hover,
     .size-option:hover,
@@ -1093,7 +1213,6 @@ body.product-experience {
         transform: none;
     }
     
-    /* Provide active state feedback instead */
     .visual-dot:active,
     .size-option:active,
     .add-bag-button:active,
@@ -1102,13 +1221,11 @@ body.product-experience {
         transition: transform 0.1s ease;
     }
     
-    /* Remove hover-specific effects */
     .product-essence .scroll-prompt {
         opacity: 1;
     }
 }
 
-/* Screen height adjustments */
 @media (max-height: 700px) {
     .experience-section {
         padding-top: 20px;
@@ -1129,58 +1246,20 @@ body.product-experience {
     }
 }
 
-/* Tablet-specific optimizations */
-@media (min-width: 768px) and (max-width: 1024px) {
-    /* Better use of tablet space */
-    .product-showcase {
-        flex-direction: row;
-    }
-    
-    .fabric-showcase {
-        flex-direction: row;
-    }
-    
-    .story-showcase {
-        flex-direction: row;
-    }
-    
-    /* Avoid excessive white space */
-    .product-essence,
-    .fabric-details,
-    .story-narrative {
-        padding: 0 20px;
-    }
-    
-    /* Larger touch targets for tablet */
-    .visual-dot {
-        width: 12px;
-        height: 12px;
-    }
-    
-    .size-option {
-        height: 55px;
-    }
-}
-
-/* iPhone and iOS-specific fixes */
 @supports (-webkit-touch-callout: none) {
-    /* Fix 100vh issue on iOS */
     .experience-section {
         min-height: -webkit-fill-available;
     }
     
-    /* Fix momentum scrolling */
     .narrative-content {
         -webkit-overflow-scrolling: touch;
     }
     
-    /* Fix sticky positioning */
     .context-bar {
         position: -webkit-sticky;
     }
 }
 
-/* Notched device support (iPhone X+) */
 @supports (padding: max(0px)) {
     .context-bar {
         padding-left: max(15px, env(safe-area-inset-left));
