@@ -7,6 +7,7 @@
             const skyOptions = document.querySelectorAll('.sky-option');
             const orbEmoji = document.querySelector('.orb-emoji');
             const orbInner = document.querySelector('.orb-inner');
+            const brandName = document.querySelector('.brand-name');
             
             skySelector.onclick = function(e) {
                 e.preventDefault();
@@ -44,6 +45,13 @@
                     orbEmoji.style.opacity = '0';
                     orbInner.style.opacity = '1';
                 }
+            };
+            
+            brandName.onclick = function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             };
         });
     </script>log("<!DOCTYPE html>
