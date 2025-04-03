@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#1E90FF">
     <title>Clarity | Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="innovative.css">
+    <link rel="stylesheet" href="product.css">
 </head>
 <body class="product-experience">
-    <!-- Sky backdrop elements -->
     <div class="sky-backdrop"></div>
     <div class="stars-container"></div>
     
-    <!-- Navbar -->
     <nav class="cosmic-navbar">
         <div class="brand-container">
             <div class="brand-icon">
@@ -39,16 +40,66 @@
         <div class="empty-space"></div>
     </nav>
     
-    <!-- Sky Panorama Menu -->
     <div class="sky-panorama">
         <div class="sky-options">
-            <!-- Sky options as in previous code -->
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌤️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌅</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <div class="sky-icon">⛈️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌌</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌈</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Innovative Product Experience -->
     <div class="experience-container">
-        <!-- Context and navigation bar -->
         <div class="context-bar">
             <div class="product-context">
                 <div class="product-name">Clarity</div>
@@ -62,9 +113,7 @@
             </div>
         </div>
 
-        <!-- Horizontal scrolling experience -->
         <div class="scroll-container">
-            <!-- Section 1: Essence - Product Visuals -->
             <section class="experience-section" id="essence">
                 <div class="product-showcase">
                     <div class="product-visual">
@@ -96,7 +145,6 @@
                 </div>
             </section>
 
-            <!-- Section 2: Details - Fabric & Quality -->
             <section class="experience-section" id="details">
                 <div class="fabric-showcase">
                     <div class="fabric-details">
@@ -162,7 +210,6 @@
                 </div>
             </section>
 
-            <!-- Section 3: Story - Brand Philosophy -->
             <section class="experience-section" id="story">
                 <div class="story-showcase">
                     <div class="story-visual">
@@ -192,7 +239,6 @@
                 </div>
             </section>
 
-            <!-- Section 4: Purchase - Decision & Customization -->
             <section class="experience-section" id="purchase">
                 <div class="purchase-interface">
                     <div class="sizing-section">
@@ -276,154 +322,6 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navbar functionality
-            const skySelector = document.querySelector('.sky-selector');
-            const skyPanorama = document.querySelector('.sky-panorama');
-            const skyBackdrop = document.querySelector('.sky-backdrop');
-            
-            if (skySelector && skyPanorama && skyBackdrop) {
-                skySelector.onclick = function(e) {
-                    e.preventDefault();
-                    skyPanorama.classList.toggle('open');
-                    skyBackdrop.classList.toggle('active');
-                };
-                
-                skyBackdrop.onclick = function() {
-                    skyPanorama.classList.remove('open');
-                    skyBackdrop.classList.remove('active');
-                };
-            }
-            
-            // Horizontal scrolling experience
-            const scrollContainer = document.querySelector('.scroll-container');
-            const progressSteps = document.querySelectorAll('.progress-step');
-            const sections = document.querySelectorAll('.experience-section');
-            
-            // Initialize Intersection Observer for sections
-            const observerOptions = {
-                root: scrollContainer,
-                threshold: 0.6 // When 60% of section is visible
-            };
-            
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const currentSection = entry.target.id;
-                        updateProgress(currentSection);
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all sections
-            sections.forEach(section => {
-                sectionObserver.observe(section);
-            });
-            
-            // Update progress indicator
-            function updateProgress(currentSectionId) {
-                progressSteps.forEach(step => {
-                    step.classList.remove('active');
-                    if (step.getAttribute('data-section') === currentSectionId) {
-                        step.classList.add('active');
-                    }
-                });
-            }
-            
-            // Click on progress steps to navigate
-            progressSteps.forEach(step => {
-                step.addEventListener('click', function() {
-                    const targetSection = document.getElementById(this.getAttribute('data-section'));
-                    targetSection.scrollIntoView({ behavior: 'smooth', inline: 'start' });
-                });
-            });
-            
-            // Product visuals in the first section
-            const visualDots = document.querySelectorAll('.visual-dot');
-            const mainVisual = document.getElementById('main-product-visual');
-            
-            visualDots.forEach(dot => {
-                dot.addEventListener('click', function() {
-                    visualDots.forEach(d => d.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const imageUrl = this.getAttribute('data-image');
-                    
-                    // Fade out/in effect
-                    mainVisual.style.opacity = 0;
-                    setTimeout(() => {
-                        mainVisual.src = imageUrl;
-                        mainVisual.style.opacity = 1;
-                    }, 300);
-                });
-            });
-            
-            // Size selection
-            const sizeOptions = document.querySelectorAll('.size-option');
-            
-            sizeOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    sizeOptions.forEach(o => o.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Info tabs
-            const infoTabs = document.querySelectorAll('.info-tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            infoTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    infoTabs.forEach(t => t.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
-                    
-                    this.classList.add('active');
-                    document.getElementById(`${this.getAttribute('data-tab')}-content`).classList.add('active');
-                });
-            });
-            
-            // Add to bag button
-            const addBagButton = document.querySelector('.add-bag-button');
-            
-            if (addBagButton) {
-                addBagButton.addEventListener('click', function() {
-                    const selectedSize = document.querySelector('.size-option.active').getAttribute('data-size');
-                    
-                    // Add animation effect
-                    this.classList.add('adding');
-                    
-                    setTimeout(() => {
-                        this.textContent = 'Added to Bag';
-                        
-                        setTimeout(() => {
-                            this.textContent = 'Add to bag';
-                            this.classList.remove('adding');
-                        }, 2000);
-                    }, 500);
-                    
-                    // Here you would normally handle the actual cart addition
-                    console.log(`Added Clarity in size ${selectedSize} to bag`);
-                });
-            }
-            
-            // Save/wishlist button
-            const saveButton = document.querySelector('.save-button');
-            
-            if (saveButton) {
-                saveButton.addEventListener('click', function() {
-                    const svgPath = this.querySelector('svg path');
-                    
-                    if (this.classList.contains('saved')) {
-                        this.classList.remove('saved');
-                        svgPath.setAttribute('fill', 'none');
-                    } else {
-                        this.classList.add('saved');
-                        svgPath.setAttribute('fill', 'currentColor');
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="product.js"></script>
 </body>
 </html>
