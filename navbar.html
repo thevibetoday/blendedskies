@@ -1,4 +1,66 @@
-<!DOCTYPE html>
+<!-- Load JavaScript at the end to ensure DOM is loaded -->
+    <script>
+        /* Super simple inline script to guarantee it works without caching issues */
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded - simple version loaded");
+            
+            // Elements
+            const skySelector = document.querySelector('.sky-selector');
+            const skyPanorama = document.querySelector('.sky-panorama');
+            const skyBackdrop = document.querySelector('.sky-backdrop');
+            const skyOptions = document.querySelectorAll('.sky-option');
+            const orbEmoji = document.querySelector('.orb-emoji');
+            const orbInner = document.querySelector('.orb-inner');
+            
+            // Toggle menu when clicking the selector
+            skySelector.onclick = function(e) {
+                e.preventDefault();
+                console.log("Sky selector clicked!");
+                skyPanorama.classList.toggle('open');
+                skyBackdrop.classList.toggle('active');
+            };
+            
+            // Close menu when clicking on backdrop
+            skyBackdrop.onclick = function() {
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+            };
+            
+            // Handle sky selection
+            skyOptions.forEach(option => {
+                option.onclick = function(e) {
+                    e.preventDefault();
+                    
+                    // Get selected sky info
+                    const skyIcon = this.querySelector('.sky-icon').textContent;
+                    
+                    // Update orb emoji
+                    orbEmoji.textContent = skyIcon;
+                    orbEmoji.style.opacity = '1';
+                    orbInner.style.opacity = '0';
+                    
+                    // Close the menu
+                    setTimeout(function() {
+                        skyPanorama.classList.remove('open');
+                        skyBackdrop.classList.remove('active');
+                    }, 300);
+                };
+            });
+            
+            // Show emoji on hover
+            skySelector.onmouseenter = function() {
+                orbEmoji.style.opacity = '1';
+                orbInner.style.opacity = '0';
+            };
+            
+            skySelector.onmouseleave = function() {
+                if (orbEmoji.textContent === '🌤️') {
+                    orbEmoji.style.opacity = '0';
+                    orbInner.style.opacity = '1';
+                }
+            };
+        });
+    </script>log("<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,6 +90,7 @@
                     <span>Your</span>
                     <span>Sky</span>
                 </div>
+                <div class="orb-emoji">🌤️</div>
             </div>
         </div>
         
