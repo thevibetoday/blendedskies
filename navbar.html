@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Blend Navigation</title>
+    <title>Blend of Skies Navigation</title>
     <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
@@ -13,46 +13,74 @@
                 <h1>Blend of Skies</h1>
             </div>
             
-            <div class="navbar-center">
-                <div class="menu-container">
-                    <button class="menu-btn">Choose Your Sky</button>
-                    <div class="expanded-menu">
-                        <div class="menu-items-container">
-                            <a href="#" class="menu-item">
-                                <span class="sky-emoji">🌤️</span>
-                                <span class="sky-name">Clear Blue</span>
-                                <span class="sky-description">A pristine blue canvas with gentle wisps</span>
-                            </a>
-                            <a href="#" class="menu-item">
-                                <span class="sky-emoji">🌅</span>
-                                <span class="sky-name">Sunset Glow</span>
-                                <span class="sky-description">Rich colors painting the evening horizon</span>
-                            </a>
-                            <a href="#" class="menu-item">
-                                <span class="sky-emoji">⛈️</span>
-                                <span class="sky-name">Storm Brewing</span>
-                                <span class="sky-description">Dramatic clouds with lightning potential</span>
-                            </a>
-                            <a href="#" class="menu-item">
-                                <span class="sky-emoji">🌌</span>
-                                <span class="sky-name">Starry Night</span>
-                                <span class="sky-description">Deep space visualization with twinkling stars</span>
-                            </a>
-                            <a href="#" class="menu-item">
-                                <span class="sky-emoji">🌈</span>
-                                <span class="sky-name">Rainbow Sky</span>
-                                <span class="sky-description">Colorful arc stretching across after rain</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="navbar-links">
+                <ul class="nav-links">
+                    <li>
+                        <button id="sky-trigger" class="nav-trigger">
+                            <div class="trigger-content">Choose Your Sky</div>
+                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m11.941 6.5-3 3-3-3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </button>
+                    </li>
+                    <li><a href="#" class="nav-link">Features</a></li>
+                    <li><a href="#" class="nav-link">Gallery</a></li>
+                    <li><a href="#" class="nav-link">About</a></li>
+                </ul>
             </div>
             
-            <div class="navbar-right">
-                <!-- This space intentionally left empty for future elements -->
+            <div class="navbar-buttons">
+                <a href="#" class="nav-button">Log In</a>
+                <a href="#" class="nav-button primary-button">Get Started</a>
             </div>
         </div>
     </nav>
+    
+    <!-- Expanded Menu for Sky Selection -->
+    <div id="sky-menu-content" class="expanded-menu">
+        <div class="menu-left">
+            <a href="#" class="menu-item" data-sky="clear-blue">
+                <div class="menu-icon">🌤️</div>
+                <div class="item-content">
+                    <div class="item-title">Clear Blue</div>
+                    <div class="item-subtitle">A pristine blue canvas with gentle wisps</div>
+                </div>
+            </a>
+            <a href="#" class="menu-item" data-sky="sunset-glow">
+                <div class="menu-icon">🌅</div>
+                <div class="item-content">
+                    <div class="item-title">Sunset Glow</div>
+                    <div class="item-subtitle">Rich colors painting the evening horizon</div>
+                </div>
+            </a>
+            <a href="#" class="menu-item" data-sky="storm-brewing">
+                <div class="menu-icon">⛈️</div>
+                <div class="item-content">
+                    <div class="item-title">Storm Brewing</div>
+                    <div class="item-subtitle">Dramatic clouds with lightning potential</div>
+                </div>
+            </a>
+        </div>
+        <div class="menu-right">
+            <a href="#" class="menu-item" data-sky="starry-night">
+                <div class="menu-icon">🌌</div>
+                <div class="item-content">
+                    <div class="item-title">Starry Night</div>
+                    <div class="item-subtitle">Deep space visualization with twinkling stars</div>
+                </div>
+            </a>
+            <a href="#" class="menu-item" data-sky="rainbow-sky">
+                <div class="menu-icon">🌈</div>
+                <div class="item-content">
+                    <div class="item-title">Rainbow Sky</div>
+                    <div class="item-subtitle">Colorful arc stretching across after rain</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Backdrop for when menu is open -->
+    <div class="menu-backdrop"></div>
     
     <div class="content">
         <!-- Your page content goes here -->
