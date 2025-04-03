@@ -1,18 +1,40 @@
-// Get the dropdown button and content
-const dropBtn = document.querySelector('.dropbtn');
-const dropdownContent = document.querySelector('.dropdown-content');
+// Get the menu button and expanded menu
+const menuBtn = document.querySelector('.menu-btn');
+const expandedMenu = document.querySelector('.expanded-menu');
 
-// Toggle dropdown visibility when clicking the button
-dropBtn.addEventListener('click', function() {
-    dropdownContent.classList.toggle('show');
+// Create backdrop element for when menu is open
+const backdrop = document.createElement('div');
+backdrop.classList.add('menu-backdrop');
+document.body.appendChild(backdrop);
+
+// Toggle menu visibility when clicking the button
+menuBtn.addEventListener('click', function() {
+    expandedMenu.classList.toggle('show');
+    
+    // Toggle backdrop
+    if (expandedMenu.classList.contains('show')) {
+        backdrop.style.display = 'block';
+        // Prevent scrolling on body when menu is open
+        document.body.style.overflow = 'hidden';
+    } else {
+        backdrop.style.display = 'none';
+        document.body.style.overflow = '';
+    }
 });
 
-// Close the dropdown if clicked outside
-window.addEventListener('click', function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        if (dropdownContent.classList.contains('show')) {
-            dropdownContent.classList.remove('show');
-        }
+// Close the menu if clicked outside
+backdrop.addEventListener('click', function() {
+    expandedMenu.classList.remove('show');
+    backdrop.style.display = 'none';
+    document.body.style.overflow = '';
+});
+
+// Close menu with escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && expandedMenu.classList.contains('show')) {
+        expandedMenu.classList.remove('show');
+        backdrop.style.display = 'none';
+        document.body.style.overflow = '';
     }
 });
 
@@ -32,8 +54,8 @@ window.addEventListener('scroll', function() {
     lastScrollTop = scrollTop;
 });
 
-// Add an active class to the selected sky option
-const skyOptions = document.querySelectorAll('.dropdown-content a');
+// Handle sky selection
+const skyOptions = document.querySelectorAll('.menu-item');
 skyOptions.forEach(option => {
     option.addEventListener('click', function(e) {
         e.preventDefault();
@@ -44,12 +66,19 @@ skyOptions.forEach(option => {
         // Add active class to clicked option
         this.classList.add('active');
         
-        // Update the dropdown button text to show selected sky (optional)
-        const skyEmoji = this.textContent.split(' ')[0];
-        const skyName = this.textContent.split(' - ')[0].substring(2);
-        dropBtn.textContent = skyEmoji + ' ' + skyName;
+        // Update the menu button text to show selected sky
+        const skyEmoji = this.querySelector('.sky-emoji').textContent;
+        const skyName = this.querySelector('.sky-name').textContent;
+        menuBtn.textContent = skyEmoji + ' ' + skyName;
         
-        // Close the dropdown after selection
-        dropdownContent.classList.remove('show');
+        // Close the menu after selection
+        expandedMenu.classList.remove('show');
+        backdrop.style.display = 'none';
+        document.body.style.overflow = '';
     });
+});
+
+// Add slight transition delay to each menu item for staggered animation
+document.querySelectorAll('.menu-item').forEach((item, index) => {
+    item.style.transitionDelay = (index * 0.05) + 's';
 });
