@@ -1,3 +1,6 @@
+.navbar-right {
+    min-width: 20px; /* Placeholder space for symmetry */
+}/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -106,22 +109,7 @@ html, body {
 }
 
 /* Expanded Menu Styles - Spline Inspired */
-.expanded-menu {
-    display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 62px; /* Match your navbar height */
-    background-color: white;
-    z-index: 1000;
-    padding: 30px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.menu-left, .menu-right {
-    width: 50%;
-    padding: 0 15px;
-}
+/* Remove duplicate declaration */
 
 .expanded-menu {
     display: none;
@@ -226,25 +214,61 @@ html, body {
 @media screen and (max-width: 768px) {
     .navbar-container {
         flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .navbar-brand {
+        flex: 1;
     }
     
     .navbar-links {
-        order: 3;
-        width: 100%;
-        margin-top: 15px;
-    }
-    
-    .nav-links {
-        justify-content: center;
+        flex: 1;
+        justify-content: flex-end;
     }
     
     .expanded-menu {
         flex-direction: column;
         align-items: center;
+        padding: 20px 10px;
     }
     
     .menu-left, .menu-right {
         width: 100%;
         max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .menu-item {
+        padding: 10px;
+    }
+    
+    .item-subtitle {
+        font-size: 0.8rem;
+    }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+    .navbar-brand h1 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-trigger {
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .menu-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+    
+    .item-title {
+        font-size: 0.9rem;
+    }
+    
+    .item-subtitle {
+        font-size: 0.75rem;
     }
 }
