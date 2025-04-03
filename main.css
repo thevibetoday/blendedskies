@@ -112,138 +112,185 @@
     height: 500px;
 }
 
-.sky-sphere {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: var(--gradient-sky);
-    box-shadow: 0 10px 30px rgba(135, 206, 250, 0.3),
-                inset 0 5px 15px rgba(255, 255, 255, 0.5),
-                inset 0 -5px 15px rgba(0, 0, 0, 0.1);
+/* Product Display in Hero Section */
+.product-display {
     position: relative;
-    overflow: hidden;
-    transition: background 1s ease;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.sky-sphere::after {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
+.product-image {
+    height: 450px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 2;
 }
 
-.sky-sphere-clear-blue {
-    background: var(--gradient-sky);
-}
-
-.sky-sphere-sunset-glow {
-    background: var(--gradient-sunset);
-}
-
-.sky-sphere-storm-brewing {
-    background: linear-gradient(135deg, #708090, #A9A9A9);
-}
-
-.sky-sphere-starry-night {
-    background: var(--gradient-night);
-}
-
-.sky-sphere-rainbow-sky {
-    background: linear-gradient(135deg, #FF69B4, #9370DB, #3CB371, #FFD700);
-}
-
-.floating-clouds {
+.floating-elements {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     pointer-events: none;
+    z-index: 1;
 }
 
-.cloud {
+.floating-element {
     position: absolute;
-    background: white;
     border-radius: 50%;
     opacity: 0.8;
 }
 
-.cloud::before,
-.cloud::after {
-    content: "";
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-}
-
-.cloud-1 {
+.element-1 {
     width: 100px;
-    height: 40px;
-    top: 20%;
-    left: 10%;
+    height: 100px;
+    background: linear-gradient(145deg, #87CEEB, #1E90FF);
+    top: 15%;
+    right: 5%;
     animation: float 20s linear infinite;
 }
 
-.cloud-1::before {
-    width: 60px;
-    height: 60px;
-    top: -30px;
-    left: 15px;
-}
-
-.cloud-1::after {
-    width: 50px;
-    height: 50px;
-    top: -20px;
-    left: 50px;
-}
-
-.cloud-2 {
-    width: 80px;
-    height: 30px;
-    top: 50%;
-    right: 15%;
+.element-2 {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #FF6B6B, #FFD700);
+    bottom: 20%;
+    left: 0;
     animation: float 25s linear infinite reverse;
 }
 
-.cloud-2::before {
+.element-3 {
     width: 50px;
     height: 50px;
-    top: -25px;
-    left: 10px;
+    background: linear-gradient(145deg, #483D8B, #9370DB);
+    top: 60%;
+    right: 10%;
+    animation: float-y 15s ease-in-out infinite;
 }
 
-.cloud-2::after {
+/* Product Collection */
+.collection-section {
+    padding: 100px 0;
+    background-color: #f8f9fa;
+    border-radius: 30px;
+    margin: 50px 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.product-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: var(--bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.product-image-container {
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05);
+}
+
+.product-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
     width: 40px;
     height: 40px;
-    top: -15px;
-    left: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
 
-.cloud-3 {
-    width: 60px;
-    height: 25px;
-    bottom: 25%;
-    left: 35%;
-    animation: float 30s linear infinite;
+.subtle-icon {
+    font-size: 1.2rem;
+    line-height: 1;
 }
 
-.cloud-3::before {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: 8px;
+.product-card:hover .product-overlay {
+    opacity: 1;
 }
 
-.cloud-3::after {
-    width: 30px;
-    height: 30px;
-    top: -12px;
-    left: 30px;
+.product-info {
+    padding: 25px;
+}
+
+.product-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-dark);
+}
+
+.product-desc {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.view-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: var(--gradient-sky);
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+}
+
+.view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
 }
 
 @keyframes float {
@@ -587,9 +634,12 @@
         height: 400px;
     }
     
-    .sky-sphere {
-        width: 220px;
-        height: 220px;
+    .product-display {
+        height: 400px;
+    }
+    
+    .product-image {
+        height: 350px;
     }
     
     .hero-buttons {
@@ -615,6 +665,15 @@
     
     .cta-content h2 {
         font-size: 2rem;
+    }
+    
+    /* Product cards for tablet */
+    .product-cards {
+        gap: 20px;
+    }
+    
+    .product-image-container {
+        height: 300px;
     }
     
     /* Footer mobile improvements */
@@ -647,16 +706,28 @@
         font-size: 1rem;
     }
     
-    .sky-sphere {
-        width: 180px;
-        height: 180px;
+    .product-display {
+        height: 350px;
+    }
+    
+    .product-image {
+        height: 300px;
+    }
+    
+    .element-1, .element-3 {
+        display: none; /* Hide some floating elements on mobile */
+    }
+    
+    .element-2 {
+        width: 50px;
+        height: 50px;
     }
     
     .hero-visual {
         height: 300px;
     }
     
-    .sky-showcase {
+    .collection-section {
         padding: 40px 0;
         margin: 30px 0;
     }
@@ -666,40 +737,39 @@
         margin-bottom: 30px;
     }
     
-    .sky-cards {
+    .product-cards {
         gap: 20px;
         padding: 0 10px;
     }
     
-    .sky-card {
+    .product-card {
         min-width: 100%;
     }
     
-    .card-visual {
-        height: 160px;
+    .product-image-container {
+        height: 250px;
     }
     
-    .sky-preview-lg {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .sky-emoji-lg {
-        font-size: 3.2rem;
-    }
-    
-    .card-content {
+    .product-info {
         padding: 15px;
     }
     
-    .card-content h3 {
+    .product-info h3 {
         font-size: 1.3rem;
-        margin-bottom: 10px;
     }
     
-    .card-content p {
+    .product-desc {
         font-size: 0.9rem;
         margin-bottom: 15px;
+    }
+    
+    .product-price {
+        font-size: 1.1rem;
+    }
+    
+    .view-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
     
     .about-section {
@@ -784,9 +854,19 @@
     }
     
     /* Touch optimizations */
-    .btn, .card-btn, .link-group a {
+    .btn, .view-btn, .link-group a {
         padding: 12px 20px;
         min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .view-btn {
+        padding: 8px 15px;
+        min-height: 36px;
+    }
+}min-height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -876,174 +956,4 @@ body.sky-rainbow-sky {
     border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: rotate-slow 1s linear infinite;
-}
-
-/* Additional Mobile Optimizations - Include this after main.css */
-
-/* General Mobile Improvements */
-@media (max-width: 768px) {
-    /* Increase touch targets */
-    button, 
-    a, 
-    .sky-option, 
-    .feature, 
-    .card-btn {
-        cursor: pointer;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-    }
-    
-    /* Better spacing for mobile scrolling */
-    section {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    
-    /* Optimize font rendering */
-    * {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    
-    /* Fix for iOS momentum scrolling */
-    html, body {
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Prevent text size adjustment on orientation change */
-    html {
-        -webkit-text-size-adjust: 100%;
-    }
-    
-    /* Prevent fixed position issues on iOS */
-    .sky-panorama.open {
-        position: absolute;
-    }
-    
-    /* Better handling of focus states for touch */
-    button:focus, a:focus {
-        outline: none;
-    }
-    
-    /* Fixed mobile nav */
-    .cosmic-navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-}
-
-/* Small Device Tweaks */
-@media (max-width: 480px) {
-    /* Vertical spacing fixes */
-    .main-content {
-        padding-top: 10px;
-    }
-    
-    section {
-        margin-bottom: 40px;
-    }
-    
-    /* Better text alignment */
-    .hero-text, 
-    .card-content p,
-    .about-content p {
-        text-align: left;
-    }
-    
-    /* Optimize buttons */
-    .btn, .card-btn {
-        border-radius: 25px;
-        font-size: 0.95rem;
-    }
-    
-    /* Reduce animation complexity */
-    .floating-clouds {
-        display: none;
-    }
-    
-    /* Adjust card layouts */
-    .sky-card {
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Footer improvements */
-    .footer-links a {
-        padding: 8px 12px;
-    }
-}
-
-/* Fix for iOS Safari 100vh issue */
-@supports (-webkit-touch-callout: none) {
-    .hero-section {
-        min-height: 600px;
-        min-height: -webkit-fill-available;
-    }
-}
-
-/* Tablet Specific Improvements */
-@media (min-width: 481px) and (max-width: 768px) {
-    .sky-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-    }
-    
-    .sky-card {
-        max-width: 100%;
-    }
-    
-    .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-}
-
-/* Touch Device Detection */
-@media (hover: none) {
-    /* Styles for touch devices */
-    .sky-option:active,
-    .card-btn:active,
-    .btn:active {
-        transform: scale(0.98);
-    }
-    
-    /* Show hover states by default on touch */
-    .sky-preview .sky-reflection {
-        transform: translateY(0);
-    }
-}
-
-/* Prevent text overflow */
-.sky-details h3,
-.card-content h3,
-.feature h3,
-.hero-title,
-.section-title {
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-}
-
-/* Improved Scrolling Performance */
-.site-footer, 
-.main-content, 
-.sky-cards, 
-.hero-section {
-    will-change: transform;
-}
-
-/* Additional Accessibility Improvements */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
 }
