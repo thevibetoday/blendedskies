@@ -6,9 +6,11 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-body {
+html, body {
     background-color: #fff;
     color: #000;
+    height: 100%;
+    width: 100%;
 }
 
 /* Sticky Navbar Styles */
@@ -43,13 +45,13 @@ body {
     justify-content: center;
 }
 
-/* Dropdown styles - Apple/Splice inspired */
-.dropdown {
+/* Apple/Splice inspired expanded menu */
+.menu-container {
     position: relative;
     display: inline-block;
 }
 
-.dropbtn {
+.menu-btn {
     background-color: white;
     color: black;
     padding: 10px 20px;
@@ -61,50 +63,89 @@ body {
     border-radius: 20px;
 }
 
-.dropbtn:hover, .dropbtn:focus {
+.menu-btn:hover, .menu-btn:focus {
     background-color: #f8f8f8;
 }
 
-.dropdown-content {
+.expanded-menu {
     display: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 70px; /* Adjust based on your navbar height */
     background-color: white;
-    min-width: 300px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    z-index: 1;
-    margin-top: 10px;
+    z-index: 1000;
+    padding: 30px 0;
     overflow: hidden;
+    border-bottom: 1px solid #eaeaea;
 }
 
-.dropdown-content a {
+.menu-items-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.menu-item {
     color: black;
-    padding: 15px 20px;
     text-decoration: none;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    padding: 20px;
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f5f5f5;
+    border-radius: 10px;
 }
 
-.dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-.dropdown-content a:hover {
+.menu-item:hover {
     background-color: #f8f8f8;
+    transform: translateY(-3px);
 }
 
-/* Show the dropdown menu when the dropdown button is clicked */
+.sky-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.sky-name {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.sky-description {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Show the expanded menu when the button is clicked */
 .show {
     display: block;
     animation: fadeIn 0.3s;
 }
 
+/* Add backdrop when menu is open */
+.menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Content area */
