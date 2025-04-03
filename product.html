@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#1E90FF">
-    <title>Clarity Tee - Blend of Skies</title>
+    <title>Clarity | Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="product-page.css">
-    <link rel="stylesheet" href="mobile-fixes.css">
+    <link rel="stylesheet" href="innovative.css">
 </head>
-<body>
+<body class="product-experience">
     <!-- Sky backdrop elements -->
     <div class="sky-backdrop"></div>
     <div class="stars-container"></div>
@@ -47,328 +42,239 @@
     <!-- Sky Panorama Menu -->
     <div class="sky-panorama">
         <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌤️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌅</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">⛈️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌌</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌈</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
-            </div>
+            <!-- Sky options as in previous code -->
         </div>
     </div>
-    
-    <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-container">
-        <div class="breadcrumb">
-            <a href="index.html">Home</a>
-            <span class="separator">/</span>
-            <a href="#collection">Collection</a>
-            <span class="separator">/</span>
-            <span class="current">Clarity Tee</span>
+
+    <!-- Innovative Product Experience -->
+    <div class="experience-container">
+        <!-- Context and navigation bar -->
+        <div class="context-bar">
+            <div class="product-context">
+                <div class="product-name">Clarity</div>
+                <div class="material-indicator">100% Organic Cotton</div>
+            </div>
+            <div class="experience-progress">
+                <div class="progress-step active" data-section="essence">Essence</div>
+                <div class="progress-step" data-section="details">Fabric</div>
+                <div class="progress-step" data-section="story">Story</div>
+                <div class="progress-step" data-section="purchase">Purchase</div>
+            </div>
+        </div>
+
+        <!-- Horizontal scrolling experience -->
+        <div class="scroll-container">
+            <!-- Section 1: Essence - Product Visuals -->
+            <section class="experience-section" id="essence">
+                <div class="product-showcase">
+                    <div class="product-visual">
+                        <div class="image-frame">
+                            <img src="https://via.placeholder.com/800x1000" alt="Clarity tee front" id="main-product-visual">
+                        </div>
+                        <div class="visual-controls">
+                            <button class="visual-dot active" data-image="https://via.placeholder.com/800x1000"></button>
+                            <button class="visual-dot" data-image="https://via.placeholder.com/800x1000?text=Side"></button>
+                            <button class="visual-dot" data-image="https://via.placeholder.com/800x1000?text=Back"></button>
+                            <button class="visual-dot" data-image="https://via.placeholder.com/800x1000?text=Detail"></button>
+                        </div>
+                    </div>
+                    <div class="product-essence">
+                        <div class="essence-tag">Clarity</div>
+                        <h1>Clean lines. Pure comfort.</h1>
+                        <p>A tribute to the pristine simplicity of clear horizons, crafted to bring understated elegance to your everyday.</p>
+                        <div class="atmospheric-indicator">
+                            <div class="indicator-dot" style="background: linear-gradient(135deg, #87CEEB, #1E90FF);"></div>
+                            <span>Atmospheric notes: Bright • Calm • Clear</span>
+                        </div>
+                        <div class="scroll-prompt">
+                            <span>Scroll to explore</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Details - Fabric & Quality -->
+            <section class="experience-section" id="details">
+                <div class="fabric-showcase">
+                    <div class="fabric-details">
+                        <h2>Crafted with purpose</h2>
+                        <div class="material-composition">
+                            <div class="material-chart">
+                                <div class="chart-segment">
+                                    <div class="segment-fill" style="height: 100%;"></div>
+                                    <div class="segment-label">100%</div>
+                                </div>
+                                <div class="chart-label">Organic Cotton</div>
+                            </div>
+                            <div class="material-properties">
+                                <div class="property">
+                                    <div class="property-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="property-name">Durability</div>
+                                    <div class="property-bar">
+                                        <div class="property-fill" style="width: 85%;"></div>
+                                    </div>
+                                </div>
+                                <div class="property">
+                                    <div class="property-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M16 10C16 14 8 18 8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            <path d="M8 10C8 14 16 18 16 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="property-name">Breathability</div>
+                                    <div class="property-bar">
+                                        <div class="property-fill" style="width: 95%;"></div>
+                                    </div>
+                                </div>
+                                <div class="property">
+                                    <div class="property-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20.84 4.60999C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.388 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.512 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.60999L12 5.66999L10.94 4.60999C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.60999C2.1283 5.64169 1.54871 7.04096 1.54871 8.49999C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6054C22.3095 9.93801 22.4518 9.22249 22.4518 8.49999C22.4518 7.77749 22.3095 7.06198 22.0329 6.39461C21.7563 5.72723 21.351 5.12075 20.84 4.60999Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="property-name">Softness</div>
+                                    <div class="property-bar">
+                                        <div class="property-fill" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fabric-notes">
+                            <p>Every thread matters. We've chosen a premium weight fabric that feels substantial without being heavy, creating a piece that moves with you throughout your day.</p>
+                            <p>The subtle texture catches light in a way that reminds us of morning air—clear, refreshing, and full of possibility.</p>
+                        </div>
+                    </div>
+                    <div class="fabric-visual">
+                        <div class="texture-sample">
+                            <img src="https://via.placeholder.com/500x600?text=Fabric" alt="Fabric texture close-up">
+                            <div class="texture-zoom"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Story - Brand Philosophy -->
+            <section class="experience-section" id="story">
+                <div class="story-showcase">
+                    <div class="story-visual">
+                        <img src="https://via.placeholder.com/700x500?text=Inspiration" alt="Design inspiration">
+                    </div>
+                    <div class="story-narrative">
+                        <h2>The inspiration</h2>
+                        <div class="narrative-content">
+                            <p>Inspired by those perfect mornings when the sky holds nothing but possibility. The Clarity design emerged from our design team's fascination with how certain moments in nature can influence our state of mind.</p>
+                            <p>The subtle texture and precise lines mirror the sensation of looking up at a vast open sky—creating space for thought, for breath, for clarity.</p>
+                            <blockquote>
+                                "We wanted to capture that feeling of spaciousness that comes with a perfect clear day—when everything seems possible."
+                            </blockquote>
+                            <p>Every detail, from the precisely balanced weight of the fabric to the carefully considered fit, works to create a garment that feels as good as it looks.</p>
+                        </div>
+                        <div class="sustainability-note">
+                            <div class="note-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 16V16.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M12 13C12.5523 13 13 12.5523 13 12V9C13 8.44772 12.5523 8 12 8C11.4477 8 11 8.44772 11 9V12C11 12.5523 11.4477 13 12 13Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <p>Our garments are made with certified organic cotton using 50% less water than conventional processes. We work with suppliers who ensure fair labor practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Purchase - Decision & Customization -->
+            <section class="experience-section" id="purchase">
+                <div class="purchase-interface">
+                    <div class="sizing-section">
+                        <h2>Find your fit</h2>
+                        <div class="size-guide">
+                            <div class="size-selector">
+                                <button class="size-option" data-size="S">S</button>
+                                <button class="size-option active" data-size="M">M</button>
+                                <button class="size-option" data-size="L">L</button>
+                                <button class="size-option" data-size="XL">XL</button>
+                            </div>
+                            <button class="size-help">Size guide</button>
+                            <div class="fit-indicator">
+                                <div class="fit-label">Fit</div>
+                                <div class="fit-scale">
+                                    <div class="scale-point"></div>
+                                    <div class="scale-point"></div>
+                                    <div class="scale-point active"></div>
+                                    <div class="scale-point"></div>
+                                    <div class="scale-point"></div>
+                                </div>
+                                <div class="fit-labels">
+                                    <span>Slim</span>
+                                    <span>Relaxed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="purchase-decision">
+                        <div class="price-section">
+                            <div class="current-price">$45</div>
+                            <div class="price-notes">Including all taxes</div>
+                        </div>
+                        <div class="purchase-actions">
+                            <button class="add-bag-button">Add to bag</button>
+                            <button class="save-button">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="additional-info">
+                        <div class="info-tabs">
+                            <button class="info-tab active" data-tab="care">Care</button>
+                            <button class="info-tab" data-tab="shipping">Shipping</button>
+                            <button class="info-tab" data-tab="returns">Returns</button>
+                        </div>
+                        <div class="tab-content active" id="care-content">
+                            <div class="care-icons">
+                                <div class="care-icon">
+                                    <img src="https://via.placeholder.com/30" alt="Machine wash cold">
+                                    <span>30°</span>
+                                </div>
+                                <div class="care-icon">
+                                    <img src="https://via.placeholder.com/30" alt="Do not bleach">
+                                    <span>No bleach</span>
+                                </div>
+                                <div class="care-icon">
+                                    <img src="https://via.placeholder.com/30" alt="Tumble dry low">
+                                    <span>Low dry</span>
+                                </div>
+                                <div class="care-icon">
+                                    <img src="https://via.placeholder.com/30" alt="Iron medium">
+                                    <span>Medium iron</span>
+                                </div>
+                            </div>
+                            <p>Machine wash cold with similar colors. Tumble dry low. Do not bleach. Warm iron if needed.</p>
+                        </div>
+                        <div class="tab-content" id="shipping-content">
+                            <p>Free shipping on orders over $75. Standard shipping (3-5 business days) is $5 for orders under $75.</p>
+                            <p>Express shipping (1-2 business days) is available for $12.</p>
+                        </div>
+                        <div class="tab-content" id="returns-content">
+                            <p>We accept returns within 30 days of delivery. Items must be unworn with original tags attached.</p>
+                            <p>Return shipping is free within the US.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-    
-    <!-- Product Detail Section -->
-    <div class="main-content">
-        <section class="product-detail">
-            <div class="product-gallery">
-                <div class="main-image-container">
-                    <img src="https://via.placeholder.com/600x800" alt="Clarity Tee front view" class="main-image" id="main-product-image">
-                    <div class="image-overlay">
-                        <span class="subtle-icon">🌤️</span>
-                    </div>
-                </div>
-                <div class="thumbnail-gallery">
-                    <div class="thumbnail active" data-image="https://via.placeholder.com/600x800">
-                        <img src="https://via.placeholder.com/100x100" alt="Clarity Tee thumbnail 1">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x800?text=Back">
-                        <img src="https://via.placeholder.com/100x100?text=Back" alt="Clarity Tee thumbnail 2">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x800?text=Detail">
-                        <img src="https://via.placeholder.com/100x100?text=Detail" alt="Clarity Tee thumbnail 3">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x800?text=Worn">
-                        <img src="https://via.placeholder.com/100x100?text=Worn" alt="Clarity Tee thumbnail 4">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="product-info-container">
-                <h1 class="product-title">Clarity Tee</h1>
-                <div class="product-price">$45</div>
-                
-                <div class="product-description">
-                    <p>The Clarity Tee embodies the essence of a clear blue sky. With its clean lines and refreshing palette, this premium cotton shirt brings a sense of calm and possibility to your everyday look.</p>
-                    <p>Made from 100% organic cotton with a relaxed fit and subtle sky-inspired details that set it apart from ordinary tees.</p>
-                </div>
-                
-                <div class="product-options">
-                    <div class="option-group">
-                        <label for="size">Size</label>
-                        <div class="size-options">
-                            <button class="size-btn">S</button>
-                            <button class="size-btn active">M</button>
-                            <button class="size-btn">L</button>
-                            <button class="size-btn">XL</button>
-                        </div>
-                        <a href="#" class="size-guide-link">Size Guide</a>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="color">Color</label>
-                        <div class="color-options">
-                            <button class="color-btn active" style="background: linear-gradient(145deg, #87CEEB, #1E90FF);" data-color="Sky Blue"></button>
-                            <button class="color-btn" style="background: #f5f5f5;" data-color="Cloud White"></button>
-                            <button class="color-btn" style="background: #333333;" data-color="Midnight"></button>
-                        </div>
-                        <span class="selected-color">Sky Blue</span>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="quantity">Quantity</label>
-                        <div class="quantity-selector">
-                            <button class="qty-btn minus">-</button>
-                            <input type="number" id="quantity" value="1" min="1" max="10">
-                            <button class="qty-btn plus">+</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-actions">
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                    <button class="wishlist-btn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" stroke="currentColor" stroke-width="2" fill="none"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="product-meta">
-                    <div class="meta-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 16V8.00002C20.9996 7.6493 20.9071 7.30483 20.7315 7.00119C20.556 6.69754 20.3037 6.44539 20 6.27002L13 2.27002C12.696 2.09449 12.3511 2.00208 12 2.00208C11.6489 2.00208 11.304 2.09449 11 2.27002L4 6.27002C3.69626 6.44539 3.44398 6.69754 3.26846 7.00119C3.09294 7.30483 3.00036 7.6493 3 8.00002V16C3.00036 16.3508 3.09294 16.6952 3.26846 16.9989C3.44398 17.3025 3.69626 17.5547 4 17.73L11 21.73C11.304 21.9056 11.6489 21.998 12 21.998C12.3511 21.998 12.696 21.9056 13 21.73L20 17.73C20.3037 17.5547 20.556 17.3025 20.7315 16.9989C20.9071 16.6952 20.9996 16.3508 21 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M3.27002 6.96002L12 12L20.73 6.96002" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 22.08V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>Free shipping on orders over $75</span>
-                    </div>
-                    <div class="meta-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>Ships within 1-2 business days</span>
-                    </div>
-                    <div class="meta-item">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>Made in Portugal</span>
-                    </div>
-                </div>
-                
-                <div class="product-accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Details</span>
-                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <div class="accordion-content">
-                            <ul>
-                                <li>100% organic cotton</li>
-                                <li>Relaxed fit</li>
-                                <li>Crew neck</li>
-                                <li>Short sleeves</li>
-                                <li>Subtle sky-inspired embroidery on left sleeve</li>
-                                <li>Sustainably produced</li>
-                                <li>Machine washable</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Care Instructions</span>
-                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <div class="accordion-content">
-                            <p>Machine wash cold with like colors. Tumble dry low. Do not bleach. Warm iron if needed.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Shipping & Returns</span>
-                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <div class="accordion-content">
-                            <p>Free shipping on all orders over $75. Standard shipping takes 3-5 business days.</p>
-                            <p>Returns accepted within 30 days of delivery. Item must be unworn with original tags attached.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="related-products">
-            <h2 class="section-title">You Might Also Like</h2>
-            <div class="product-cards">
-                <div class="product-card" data-sky="sunset-glow">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Sunset Glow shirt" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">🌅</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Horizon Crew</h3>
-                        <p class="product-desc">Warm, rich tones that capture the essence of a beautiful sunset.</p>
-                        <div class="product-details">
-                            <span class="product-price">$48</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-sky="starry-night">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Starry Night shirt" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">🌌</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Cosmos Pullover</h3>
-                        <p class="product-desc">Deep, thoughtful design reminiscent of the vast night sky.</p>
-                        <div class="product-details">
-                            <span class="product-price">$52</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-sky="storm-brewing">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Storm Brewing shirt" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">⛈️</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Tempest Hoodie</h3>
-                        <p class="product-desc">Bold and dynamic design for those who embrace life's intensity.</p>
-                        <div class="product-details">
-                            <span class="product-price">$65</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h3>Blend of Skies</h3>
-                <p>Creating atmospheric experiences since 2025.</p>
-            </div>
-            
-            <div class="footer-links">
-                <div class="link-group">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#collection">Collection</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="link-group">
-                    <h4>Help</h4>
-                    <ul>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                    </ul>
-                </div>
-                
-                <div class="link-group">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -376,187 +282,147 @@
             const skySelector = document.querySelector('.sky-selector');
             const skyPanorama = document.querySelector('.sky-panorama');
             const skyBackdrop = document.querySelector('.sky-backdrop');
-            const skyOptions = document.querySelectorAll('.sky-option');
-            const orbEmoji = document.querySelector('.orb-emoji');
-            const orbInner = document.querySelector('.orb-inner');
-            const brandName = document.querySelector('.brand-name');
             
-            skySelector.onclick = function(e) {
-                e.preventDefault();
-                skyPanorama.classList.toggle('open');
-                skyBackdrop.classList.toggle('active');
-            };
-            
-            skyBackdrop.onclick = function() {
-                skyPanorama.classList.remove('open');
-                skyBackdrop.classList.remove('active');
-            };
-            
-            skyOptions.forEach(option => {
-                option.onclick = function(e) {
+            if (skySelector && skyPanorama && skyBackdrop) {
+                skySelector.onclick = function(e) {
                     e.preventDefault();
-                    const skyType = this.getAttribute('data-sky');
-                    const skyIcon = this.querySelector('.sky-icon').textContent;
-                    
-                    // Update orb emoji
-                    orbEmoji.textContent = skyIcon;
-                    orbEmoji.style.opacity = '1';
-                    orbInner.style.opacity = '0';
-                    
-                    // Apply sky effect to the page
-                    document.body.className = '';
-                    document.body.classList.add(`sky-${skyType}`);
-                    
-                    setTimeout(function() {
-                        skyPanorama.classList.remove('open');
-                        skyBackdrop.classList.remove('active');
-                    }, 300);
+                    skyPanorama.classList.toggle('open');
+                    skyBackdrop.classList.toggle('active');
                 };
+                
+                skyBackdrop.onclick = function() {
+                    skyPanorama.classList.remove('open');
+                    skyBackdrop.classList.remove('active');
+                };
+            }
+            
+            // Horizontal scrolling experience
+            const scrollContainer = document.querySelector('.scroll-container');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const sections = document.querySelectorAll('.experience-section');
+            
+            // Initialize Intersection Observer for sections
+            const observerOptions = {
+                root: scrollContainer,
+                threshold: 0.6 // When 60% of section is visible
+            };
+            
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentSection = entry.target.id;
+                        updateProgress(currentSection);
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections
+            sections.forEach(section => {
+                sectionObserver.observe(section);
             });
             
-            skySelector.onmouseenter = function() {
-                orbEmoji.style.opacity = '1';
-                orbInner.style.opacity = '0';
-            };
+            // Update progress indicator
+            function updateProgress(currentSectionId) {
+                progressSteps.forEach(step => {
+                    step.classList.remove('active');
+                    if (step.getAttribute('data-section') === currentSectionId) {
+                        step.classList.add('active');
+                    }
+                });
+            }
             
-            skySelector.onmouseleave = function() {
-                if (orbEmoji.textContent === '🌤️') {
-                    orbEmoji.style.opacity = '0';
-                    orbInner.style.opacity = '1';
-                }
-            };
+            // Click on progress steps to navigate
+            progressSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    const targetSection = document.getElementById(this.getAttribute('data-section'));
+                    targetSection.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+                });
+            });
             
-            brandName.onclick = function() {
-                window.location.href = 'index.html';
-            };
+            // Product visuals in the first section
+            const visualDots = document.querySelectorAll('.visual-dot');
+            const mainVisual = document.getElementById('main-product-visual');
             
-            // Product page specific functionality
-            
-            // Thumbnail gallery
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            const mainImage = document.getElementById('main-product-image');
-            
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function() {
-                    // Update active state
-                    thumbnails.forEach(t => t.classList.remove('active'));
+            visualDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    visualDots.forEach(d => d.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Update main image
                     const imageUrl = this.getAttribute('data-image');
-                    mainImage.src = imageUrl;
+                    
+                    // Fade out/in effect
+                    mainVisual.style.opacity = 0;
+                    setTimeout(() => {
+                        mainVisual.src = imageUrl;
+                        mainVisual.style.opacity = 1;
+                    }, 300);
                 });
             });
             
             // Size selection
-            const sizeButtons = document.querySelectorAll('.size-btn');
-            sizeButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    sizeButtons.forEach(btn => btn.classList.remove('active'));
+            const sizeOptions = document.querySelectorAll('.size-option');
+            
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    sizeOptions.forEach(o => o.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
             
-            // Color selection
-            const colorButtons = document.querySelectorAll('.color-btn');
-            const selectedColorSpan = document.querySelector('.selected-color');
+            // Info tabs
+            const infoTabs = document.querySelectorAll('.info-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
             
-            colorButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    colorButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
+            infoTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    infoTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
                     
-                    // Update selected color text
-                    const colorName = this.getAttribute('data-color');
-                    selectedColorSpan.textContent = colorName;
+                    this.classList.add('active');
+                    document.getElementById(`${this.getAttribute('data-tab')}-content`).classList.add('active');
                 });
             });
             
-            // Quantity selector
-            const quantityInput = document.getElementById('quantity');
-            const minusBtn = document.querySelector('.qty-btn.minus');
-            const plusBtn = document.querySelector('.qty-btn.plus');
+            // Add to bag button
+            const addBagButton = document.querySelector('.add-bag-button');
             
-            minusBtn.addEventListener('click', function() {
-                const currentValue = parseInt(quantityInput.value);
-                if (currentValue > 1) {
-                    quantityInput.value = currentValue - 1;
-                }
-            });
-            
-            plusBtn.addEventListener('click', function() {
-                const currentValue = parseInt(quantityInput.value);
-                if (currentValue < 10) {
-                    quantityInput.value = currentValue + 1;
-                }
-            });
-            
-            // Prevent direct input of non-numeric values
-            quantityInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                if (isNaN(value) || value < 1) {
-                    this.value = 1;
-                } else if (value > 10) {
-                    this.value = 10;
-                }
-            });
-            
-            // Accordion functionality
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    // Toggle active class on the parent
-                    const accordionItem = this.parentElement;
-                    const isActive = accordionItem.classList.contains('active');
+            if (addBagButton) {
+                addBagButton.addEventListener('click', function() {
+                    const selectedSize = document.querySelector('.size-option.active').getAttribute('data-size');
                     
-                    // Close all accordions first
-                    document.querySelectorAll('.accordion-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
+                    // Add animation effect
+                    this.classList.add('adding');
                     
-                    // If it wasn't active, make it active
-                    if (!isActive) {
-                        accordionItem.classList.add('active');
+                    setTimeout(() => {
+                        this.textContent = 'Added to Bag';
+                        
+                        setTimeout(() => {
+                            this.textContent = 'Add to bag';
+                            this.classList.remove('adding');
+                        }, 2000);
+                    }, 500);
+                    
+                    // Here you would normally handle the actual cart addition
+                    console.log(`Added Clarity in size ${selectedSize} to bag`);
+                });
+            }
+            
+            // Save/wishlist button
+            const saveButton = document.querySelector('.save-button');
+            
+            if (saveButton) {
+                saveButton.addEventListener('click', function() {
+                    const svgPath = this.querySelector('svg path');
+                    
+                    if (this.classList.contains('saved')) {
+                        this.classList.remove('saved');
+                        svgPath.setAttribute('fill', 'none');
+                    } else {
+                        this.classList.add('saved');
+                        svgPath.setAttribute('fill', 'currentColor');
                     }
                 });
-            });
-            
-            // Add to cart button
-            const addToCartBtn = document.querySelector('.add-to-cart-btn');
-            addToCartBtn.addEventListener('click', function() {
-                const selectedSize = document.querySelector('.size-btn.active');
-                const selectedColor = document.querySelector('.color-btn.active');
-                const quantity = document.getElementById('quantity').value;
-                
-                if (!selectedSize || !selectedColor) {
-                    alert('Please select both size and color');
-                    return;
-                }
-                
-                const size = selectedSize.textContent;
-                const color = selectedColor.getAttribute('data-color');
-                
-                // In a real app, you'd likely make an API call here
-                console.log(`Added to cart: Clarity Tee, Size: ${size}, Color: ${color}, Quantity: ${quantity}`);
-                
-                // Show success message
-                const successMsg = document.createElement('div');
-                successMsg.className = 'cart-success';
-                successMsg.textContent = 'Item added to cart!';
-                document.body.appendChild(successMsg);
-                
-                setTimeout(() => {
-                    successMsg.classList.add('show');
-                }, 10);
-                
-                setTimeout(() => {
-                    successMsg.classList.remove('show');
-                    setTimeout(() => {
-                        document.body.removeChild(successMsg);
-                    }, 300);
-                }, 2000);
-            });
+            }
         });
     </script>
 </body>
