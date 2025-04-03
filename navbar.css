@@ -1,4 +1,3 @@
-/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
@@ -9,10 +8,10 @@
 :root {
     --main-bg-color: #fff;
     --main-text-color: #000;
-    --accent-color: rgba(0, 0, 0, 0.8);
-    --brand-glow: 0 0 15px rgba(0, 0, 0, 0.2);
+    --sky-accent: #1E90FF;
+    --sky-light: #87CEEB;
     --orbit-speed: 15s;
-    --preview-glow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --preview-glow: 0 5px 15px rgba(135, 206, 250, 0.2);
 }
 
 html, body {
@@ -23,7 +22,6 @@ html, body {
     overflow-x: hidden;
 }
 
-/* Sky backdrop */
 .sky-backdrop {
     position: fixed;
     top: 0;
@@ -44,7 +42,6 @@ html, body {
     display: block;
 }
 
-/* Stars background */
 .stars-container {
     position: fixed;
     top: 0;
@@ -75,7 +72,6 @@ html, body {
     50% { opacity: 1; }
 }
 
-/* Cosmic Navbar */
 .cosmic-navbar {
     position: sticky;
     top: 0;
@@ -96,7 +92,6 @@ html, body {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Brand styling */
 .brand-container {
     display: flex;
     align-items: center;
@@ -157,7 +152,6 @@ html, body {
     letter-spacing: 0.5px;
 }
 
-/* Sky Selector */
 .sky-selector {
     position: relative;
     cursor: pointer;
@@ -225,7 +219,6 @@ html, body {
     transform: scale(1);
 }
 
-/* Sky Panorama */
 .sky-panorama {
     position: fixed;
     top: 70px;
@@ -294,7 +287,7 @@ html, body {
 
 .sky-option:hover .sky-preview {
     transform: scale(1.1);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 25px rgba(135, 206, 250, 0.3);
 }
 
 .sky-icon {
@@ -339,14 +332,12 @@ html, body {
     line-height: 1.3;
 }
 
-/* Content area */
 .content-area {
     padding: 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
     .cosmic-navbar {
         padding: 0 15px;
@@ -369,7 +360,7 @@ html, body {
     }
     
     .sky-panorama.open {
-        height: auto;
+        height: auto !important;
         max-height: 80vh;
         overflow-y: auto;
     }
