@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blend of Skies Navigation</title>
     <link rel="stylesheet" href="navbar.css">
 </head>
@@ -23,19 +23,16 @@
                             </svg>
                         </button>
                     </li>
-                    <li><a href="#" class="nav-link">Features</a></li>
-                    <li><a href="#" class="nav-link">Gallery</a></li>
-                    <li><a href="#" class="nav-link">About</a></li>
                 </ul>
             </div>
             
-            <div class="navbar-buttons">
-                <a href="#" class="nav-button">Log In</a>
-                <a href="#" class="nav-button primary-button">Get Started</a>
+            <div class="navbar-right">
+                <!-- This space intentionally left empty for future elements -->
             </div>
         </div>
     </nav>
     
+    <!-- Expanded Menu for Sky Selection -->
     <div id="sky-menu-content" class="expanded-menu">
         <div class="menu-left">
             <a href="#" class="menu-item" data-sky="clear-blue">
@@ -89,6 +86,7 @@
         <div style="height: 1500px;"></div>
     </div>
 
-    <script src="navbar.js"></script>
+    <!-- Load JavaScript at the end to ensure DOM is loaded -->
+    <script src="navbar.js" defer></script>
 </body>
 </html>
