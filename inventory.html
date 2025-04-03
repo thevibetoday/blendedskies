@@ -110,182 +110,158 @@
         </div>
     </div>
 
-    <div class="inventory-container">
-        <div class="filter-panel">
-            <div class="filter-header">
-                <h2>Browse Collection</h2>
-                <button class="filter-toggle">Filters</button>
+    <main class="immersive-explorer">
+        <div class="canvas-controls">
+            <div class="control-panel">
+                <div class="floating-filters">
+                    <div class="filter-cluster">
+                        <div class="filter-group sky-filter">
+                            <div class="filter-circle active" data-filter="sky" data-value="blended">
+                                <span class="sky-dot">🌥️</span>
+                                <span class="filter-label">Blended</span>
+                            </div>
+                            <div class="filter-circle" data-filter="sky" data-value="clear-blue">
+                                <span class="sky-dot">🌤️</span>
+                                <span class="filter-label">Clear</span>
+                            </div>
+                            <div class="filter-circle" data-filter="sky" data-value="sunset-glow">
+                                <span class="sky-dot">🌅</span>
+                                <span class="filter-label">Sunset</span>
+                            </div>
+                            <div class="filter-circle" data-filter="sky" data-value="storm-brewing">
+                                <span class="sky-dot">⛈️</span>
+                                <span class="filter-label">Storm</span>
+                            </div>
+                            <div class="filter-circle" data-filter="sky" data-value="starry-night">
+                                <span class="sky-dot">🌌</span>
+                                <span class="filter-label">Starry</span>
+                            </div>
+                            <div class="filter-circle" data-filter="sky" data-value="rainbow-sky">
+                                <span class="sky-dot">🌈</span>
+                                <span class="filter-label">Rainbow</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-cluster">
+                        <span class="divider"></span>
+                        <div class="filter-group type-filter">
+                            <div class="filter-chip active" data-filter="type" data-value="all">All</div>
+                            <div class="filter-chip" data-filter="type" data-value="tee">Tees</div>
+                            <div class="filter-chip" data-filter="type" data-value="long-sleeve">Long Sleeves</div>
+                            <div class="filter-chip" data-filter="type" data-value="hoodie">Hoodies</div>
+                            <div class="filter-chip" data-filter="type" data-value="sweater">Sweaters</div>
+                            <div class="filter-chip" data-filter="type" data-value="tank">Tanks</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="right-controls">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <button class="view-btn" data-view="flow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="sort-control">
+                        <select id="sort-select" class="sort-select">
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="bestsellers">Bestsellers</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             
-            <div class="filter-groups">
-                <div class="filter-group">
-                    <h3 class="filter-title">Sky</h3>
-                    <div class="filter-options">
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="blended" checked>
-                            <span class="option-text">Blended Sky</span>
-                            <span class="option-icon">🌥️</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="clear-blue">
-                            <span class="option-text">Clear Blue</span>
-                            <span class="option-icon">🌤️</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="sunset-glow">
-                            <span class="option-text">Sunset Glow</span>
-                            <span class="option-icon">🌅</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="storm-brewing">
-                            <span class="option-text">Storm Brewing</span>
-                            <span class="option-icon">⛈️</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="starry-night">
-                            <span class="option-text">Starry Night</span>
-                            <span class="option-icon">🌌</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="sky" value="rainbow-sky">
-                            <span class="option-text">Rainbow Sky</span>
-                            <span class="option-icon">🌈</span>
-                        </label>
+            <div class="advanced-filters">
+                <div class="advanced-group">
+                    <h3>Size</h3>
+                    <div class="size-options">
+                        <label class="size-option"><input type="checkbox" name="size" value="xs"><span>XS</span></label>
+                        <label class="size-option"><input type="checkbox" name="size" value="s"><span>S</span></label>
+                        <label class="size-option"><input type="checkbox" name="size" value="m" checked><span>M</span></label>
+                        <label class="size-option"><input type="checkbox" name="size" value="l"><span>L</span></label>
+                        <label class="size-option"><input type="checkbox" name="size" value="xl"><span>XL</span></label>
+                        <label class="size-option"><input type="checkbox" name="size" value="xxl"><span>2XL</span></label>
                     </div>
                 </div>
                 
-                <div class="filter-group">
-                    <h3 class="filter-title">Type</h3>
-                    <div class="filter-options">
-                        <label class="filter-option">
-                            <input type="checkbox" name="type" value="tee" checked>
-                            <span class="option-text">T-Shirt</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="type" value="long-sleeve">
-                            <span class="option-text">Long Sleeve</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="type" value="hoodie">
-                            <span class="option-text">Hoodie</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="type" value="sweater">
-                            <span class="option-text">Sweater</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="type" value="tank">
-                            <span class="option-text">Tank Top</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3 class="filter-title">Size</h3>
-                    <div class="filter-options size-options">
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="xs">
-                            <span class="option-text">XS</span>
-                        </label>
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="s">
-                            <span class="option-text">S</span>
-                        </label>
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="m" checked>
-                            <span class="option-text">M</span>
-                        </label>
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="l">
-                            <span class="option-text">L</span>
-                        </label>
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="xl">
-                            <span class="option-text">XL</span>
-                        </label>
-                        <label class="filter-option size-circle">
-                            <input type="checkbox" name="size" value="xxl">
-                            <span class="option-text">XXL</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h3 class="filter-title">Color</h3>
-                    <div class="filter-options color-options">
-                        <label class="filter-option color-circle">
+                <div class="advanced-group">
+                    <h3>Color</h3>
+                    <div class="color-options">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="white">
-                            <span class="color-swatch" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
-                            <span class="color-name">White</span>
+                            <span class="color-circle" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="black">
-                            <span class="color-swatch" style="background-color: #000000;"></span>
-                            <span class="color-name">Black</span>
+                            <span class="color-circle" style="background-color: #000000;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="gray">
-                            <span class="color-swatch" style="background-color: #808080;"></span>
-                            <span class="color-name">Gray</span>
+                            <span class="color-circle" style="background-color: #808080;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="blue" checked>
-                            <span class="color-swatch" style="background-color: #1E90FF;"></span>
-                            <span class="color-name">Blue</span>
+                            <span class="color-circle" style="background-color: #1E90FF;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="navy">
-                            <span class="color-swatch" style="background-color: #000080;"></span>
-                            <span class="color-name">Navy</span>
+                            <span class="color-circle" style="background-color: #000080;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="orange">
-                            <span class="color-swatch" style="background-color: #FF6B6B;"></span>
-                            <span class="color-name">Orange</span>
+                            <span class="color-circle" style="background-color: #FF6B6B;"></span>
                         </label>
-                        <label class="filter-option color-circle">
+                        <label class="color-option">
                             <input type="checkbox" name="color" value="purple">
-                            <span class="color-swatch" style="background-color: #9370DB;"></span>
-                            <span class="color-name">Purple</span>
+                            <span class="color-circle" style="background-color: #9370DB;"></span>
                         </label>
                     </div>
                 </div>
                 
-                <div class="filter-actions">
-                    <button class="clear-filters">Clear All</button>
-                    <button class="apply-filters">Apply Filters</button>
-                </div>
+                <button class="advanced-toggle">
+                    <span class="toggle-text">More Filters</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
         </div>
-        
-        <div class="results-container">
-            <div class="results-header">
-                <div class="results-count">24 Items</div>
-                <div class="results-sort">
-                    <label for="sort-select">Sort by:</label>
-                    <select id="sort-select">
-                        <option value="newest">Newest</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="bestsellers">Bestsellers</option>
-                    </select>
-                </div>
+    
+        <div class="product-canvas">
+            <div class="product-count">
+                <span class="count-number">24</span> items
             </div>
             
             <div class="product-grid">
-                <div class="product-card" data-sky="clear-blue" data-type="tee" data-sizes="xs,s,m,l,xl" data-colors="blue,white">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Clarity Tee">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="clear-blue">🌤️</span>
+                <div class="product-item" data-sky="clear-blue" data-type="tee" data-sizes="xs,s,m,l,xl" data-colors="blue,white">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%231E90FF' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EClarity Tee%3C/text%3E%3C/svg%3E" alt="Clarity Tee">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="clear-blue">🌤️</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Clarity Tee</h3>
-                        <div class="product-price">$45</div>
+                    <div class="product-details">
+                        <h3>Clarity Tee</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$45</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #1E90FF;"></span>
                                 <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                             </div>
@@ -293,19 +269,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="sunset-glow" data-type="tee" data-sizes="s,m,l,xl" data-colors="orange,white">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Horizon Crew">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="sunset-glow">🌅</span>
+                <div class="product-item" data-sky="sunset-glow" data-type="tee" data-sizes="s,m,l,xl" data-colors="orange,white">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23FF6B6B' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EHorizon Crew%3C/text%3E%3C/svg%3E" alt="Horizon Crew">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="sunset-glow">🌅</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Horizon Crew</h3>
-                        <div class="product-price">$48</div>
+                    <div class="product-details">
+                        <h3>Horizon Crew</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$48</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #FF6B6B;"></span>
                                 <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                             </div>
@@ -313,19 +290,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="storm-brewing" data-type="hoodie" data-sizes="s,m,l,xl,xxl" data-colors="gray,black">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Tempest Hoodie">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="storm-brewing">⛈️</span>
+                <div class="product-item" data-sky="storm-brewing" data-type="hoodie" data-sizes="s,m,l,xl,xxl" data-colors="gray,black">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23708090' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ETempest Hoodie%3C/text%3E%3C/svg%3E" alt="Tempest Hoodie">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="storm-brewing">⛈️</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Tempest Hoodie</h3>
-                        <div class="product-price">$65</div>
+                    <div class="product-details">
+                        <h3>Tempest Hoodie</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$65</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #808080;"></span>
                                 <span class="color-dot" style="background-color: #000000;"></span>
                             </div>
@@ -333,19 +311,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="starry-night" data-type="long-sleeve" data-sizes="s,m,l,xl" data-colors="navy,black">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Cosmos Long Sleeve">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="starry-night">🌌</span>
+                <div class="product-item" data-sky="starry-night" data-type="long-sleeve" data-sizes="s,m,l,xl" data-colors="navy,black">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23191970' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ECosmos Long Sleeve%3C/text%3E%3C/svg%3E" alt="Cosmos Long Sleeve">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="starry-night">🌌</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Cosmos Long Sleeve</h3>
-                        <div class="product-price">$52</div>
+                    <div class="product-details">
+                        <h3>Cosmos Long Sleeve</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$52</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #000080;"></span>
                                 <span class="color-dot" style="background-color: #000000;"></span>
                             </div>
@@ -353,19 +332,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="rainbow-sky" data-type="tee" data-sizes="xs,s,m,l" data-colors="white,purple">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Prism Tee">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="rainbow-sky">🌈</span>
+                <div class="product-item" data-sky="rainbow-sky" data-type="tee" data-sizes="xs,s,m,l" data-colors="white,purple">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%239370DB' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EPrism Tee%3C/text%3E%3C/svg%3E" alt="Prism Tee">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="rainbow-sky">🌈</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Prism Tee</h3>
-                        <div class="product-price">$45</div>
+                    <div class="product-details">
+                        <h3>Prism Tee</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$45</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                                 <span class="color-dot" style="background-color: #9370DB;"></span>
                             </div>
@@ -373,19 +353,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="clear-blue" data-type="tank" data-sizes="xs,s,m,l" data-colors="blue,white">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Azure Tank">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="clear-blue">🌤️</span>
+                <div class="product-item" data-sky="clear-blue" data-type="tank" data-sizes="xs,s,m,l" data-colors="blue,white">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%231E90FF' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EAzure Tank%3C/text%3E%3C/svg%3E" alt="Azure Tank">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="clear-blue">🌤️</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Azure Tank</h3>
-                        <div class="product-price">$38</div>
+                    <div class="product-details">
+                        <h3>Azure Tank</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$38</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #1E90FF;"></span>
                                 <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                             </div>
@@ -393,19 +374,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="blended" data-type="tee" data-sizes="xs,s,m,l,xl,xxl" data-colors="gray,white,black">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Blend Signature Tee">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="blended">🌥️</span>
+                <div class="product-item" data-sky="blended" data-type="tee" data-sizes="xs,s,m,l,xl,xxl" data-colors="gray,white,black">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%235D8CAE' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EBlend Signature Tee%3C/text%3E%3C/svg%3E" alt="Blend Signature Tee">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="blended">🌥️</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Blend Signature Tee</h3>
-                        <div class="product-price">$42</div>
+                    <div class="product-details">
+                        <h3>Blend Signature Tee</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$42</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #808080;"></span>
                                 <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;"></span>
                                 <span class="color-dot" style="background-color: #000000;"></span>
@@ -414,19 +396,20 @@
                     </div>
                 </div>
                 
-                <div class="product-card" data-sky="sunset-glow" data-type="sweater" data-sizes="s,m,l,xl" data-colors="orange,gray">
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/300x350" alt="Sunset Sweater">
-                        <div class="quick-add">Quick Add</div>
-                        <div class="product-badge">
-                            <span class="sky-indicator" data-sky="sunset-glow">🌅</span>
+                <div class="product-item" data-sky="sunset-glow" data-type="sweater" data-sizes="s,m,l,xl" data-colors="orange,gray">
+                    <div class="product-media">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23FF6B6B' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ESunset Sweater%3C/text%3E%3C/svg%3E" alt="Sunset Sweater">
+                        <div class="product-actions">
+                            <button class="action-btn view-btn">View</button>
+                            <button class="action-btn add-btn">Add to Bag</button>
                         </div>
+                        <div class="sky-badge" data-sky="sunset-glow">🌅</div>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Sunset Sweater</h3>
-                        <div class="product-price">$58</div>
+                    <div class="product-details">
+                        <h3>Sunset Sweater</h3>
                         <div class="product-meta">
-                            <div class="available-colors">
+                            <span class="product-price">$58</span>
+                            <div class="color-dots">
                                 <span class="color-dot" style="background-color: #FF6B6B;"></span>
                                 <span class="color-dot" style="background-color: #808080;"></span>
                             </div>
@@ -436,24 +419,24 @@
             </div>
             
             <div class="pagination">
-                <button class="page-arrow prev" disabled>
-                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <button class="pagination-arrow prev" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
-                <button class="page-number active">1</button>
-                <button class="page-number">2</button>
-                <button class="page-number">3</button>
-                <span class="page-ellipsis">...</span>
-                <button class="page-number">8</button>
-                <button class="page-arrow next">
-                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <button class="pagination-number active">1</button>
+                <button class="pagination-number">2</button>
+                <button class="pagination-number">3</button>
+                <span class="pagination-dots">...</span>
+                <button class="pagination-number">8</button>
+                <button class="pagination-arrow next">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
         </div>
-    </div>
+    </main>
 
     <script src="inventory.js"></script>
 </body>
