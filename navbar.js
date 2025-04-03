@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const starsContainer = document.querySelector('.stars-container');
     const navbar = document.querySelector('.cosmic-navbar');
     const orbInner = document.querySelector('.orb-inner');
+    const orbEmoji = document.querySelector('.orb-emoji');
+    
+    // Check if all required elements exist
+    if (!skySelector || !selectorOrb || !skyPanorama || !skyBackdrop || 
+        !starsContainer || !navbar || !orbInner || !orbEmoji) {
+        console.error('Some required elements are missing from the DOM.');
+        return; // Exit early if elements are missing
+    }
     
     // State
     let isOpen = false;
@@ -29,12 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
             starsContainer.classList.add('active');
             navbar.classList.add('expanded');
             
-            // Create a ripple effect on the orb
-            createRipple(selectorOrb, 'rgba(0, 0, 0, 0.05)');
-            
-            // Rotate orb text
-            orbInner.style.transform = 'rotateX(180deg)';
-            
             // Delay the appearance of each sky option for staggered animation
             skyOptions.forEach((option, index) => {
                 setTimeout(() => {
@@ -50,9 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
             starsContainer.classList.remove('active');
             navbar.classList.remove('expanded');
             
-            // Reset orb text
-            orbInner.style.transform = 'rotateX(0)';
-            
             // Reset sky options
             skyOptions.forEach(option => {
                 option.style.opacity = '';
@@ -63,6 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Toggle menu when clicking the selector
     skySelector.addEventListener('click', function(e) {
+        e.preventDefault();
+        toggleMenu();
+    });
+    
+    // Also handle touch events for mobile
+    skySelector.addEventListener('touchend', function(e) {
         e.preventDefault();
         toggleMenu();
     });
@@ -112,12 +117,49 @@ document.addEventListener('DOMContentLoaded', function() {
             applySkyEffect(skyType);
         });
         
+        // Also handle touch events for mobile
+        option.addEventListener('touchend', function(e) {
+            // Prevent default only if this isn't a scroll
+            if (!this.isScrolling) {
+                e.preventDefault();
+                
+                // Get sky data
+                const skyType = this.getAttribute('data-sky');
+                const skyIcon = this.querySelector('.sky-icon').textContent;
+                const skyName = this.querySelector('h3').textContent;
+                
+                // Update selected sky
+                currentSky = {
+                    type: skyType,
+                    icon: skyIcon,
+                    name: skyName
+                };
+                
+                // Update orb appearance
+                updateOrbWithSelection(currentSky);
+                
+                // Close the menu
+                setTimeout(() => {
+                    if (isOpen) toggleMenu();
+                }, 300);
+                
+                // Apply sky effect to the page
+                applySkyEffect(skyType);
+            }
+        });
+        
+        // Track if user is scrolling
+        option.addEventListener('touchmove', function() {
+            this.isScrolling = true;
+        });
+        
+        option.addEventListener('touchstart', function() {
+            this.isScrolling = false;
+        });
+        
         // Add hover effect to create dynamic reflections
         option.addEventListener('mouseenter', function() {
             const preview = this.querySelector('.sky-preview');
-            const reflection = this.querySelector('.sky-reflection');
-            
-            // Add a subtle glow based on the sky type
             const skyType = this.getAttribute('data-sky');
             let glowColor;
             
@@ -138,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     glowColor = 'rgba(255, 105, 180, 0.4)';
                     break;
                 default:
-                    glowColor = 'rgba(0, 0, 0, 0.2)';
+                    glowColor = 'rgba(135, 206, 250, 0.3)';
             }
             
             preview.style.boxShadow = `0 5px 20px ${glowColor}`;
@@ -180,37 +222,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateOrbWithSelection(sky) {
         if (!sky) return;
         
-        // Change orb content to show selection
-        orbInner.innerHTML = `<div style="font-size: 1.5rem;">${sky.icon}</div>`;
+        // Update emoji to match selection
+        orbEmoji.textContent = sky.icon;
         
-        // Create a ripple effect with the color of the selection
-        createRipple(selectorOrb, 'rgba(0, 0, 0, 0.1)');
-    }
-    
-    // Create ripple effect
-    function createRipple(element, color) {
-        const ripple = document.createElement('div');
-        ripple.style.position = 'absolute';
-        ripple.style.width = '100%';
-        ripple.style.height = '100%';
-        ripple.style.borderRadius = '50%';
-        ripple.style.backgroundColor = color;
-        ripple.style.transform = 'scale(0)';
-        ripple.style.opacity = '1';
-        ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+        // Keep the emoji visible after selection
+        orbEmoji.style.opacity = '1';
+        orbEmoji.style.transform = 'scale(1)';
         
-        element.appendChild(ripple);
-        
-        // Trigger the animation
-        setTimeout(() => {
-            ripple.style.transform = 'scale(3)';
-            ripple.style.opacity = '0';
-        }, 10);
-        
-        // Remove the ripple element after animation
-        setTimeout(() => {
-            element.removeChild(ripple);
-        }, 700);
+        // Hide the text
+        orbInner.style.opacity = '0';
     }
     
     // Apply sky effect to page
@@ -265,10 +285,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add shadow and reduce height on scroll
         if (scrollTop > 10) {
             navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            navbar.style.height = '60px';
+            if (window.innerWidth > 480) {
+                navbar.style.height = '60px';
+            } else {
+                navbar.style.height = '50px';
+            }
         } else {
             navbar.style.boxShadow = 'none';
-            navbar.style.height = '70px';
+            if (window.innerWidth > 480) {
+                navbar.style.height = '70px';
+            } else {
+                navbar.style.height = '60px';
+            }
         }
     });
     
@@ -294,5 +322,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Adjust stars for window size
         starsContainer.innerHTML = '';
         createStars();
+        
+        // Adjust navbar height
+        if (window.innerWidth <= 480) {
+            navbar.style.height = '60px';
+        } else {
+            navbar.style.height = '70px';
+        }
     });
 });
