@@ -1,59 +1,45 @@
-<nav class="navbar" id="navbar">
-  <div class="nav-container">
-    <a href="/" class="logo">
-      BLEND OF SKIES
-      <span class="tagline">what sky are you?</span>
-    </a>
-    <ul class="nav-menu" id="nav-menu">
-      <li class="nav-item" data-dropdown="dropdown1">
-        <a href="#" class="nav-link">Choose Your Sky</a>
-      </li>
-      <li class="nav-item">
-        <a href="/blended-sky" class="nav-link">Blended Sky</a>
-      </li>
-      <li class="nav-item">
-        <a href="/about" class="nav-link">About</a>
-      </li>
-      <li class="nav-item">
-        <a href="/journal" class="nav-link">Journal</a>
-      </li>
-    </ul>
-    <div class="nav-utils">
-      <a href="#" class="nav-util-link">Search</a>
-      <a href="#" class="nav-util-link">Account</a>
-      <a href="#" class="nav-util-link">Bag (0)</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Blend Navigation</title>
+    <link rel="stylesheet" href="navbar.css">
+</head>
+<body>
+    <nav class="sticky-navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>Blend of Skies</h1>
+            </div>
+            
+            <div class="navbar-center">
+                <div class="dropdown">
+                    <button class="dropbtn">Choose Your Sky</button>
+                    <div class="dropdown-content">
+                        <a href="#">🌤️ Clear Blue - A pristine blue canvas with gentle wisps</a>
+                        <a href="#">🌅 Sunset Glow - Rich colors painting the evening horizon</a>
+                        <a href="#">⛈️ Storm Brewing - Dramatic clouds with lightning potential</a>
+                        <a href="#">🌌 Starry Night - Deep space visualization with twinkling stars</a>
+                        <a href="#">🌈 Rainbow Sky - Colorful arc stretching across after rain</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navbar-right">
+                <!-- This space intentionally left empty for future elements -->
+            </div>
+        </div>
+    </nav>
+    
+    <div class="content">
+        <!-- Your page content goes here -->
+        <h2>Welcome to Blend of Skies</h2>
+        <p>Scroll down to see the sticky navigation in action!</p>
+        <!-- Add more content to enable scrolling -->
+        <div style="height: 1500px;"></div>
     </div>
-    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
 
-  <div class="dropdown-wrapper" id="dropdown-wrapper">
-    <div id="dropdown1" class="dropdown-container">
-      <div class="sky-grid">
-        <div class="sky-item">
-          <a href="/sky/sunny" class="category-link">☀️ Sunny</a>
-          <p class="sky-description">Bright. Clear. Energized.</p>
-        </div>
-        <div class="sky-item">
-          <a href="/sky/stormy" class="category-link">🌩 Stormy</a>
-          <p class="sky-description">Dramatic. Bold. Loud mood.</p>
-        </div>
-        <div class="sky-item">
-          <a href="/sky/foggy" class="category-link">🌫 Foggy</a>
-          <p class="sky-description">Low-key. Introspective. Blurry thoughts.</p>
-        </div>
-        <div class="sky-item">
-          <a href="/sky/snowy" class="category-link">❄️ Snowy</a>
-          <p class="sky-description">Clean. Calm. Cold beauty.</p>
-        </div>
-        <div class="sky-item">
-          <a href="/sky/midnight" class="category-link">🌙 Midnight</a>
-          <p class="sky-description">Dark. Dreamy. Deep thinking.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+    <script src="navbar.js"></script>
+</body>
+</html>
