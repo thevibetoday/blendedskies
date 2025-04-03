@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Navbar elements
     const skySelector = document.querySelector('.sky-selector');
     const skyPanorama = document.querySelector('.sky-panorama');
     const skyBackdrop = document.querySelector('.sky-backdrop');
@@ -7,30 +8,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const orbInner = document.querySelector('.orb-inner');
     const inventoryBody = document.querySelector('.inventory-body');
     
-    const filterPanel = document.querySelector('.filter-panel');
-    const filterToggle = document.querySelector('.filter-toggle');
-    const clearFiltersBtn = document.querySelector('.clear-filters');
-    const applyFiltersBtn = document.querySelector('.apply-filters');
-    const filterOptions = document.querySelectorAll('.filter-option input[type="checkbox"]');
-    const productCards = document.querySelectorAll('.product-card');
-    const filterSkyOptions = document.querySelectorAll('input[name="sky"]');
+    // Filtering elements
+    const skyFilters = document.querySelectorAll('.filter-circle[data-filter="sky"]');
+    const typeFilters = document.querySelectorAll('.filter-chip[data-filter="type"]');
+    const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
+    const colorCheckboxes = document.querySelectorAll('input[name="color"]');
+    const advancedToggle = document.querySelector('.advanced-toggle');
+    const advancedFilters = document.querySelector('.advanced-filters');
+    const productItems = document.querySelectorAll('.product-item');
+    const productCount = document.querySelector('.count-number');
     
-    const resultsCount = document.querySelector('.results-count');
+    // View and Sort elements
+    const viewButtons = document.querySelectorAll('.view-btn');
+    const productGrid = document.querySelector('.product-grid');
     const sortSelect = document.getElementById('sort-select');
-    const quickAddButtons = document.querySelectorAll('.quick-add');
+    
+    // Action buttons
+    const actionButtons = document.querySelectorAll('.action-btn');
     const paginationButtons = document.querySelectorAll('.pagination button');
     
+    // Initialize state
+    let activeFilters = {
+        sky: ['blended'],
+        type: ['all'],
+        sizes: ['m'],
+        colors: ['blue']
+    };
+    
+    // Navbar Functionality
     if (skySelector && skyPanorama && skyBackdrop) {
-        skySelector.onclick = function(e) {
+        skySelector.addEventListener('click', function(e) {
             e.preventDefault();
             skyPanorama.classList.toggle('open');
             skyBackdrop.classList.toggle('active');
-        };
+        });
         
-        skyBackdrop.onclick = function() {
+        skyBackdrop.addEventListener('click', function() {
             skyPanorama.classList.remove('open');
             skyBackdrop.classList.remove('active');
-        };
+        });
         
         skyOptions.forEach(option => {
             option.addEventListener('click', function(e) {
@@ -46,13 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     inventoryBody.className = 'inventory-body';
                     inventoryBody.classList.add(`sky-${skyType}`);
                     
-                    // Also update the filter checkbox
-                    filterSkyOptions.forEach(option => {
-                        option.checked = option.value === skyType;
+                    // Update sky filter circles
+                    skyFilters.forEach(filter => {
+                        filter.classList.remove('active');
+                        if (filter.getAttribute('data-value') === skyType) {
+                            filter.classList.add('active');
+                        }
                     });
                     
-                    // Filter products based on sky selection
-                    updateProductFilters();
+                    // Update active filters
+                    activeFilters.sky = [skyType];
+                    
+                    // Apply filters
+                    applyFilters();
                 }
                 
                 setTimeout(function() {
@@ -62,176 +84,182 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        skySelector.onmouseenter = function() {
-            orbEmoji.style.opacity = '1';
-            orbInner.style.opacity = '0';
-        };
-        
-        skySelector.onmouseleave = function() {
-            if (orbEmoji.textContent === '🌤️') {
-                orbEmoji.style.opacity = '0';
-                orbInner.style.opacity = '1';
-            }
-        };
+        if (skySelector && orbEmoji && orbInner) {
+            skySelector.addEventListener('mouseenter', function() {
+                orbEmoji.style.opacity = '1';
+                orbInner.style.opacity = '0';
+            });
+            
+            skySelector.addEventListener('mouseleave', function() {
+                if (orbEmoji.textContent === '🌤️' && !skyPanorama.classList.contains('open')) {
+                    orbEmoji.style.opacity = '0';
+                    orbInner.style.opacity = '1';
+                }
+            });
+        }
     }
     
-    // Filter panel toggle (for mobile)
-    if (filterToggle && filterPanel) {
-        filterToggle.addEventListener('click', function() {
-            filterPanel.classList.toggle('expanded');
-            this.textContent = filterPanel.classList.contains('expanded') ? 'Close' : 'Filters';
+    // Advanced filters toggle
+    if (advancedToggle && advancedFilters) {
+        advancedToggle.addEventListener('click', function() {
+            this.classList.toggle('expanded');
+            advancedFilters.classList.toggle('expanded');
+            this.querySelector('.toggle-text').textContent = 
+                advancedFilters.classList.contains('expanded') ? 'Less Filters' : 'More Filters';
+        });
+    }
+    
+    // View toggle functionality
+    if (viewButtons.length > 0 && productGrid) {
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const viewType = this.getAttribute('data-view');
+                
+                // Remove active class from all view buttons
+                viewButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update grid view
+                if (viewType === 'grid') {
+                    productGrid.classList.remove('flow-view');
+                } else if (viewType === 'flow') {
+                    productGrid.classList.add('flow-view');
+                }
+            });
         });
     }
     
     // Filter functionality
-    function updateProductFilters() {
-        const selectedSizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map(input => input.value);
-        const selectedTypes = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(input => input.value);
-        const selectedColors = Array.from(document.querySelectorAll('input[name="color"]:checked')).map(input => input.value);
-        const selectedSkies = Array.from(document.querySelectorAll('input[name="sky"]:checked')).map(input => input.value);
-        
+    function applyFilters() {
         let visibleCount = 0;
         
-        productCards.forEach(card => {
-            const cardSizes = card.getAttribute('data-sizes').split(',');
-            const cardType = card.getAttribute('data-type');
-            const cardColors = card.getAttribute('data-colors').split(',');
-            const cardSky = card.getAttribute('data-sky');
+        productItems.forEach(item => {
+            const sky = item.getAttribute('data-sky');
+            const type = item.getAttribute('data-type');
+            const sizes = item.getAttribute('data-sizes').split(',');
+            const colors = item.getAttribute('data-colors').split(',');
             
-            const matchesSky = selectedSkies.length === 0 || selectedSkies.includes(cardSky);
-            const matchesType = selectedTypes.length === 0 || selectedTypes.includes(cardType);
-            const matchesSizes = selectedSizes.length === 0 || cardSizes.some(size => selectedSizes.includes(size));
-            const matchesColors = selectedColors.length === 0 || cardColors.some(color => selectedColors.includes(color));
+            // Check if the item matches all active filters
+            const matchesSky = activeFilters.sky.includes('all') || activeFilters.sky.includes(sky);
+            const matchesType = activeFilters.type.includes('all') || activeFilters.type.includes(type);
+            const matchesSize = activeFilters.sizes.length === 0 || 
+                             sizes.some(size => activeFilters.sizes.includes(size));
+            const matchesColor = activeFilters.colors.length === 0 || 
+                              colors.some(color => activeFilters.colors.includes(color));
             
-            const isVisible = matchesSky && matchesType && matchesSizes && matchesColors;
+            const isVisible = matchesSky && matchesType && matchesSize && matchesColor;
             
-            card.style.display = isVisible ? 'block' : 'none';
+            // Show or hide the item
+            item.style.display = isVisible ? '' : 'none';
             
             if (isVisible) {
                 visibleCount++;
             }
         });
         
-        // Update results count
-        if (resultsCount) {
-            resultsCount.textContent = `${visibleCount} Items`;
+        // Update product count
+        if (productCount) {
+            productCount.textContent = visibleCount;
         }
+        
+        return visibleCount;
     }
     
-    // Initialize filters
-    if (filterOptions.length > 0) {
-        filterOptions.forEach(option => {
-            option.addEventListener('change', function() {
-                if (applyFiltersBtn) {
-                    // Highlight apply button when selections change
-                    applyFiltersBtn.classList.add('highlight');
-                }
-            });
-        });
-    }
-    
-    // Apply filters button
-    if (applyFiltersBtn) {
-        applyFiltersBtn.addEventListener('click', function() {
-            updateProductFilters();
-            this.classList.remove('highlight');
-            
-            // On mobile, close the filter panel
-            if (window.innerWidth < 900 && filterPanel) {
-                filterPanel.classList.remove('expanded');
-                if (filterToggle) {
-                    filterToggle.textContent = 'Filters';
-                }
-            }
-        });
-    }
-    
-    // Clear filters button
-    if (clearFiltersBtn) {
-        clearFiltersBtn.addEventListener('click', function() {
-            filterOptions.forEach(option => {
-                option.checked = false;
-            });
-            
-            // Reset to default selections
-            if (document.querySelector('input[name="sky"][value="blended"]')) {
-                document.querySelector('input[name="sky"][value="blended"]').checked = true;
-            }
-            
-            if (document.querySelector('input[name="type"][value="tee"]')) {
-                document.querySelector('input[name="type"][value="tee"]').checked = true;
-            }
-            
-            if (document.querySelector('input[name="size"][value="m"]')) {
-                document.querySelector('input[name="size"][value="m"]').checked = true;
-            }
-            
-            if (document.querySelector('input[name="color"][value="blue"]')) {
-                document.querySelector('input[name="color"][value="blue"]').checked = true;
-            }
-            
-            updateProductFilters();
-            
-            // Reset theme
-            if (inventoryBody) {
-                inventoryBody.className = 'inventory-body sky-blended';
-            }
-            
-            // Reset navbar emoji
-            if (orbEmoji) {
-                orbEmoji.textContent = '🌥️';
-            }
-        });
-    }
-    
-    // Quick add functionality
-    if (quickAddButtons.length > 0) {
-        quickAddButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const productCard = this.closest('.product-card');
-                const productTitle = productCard.querySelector('.product-title').textContent;
+    // Sky filter
+    if (skyFilters.length > 0) {
+        skyFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-value');
                 
-                // Simple animation and feedback
-                this.textContent = 'Added!';
-                this.style.backgroundColor = 'rgba(0, 128, 0, 0.7)';
+                // Remove active class from all sky filters
+                skyFilters.forEach(f => f.classList.remove('active'));
                 
-                setTimeout(() => {
-                    this.textContent = 'Quick Add';
-                    this.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-                }, 1500);
+                // Add active class to clicked filter
+                this.classList.add('active');
                 
-                // Create notification
-                const notification = document.createElement('div');
-                notification.className = 'add-notification';
-                notification.innerHTML = `<span>${productTitle} added to bag</span>`;
-                document.body.appendChild(notification);
+                // Update active filters
+                activeFilters.sky = [filterValue];
                 
-                setTimeout(() => {
-                    notification.classList.add('show');
+                // Apply filters
+                applyFilters();
+                
+                // Update the navbar and body class to match selected sky
+                if (orbEmoji && inventoryBody) {
+                    // Find the matching sky icon
+                    const skyIcon = this.querySelector('.sky-dot').textContent;
+                    orbEmoji.textContent = skyIcon;
+                    orbEmoji.style.opacity = '1';
+                    if (orbInner) orbInner.style.opacity = '0';
                     
-                    setTimeout(() => {
-                        notification.classList.remove('show');
-                        setTimeout(() => {
-                            document.body.removeChild(notification);
-                        }, 300);
-                    }, 2000);
-                }, 10);
+                    // Update body class
+                    inventoryBody.className = 'inventory-body';
+                    inventoryBody.classList.add(`sky-${filterValue}`);
+                }
+            });
+        });
+    }
+    
+    // Type filter
+    if (typeFilters.length > 0) {
+        typeFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-value');
+                
+                // Remove active class from all type filters
+                typeFilters.forEach(f => f.classList.remove('active'));
+                
+                // Add active class to clicked filter
+                this.classList.add('active');
+                
+                // Update active filters
+                activeFilters.type = [filterValue];
+                
+                // Apply filters
+                applyFilters();
+            });
+        });
+    }
+    
+    // Size filter
+    if (sizeCheckboxes.length > 0) {
+        sizeCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Update active filters
+                activeFilters.sizes = Array.from(sizeCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                // Apply filters
+                applyFilters();
+            });
+        });
+    }
+    
+    // Color filter
+    if (colorCheckboxes.length > 0) {
+        colorCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Update active filters
+                activeFilters.colors = Array.from(colorCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                // Apply filters
+                applyFilters();
             });
         });
     }
     
     // Sort functionality
-    if (sortSelect) {
+    if (sortSelect && productGrid) {
         sortSelect.addEventListener('change', function() {
             const sortValue = this.value;
-            const productGrid = document.querySelector('.product-grid');
+            const items = Array.from(productItems);
             
-            if (!productGrid) return;
-            
-            const products = Array.from(productCards);
-            
-            // Sort products
-            products.sort((a, b) => {
+            // Sort items based on selected option
+            items.sort((a, b) => {
                 const priceA = parseFloat(a.querySelector('.product-price').textContent.replace('$', ''));
                 const priceB = parseFloat(b.querySelector('.product-price').textContent.replace('$', ''));
                 
@@ -241,13 +269,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     case 'price-high':
                         return priceB - priceA;
                     case 'bestsellers':
-                        // For demo purposes, randomize
+                        // Simulate bestsellers with a random sort for demo
                         return 0.5 - Math.random();
                     default: // newest
-                        // For demo purposes, use current order
+                        // For demo, newest is the original order
                         return 0;
                 }
             });
+            
+            // Reorder items in the DOM
+            items.forEach(item => {
+                productGrid.appendChild(item);
+            });
+            
             
             // Reapply filters after sorting
             updateProductFilters();
