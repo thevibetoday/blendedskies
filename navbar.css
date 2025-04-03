@@ -35,11 +35,13 @@ html, body {
     transition: opacity 0.6s ease;
     pointer-events: none;
     z-index: 100;
+    display: block;
 }
 
 .sky-backdrop.active {
     opacity: 1;
     pointer-events: auto;
+    display: block;
 }
 
 /* Stars background */
@@ -237,10 +239,12 @@ html, body {
     z-index: 999;
     transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
 .sky-panorama.open {
-    height: 320px;
+    height: 320px !important;
+    display: block;
 }
 
 .sky-options {
