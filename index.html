@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
   <title>Blend of Skies - Locked Quiz</title>
   <style>
+    /* Base Styles */
     :root {
-      --bg: #f1f5f9;
-      --dark: #1a202c;
-      --light: #718096;
+      --bg: #f5f7fa;
+      --text: #1a202c;
       --accent: #4299e1;
       --transition: 0.3s ease;
     }
@@ -20,20 +20,24 @@
     }
     body {
       background: var(--bg);
-      color: var(--dark);
+      color: var(--text);
       transition: var(--transition);
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden; /* Keep body from scrolling behind the overlay */
       position: relative;
     }
+
+    /********************************
+     *  LOCK OVERLAY (PASSWORD GATE)
+     ********************************/
     .lock-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
+      inset: 0;
+      background: rgba(0,0,0,0.8);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       z-index: 9999;
     }
     .lock-box {
@@ -48,6 +52,12 @@
     .lock-box h1 {
       font-size: 1.2rem;
       margin-bottom: 1rem;
+    }
+    .lock-box p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+      color: #444;
     }
     .lock-box input {
       width: 100%;
@@ -70,14 +80,18 @@
     }
     .lock-box button:hover {
       transform: translateY(-2px);
-      background: #3078c8;
+      background: #327ac4;
     }
     .lock-error {
       color: red;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       margin-bottom: 0.5rem;
       display: none;
     }
+
+    /********************************
+     *  NAVBAR (DO NOT TOUCH/EDIT)
+     ********************************/
     .cosmic-navbar {
       display: flex;
       align-items: center;
@@ -88,7 +102,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
     .brand-container {
       display: flex;
@@ -107,16 +121,18 @@
       border-radius: 50%;
       background: var(--accent);
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
     }
     .satellite {
       width: 6px;
       height: 6px;
-      background: white;
+      background: #fff;
       border-radius: 50%;
       position: absolute;
-      top: 2px; left: 50%;
+      top: 2px;
+      left: 50%;
       transform: translateX(-50%);
       animation: orbit 3s linear infinite;
     }
@@ -138,7 +154,7 @@
       height: 60px;
       background: linear-gradient(135deg, #edf2f7, #ffffff);
       border-radius: 50%;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -156,7 +172,7 @@
       font-size: 0.6rem;
       font-weight: 600;
       line-height: 1.2;
-      color: var(--dark);
+      color: var(--text);
     }
     .selector-emoji {
       position: absolute;
@@ -164,88 +180,14 @@
       opacity: 0;
       transition: opacity var(--transition);
     }
-    .sky-backdrop {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.45);
-      z-index: 900;
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-    }
-    .sky-backdrop.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .sky-panorama {
-      position: fixed;
-      top: 70px; left: 0;
-      width: 100%;
-      background: #fff;
-      padding: 2rem;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      transform: translateY(-130%);
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-      z-index: 950;
-    }
-    .sky-panorama.open {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
-    .sky-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-    }
-    .sky-option {
-      width: 120px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .sky-option:hover {
-      transform: translateY(-4px);
-    }
-    .sky-preview {
-      width: 100%;
-      height: 80px;
-      background: #edf2f7;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      position: relative;
-    }
-    .sky-icon {
-      font-size: 2rem;
-    }
-    .sky-reflection {
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 15px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
-      transform: scaleY(-1);
-    }
-    .sky-details h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 0.2rem;
-    }
-    .sky-details p {
-      font-size: 0.8rem;
-      color: var(--light);
-    }
+
+    /********************************
+     *  FUN QUIZ
+     ********************************/
     .container {
-      max-width: 900px;
-      margin: 3rem auto;
-      padding: 0 1rem;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
     }
     .quiz-wrapper {
       background: #fff;
@@ -260,12 +202,8 @@
       margin-bottom: 1.5rem;
     }
     .quiz-header h2 {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       margin-bottom: 0.5rem;
-    }
-    .quiz-header p {
-      font-size: 0.95rem;
-      color: var(--light);
     }
     .quiz-step {
       display: none;
@@ -282,6 +220,7 @@
       font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 1rem;
+      text-align: center;
     }
     .options-grid {
       display: grid;
@@ -315,8 +254,10 @@
     }
     .option-desc {
       font-size: 0.85rem;
-      color: var(--light);
+      line-height: 1.4;
+      color: #555;
     }
+
     .loading-screen {
       display: none;
       background: rgba(255,255,255,0.95);
@@ -325,19 +266,11 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      animation: fadeIn 0.4s ease;
       z-index: 10;
+      animation: fadeIn 0.4s ease;
     }
     .loading-screen.active {
       display: flex;
-    }
-    .loading-text {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 1rem;
-      color: var(--dark);
-      text-align: center;
-      max-width: 300px;
     }
     .spinner {
       width: 40px;
@@ -351,10 +284,18 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--text);
+      max-width: 300px;
+      text-align: center;
+      line-height: 1.4;
+    }
     .quiz-result-final {
       display: none;
       text-align: center;
-      margin-top: 1rem;
       animation: fadeIn 0.4s ease;
     }
     .quiz-result-final.active {
@@ -365,41 +306,32 @@
       margin-bottom: 0.5rem;
     }
     .final-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: var(--accent);
       margin-bottom: 0.5rem;
     }
     .final-desc {
       font-size: 0.9rem;
-      color: var(--light);
+      color: #555;
       max-width: 500px;
       margin: 0.5rem auto;
-    }
-    .sky-happy {
-      background: linear-gradient(to bottom, #f0fff4, #f7fafc);
-    }
-    .sky-angry {
-      background: linear-gradient(to bottom, #fff5f5, #fed7d7);
-    }
-    .sky-sad {
-      background: linear-gradient(to bottom, #e2e8f0, #edf2f7);
-    }
-    .sky-normal {
-      background: var(--bg);
+      line-height: 1.4;
     }
   </style>
 </head>
-<body class="sky-normal">
+<body>
+  <!-- Password Overlay -->
   <div class="lock-overlay" id="lockOverlay">
     <div class="lock-box">
-      <h1>Enter Password</h1>
-      <p class="lock-error" id="lockError">Wrong password. Try again.</p>
-      <input type="password" id="lockPassword" placeholder="Password" autocomplete="new-password">
-      <button id="lockButton">Unlock</button>
+      <h1>Private Access</h1>
+      <p>Enter the secret password to unlock the page.</p>
+      <p class="lock-error" id="lockError">Incorrect. Try again!</p>
+      <input type="password" id="lockPassword" placeholder="Password here" autocomplete="new-password">
+      <button id="unlockBtn">Let Me In</button>
     </div>
   </div>
 
-  <div class="sky-backdrop"></div>
+  <!-- Navbar (unchanged) -->
   <nav class="cosmic-navbar">
     <div class="brand-container">
       <div class="brand-icon">
@@ -418,231 +350,242 @@
       <div class="selector-emoji">🌤️</div>
     </div>
   </nav>
+
+  <!-- Hidden sky menu -->
+  <div class="sky-backdrop"></div>
   <div class="sky-panorama">
     <div class="sky-options">
+      <!-- Just reusing old approach; can keep or omit -->
       <div class="sky-option" data-sky="happy">
         <div class="sky-preview">
-          <div class="sky-icon">😊</div>
+          <div class="sky-icon">😁</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
           <h3>Happy</h3>
-          <p>Upbeat & unstoppable</p>
+          <p>All smiles here</p>
         </div>
       </div>
-      <div class="sky-option" data-sky="angry">
+      <div class="sky-option" data-sky="chill">
         <div class="sky-preview">
-          <div class="sky-icon">😡</div>
+          <div class="sky-icon">😎</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
-          <h3>Angry</h3>
-          <p>Rant mode: ON</p>
-        </div>
-      </div>
-      <div class="sky-option" data-sky="sad">
-        <div class="sky-preview">
-          <div class="sky-icon">😔</div>
-          <div class="sky-reflection"></div>
-        </div>
-        <div class="sky-details">
-          <h3>Sad</h3>
-          <p>Low-key, but still styling</p>
-        </div>
-      </div>
-      <div class="sky-option" data-sky="normal">
-        <div class="sky-preview">
-          <div class="sky-icon">😐</div>
-          <div class="sky-reflection"></div>
-        </div>
-        <div class="sky-details">
-          <h3>Normal</h3>
-          <p>Steady as she goes</p>
+          <h3>Chill</h3>
+          <p>Laid-back vibe</p>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Main Content -->
   <div class="container">
     <div class="quiz-wrapper">
       <div class="quiz-header">
-        <h2>What’s Your Current Situation?</h2>
-        <p>We’ll keep track of these details—trust us, it's worth it.</p>
+        <h2>Pick Your Tee Vibe</h2>
+        <p>Help us figure out which T-shirt designs you'll actually wear. No judgment—just your style.</p>
       </div>
+      
+      <!-- Step 1 -->
       <div class="quiz-step active" data-step="1">
-        <h3 class="step-question">1. How's your mood today?</h3>
+        <h3 class="step-question">1. Your general mood these days?</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="happy">
-            <div class="option-icon">😀</div>
-            <div class="option-title">Happy</div>
-            <div class="option-desc">All sunshine, no clouds.</div>
+          <div class="option-card" data-value="chill">
+            <div class="option-icon">😌</div>
+            <div class="option-title">Chill AF</div>
+            <div class="option-desc">Nothing bothers me; I'm breezy like Sunday morning.</div>
           </div>
-          <div class="option-card" data-value="angry">
-            <div class="option-icon">🤬</div>
-            <div class="option-title">Angry</div>
-            <div class="option-desc">Caution: meltdown risk.</div>
+          <div class="option-card" data-value="amped">
+            <div class="option-icon">🤘</div>
+            <div class="option-title">Fired Up</div>
+            <div class="option-desc">I’m all about big energy, let's go!</div>
           </div>
-          <div class="option-card" data-value="sad">
-            <div class="option-icon">😢</div>
-            <div class="option-title">Sad / Depressed</div>
-            <div class="option-desc">Rainy day feels.</div>
+          <div class="option-card" data-value="silly">
+            <div class="option-icon">🤪</div>
+            <div class="option-title">Goofy</div>
+            <div class="option-desc">Cracking jokes, wearing weird stuff—life's a party.</div>
           </div>
-          <div class="option-card" data-value="normal">
-            <div class="option-icon">😶</div>
-            <div class="option-title">Normal</div>
-            <div class="option-desc">Nothing fancy, just chilling.</div>
+          <div class="option-card" data-value="neutral">
+            <div class="option-icon">😐</div>
+            <div class="option-title">Just Normal</div>
+            <div class="option-desc">No extremes, just me and my T-shirt collection.</div>
           </div>
         </div>
       </div>
+
+      <!-- Step 2 -->
       <div class="quiz-step" data-step="2">
-        <h3 class="step-question">2. Which style do you claim?</h3>
+        <h3 class="step-question">2. Pick a tee style you'd rock on any random day</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="casual">
-            <div class="option-icon">👕</div>
-            <div class="option-title">Casual</div>
-            <div class="option-desc">No fuss, easy vibe.</div>
+          <div class="option-card" data-value="clean">
+            <div class="option-icon">🧼</div>
+            <div class="option-title">Clean Minimal</div>
+            <div class="option-desc">No big graphics. Simple, subtle text or design.</div>
           </div>
-          <div class="option-card" data-value="preppy">
-            <div class="option-icon">🧑‍💼</div>
-            <div class="option-title">Preppy</div>
-            <div class="option-desc">Collars, neat lines, all that jazz.</div>
+          <div class="option-card" data-value="loud">
+            <div class="option-icon">🔊</div>
+            <div class="option-title">Loud & Proud</div>
+            <div class="option-desc">Bold prints, bright colors, can't miss me in a crowd.</div>
           </div>
-          <div class="option-card" data-value="street">
-            <div class="option-icon">🧢</div>
-            <div class="option-title">Streetish</div>
-            <div class="option-desc">Cool & edgy, block by block.</div>
+          <div class="option-card" data-value="text">
+            <div class="option-icon">📝</div>
+            <div class="option-title">Slogan Tee</div>
+            <div class="option-desc">Funny phrases, witty lines—wear your thoughts out loud.</div>
           </div>
-          <div class="option-card" data-value="whacky">
-            <div class="option-icon">🎉</div>
-            <div class="option-title">Whacky</div>
-            <div class="option-desc">Loud, eccentric, no apologies.</div>
+          <div class="option-card" data-value="graphic">
+            <div class="option-icon">🎨</div>
+            <div class="option-title">Graphic Art</div>
+            <div class="option-desc">Cool illustrations, album-cover vibes, artsy touches.</div>
           </div>
         </div>
       </div>
+      
+      <!-- Step 3 -->
       <div class="quiz-step" data-step="3">
-        <h3 class="step-question">3. Let's be real: your body shape?</h3>
+        <h3 class="step-question">3. Fit preference? (We got all shapes covered.)</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="skinny">
-            <div class="option-icon">🏃</div>
-            <div class="option-title">Lean & Mean</div>
-            <div class="option-desc">Slim builds, proud of it.</div>
+          <div class="option-card" data-value="fitted">
+            <div class="option-icon">🤏</div>
+            <div class="option-title">Fitted</div>
+            <div class="option-desc">Love it hugging me close—no baggy corners.</div>
           </div>
-          <div class="option-card" data-value="fat">
-            <div class="option-icon">🐻</div>
-            <div class="option-title">Big & Bold</div>
-            <div class="option-desc">Plenty to love, no shame.</div>
+          <div class="option-card" data-value="relaxed">
+            <div class="option-icon">🧸</div>
+            <div class="option-title">Relaxed</div>
+            <div class="option-desc">Comfort is king, let me breathe and move.</div>
           </div>
-          <div class="option-card" data-value="average">
-            <div class="option-icon">👨</div>
-            <div class="option-title">Average-ish</div>
-            <div class="option-desc">Neither here nor there, just you.</div>
+          <div class="option-card" data-value="oversized">
+            <div class="option-icon">🪂</div>
+            <div class="option-title">Oversized</div>
+            <div class="option-desc">Baggy is life. I want it big and roomy.</div>
           </div>
-          <div class="option-card" data-value="flex">
-            <div class="option-icon">🌀</div>
-            <div class="option-title">All Over</div>
-            <div class="option-desc">Fluctuates, subject to pizza nights.</div>
+          <div class="option-card" data-value="varies">
+            <div class="option-icon">🔄</div>
+            <div class="option-title">Depends on Mood</div>
+            <div class="option-desc">Some days I show shape, other days I hide in fabric.</div>
           </div>
         </div>
       </div>
+
+      <!-- Loading -->
       <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
-        <div class="loading-text">Activating style-lab. Stand by...</div>
+        <div class="loading-text">Analyzing your T-shirt destiny... Hold tight.</div>
       </div>
+
+      <!-- Final -->
       <div class="quiz-result-final" id="finalResult">
-        <div class="final-icon">🔒</div>
-        <h2 class="final-title">We’ve Logged Your Stats</h2>
-        <p class="final-desc">No spoilers yet—we’re calibrating your look in the background. Just know changes are coming. Stay tuned.</p>
+        <div class="final-icon">🎉</div>
+        <h2 class="final-title">We Got Your Tee Vibes!</h2>
+        <p class="final-desc">
+          That’s all we need. Keep browsing as usual, but expect some subtle (or not-so-subtle) suggestions 
+          that match your picks. You’ll thank us later.
+        </p>
       </div>
     </div>
   </div>
+
   <script>
-    const MASTER_PASSWORD="Secret123";
+    // ********** PASSWORD LOCK **********
+    const MASTER_PASSWORD = "Secret123";  // Change this to anything you like.
     document.addEventListener('DOMContentLoaded',function(){
-      const lockOverlay=document.getElementById('lockOverlay');
-      const lockError=document.getElementById('lockError');
-      const lockButton=document.getElementById('lockButton');
-      const lockPassword=document.getElementById('lockPassword');
-      lockButton.onclick=function(){
-        if(lockPassword.value===MASTER_PASSWORD){
-          lockOverlay.style.display='none';
+      const lockOverlay = document.getElementById('lockOverlay');
+      const lockError = document.getElementById('lockError');
+      const lockPassword = document.getElementById('lockPassword');
+      const unlockBtn = document.getElementById('unlockBtn');
+
+      unlockBtn.onclick = function(){
+        if(lockPassword.value === MASTER_PASSWORD){
+          // Hide overlay, allow scrolling
+          lockOverlay.style.display = 'none';
+          document.body.style.overflow = 'auto';
         } else {
-          lockError.style.display='block';
+          lockError.style.display = 'block';
         }
       };
 
-      const skySelector=document.querySelector('.sky-selector');
-      const selectorEmoji=document.querySelector('.selector-emoji');
-      const selectorText=document.querySelector('.selector-inner');
-      const skyBackdrop=document.querySelector('.sky-backdrop');
-      const skyPanorama=document.querySelector('.sky-panorama');
-      const skyOptions=document.querySelectorAll('.sky-option');
-      skySelector.onclick=function(e){
+      // ********** NAVBAR SKY SELECTOR (unchanged except for inside code) **********
+      const skySelector = document.querySelector('.sky-selector');
+      const selectorEmoji = document.querySelector('.selector-emoji');
+      const selectorText = document.querySelector('.selector-inner');
+      const skyBackdrop = document.querySelector('.sky-backdrop');
+      const skyPanorama = document.querySelector('.sky-panorama');
+      const skyOptions = document.querySelectorAll('.sky-option');
+
+      skySelector.onclick = function(e){
         e.preventDefault();
         skyBackdrop.classList.toggle('active');
         skyPanorama.classList.toggle('open');
       };
-      skyBackdrop.onclick=function(){
+      skyBackdrop.onclick = function(){
         skyBackdrop.classList.remove('active');
         skyPanorama.classList.remove('open');
       };
-      function updateSky(sky){
-        document.body.className='';
-        if(sky==='happy') document.body.classList.add('sky-happy');
-        else if(sky==='angry') document.body.classList.add('sky-angry');
-        else if(sky==='sad') document.body.classList.add('sky-sad');
-        else document.body.classList.add('sky-normal');
-      }
+
       skyOptions.forEach(opt=>{
-        opt.onclick=function(e){
+        opt.onclick = function(e){
           e.preventDefault();
-          const s=this.getAttribute('data-sky');
-          updateSky(s);
-          setTimeout(function(){
+          // Just close the menu. Feel free to add body classes or style changes
+          setTimeout(()=>{
             skyBackdrop.classList.remove('active');
             skyPanorama.classList.remove('open');
           },250);
         };
       });
-      skySelector.onmouseenter=function(){
-        selectorEmoji.style.opacity='1';
-        selectorText.style.opacity='0';
+
+      skySelector.onmouseenter = function(){
+        selectorEmoji.style.opacity = '1';
+        selectorText.style.opacity = '0';
       };
-      skySelector.onmouseleave=function(){
-        if(document.body.classList.contains('sky-normal')){
-          selectorEmoji.style.opacity='0';
-          selectorText.style.opacity='1';
+      skySelector.onmouseleave = function(){
+        if(selectorEmoji.textContent === '🌤️'){
+          selectorEmoji.style.opacity = '0';
+          selectorText.style.opacity = '1';
         }
       };
 
-      const quizSteps=document.querySelectorAll('.quiz-step');
-      const optionCards=document.querySelectorAll('.option-card');
-      const loadingScreen=document.getElementById('loadingScreen');
-      const finalResult=document.getElementById('finalResult');
-      let currentStep=1;
-      const totalSteps=quizSteps.length;
-      const userAnswers={};
+      // ********** QUIZ LOGIC **********
+      const quizSteps = document.querySelectorAll('.quiz-step');
+      const optionCards = document.querySelectorAll('.option-card');
+      const loadingScreen = document.getElementById('loadingScreen');
+      const finalResult = document.getElementById('finalResult');
 
-      optionCards.forEach(card=>{
-        card.addEventListener('click',function(){
-          const parentStep=this.closest('.quiz-step');
-          const stepNum=parseInt(parentStep.getAttribute('data-step'));
-          parentStep.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
+      let currentStep = 1;
+      const totalSteps = quizSteps.length;
+      const userAnswers = {};
+
+      // Show the first step by default
+      quizSteps[0].classList.add('active');
+
+      optionCards.forEach(card => {
+        card.addEventListener('click', function(){
+          const parentStep = this.closest('.quiz-step');
+          const stepNum = parseInt(parentStep.getAttribute('data-step'));
+
+          parentStep.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
           this.classList.add('selected');
-          const val=this.getAttribute('data-value');
-          userAnswers[`step${stepNum}`]=val;
-          if(stepNum<totalSteps){
+
+          const val = this.getAttribute('data-value');
+          userAnswers[`step${stepNum}`] = val;
+
+          // Move to next or show final
+          if(stepNum < totalSteps){
             parentStep.classList.remove('active');
-            const nextStep=stepNum+1;
+            const nextStep = stepNum + 1;
             document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
-            currentStep=nextStep;
+            currentStep = nextStep;
           } else {
+            // Last step -> show loading, then final
             parentStep.classList.remove('active');
-            console.log("User's secret answers:",userAnswers);
+            console.log("User's secret T-shirt answers:", userAnswers);
+
             loadingScreen.classList.add('active');
-            setTimeout(()=>{
+            setTimeout(() => {
               loadingScreen.classList.remove('active');
               finalResult.classList.add('active');
-              // This is where you'd send userAnswers to your backend or AI system
-            },2000);
+              // Here you can send userAnswers to your backend or AI system, etc.
+            }, 2000);
           }
         });
       });
