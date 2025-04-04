@@ -130,7 +130,7 @@
     </style>
 </head>
 <body>
-    <nav class="cosmic-navbar">
+    <nav class="cosmic-navbar" style="height: 70px;">
         <div class="brand-container">
             <div class="brand-icon">
                 <div class="orbit-icon">
@@ -138,7 +138,7 @@
                     <div class="satellite"></div>
                 </div>
             </div>
-            <h1 class="brand-name">Blend of Skies</h1>
+            <div class="brand-name">Cosmic Skies</div>
         </div>
         
         <div class="sky-selector">
@@ -146,48 +146,67 @@
                 <div class="orb-inner">
                     <span>Choose</span>
                     <span>Your</span>
-                    <span>Style</span>
+                    <span>Sky</span>
                 </div>
-                <div class="orb-emoji">🎯</div>
+                <div class="orb-emoji">🌤️</div>
             </div>
         </div>
     </nav>
     
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-
-    <div class="sky-panorama">
+    <div class="sky-panorama open">
         <div class="sky-options">
-            <div class="sky-option" data-sky="shop">
+            <div class="sky-option" data-sky="clear-blue" style="opacity: 1; transform: translateY(0px);">
                 <div class="sky-preview">
-                    <div class="sky-icon">🛍️</div>
+                    <div class="sky-icon">☀️</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Shop All</h3>
-                    <p>Browse full collection</p>
+                    <h3>Sunny Day</h3>
+                    <p>Bright blue skies with sunshine</p>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="recommendations">
+            <div class="sky-option" data-sky="sunset-glow" style="opacity: 1; transform: translateY(0px);">
                 <div class="sky-preview">
-                    <div class="sky-icon">✨</div>
+                    <div class="sky-icon">🌅</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Recommendations</h3>
-                    <p>Personalized picks</p>
+                    <h3>Sunset</h3>
+                    <p>Warm golden hour vibes</p>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="about-style">
+            <div class="sky-option" data-sky="storm-brewing" style="opacity: 1; transform: translateY(0px);">
                 <div class="sky-preview">
-                    <div class="sky-icon">🤔</div>
+                    <div class="sky-icon">⛈️</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>About Style</h3>
-                    <p>Learn more about our approach</p>
+                    <h3>Storm</h3>
+                    <p>Dramatic clouds and thunder</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="starry-night" style="opacity: 1; transform: translateY(0px);">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌃</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Night</h3>
+                    <p>Peaceful starry darkness</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky" style="opacity: 1; transform: translateY(0px);">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌈</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow</h3>
+                    <p>Colorful rainbow after rain</p>
                 </div>
             </div>
         </div>
