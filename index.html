@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
-    <title>Blend of Skies - Style Quiz</title>
+    <title>Blend of Skies - Heroic Style Quiz</title>
     <style>
         :root {
-            --main-bg: #f1f5f9;
-            --dark-text: #1a202c;
+            --bg-color: #f1f5f9;
+            --text-color: #1a202c;
             --light-text: #718096;
             --accent-blue: #4299e1;
             --transition: 0.3s ease;
@@ -19,8 +19,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         body {
-            background: var(--main-bg);
-            color: var(--dark-text);
+            background: var(--bg-color);
+            color: var(--text-color);
             transition: var(--transition);
             overflow-x: hidden;
             min-height: 100vh;
@@ -44,9 +44,9 @@
             cursor: pointer;
         }
         .brand-icon {
+            position: relative;
             width: 35px;
             height: 35px;
-            position: relative;
         }
         .planet {
             width: 20px;
@@ -104,7 +104,7 @@
         .selector-text {
             font-size: 0.6rem;
             font-weight: 600;
-            color: var(--dark-text);
+            color: var(--text-color);
             line-height: 1.2;
         }
         .selector-emoji {
@@ -112,11 +112,6 @@
             font-size: 1.6rem;
             opacity: 0;
             transition: opacity var(--transition);
-        }
-        .main-container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1rem;
         }
         .sky-backdrop {
             position: fixed;
@@ -201,7 +196,12 @@
             font-size: 0.8rem;
             color: var(--light-text);
         }
-        .quiz-container {
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+        .quiz-wrapper {
             background: white;
             border-radius: 8px;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
@@ -209,7 +209,7 @@
         }
         .quiz-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         .quiz-header h2 {
             font-size: 1.6rem;
@@ -219,28 +219,10 @@
             font-size: 0.95rem;
             color: var(--light-text);
         }
-        .quiz-progress {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-        }
-        .progress-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            transition: var(--transition);
-        }
-        .progress-dot.active {
-            background: var(--accent-blue);
-            transform: scale(1.2);
-        }
-        .quiz-step {
+        .quiz-steps {
             display: none;
         }
-        .quiz-step.active {
+        .quiz-steps.active {
             display: block;
             animation: fadeIn 0.4s ease;
         }
@@ -249,9 +231,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .step-question {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
+            margin-bottom: 1rem;
         }
         .options-grid {
             display: grid;
@@ -287,37 +269,10 @@
             font-size: 0.85rem;
             color: var(--light-text);
         }
-        .step-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.5rem;
-        }
-        .nav-btn {
-            border: 1px solid #e2e8f0;
-            background: none;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .nav-btn.primary {
-            background: var(--accent-blue);
-            color: #fff;
-            border: none;
-        }
-        .nav-btn:hover {
-            transform: translateY(-2px);
-        }
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
         .quiz-results {
             display: none;
-            animation: fadeIn 0.4s ease;
             text-align: center;
+            animation: fadeIn 0.4s ease;
         }
         .results-icon {
             font-size: 2rem;
@@ -331,14 +286,19 @@
         .results-desc {
             font-size: 0.9rem;
             color: var(--light-text);
-            max-width: 400px;
-            margin: 0.5rem auto 1.5rem;
+            max-width: 500px;
+            margin: 0.5rem auto;
         }
-        .results-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+        @media (max-width: 600px) {
+            .sky-option {
+                width: 100px;
+            }
+            .sky-preview {
+                height: 70px;
+            }
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
         .sky-clear-blue {
             background: linear-gradient(to bottom, #ebf8ff, #f7fafc);
@@ -355,20 +315,6 @@
         }
         .sky-rainbow-sky {
             background: linear-gradient(135deg, #fff5f5, #fffaf0, #fefcbf, #f0fff4, #e6fffa, #ebf8ff, #ebf4ff);
-        }
-        @media (max-width: 600px) {
-            .sky-option {
-                width: 100px;
-            }
-            .sky-preview {
-                height: 70px;
-            }
-            .quiz-container {
-                padding: 1.5rem;
-            }
-            .options-grid {
-                grid-template-columns: 1fr 1fr;
-            }
         }
     </style>
 </head>
@@ -401,7 +347,7 @@
                 </div>
                 <div class="sky-details">
                     <h3>Clear Blue</h3>
-                    <p>Easy-breezy vibes</p>
+                    <p>Nothing but calm, crisp vibes</p>
                 </div>
             </div>
             <div class="sky-option" data-sky="sunset-glow">
@@ -411,7 +357,7 @@
                 </div>
                 <div class="sky-details">
                     <h3>Sunset Glow</h3>
-                    <p>Warm & radiant</p>
+                    <p>Fiery warmth meets chilled evening</p>
                 </div>
             </div>
             <div class="sky-option" data-sky="storm-brewing">
@@ -421,7 +367,7 @@
                 </div>
                 <div class="sky-details">
                     <h3>Storm Brewing</h3>
-                    <p>Moody power</p>
+                    <p>Dark and dramatic in all the best ways</p>
                 </div>
             </div>
             <div class="sky-option" data-sky="starry-night">
@@ -431,7 +377,7 @@
                 </div>
                 <div class="sky-details">
                     <h3>Starry Night</h3>
-                    <p>Quiet cosmic awe</p>
+                    <p>Infinite wonder under cosmic skies</p>
                 </div>
             </div>
             <div class="sky-option" data-sky="rainbow-sky">
@@ -441,147 +387,122 @@
                 </div>
                 <div class="sky-details">
                     <h3>Rainbow Sky</h3>
-                    <p>Bright & fun</p>
+                    <p>Cheerfully bold and full of life</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="main-container">
-        <div class="quiz-container">
+    <div class="container">
+        <div class="quiz-wrapper">
             <div class="quiz-header">
-                <h2>Sky-High Style Quiz</h2>
-                <p>Answer a few playful questions, and we'll suggest the perfect gear for your vibe.</p>
-                <div class="quiz-progress">
-                    <div class="progress-dot active"></div>
-                    <div class="progress-dot"></div>
-                    <div class="progress-dot"></div>
-                    <div class="progress-dot"></div>
-                </div>
+                <h2>Real Heroes of Wardrobe</h2>
+                <p>We salute you, oh fearless style adventurer. Answer these quick questions, and we’ll do the rest.</p>
             </div>
-            <div class="quiz-step active" data-step="1">
-                <h3 class="step-question">1. How's life treating you right now?</h3>
+            <div class="quiz-steps active" data-step="1">
+                <h3 class="step-question">1. How are you feeling right this moment?</h3>
                 <div class="options-grid">
-                    <div class="option-card" data-value="fresh">
-                        <div class="option-icon">😎</div>
-                        <div class="option-title">Pretty Chill</div>
-                        <div class="option-desc">Cruising along, no sweat.</div>
+                    <div class="option-card" data-value="winning">
+                        <div class="option-icon">💪</div>
+                        <div class="option-title">On Top Of The World</div>
+                        <div class="option-desc">Bow down, peasants—I’m unstoppable.</div>
                     </div>
-                    <div class="option-card" data-value="pumped">
-                        <div class="option-icon">🔥</div>
-                        <div class="option-title">Energized</div>
-                        <div class="option-desc">Ready to tackle anything.</div>
-                    </div>
-                    <div class="option-card" data-value="deep">
-                        <div class="option-icon">🤔</div>
-                        <div class="option-title">Thoughtful</div>
-                        <div class="option-desc">In a reflective mood.</div>
-                    </div>
-                    <div class="option-card" data-value="edgy">
-                        <div class="option-icon">💥</div>
-                        <div class="option-title">Edgy</div>
-                        <div class="option-desc">Watch out, I'm on a roll.</div>
-                    </div>
-                </div>
-                <div class="step-nav">
-                    <button class="nav-btn" disabled>Back</button>
-                    <button class="nav-btn primary next-btn" disabled>Next</button>
-                </div>
-            </div>
-            <div class="quiz-step" data-step="2">
-                <h3 class="step-question">2. Your style motto?</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="cozy">
-                        <div class="option-icon">🩳</div>
-                        <div class="option-title">Keep It Cozy</div>
-                        <div class="option-desc">Comfort is king... or queen!</div>
-                    </div>
-                    <div class="option-card" data-value="sharp">
-                        <div class="option-icon">👔</div>
-                        <div class="option-title">Stay Sharp</div>
-                        <div class="option-desc">Look professional, feel powerful.</div>
-                    </div>
-                    <div class="option-card" data-value="flashy">
-                        <div class="option-icon">🌟</div>
-                        <div class="option-title">Own the Room</div>
-                        <div class="option-desc">Bold prints, big statements.</div>
-                    </div>
-                    <div class="option-card" data-value="relaxed">
-                        <div class="option-icon">🏖️</div>
-                        <div class="option-title">Laid-Back</div>
-                        <div class="option-desc">Simple, no-fuss style.</div>
-                    </div>
-                </div>
-                <div class="step-nav">
-                    <button class="nav-btn back-btn">Back</button>
-                    <button class="nav-btn primary next-btn" disabled>Next</button>
-                </div>
-            </div>
-            <div class="quiz-step" data-step="3">
-                <h3 class="step-question">3. Preferred fit?</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="snug">
-                        <div class="option-icon">👖</div>
-                        <div class="option-title">Fitted</div>
-                        <div class="option-desc">Hugs the body, no flapping.</div>
-                    </div>
-                    <div class="option-card" data-value="loose">
+                    <div class="option-card" data-value="chill">
                         <div class="option-icon">😌</div>
-                        <div class="option-title">Loose</div>
-                        <div class="option-desc">Breathable room for snacks.</div>
+                        <div class="option-title">Pretty Chill</div>
+                        <div class="option-desc">Feet up, mind on cruise control.</div>
                     </div>
-                    <div class="option-card" data-value="classic">
-                        <div class="option-icon">💼</div>
-                        <div class="option-title">Classic</div>
-                        <div class="option-desc">Neither tight nor baggy.</div>
+                    <div class="option-card" data-value="tired">
+                        <div class="option-icon">😴</div>
+                        <div class="option-title">Running On Fumes</div>
+                        <div class="option-desc">Caffeine is my life source today.</div>
                     </div>
-                    <div class="option-card" data-value="mix">
-                        <div class="option-icon">🔁</div>
-                        <div class="option-title">Mix & Match</div>
-                        <div class="option-desc">Depends on the item.</div>
+                    <div class="option-card" data-value="mischief">
+                        <div class="option-icon">😏</div>
+                        <div class="option-title">Feeling Edgy</div>
+                        <div class="option-desc">Might start a revolution. Might take a nap.</div>
                     </div>
-                </div>
-                <div class="step-nav">
-                    <button class="nav-btn back-btn">Back</button>
-                    <button class="nav-btn primary next-btn" disabled>Next</button>
                 </div>
             </div>
-            <div class="quiz-step" data-step="4">
-                <h3 class="step-question">4. Favorite color palette?</h3>
+            <div class="quiz-steps" data-step="2">
+                <h3 class="step-question">2. Which "Look" Secretly Calls Your Name?</h3>
                 <div class="options-grid">
-                    <div class="option-card" data-value="neutrals">
-                        <div class="option-icon">⚪</div>
-                        <div class="option-title">Neutrals</div>
-                        <div class="option-desc">Whites, grays, blacks.</div>
+                    <div class="option-card" data-value="comfort-king">
+                        <div class="option-icon">🩳</div>
+                        <div class="option-title">Comfort Over Everything</div>
+                        <div class="option-desc">Sweatpants at a wedding? Don’t tempt me.</div>
                     </div>
-                    <div class="option-card" data-value="pop">
-                        <div class="option-icon">🎨</div>
-                        <div class="option-title">Pops of Color</div>
-                        <div class="option-desc">One bright splash for fun.</div>
+                    <div class="option-card" data-value="casual-cool">
+                        <div class="option-icon">👕</div>
+                        <div class="option-title">Casual & Cool</div>
+                        <div class="option-desc">Jeans, a tee, and zero regrets.</div>
                     </div>
-                    <div class="option-card" data-value="bright">
-                        <div class="option-icon">🌈</div>
-                        <div class="option-title">Bright & Loud</div>
-                        <div class="option-desc">All the colors, all day.</div>
+                    <div class="option-card" data-value="proper-pro">
+                        <div class="option-icon">🕴️</div>
+                        <div class="option-title">Slick & Polished</div>
+                        <div class="option-desc">Dress to impress. Then impress some more.</div>
                     </div>
-                    <div class="option-card" data-value="earthy">
-                        <div class="option-icon">🌿</div>
-                        <div class="option-title">Earthy Tones</div>
-                        <div class="option-desc">Greens, browns, nature feels.</div>
+                    <div class="option-card" data-value="look-at-me">
+                        <div class="option-icon">🤩</div>
+                        <div class="option-title">Flashy & Fearless</div>
+                        <div class="option-desc">Glitter, neon... the bigger, the better.</div>
                     </div>
                 </div>
-                <div class="step-nav">
-                    <button class="nav-btn back-btn">Back</button>
-                    <button class="nav-btn primary next-btn" disabled>See Results</button>
+            </div>
+            <div class="quiz-steps" data-step="3">
+                <h3 class="step-question">3. Be Honest: Your Usual Fit?</h3>
+                <div class="options-grid">
+                    <div class="option-card" data-value="tight-and-trendy">
+                        <div class="option-icon">📏</div>
+                        <div class="option-title">Snug & Trendy</div>
+                        <div class="option-desc">Because baggy is for the weak. Or so they say.</div>
+                    </div>
+                    <div class="option-card" data-value="loose-goose">
+                        <div class="option-icon">🦢</div>
+                        <div class="option-title">Breezy & Loose</div>
+                        <div class="option-desc">Arms free to flap majestically at will.</div>
+                    </div>
+                    <div class="option-card" data-value="classic-regular">
+                        <div class="option-icon">📐</div>
+                        <div class="option-title">The Goldilocks</div>
+                        <div class="option-desc">Not too tight, not too baggy—just right.</div>
+                    </div>
+                    <div class="option-card" data-value="mystery-mix">
+                        <div class="option-icon">🌀</div>
+                        <div class="option-title">Random Roulette</div>
+                        <div class="option-desc">I get what I get—life’s an adventure.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz-steps" data-step="4">
+                <h3 class="step-question">4. If Someone Glanced At Your Closet, They'd Say...</h3>
+                <div class="options-grid">
+                    <div class="option-card" data-value="neutral-kingdom">
+                        <div class="option-icon">⚪</div>
+                        <div class="option-title">50 Shades of Neutral</div>
+                        <div class="option-desc">Monochrome and proud.</div>
+                    </div>
+                    <div class="option-card" data-value="bright-pop">
+                        <div class="option-icon">🌈</div>
+                        <div class="option-title">Color Confetti</div>
+                        <div class="option-desc">Rainbows, tie-dye, neon—oh my.</div>
+                    </div>
+                    <div class="option-card" data-value="earthy-vibes">
+                        <div class="option-icon">🌿</div>
+                        <div class="option-title">Nature Tones</div>
+                        <div class="option-desc">Greens, browns... basically a walking forest.</div>
+                    </div>
+                    <div class="option-card" data-value="stealthy-black">
+                        <div class="option-icon">🕶️</div>
+                        <div class="option-title">All Black, Always</div>
+                        <div class="option-desc">Because midnight matches everything.</div>
+                    </div>
                 </div>
             </div>
             <div class="quiz-results">
                 <div class="results-icon">🌤️</div>
-                <div class="results-title">Clear Skies Ahead!</div>
-                <div class="results-desc">You've got a relaxed, yet upbeat style. We'll hook you up with comfy pieces that still turn heads. Think easy tees, flexible pants, and a dash of personality!</div>
-                <div class="results-actions">
-                    <button class="nav-btn primary shop-btn">Shop My Vibe</button>
-                    <button class="nav-btn redo-btn">Retake Quiz</button>
-                </div>
+                <h2 class="results-title">Salutations, Master of Style!</h2>
+                <p class="results-desc">Your heroic answers have been logged in our secret style vault. We’ll silently tweak your shopping experience behind the scenes—just keep being awesome, and let us work our magic.</p>
+                <p class="results-desc">Now go forth, conquering wardrobes and dispensing high-fives like the unstoppable legend you are!</p>
             </div>
         </div>
     </div>
@@ -631,117 +552,35 @@
                     selectorText.style.opacity='1';
                 }
             };
-            const quizSteps=document.querySelectorAll('.quiz-step');
-            const nextBtns=document.querySelectorAll('.next-btn');
-            const backBtns=document.querySelectorAll('.back-btn');
-            const progressDots=document.querySelectorAll('.progress-dot');
+
+            const quizSteps=document.querySelectorAll('.quiz-steps');
             const optionCards=document.querySelectorAll('.option-card');
             const quizResults=document.querySelector('.quiz-results');
-            const shopBtn=document.querySelector('.shop-btn');
-            const redoBtn=document.querySelector('.redo-btn');
             let currentStep=1;
-            let userData={life:'',motto:'',fit:'',colors:''};
+            const totalSteps=quizSteps.length;
+            let userAnswers={};
+
             optionCards.forEach(card=>{
                 card.addEventListener('click',function(){
-                    const parent=this.closest('.quiz-step');
+                    const parent=this.closest('.quiz-steps');
                     const stepNum=Number(parent.getAttribute('data-step'));
                     parent.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
                     this.classList.add('selected');
                     const val=this.getAttribute('data-value');
-                    if(stepNum===1)userData.life=val;
-                    if(stepNum===2)userData.motto=val;
-                    if(stepNum===3)userData.fit=val;
-                    if(stepNum===4)userData.colors=val;
-                    const nextBtn=parent.querySelector('.next-btn');
-                    if(nextBtn)nextBtn.disabled=false;
-                });
-            });
-            nextBtns.forEach(nb=>{
-                nb.addEventListener('click',function(){
-                    const parent=this.closest('.quiz-step');
-                    const stepNum=Number(parent.getAttribute('data-step'));
-                    if(stepNum===4){
-                        quizSteps.forEach(s=>s.classList.remove('active'));
-                        quizResults.style.display='block';
-                        displayResults();
-                    } else {
+                    userAnswers[`step${stepNum}`]=val;
+                    if(stepNum<totalSteps){
+                        parent.classList.remove('active');
                         const nextStep=stepNum+1;
                         quizSteps.forEach(s=>s.classList.remove('active'));
-                        document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
-                        progressDots[stepNum].classList.add('active');
+                        document.querySelector(`.quiz-steps[data-step="${nextStep}"]`).classList.add('active');
                         currentStep=nextStep;
-                    }
-                });
-            });
-            backBtns.forEach(bb=>{
-                bb.addEventListener('click',function(){
-                    const parent=this.closest('.quiz-step');
-                    const stepNum=Number(parent.getAttribute('data-step'));
-                    if(stepNum>1){
-                        const prev=stepNum-1;
+                    } else {
                         quizSteps.forEach(s=>s.classList.remove('active'));
-                        document.querySelector(`.quiz-step[data-step="${prev}"]`).classList.add('active');
-                        currentStep=prev;
-                        for(let i=prev;i<progressDots.length;i++){
-                            progressDots[i].classList.remove('active');
-                        }
+                        quizResults.style.display='block';
+                        console.log("User's secret answers:",userAnswers);
                     }
                 });
             });
-            function displayResults(){
-                const icon=document.querySelector('.results-icon');
-                const title=document.querySelector('.results-title');
-                const desc=document.querySelector('.results-desc');
-                if(!userData.life)userData.life='fresh';
-                switch(userData.life){
-                    case 'fresh':
-                        icon.textContent='🌤️';
-                        title.textContent='Clear Skies Ahead!';
-                        desc.textContent='You’ve got a relaxed, yet upbeat style. Perfect for laid-back items with a hint of flair.';
-                        updateSky('clear-blue','🌤️');
-                        break;
-                    case 'pumped':
-                        icon.textContent='🌅';
-                        title.textContent='Sunset Glow Energy!';
-                        desc.textContent='You thrive on warm vibes and bold moves—time for vibrant pieces that turn heads.';
-                        updateSky('sunset-glow','🌅');
-                        break;
-                    case 'deep':
-                        icon.textContent='🌌';
-                        title.textContent='Starry Night Reflection!';
-                        desc.textContent='A quieter, thoughtful approach to style. Subtle details with a unique twist.';
-                        updateSky('starry-night','🌌');
-                        break;
-                    case 'edgy':
-                        icon.textContent='⛈️';
-                        title.textContent='Storm Brewing!';
-                        desc.textContent='Focused, edgy, and ready to make a statement. Bold lines and dramatic touches for you.';
-                        updateSky('storm-brewing','⛈️');
-                        break;
-                }
-            }
-            if(shopBtn){
-                shopBtn.onclick=function(){
-                    alert('Redirecting you to your recommended items!');
-                };
-            }
-            if(redoBtn){
-                redoBtn.onclick=function(){
-                    quizResults.style.display='none';
-                    quizSteps.forEach(s=>s.classList.remove('active'));
-                    document.querySelector('.quiz-step[data-step="1"]').classList.add('active');
-                    progressDots.forEach((dot,i)=>i===0?dot.classList.add('active'):dot.classList.remove('active'));
-                    optionCards.forEach(c=>c.classList.remove('selected'));
-                    nextBtns.forEach(n=>n.disabled=true);
-                    userData={life:'',motto:'',fit:'',colors:''};
-                    currentStep=1;
-                    document.body.className='';
-                    document.body.classList.add('sky-clear-blue');
-                    selectorEmoji.textContent='🌤️';
-                    selectorEmoji.style.opacity='0';
-                    selectorText.style.opacity='1';
-                };
-            }
         });
     </script>
 </body>
