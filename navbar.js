@@ -95,26 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Get sky data
             const skyType = this.getAttribute('data-sky');
-            const skyIcon = this.querySelector('.sky-icon').textContent;
-            const skyName = this.querySelector('h3').textContent;
             
-            // Update selected sky
-            currentSky = {
-                type: skyType,
-                icon: skyIcon,
-                name: skyName
-            };
-            
-            // Update orb appearance
-            updateOrbWithSelection(currentSky);
-            
-            // Close the menu with a slight delay
-            setTimeout(() => {
-                if (isOpen) toggleMenu();
-                
-                // Navigate to the corresponding page based on sky type
+            // Navigate to the corresponding page based on sky type
+            // This is the key change to enable page navigation
+            if (skyType) {
                 navigateToSkyPage(skyType);
-            }, 300);
+            }
         });
         
         // Also handle touch events for mobile
@@ -125,26 +111,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Get sky data
                 const skyType = this.getAttribute('data-sky');
-                const skyIcon = this.querySelector('.sky-icon').textContent;
-                const skyName = this.querySelector('h3').textContent;
                 
-                // Update selected sky
-                currentSky = {
-                    type: skyType,
-                    icon: skyIcon,
-                    name: skyName
-                };
-                
-                // Update orb appearance
-                updateOrbWithSelection(currentSky);
-                
-                // Close the menu with a slight delay
-                setTimeout(() => {
-                    if (isOpen) toggleMenu();
-                    
-                    // Navigate to the corresponding page based on sky type
+                // Navigate to the corresponding page
+                if (skyType) {
                     navigateToSkyPage(skyType);
-                }, 300);
+                }
             }
         });
         
