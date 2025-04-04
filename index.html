@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
-  <title>Blend of Skies - Style Shenanigans Quiz</title>
+  <title>Blend of Skies - Locked Quiz</title>
   <style>
     :root {
-      --bg-color: #f1f5f9;
-      --text-color: #1a202c;
-      --light-text: #718096;
-      --accent-blue: #4299e1;
+      --bg: #f1f5f9;
+      --dark: #1a202c;
+      --light: #718096;
+      --accent: #4299e1;
       --transition: 0.3s ease;
     }
     * {
@@ -19,11 +19,64 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     body {
-      background: var(--bg-color);
-      color: var(--text-color);
+      background: var(--bg);
+      color: var(--dark);
       transition: var(--transition);
-      overflow-x: hidden;
       min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .lock-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .lock-box {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 300px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .lock-box h1 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .lock-box input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 6px;
+    }
+    .lock-box button {
+      width: 100%;
+      padding: 0.75rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lock-box button:hover {
+      transform: translateY(-2px);
+      background: #3078c8;
+    }
+    .lock-error {
+      color: red;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: none;
     }
     .cosmic-navbar {
       display: flex;
@@ -52,10 +105,9 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: var(--accent-blue);
+      background: var(--accent);
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
     }
     .satellite {
@@ -64,8 +116,7 @@
       background: white;
       border-radius: 50%;
       position: absolute;
-      top: 2px;
-      left: 50%;
+      top: 2px; left: 50%;
       transform: translateX(-50%);
       animation: orbit 3s linear infinite;
     }
@@ -76,7 +127,7 @@
     .brand-name {
       font-size: 1.4rem;
       font-weight: bold;
-      color: var(--accent-blue);
+      color: var(--accent);
     }
     .navbar-spacer {
       flex: 1;
@@ -88,12 +139,12 @@
       background: linear-gradient(135deg, #edf2f7, #ffffff);
       border-radius: 50%;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform var(--transition);
+      transition: var(--transition);
+      overflow: hidden;
     }
     .sky-selector:hover {
       transform: scale(1.05);
@@ -104,8 +155,8 @@
     .selector-text {
       font-size: 0.6rem;
       font-weight: 600;
-      color: var(--text-color);
       line-height: 1.2;
+      color: var(--dark);
     }
     .selector-emoji {
       position: absolute;
@@ -115,11 +166,9 @@
     }
     .sky-backdrop {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.45);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
       z-index: 900;
       opacity: 0;
       visibility: hidden;
@@ -131,8 +180,7 @@
     }
     .sky-panorama {
       position: fixed;
-      top: 70px;
-      left: 0;
+      top: 70px; left: 0;
       width: 100%;
       background: #fff;
       padding: 2rem;
@@ -157,7 +205,7 @@
     .sky-option {
       width: 120px;
       cursor: pointer;
-      transition: transform var(--transition);
+      transition: var(--transition);
     }
     .sky-option:hover {
       transform: translateY(-4px);
@@ -171,7 +219,7 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
       position: relative;
     }
     .sky-icon {
@@ -179,22 +227,20 @@
     }
     .sky-reflection {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 15px;
-      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3));
+      bottom: 0; left: 0;
+      width: 100%; height: 15px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
       transform: scaleY(-1);
     }
     .sky-details h3 {
       font-size: 0.95rem;
       font-weight: 600;
-      color: var(--accent-blue);
+      color: var(--accent);
       margin-bottom: 0.2rem;
     }
     .sky-details p {
       font-size: 0.8rem;
-      color: var(--light-text);
+      color: var(--light);
     }
     .container {
       max-width: 900px;
@@ -202,9 +248,9 @@
       padding: 0 1rem;
     }
     .quiz-wrapper {
-      background: white;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
       padding: 2rem;
       position: relative;
       overflow: hidden;
@@ -219,7 +265,7 @@
     }
     .quiz-header p {
       font-size: 0.95rem;
-      color: var(--light-text);
+      color: var(--light);
     }
     .quiz-step {
       display: none;
@@ -252,12 +298,12 @@
       cursor: pointer;
     }
     .option-card:hover {
-      border-color: var(--accent-blue);
+      border-color: var(--accent);
       transform: translateY(-3px);
     }
     .option-card.selected {
-      border-color: var(--accent-blue);
-      background: rgba(66, 153, 225, 0.1);
+      border-color: var(--accent);
+      background: rgba(66,153,225,0.1);
     }
     .option-icon {
       font-size: 1.4rem;
@@ -269,11 +315,11 @@
     }
     .option-desc {
       font-size: 0.85rem;
-      color: var(--light-text);
+      color: var(--light);
     }
     .loading-screen {
       display: none;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       position: absolute;
       inset: 0;
       justify-content: center;
@@ -289,7 +335,7 @@
       font-size: 1.1rem;
       font-weight: 600;
       margin-top: 1rem;
-      color: var(--text-color);
+      color: var(--dark);
       text-align: center;
       max-width: 300px;
     }
@@ -297,7 +343,7 @@
       width: 40px;
       height: 40px;
       border: 5px solid #e2e8f0;
-      border-top: 5px solid var(--accent-blue);
+      border-top: 5px solid var(--accent);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -320,34 +366,39 @@
     }
     .final-title {
       font-size: 1.4rem;
-      color: var(--accent-blue);
+      color: var(--accent);
       margin-bottom: 0.5rem;
     }
     .final-desc {
       font-size: 0.9rem;
-      color: var(--light-text);
+      color: var(--light);
       max-width: 500px;
       margin: 0.5rem auto;
     }
-    .sky-clear-blue {
-      background: linear-gradient(to bottom, #ebf8ff, #f7fafc);
+    .sky-happy {
+      background: linear-gradient(to bottom, #f0fff4, #f7fafc);
     }
-    .sky-sunset-glow {
-      background: linear-gradient(to bottom, #fffbf0, #fff5f5);
+    .sky-angry {
+      background: linear-gradient(to bottom, #fff5f5, #fed7d7);
     }
-    .sky-storm-brewing {
+    .sky-sad {
       background: linear-gradient(to bottom, #e2e8f0, #edf2f7);
     }
-    .sky-starry-night {
-      background: linear-gradient(to bottom, #2d3748, #4a5568);
-      color: white;
-    }
-    .sky-rainbow-sky {
-      background: linear-gradient(135deg, #fff5f5, #fffaf0, #fefcbf, #f0fff4, #e6fffa, #ebf8ff, #ebf4ff);
+    .sky-normal {
+      background: var(--bg);
     }
   </style>
 </head>
-<body class="sky-clear-blue">
+<body class="sky-normal">
+  <div class="lock-overlay" id="lockOverlay">
+    <div class="lock-box">
+      <h1>Enter Password</h1>
+      <p class="lock-error" id="lockError">Wrong password. Try again.</p>
+      <input type="password" id="lockPassword" placeholder="Password" autocomplete="new-password">
+      <button id="lockButton">Unlock</button>
+    </div>
+  </div>
+
   <div class="sky-backdrop"></div>
   <nav class="cosmic-navbar">
     <div class="brand-container">
@@ -369,54 +420,44 @@
   </nav>
   <div class="sky-panorama">
     <div class="sky-options">
-      <div class="sky-option" data-sky="clear-blue">
+      <div class="sky-option" data-sky="happy">
         <div class="sky-preview">
-          <div class="sky-icon">🌤️</div>
+          <div class="sky-icon">😊</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
-          <h3>Clear Blue</h3>
-          <p>Serene and calm as can be</p>
+          <h3>Happy</h3>
+          <p>Upbeat & unstoppable</p>
         </div>
       </div>
-      <div class="sky-option" data-sky="sunset-glow">
+      <div class="sky-option" data-sky="angry">
         <div class="sky-preview">
-          <div class="sky-icon">🌅</div>
+          <div class="sky-icon">😡</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
-          <h3>Sunset Glow</h3>
-          <p>Hot hues meet mellow vibes</p>
+          <h3>Angry</h3>
+          <p>Rant mode: ON</p>
         </div>
       </div>
-      <div class="sky-option" data-sky="storm-brewing">
+      <div class="sky-option" data-sky="sad">
         <div class="sky-preview">
-          <div class="sky-icon">⛈️</div>
+          <div class="sky-icon">😔</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
-          <h3>Storm Brewing</h3>
-          <p>Dark & dramatic with a punch</p>
+          <h3>Sad</h3>
+          <p>Low-key, but still styling</p>
         </div>
       </div>
-      <div class="sky-option" data-sky="starry-night">
+      <div class="sky-option" data-sky="normal">
         <div class="sky-preview">
-          <div class="sky-icon">🌌</div>
+          <div class="sky-icon">😐</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
-          <h3>Starry Night</h3>
-          <p>Deep cosmic wonder</p>
-        </div>
-      </div>
-      <div class="sky-option" data-sky="rainbow-sky">
-        <div class="sky-preview">
-          <div class="sky-icon">🌈</div>
-          <div class="sky-reflection"></div>
-        </div>
-        <div class="sky-details">
-          <h3>Rainbow Sky</h3>
-          <p>All colors, all fun</p>
+          <h3>Normal</h3>
+          <p>Steady as she goes</p>
         </div>
       </div>
     </div>
@@ -424,135 +465,116 @@
   <div class="container">
     <div class="quiz-wrapper">
       <div class="quiz-header">
-        <h2>Sky-High Shenanigans Quiz</h2>
-        <p>Answer these lighthearted questions and let us secretly tailor your style behind the scenes.</p>
+        <h2>What’s Your Current Situation?</h2>
+        <p>We’ll keep track of these details—trust us, it's worth it.</p>
       </div>
       <div class="quiz-step active" data-step="1">
-        <h3 class="step-question">1. Current Mood—Pick One & No Take-Backs</h3>
+        <h3 class="step-question">1. How's your mood today?</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="power-tripper">
-            <div class="option-icon">💪</div>
-            <div class="option-title">Conqueror</div>
-            <div class="option-desc">Mountains? I'll climb 'em in flip-flops.</div>
+          <div class="option-card" data-value="happy">
+            <div class="option-icon">😀</div>
+            <div class="option-title">Happy</div>
+            <div class="option-desc">All sunshine, no clouds.</div>
           </div>
-          <div class="option-card" data-value="zen-guru">
-            <div class="option-icon">😌</div>
-            <div class="option-title">Zen Master</div>
-            <div class="option-desc">Feet up, mind floating, life's good.</div>
+          <div class="option-card" data-value="angry">
+            <div class="option-icon">🤬</div>
+            <div class="option-title">Angry</div>
+            <div class="option-desc">Caution: meltdown risk.</div>
           </div>
-          <div class="option-card" data-value="need-nap">
-            <div class="option-icon">😴</div>
-            <div class="option-title">Nap Crusader</div>
-            <div class="option-desc">Official sponsor of the snooze button.</div>
+          <div class="option-card" data-value="sad">
+            <div class="option-icon">😢</div>
+            <div class="option-title">Sad / Depressed</div>
+            <div class="option-desc">Rainy day feels.</div>
           </div>
-          <div class="option-card" data-value="thrill-seeker">
-            <div class="option-icon">😎</div>
-            <div class="option-title">Thrill Seeker</div>
-            <div class="option-desc">Skydiving at noon, party by 5.</div>
+          <div class="option-card" data-value="normal">
+            <div class="option-icon">😶</div>
+            <div class="option-title">Normal</div>
+            <div class="option-desc">Nothing fancy, just chilling.</div>
           </div>
         </div>
       </div>
       <div class="quiz-step" data-step="2">
-        <h3 class="step-question">2. Dream Outfit Motto?</h3>
+        <h3 class="step-question">2. Which style do you claim?</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="pj-life">
-            <div class="option-icon">🛌</div>
-            <div class="option-title">PJs Forever</div>
-            <div class="option-desc">Would wear 'em to the Oscars if they'd let me.</div>
+          <div class="option-card" data-value="casual">
+            <div class="option-icon">👕</div>
+            <div class="option-title">Casual</div>
+            <div class="option-desc">No fuss, easy vibe.</div>
           </div>
-          <div class="option-card" data-value="street-cool">
+          <div class="option-card" data-value="preppy">
+            <div class="option-icon">🧑‍💼</div>
+            <div class="option-title">Preppy</div>
+            <div class="option-desc">Collars, neat lines, all that jazz.</div>
+          </div>
+          <div class="option-card" data-value="street">
             <div class="option-icon">🧢</div>
-            <div class="option-title">Street Smart</div>
-            <div class="option-desc">Casual but slick, ready for anything.</div>
+            <div class="option-title">Streetish</div>
+            <div class="option-desc">Cool & edgy, block by block.</div>
           </div>
-          <div class="option-card" data-value="boardroom-boss">
-            <div class="option-icon">💼</div>
-            <div class="option-title">Boardroom Hero</div>
-            <div class="option-desc">Dress to impress, deals to conquer.</div>
-          </div>
-          <div class="option-card" data-value="disco-duck">
-            <div class="option-icon">💃</div>
-            <div class="option-title">Disco Dynamo</div>
-            <div class="option-desc">Sequins, sparkle—make 'em stare.</div>
+          <div class="option-card" data-value="whacky">
+            <div class="option-icon">🎉</div>
+            <div class="option-title">Whacky</div>
+            <div class="option-desc">Loud, eccentric, no apologies.</div>
           </div>
         </div>
       </div>
       <div class="quiz-step" data-step="3">
-        <h3 class="step-question">3. The Fit That Suits You Best?</h3>
+        <h3 class="step-question">3. Let's be real: your body shape?</h3>
         <div class="options-grid">
-          <div class="option-card" data-value="tight-flex">
-            <div class="option-icon">🩳</div>
-            <div class="option-title">Slim & Trim</div>
-            <div class="option-desc">Show off them gains (or illusions of gains).</div>
+          <div class="option-card" data-value="skinny">
+            <div class="option-icon">🏃</div>
+            <div class="option-title">Lean & Mean</div>
+            <div class="option-desc">Slim builds, proud of it.</div>
           </div>
-          <div class="option-card" data-value="relaxed-fit">
-            <div class="option-icon">🏖️</div>
-            <div class="option-title">Beachy Loose</div>
-            <div class="option-desc">More airflow, fewer constraints. Amen.</div>
+          <div class="option-card" data-value="fat">
+            <div class="option-icon">🐻</div>
+            <div class="option-title">Big & Bold</div>
+            <div class="option-desc">Plenty to love, no shame.</div>
           </div>
-          <div class="option-card" data-value="classic-mid">
-            <div class="option-icon">📐</div>
-            <div class="option-title">Classic Middle</div>
-            <div class="option-desc">Goldilocks zone: Just right.</div>
+          <div class="option-card" data-value="average">
+            <div class="option-icon">👨</div>
+            <div class="option-title">Average-ish</div>
+            <div class="option-desc">Neither here nor there, just you.</div>
           </div>
-          <div class="option-card" data-value="wildcard-fit">
-            <div class="option-icon">🎲</div>
-            <div class="option-title">Wildcard</div>
-            <div class="option-desc">It's a mood thing. Every day is new.</div>
+          <div class="option-card" data-value="flex">
+            <div class="option-icon">🌀</div>
+            <div class="option-title">All Over</div>
+            <div class="option-desc">Fluctuates, subject to pizza nights.</div>
           </div>
         </div>
       </div>
-      <div class="quiz-step" data-step="4">
-        <h3 class="step-question">4. Let's Talk Colors. Your Closet Scream…</h3>
-        <div class="options-grid">
-          <div class="option-card" data-value="neutralville">
-            <div class="option-icon">⚪</div>
-            <div class="option-title">Neutral Town</div>
-            <div class="option-desc">Blacks, whites, grays—like a stylish grayscale film.</div>
-          </div>
-          <div class="option-card" data-value="technicolor">
-            <div class="option-icon">🎨</div>
-            <div class="option-title">Color Explosion</div>
-            <div class="option-desc">If it's bright, I'm wearing it. Sunglasses recommended.</div>
-          </div>
-          <div class="option-card" data-value="forest-elf">
-            <div class="option-icon">🌳</div>
-            <div class="option-title">Earth Tones</div>
-            <div class="option-desc">Greens, browns—feels like a hike every day.</div>
-          </div>
-          <div class="option-card" data-value="night-prowl">
-            <div class="option-icon">🕶️</div>
-            <div class="option-title">Midnight Mode</div>
-            <div class="option-desc">All black, all stealth, all classy.</div>
-          </div>
-        </div>
-      </div>
-      <!-- Cool "crafting your style" loading screen -->
       <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
-        <div class="loading-text">Compiling your top-secret style formula.<br>Hold tight...</div>
+        <div class="loading-text">Activating style-lab. Stand by...</div>
       </div>
-      <!-- After loading, final message: we're not telling them results yet -->
       <div class="quiz-result-final" id="finalResult">
-        <div class="final-icon">✨</div>
-        <h2 class="final-title">Style Data Locked In!</h2>
-        <p class="final-desc">
-          We've captured your answers and are quietly curating your perfect look behind the scenes.
-          No spoilers yet—just know a cooler closet is headed your way!
-        </p>
+        <div class="final-icon">🔒</div>
+        <h2 class="final-title">We’ve Logged Your Stats</h2>
+        <p class="final-desc">No spoilers yet—we’re calibrating your look in the background. Just know changes are coming. Stay tuned.</p>
       </div>
     </div>
   </div>
   <script>
+    const MASTER_PASSWORD="Secret123";
     document.addEventListener('DOMContentLoaded',function(){
-      // Sky selection
+      const lockOverlay=document.getElementById('lockOverlay');
+      const lockError=document.getElementById('lockError');
+      const lockButton=document.getElementById('lockButton');
+      const lockPassword=document.getElementById('lockPassword');
+      lockButton.onclick=function(){
+        if(lockPassword.value===MASTER_PASSWORD){
+          lockOverlay.style.display='none';
+        } else {
+          lockError.style.display='block';
+        }
+      };
+
       const skySelector=document.querySelector('.sky-selector');
       const selectorEmoji=document.querySelector('.selector-emoji');
       const selectorText=document.querySelector('.selector-inner');
       const skyBackdrop=document.querySelector('.sky-backdrop');
       const skyPanorama=document.querySelector('.sky-panorama');
       const skyOptions=document.querySelectorAll('.sky-option');
-
       skySelector.onclick=function(e){
         e.preventDefault();
         skyBackdrop.classList.toggle('active');
@@ -562,19 +584,18 @@
         skyBackdrop.classList.remove('active');
         skyPanorama.classList.remove('open');
       };
-      function updateSky(sky,emoji){
-        selectorEmoji.textContent=emoji;
-        selectorEmoji.style.opacity='1';
-        selectorText.style.opacity='0';
+      function updateSky(sky){
         document.body.className='';
-        document.body.classList.add(`sky-${sky}`);
+        if(sky==='happy') document.body.classList.add('sky-happy');
+        else if(sky==='angry') document.body.classList.add('sky-angry');
+        else if(sky==='sad') document.body.classList.add('sky-sad');
+        else document.body.classList.add('sky-normal');
       }
       skyOptions.forEach(opt=>{
         opt.onclick=function(e){
           e.preventDefault();
           const s=this.getAttribute('data-sky');
-          const ic=this.querySelector('.sky-icon').textContent;
-          updateSky(s,ic);
+          updateSky(s);
           setTimeout(function(){
             skyBackdrop.classList.remove('active');
             skyPanorama.classList.remove('open');
@@ -586,13 +607,12 @@
         selectorText.style.opacity='0';
       };
       skySelector.onmouseleave=function(){
-        if(selectorEmoji.textContent==='🌤️'){
+        if(document.body.classList.contains('sky-normal')){
           selectorEmoji.style.opacity='0';
           selectorText.style.opacity='1';
         }
       };
 
-      // Quiz logic
       const quizSteps=document.querySelectorAll('.quiz-step');
       const optionCards=document.querySelectorAll('.option-card');
       const loadingScreen=document.getElementById('loadingScreen');
@@ -601,7 +621,6 @@
       const totalSteps=quizSteps.length;
       const userAnswers={};
 
-      // Auto-advance to next step upon selection
       optionCards.forEach(card=>{
         card.addEventListener('click',function(){
           const parentStep=this.closest('.quiz-step');
@@ -610,24 +629,20 @@
           this.classList.add('selected');
           const val=this.getAttribute('data-value');
           userAnswers[`step${stepNum}`]=val;
-
           if(stepNum<totalSteps){
             parentStep.classList.remove('active');
             const nextStep=stepNum+1;
             document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
             currentStep=nextStep;
           } else {
-            // Last step -> show loading, then final screen
             parentStep.classList.remove('active');
             console.log("User's secret answers:",userAnswers);
             loadingScreen.classList.add('active');
-
-            // Fake a short delay to mimic "crafting" process
             setTimeout(()=>{
               loadingScreen.classList.remove('active');
               finalResult.classList.add('active');
-              // Here you'd send userAnswers to your backend/AI system
-            },2500);
+              // This is where you'd send userAnswers to your backend or AI system
+            },2000);
           }
         });
       });
