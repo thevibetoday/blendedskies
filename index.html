@@ -104,7 +104,14 @@
             transition: transform 0.5s ease;
         }
 
-        /* Mobile Responsiveness */
+        .sky-panorama {
+            display: none;
+        }
+
+        .sky-panorama.open {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .option-grid {
                 grid-template-columns: 1fr;
@@ -153,9 +160,9 @@
         </div>
     </nav>
     
-    <div class="sky-panorama open">
+    <div class="sky-panorama">
         <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue" style="opacity: 1; transform: translateY(0px);">
+            <div class="sky-option" data-sky="clear-blue">
                 <div class="sky-preview">
                     <div class="sky-icon">☀️</div>
                     <div class="sky-reflection"></div>
@@ -166,7 +173,7 @@
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="sunset-glow" style="opacity: 1; transform: translateY(0px);">
+            <div class="sky-option" data-sky="sunset-glow">
                 <div class="sky-preview">
                     <div class="sky-icon">🌅</div>
                     <div class="sky-reflection"></div>
@@ -177,7 +184,7 @@
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="storm-brewing" style="opacity: 1; transform: translateY(0px);">
+            <div class="sky-option" data-sky="storm-brewing">
                 <div class="sky-preview">
                     <div class="sky-icon">⛈️</div>
                     <div class="sky-reflection"></div>
@@ -188,7 +195,7 @@
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="starry-night" style="opacity: 1; transform: translateY(0px);">
+            <div class="sky-option" data-sky="starry-night">
                 <div class="sky-preview">
                     <div class="sky-icon">🌃</div>
                     <div class="sky-reflection"></div>
@@ -199,7 +206,7 @@
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="rainbow-sky" style="opacity: 1; transform: translateY(0px);">
+            <div class="sky-option" data-sky="rainbow-sky">
                 <div class="sky-preview">
                     <div class="sky-icon">🌈</div>
                     <div class="sky-reflection"></div>
@@ -213,7 +220,6 @@
     </div>
 
     <div class="questionnaire-container">
-        <!-- Questions will be dynamically inserted here -->
     </div>
 
     <script>
@@ -263,17 +269,23 @@
                     ]
                 },
                 {
-                    title: 'Pick your price vibe',
-                    subtitle: '(*You know what you want. We\'re just asking nicely.*)',
+                    title: 'Pick your sky',
+                    subtitle: '(*Because every mood needs a backdrop.*)',
                     options: [
-                        { title: 'Classic', description: 'good quality, solid price, no drama' },
-                        { title: 'Premium', description: 'feels nice, lasts long, costs a little more' }
+                        { title: 'Sunny Day', description: 'bright blue skies with sunshine' },
+                        { title: 'Sunset', description: 'warm golden hour vibes' },
+                        { title: 'Storm', description: 'dramatic clouds and thunder' },
+                        { title: 'Night', description: 'peaceful starry darkness' },
+                        { title: 'Rainbow', description: 'colorful sky after rain' }
                     ]
                 }
             ];
 
             let currentQuestionIndex = 0;
             const questionnaire = document.querySelector('.questionnaire-container');
+            const skyPanorama = document.querySelector('.sky-panorama');
+            const skySelector = document.querySelector('.sky-selector');
+            const selectorOrb = document.querySelector('.selector-orb');
             const answers = {};
 
             function createQuestionStage(question) {
@@ -301,28 +313,39 @@
                 const options = stage.querySelectorAll('.option-card');
                 const progressBar = stage.querySelector('.progress-bar');
 
-                // Update progress bar
                 progressBar.style.transform = `scaleX(${(currentQuestionIndex + 1) / questions.length})`;
 
                 options.forEach(option => {
                     option.addEventListener('click', () => {
-                        // Deselect all options
                         options.forEach(opt => opt.classList.remove('selected'));
                         
-                        // Select clicked option
                         option.classList.add('selected');
                         
-                        // Store answer
                         const optionIndex = option.dataset.index;
                         answers[currentQuestionIndex] = optionIndex;
                         
-                        // Move to next question
+                        if (questions[currentQuestionIndex].title === 'Pick your sky') {
+                            const selectedSky = option.querySelector('h3').textContent.toLowerCase().replace(' ', '-');
+                            skyPanorama.classList.add('open');
+                            selectorOrb.classList.add('active');
+                            
+                            const skyOptions = document.querySelectorAll('.sky-option');
+                            skyOptions.forEach(skyOption => {
+                                if (skyOption.getAttribute('data-sky') === selectedSky) {
+                                    skyOption.style.opacity = '1';
+                                    skyOption.style.transform = 'translateY(0)';
+                                } else {
+                                    skyOption.style.opacity = '0';
+                                    skyOption.style.transform = 'translateY(20px)';
+                                }
+                            });
+                        }
+                        
                         setTimeout(() => {
                             if (currentQuestionIndex < questions.length - 1) {
                                 currentQuestionIndex++;
                                 transitionToNextQuestion();
                             } else {
-                                // Questionnaire complete
                                 console.log('Completed Questionnaire:', answers);
                                 showResults();
                             }
@@ -334,14 +357,11 @@
             function transitionToNextQuestion() {
                 const currentStage = document.querySelector('.question-stage');
                 
-                // Remove current stage
                 currentStage.remove();
 
-                // Create and append new stage
                 const newStage = createQuestionStage(questions[currentQuestionIndex]);
                 questionnaire.appendChild(newStage);
 
-                // Trigger reflow to enable transition
                 setTimeout(() => {
                     newStage.classList.add('active');
                     setupQuestionInteractions(newStage);
@@ -379,6 +399,8 @@
                 const restartBtn = resultsStage.querySelector('#restart-btn');
                 restartBtn.addEventListener('click', () => {
                     currentQuestionIndex = 0;
+                    skyPanorama.classList.remove('open');
+                    selectorOrb.classList.remove('active');
                     const initialStage = createQuestionStage(questions[0]);
                     questionnaire.innerHTML = '';
                     questionnaire.appendChild(initialStage);
@@ -389,7 +411,6 @@
                 });
             }
 
-            // Start the questionnaire
             const initialStage = createQuestionStage(questions[0]);
             questionnaire.appendChild(initialStage);
             setTimeout(() => {
