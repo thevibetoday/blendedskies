@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blend of Skies | Choose Your Day</title>
+    <title>Blend of Skies | Premium Essentials</title>
     <style>
         /* Base Styles */
         :root {
@@ -82,7 +82,7 @@
             color: var(--primary);
         }
         
-        .forecast-button {
+        .shop-button {
             background-color: var(--primary);
             color: white;
             border: none;
@@ -93,7 +93,7 @@
             transition: var(--transition);
         }
         
-        .forecast-button:hover {
+        .shop-button:hover {
             background-color: #2563eb;
         }
         
@@ -168,8 +168,8 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
-        /* Collection Section */
-        .collection {
+        /* Collections Section */
+        .collections {
             padding: 5rem 0;
             background-color: #f8fafc;
         }
@@ -186,6 +186,27 @@
             max-width: 600px;
             margin: 0 auto 3rem;
             color: #64748b;
+        }
+        
+        .collection-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .collection-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .collection-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
         
         .products {
@@ -226,6 +247,18 @@
             justify-content: center;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             font-size: 1.25rem;
+        }
+        
+        .collection-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
         
         .product-info {
@@ -281,45 +314,36 @@
             background-color: #2563eb;
         }
         
-        /* How It Works */
-        .how-it-works {
+        /* Features */
+        .features {
             padding: 5rem 0;
             text-align: center;
+            background-color: white;
         }
         
-        .steps {
-            display: flex;
-            justify-content: center;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
-            flex-wrap: wrap;
         }
         
-        .step {
-            flex: 1;
-            min-width: 200px;
-            max-width: 300px;
+        .feature {
+            padding: 2rem;
         }
         
-        .step-icon {
-            background-color: #dbeafe;
-            color: var(--primary);
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin: 0 auto 1.5rem;
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
         }
         
-        .step-title {
+        .feature-title {
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         
-        .step-description {
+        .feature-description {
             color: #64748b;
             font-size: 0.875rem;
         }
@@ -480,11 +504,6 @@
             .cta-buttons {
                 flex-direction: column;
             }
-            
-            .steps {
-                flex-direction: column;
-                align-items: center;
-            }
         }
     </style>
 </head>
@@ -494,11 +513,11 @@
             <nav>
                 <div class="logo">Blend of <span>Skies</span></div>
                 <div class="nav-links">
-                    <a href="#collection" class="nav-link">Collection</a>
-                    <a href="#how-it-works" class="nav-link">How It Works</a>
-                    <a href="#testimonials" class="nav-link">Stories</a>
+                    <a href="#collections" class="nav-link">Collections</a>
+                    <a href="#features" class="nav-link">Quality</a>
+                    <a href="#testimonials" class="nav-link">Reviews</a>
                 </div>
-                <button class="forecast-button">Find Your Forecast</button>
+                <button class="shop-button">Shop Now</button>
             </nav>
         </div>
     </header>
@@ -506,33 +525,43 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Choose The <span class="highlight">Weather</span> You Want To Wear</h1>
-                <p class="hero-text">We all live under the same sky, but sometimes, you want to choose which one you wear. From casual comfort to bold statements, our collection lets you forecast your own style.</p>
+                <h1>Premium Essentials For <span class="highlight">Every Day</span></h1>
+                <p class="hero-text">Clean design meets functional comfort in our versatile collections. From classic staples to statement pieces, wear what works for you.</p>
                 <div class="cta-buttons">
-                    <a href="#collection" class="primary-btn">Shop Collection</a>
-                    <a href="#how-it-works" class="secondary-btn">How It Works</a>
+                    <a href="#collections" class="primary-btn">Shop Collections</a>
+                    <a href="#features" class="secondary-btn">Our Quality</a>
                 </div>
                 <img src="/api/placeholder/800/400" alt="Blend of Skies Collection" class="hero-image">
             </div>
         </div>
     </section>
     
-    <section id="collection" class="collection">
+    <section id="collections" class="collections">
         <div class="container">
-            <h2>The Forecast Collection</h2>
-            <p class="section-description">Tired of waiting on the weatherman? Forecast your own style—because life's too short to let the clouds decide for you.</p>
+            <h2>Our Collections</h2>
+            <p class="section-description">Premium apparel designed for style and comfort, with something for everyone.</p>
+            
+            <div class="collection-tabs">
+                <div class="collection-tab active">All Collections</div>
+                <div class="collection-tab">Baseline Breeze</div>
+                <div class="collection-tab">Solar Collection</div>
+                <div class="collection-tab">Electric Series</div>
+                <div class="collection-tab">Frost Line</div>
+                <div class="collection-tab">Cataclysm</div>
+            </div>
             
             <div class="products">
-                <!-- Baseline Breeze -->
+                <!-- Baseline Breeze Tee -->
                 <div class="product-card">
                     <div class="product-image">
-                        <div class="product-icon">🌤️</div>
-                        <img src="/api/placeholder/400/320" alt="Baseline Breeze" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="product-icon">👕</div>
+                        <div class="collection-badge">Baseline</div>
+                        <img src="/api/placeholder/400/320" alt="Baseline Breeze Tee" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div class="product-info">
-                        <h3>Baseline Breeze</h3>
-                        <p class="product-description">Steady, easygoing, no drama. Our essential cotton blend with clean lines and exceptional comfort.</p>
-                        <div class="product-tagline">"For the days you're just cruisin'—like a gentle breeze on a mellow afternoon."</div>
+                        <h3>Essential Tee</h3>
+                        <p class="product-description">Our signature everyday tee with clean lines and exceptional comfort. Perfect for any casual occasion.</p>
+                        <div class="product-tagline">"For the days you're just cruisin' through life."</div>
                         <div class="product-footer">
                             <span class="product-price">$45</span>
                             <button class="cart-button">Add to Cart</button>
@@ -540,16 +569,17 @@
                     </div>
                 </div>
                 
-                <!-- Solar Surge -->
+                <!-- Solar Collection Polo -->
                 <div class="product-card">
                     <div class="product-image">
-                        <div class="product-icon">☀️</div>
-                        <img src="/api/placeholder/400/320" alt="Solar Surge" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="product-icon">👕</div>
+                        <div class="collection-badge">Solar</div>
+                        <img src="/api/placeholder/400/320" alt="Solar Collection Polo" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div class="product-info">
-                        <h3>Solar Surge</h3>
-                        <p class="product-description">Bright, bold, and full of life. For those days when you're radiating energy and ready to shine.</p>
-                        <div class="product-tagline">"When you're basically a walking ray of sunshine. Shades optional."</div>
+                        <h3>Signature Polo</h3>
+                        <p class="product-description">Bright, bold, and designed to stand out. A premium polo that adds energy to any outfit.</p>
+                        <div class="product-tagline">"Because sometimes, you just need to outshine everyone else."</div>
                         <div class="product-footer">
                             <span class="product-price">$48</span>
                             <button class="cart-button">Add to Cart</button>
@@ -557,52 +587,73 @@
                     </div>
                 </div>
                 
-                <!-- Electric Eclipse -->
+                <!-- Electric Series Jacket -->
                 <div class="product-card">
                     <div class="product-image">
-                        <div class="product-icon">⛈️</div>
-                        <img src="/api/placeholder/400/320" alt="Electric Eclipse" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="product-icon">🧥</div>
+                        <div class="collection-badge">Electric</div>
+                        <img src="/api/placeholder/400/320" alt="Electric Series Jacket" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div class="product-info">
-                        <h3>Electric Eclipse</h3>
-                        <p class="product-description">Moody, dramatic, a bit edgy. Make a statement even on the cloudiest days with our bold design.</p>
-                        <div class="product-tagline">"It might be cloudy, but you're bringing the thunder anyway. Proceed with caution."</div>
+                        <h3>Statement Jacket</h3>
+                        <p class="product-description">Bold design with striking details. This jacket makes a statement when you walk in the room.</p>
+                        <div class="product-tagline">"For when subtle just isn't going to cut it."</div>
                         <div class="product-footer">
-                            <span class="product-price">$52</span>
+                            <span class="product-price">$85</span>
                             <button class="cart-button">Add to Cart</button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Frost & Focus -->
+                <!-- Frost Line Sweater -->
                 <div class="product-card">
                     <div class="product-image">
-                        <div class="product-icon">❄️</div>
-                        <img src="/api/placeholder/400/320" alt="Frost & Focus" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="product-icon">🧶</div>
+                        <div class="collection-badge">Frost</div>
+                        <img src="/api/placeholder/400/320" alt="Frost Line Sweater" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div class="product-info">
-                        <h3>Frost & Focus</h3>
-                        <p class="product-description">Crisp, cool, a little distant. For those days that call for calm concentration and collected composure.</p>
-                        <div class="product-tagline">"For those chill vibes—like a frosty morning that somehow feels invigorating."</div>
+                        <h3>Premium Sweater</h3>
+                        <p class="product-description">Crisp, cool, and sophisticated. This premium sweater offers both style and comfort with a clean aesthetic.</p>
+                        <div class="product-tagline">"Cool composure that never goes out of style."</div>
                         <div class="product-footer">
-                            <span class="product-price">$52</span>
+                            <span class="product-price">$65</span>
                             <button class="cart-button">Add to Cart</button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Cataclysmic Chic -->
+                <!-- Cataclysm Collection Hoodie -->
                 <div class="product-card">
                     <div class="product-image">
-                        <div class="product-icon">🌪️</div>
-                        <img src="/api/placeholder/400/320" alt="Cataclysmic Chic" style="width:100%; height:100%; object-fit:cover;">
+                        <div class="product-icon">👕</div>
+                        <div class="collection-badge">Cataclysm</div>
+                        <img src="/api/placeholder/400/320" alt="Cataclysm Collection Hoodie" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div class="product-info">
-                        <h3>Cataclysmic Chic</h3>
-                        <p class="product-description">All-out drama, end-of-the-world intensity—but stylish. Make an entrance when you walk in the room.</p>
-                        <div class="product-tagline">"Because if it's gonna feel like the end, might as well look amazing doing it."</div>
+                        <h3>Limited Edition Hoodie</h3>
+                        <p class="product-description">Dramatic styling with premium materials. This limited edition piece brings intensity to any wardrobe.</p>
+                        <div class="product-tagline">"Because if you're going to make an entrance, make it legendary."</div>
                         <div class="product-footer">
-                            <span class="product-price">$58</span>
+                            <span class="product-price">$78</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Baseline Breeze Cap -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">🧢</div>
+                        <div class="collection-badge">Baseline</div>
+                        <img src="/api/placeholder/400/320" alt="Baseline Breeze Cap" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Classic Cap</h3>
+                        <p class="product-description">A timeless cap with clean lines and premium construction. Perfect for everyday wear.</p>
+                        <div class="product-tagline">"Simple. Classic. Done right."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$32</span>
                             <button class="cart-button">Add to Cart</button>
                         </div>
                     </div>
@@ -611,28 +662,28 @@
         </div>
     </section>
     
-    <section id="how-it-works" class="how-it-works">
+    <section id="features" class="features">
         <div class="container">
-            <h2>How It Works</h2>
-            <p class="section-description">From selecting your forecast to wearing your weather, we've made the experience simple.</p>
+            <h2>Quality You Can Feel</h2>
+            <p class="section-description">We create premium essentials that blend seamlessly into your lifestyle with focus on quality, comfort, and versatility.</p>
             
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">1</div>
-                    <h3 class="step-title">Choose Your Weather</h3>
-                    <p class="step-description">Browse our collection and find the forecast that matches your mood or the day ahead.</p>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">🌱</div>
+                    <h3 class="feature-title">Sustainable Materials</h3>
+                    <p class="feature-description">Responsibly sourced fabrics and eco-conscious production methods that respect our planet.</p>
                 </div>
                 
-                <div class="step">
-                    <div class="step-icon">2</div>
-                    <h3 class="step-title">Select Your Style</h3>
-                    <p class="step-description">Each weather pattern comes in multiple styles to suit your personal taste.</p>
+                <div class="feature">
+                    <div class="feature-icon">✂️</div>
+                    <h3 class="feature-title">Expert Craftsmanship</h3>
+                    <p class="feature-description">Exceptional construction designed to last, with attention to every detail from seam to stitch.</p>
                 </div>
                 
-                <div class="step">
-                    <div class="step-icon">3</div>
-                    <h3 class="step-title">Wear with Confidence</h3>
-                    <p class="step-description">No matter what's happening outside, you're in control of your personal forecast.</p>
+                <div class="feature">
+                    <div class="feature-icon">🧵</div>
+                    <h3 class="feature-title">Premium Fabrics</h3>
+                    <p class="feature-description">Carefully selected materials that feel great against your skin and maintain quality wash after wash.</p>
                 </div>
             </div>
         </div>
@@ -640,27 +691,27 @@
     
     <section id="testimonials" class="testimonials">
         <div class="container">
-            <h2>Weather Stories</h2>
-            <p class="section-description">Real people, real forecasts. Here's what our community has to say about controlling their weather.</p>
+            <h2>What People Are Saying</h2>
+            <p class="section-description">Don't just take our word for it. Here's what our customers have to say.</p>
             
             <div class="testimonial">
-                <p class="testimonial-quote">I used to let my mood be dictated by the actual weather. With Blend of Skies, I decide how I want to feel each day. I've been wearing Solar Surge during rainy days, and it genuinely lifts my spirits!</p>
+                <p class="testimonial-quote">These are the best basics I've owned. The quality is exceptional, and they've become my go-to for everyday wear. The Classic Cap is particularly great - I own it in three colors!</p>
                 <div class="testimonial-author">
-                    <div class="author-avatar">JS</div>
+                    <div class="author-avatar">JD</div>
                     <div>
-                        <div class="author-name">Jamie S.</div>
-                        <div>Solar Surge Fan</div>
+                        <div class="author-name">James D.</div>
+                        <div>Verified Customer</div>
                     </div>
                 </div>
             </div>
             
             <div class="testimonial">
-                <p class="testimonial-quote">As someone who's always running between meetings, I appreciate how Baseline Breeze keeps me looking professional but feeling comfortable. It's my go-to for busy workdays when I need to stay focused.</p>
+                <p class="testimonial-quote">I love how each collection has its own distinct style. The Statement Jacket from the Electric Series gets me compliments every time I wear it. Worth every penny for the quality and design.</p>
                 <div class="testimonial-author">
-                    <div class="author-avatar">MK</div>
+                    <div class="author-avatar">MR</div>
                     <div>
-                        <div class="author-name">Michael K.</div>
-                        <div>Baseline Breeze Enthusiast</div>
+                        <div class="author-name">Melissa R.</div>
+                        <div>Verified Customer</div>
                     </div>
                 </div>
             </div>
@@ -669,9 +720,9 @@
     
     <section class="cta">
         <div class="container">
-            <h2>Forecast Your Style Today</h2>
-            <p class="cta-description">No crystal balls, zodiac charts, or complicated quizzes. Just pick your weather and wear it your way.</p>
-            <a href="#collection" class="cta-button">Shop the Collection</a>
+            <h2>Elevate Your Everyday</h2>
+            <p class="cta-description">Discover premium essentials designed for style, comfort, and versatility.</p>
+            <a href="#collections" class="cta-button">Shop the Collections</a>
         </div>
     </section>
     
@@ -680,18 +731,17 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h4 class="footer-title">Blend of Skies</h4>
-                    <p>Creating premium essentials since 2025. Choose your sky. Own your day.</p>
+                    <p>Creating premium essentials since 2025.</p>
                 </div>
                 
                 <div class="footer-column">
-                    <h4 class="footer-title">Shop</h4>
+                    <h4 class="footer-title">Collections</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#collection">All Products</a></li>
                         <li class="footer-link"><a href="#">Baseline Breeze</a></li>
-                        <li class="footer-link"><a href="#">Solar Surge</a></li>
-                        <li class="footer-link"><a href="#">Electric Eclipse</a></li>
-                        <li class="footer-link"><a href="#">Frost & Focus</a></li>
-                        <li class="footer-link"><a href="#">Cataclysmic Chic</a></li>
+                        <li class="footer-link"><a href="#">Solar Collection</a></li>
+                        <li class="footer-link"><a href="#">Electric Series</a></li>
+                        <li class="footer-link"><a href="#">Frost Line</a></li>
+                        <li class="footer-link"><a href="#">Cataclysm</a></li>
                     </ul>
                 </div>
                 
