@@ -171,6 +171,89 @@
       opacity: 0;
       transition: var(--transition);
     }
+    .sky-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .sky-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-panorama {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transform: translateY(-130%);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 950;
+    }
+    .sky-panorama.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .sky-option {
+      width: 120px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sky-option:hover {
+      transform: translateY(-4px);
+    }
+    .sky-preview {
+      width: 100%;
+      height: 80px;
+      background: #edf2f7;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    .sky-icon {
+      font-size: 2rem;
+    }
+    .sky-reflection {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 15px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
+      transform: scaleY(-1);
+    }
+    .sky-details h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .sky-details p {
+      font-size: 0.8rem;
+      color: #666;
+    }
     .container {
       max-width: 800px;
       margin: 2rem auto;
@@ -306,75 +389,233 @@
   </style>
 </head>
 <body>
-  <!-- [THE REST OF YOUR EXISTING HTML STRUCTURE AND QUIZ STEPS STAY THE SAME] -->
-
-  <div class="quiz-result-final" id="shirtRecommendation">
-    <div class="final-icon">👕</div>
-    <h2 class="final-title">Your Tee Match</h2>
-    <p class="final-desc">We picked a shirt that fits your style and vibe. Choose how you want to experience it:</p>
-    <div style="margin: 2rem 0; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <div style="border: 2px solid #e2e8f0; padding: 1.2rem; border-radius: 8px; max-width: 300px;">
-        <h3 style="color: var(--accent); margin-bottom: 0.5rem;">Premium</h3>
-        <p style="font-size: 0.9rem;">Softer fabric, longer-lasting, premium cut.</p>
-        <button style="margin-top: 1rem; background: #2c5282; color: white; border: none; padding: 0.6rem 1rem; border-radius: 6px; cursor: pointer;">Pick Premium</button>
+  <div class="lock-overlay" id="lockOverlay">
+    <div class="lock-box">
+      <h1>Private Access</h1>
+      <p>Enter the password to unlock this page.</p>
+      <p class="lock-error" id="lockError">Wrong password.</p>
+      <input type="password" id="lockPassword" placeholder="Password">
+      <button id="unlockBtn">Unlock</button>
+    </div>
+  </div>
+  <nav class="cosmic-navbar">
+    <div class="brand-container">
+      <div class="brand-icon">
+        <div class="planet"></div>
+        <div class="satellite"></div>
       </div>
-      <div style="border: 2px solid #e2e8f0; padding: 1.2rem; border-radius: 8px; max-width: 300px;">
-        <h3 style="color: #4a5568; margin-bottom: 0.5rem;">Classic</h3>
-        <p style="font-size: 0.9rem;">Same fit & look, lighter fabric, lower price.</p>
-        <button style="margin-top: 1rem; background: #4a5568; color: white; border: none; padding: 0.6rem 1rem; border-radius: 6px; cursor: pointer;">Pick Classic</button>
+      <span class="brand-name">Blend of Skies</span>
+    </div>
+    <div class="navbar-spacer"></div>
+    <div class="sky-selector">
+      <div class="selector-inner">
+        <span class="selector-text">Pick</span>
+        <span class="selector-text">Your</span>
+        <span class="selector-text">Sky</span>
+      </div>
+      <div class="selector-emoji">🌤️</div>
+    </div>
+  </nav>
+  <div class="sky-backdrop"></div>
+  <div class="sky-panorama">
+    <div class="sky-options">
+      <div class="sky-option">
+        <div class="sky-preview">
+          <div class="sky-icon">😁</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Happy</h3>
+          <p>All smiles</p>
+        </div>
+      </div>
+      <div class="sky-option">
+        <div class="sky-preview">
+          <div class="sky-icon">😎</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Chill</h3>
+          <p>Laid-back vibe</p>
+        </div>
       </div>
     </div>
   </div>
-
+  <div class="container">
+    <div class="quiz-wrapper">
+      <div class="quiz-header">
+        <h2>Pick Your Tee Vibe</h2>
+        <p>We’ll quietly shape your picks based on just three quick questions.</p>
+      </div>
+      <div class="quiz-step active" data-step="1">
+        <h3 class="step-question">1. How do you like your shirts to fit?</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="relaxed">
+            <div class="option-icon">😌</div>
+            <div class="option-title">Relaxed & Roomy</div>
+            <div class="option-desc">All-day comfort, zero constraints.</div>
+          </div>
+          <div class="option-card" data-value="regular">
+            <div class="option-icon">🧍</div>
+            <div class="option-title">Regular / Classic</div>
+            <div class="option-desc">The go-to fit that works anytime.</div>
+          </div>
+          <div class="option-card" data-value="trim">
+            <div class="option-icon">💪</div>
+            <div class="option-title">Trim / Fitted</div>
+            <div class="option-desc">Sleek lines, shows a bit of shape.</div>
+          </div>
+          <div class="option-card" data-value="oversized">
+            <div class="option-icon">🧢</div>
+            <div class="option-title">Oversized / Street</div>
+            <div class="option-desc">Big silhouette, big style statement.</div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="2">
+        <h3 class="step-question">2. Which shirt size bracket fits you best?</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="xs-s">
+            <div class="option-icon">🩳</div>
+            <div class="option-title">XS / S</div>
+            <div class="option-desc">A smaller cut suits me fine.</div>
+          </div>
+          <div class="option-card" data-value="m">
+            <div class="option-icon">👕</div>
+            <div class="option-title">M</div>
+            <div class="option-desc">Right in the middle of the scale.</div>
+          </div>
+          <div class="option-card" data-value="l-xl">
+            <div class="option-icon">📏</div>
+            <div class="option-title">L / XL</div>
+            <div class="option-desc">A bit more space, a bit more style.</div>
+          </div>
+          <div class="option-card" data-value="xxl">
+            <div class="option-icon">🧺</div>
+            <div class="option-title">XXL or Bigger</div>
+            <div class="option-desc">Bigger builds, bigger presence.</div>
+          </div>
+          <div class="option-card" data-value="help">
+            <div class="option-icon">❓</div>
+            <div class="option-title">Not Sure</div>
+            <div class="option-desc">I’ll need a little guidance here.</div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="3">
+        <h3 class="step-question">3. What shirt designs catch your eye?</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="plain">
+            <div class="option-icon">🚫</div>
+            <div class="option-title">Plain & Clean</div>
+            <div class="option-desc">No logos or words, just the basics.</div>
+          </div>
+          <div class="option-card" data-value="subtle">
+            <div class="option-icon">🌸</div>
+            <div class="option-title">Subtle Prints</div>
+            <div class="option-desc">Small graphics or soft patterns.</div>
+          </div>
+          <div class="option-card" data-value="bold">
+            <div class="option-icon">🎉</div>
+            <div class="option-title">Bold Statements</div>
+            <div class="option-desc">Big prints, in-your-face style.</div>
+          </div>
+          <div class="option-card" data-value="anything">
+            <div class="option-icon">🌐</div>
+            <div class="option-title">Open to Anything</div>
+            <div class="option-desc">If it looks good, I’ll wear it.</div>
+          </div>
+        </div>
+      </div>
+      <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+        <div class="loading-text">Hang on, just finishing up your shirt match...</div>
+      </div>
+      <div class="quiz-result-final" id="finalResult">
+        <div class="final-icon">🎁</div>
+        <h2 class="final-title">We’ve Got Your Info</h2>
+        <p class="final-desc">Thanks for the quick intel. Keep browsing, and we’ll show you the shirt styles that truly match you best. Enjoy the ride.</p>
+      </div>
+    </div>
+  </div>
   <script>
-    const MASTER_PASSWORD = "Secret123";
-    document.addEventListener('DOMContentLoaded', function () {
-      const lockOverlay = document.getElementById('lockOverlay');
-      const lockError = document.getElementById('lockError');
-      const lockPassword = document.getElementById('lockPassword');
-      const unlockBtn = document.getElementById('unlockBtn');
-      unlockBtn.onclick = function () {
-        if (lockPassword.value === MASTER_PASSWORD) {
-          lockOverlay.style.display = 'none';
-          document.body.style.overflow = 'auto';
+    const MASTER_PASSWORD="Secret123";
+    document.addEventListener('DOMContentLoaded',function(){
+      const lockOverlay=document.getElementById('lockOverlay');
+      const lockError=document.getElementById('lockError');
+      const lockPassword=document.getElementById('lockPassword');
+      const unlockBtn=document.getElementById('unlockBtn');
+      unlockBtn.onclick=function(){
+        if(lockPassword.value===MASTER_PASSWORD){
+          lockOverlay.style.display='none';
+          document.body.style.overflow='auto';
         } else {
-          lockError.style.display = 'block';
+          lockError.style.display='block';
         }
       };
-
-      const quizSteps = document.querySelectorAll('.quiz-step');
-      const optionCards = document.querySelectorAll('.option-card');
-      const loadingScreen = document.getElementById('loadingScreen');
-      const finalResult = document.getElementById('finalResult');
-      const recommendation = document.getElementById('shirtRecommendation');
-      let currentStep = 1;
-      const totalSteps = quizSteps.length;
-      const userAnswers = {};
-
+      const skySelector=document.querySelector('.sky-selector');
+      const selectorEmoji=document.querySelector('.selector-emoji');
+      const selectorText=document.querySelector('.selector-inner');
+      const skyBackdrop=document.querySelector('.sky-backdrop');
+      const skyPanorama=document.querySelector('.sky-panorama');
+      const skyOptions=document.querySelectorAll('.sky-option');
+      skySelector.onclick=function(e){
+        e.preventDefault();
+        skyBackdrop.classList.toggle('active');
+        skyPanorama.classList.toggle('open');
+      };
+      skyBackdrop.onclick=function(){
+        skyBackdrop.classList.remove('active');
+        skyPanorama.classList.remove('open');
+      };
+      skyOptions.forEach(opt=>{
+        opt.onclick=function(e){
+          e.preventDefault();
+          setTimeout(()=>{
+            skyBackdrop.classList.remove('active');
+            skyPanorama.classList.remove('open');
+          },250);
+        };
+      });
+      skySelector.onmouseenter=function(){
+        selectorEmoji.style.opacity='1';
+        selectorText.style.opacity='0';
+      };
+      skySelector.onmouseleave=function(){
+        if(selectorEmoji.textContent==='🌤️'){
+          selectorEmoji.style.opacity='0';
+          selectorText.style.opacity='1';
+        }
+      };
+      const quizSteps=document.querySelectorAll('.quiz-step');
+      const optionCards=document.querySelectorAll('.option-card');
+      const loadingScreen=document.getElementById('loadingScreen');
+      const finalResult=document.getElementById('finalResult');
+      let currentStep=1;
+      const totalSteps=quizSteps.length;
+      const userAnswers={};
       quizSteps[0].classList.add('active');
-
-      optionCards.forEach(card => {
-        card.addEventListener('click', function () {
-          const parentStep = this.closest('.quiz-step');
-          const stepNum = parseInt(parentStep.getAttribute('data-step'));
-          parentStep.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      optionCards.forEach(card=>{
+        card.addEventListener('click',function(){
+          const parentStep=this.closest('.quiz-step');
+          const stepNum=parseInt(parentStep.getAttribute('data-step'));
+          parentStep.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
           this.classList.add('selected');
-          const val = this.getAttribute('data-value');
-          userAnswers[`step${stepNum}`] = val;
-
-          if (stepNum < totalSteps) {
+          const val=this.getAttribute('data-value');
+          userAnswers[`step${stepNum}`]=val;
+          if(stepNum<totalSteps){
             parentStep.classList.remove('active');
-            const nextStep = stepNum + 1;
+            const nextStep=stepNum+1;
             document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
-            currentStep = nextStep;
+            currentStep=nextStep;
           } else {
             parentStep.classList.remove('active');
             loadingScreen.classList.add('active');
-            setTimeout(() => {
+            setTimeout(()=>{
               loadingScreen.classList.remove('active');
-              recommendation.classList.add('active');
-              console.log("User's T-shirt answers:", userAnswers);
-            }, 2000);
+              finalResult.classList.add('active');
+              console.log("User's T-shirt quiz:",userAnswers);
+            },2000);
           }
         });
       });
