@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies - Personal Style Odyssey</title>
+    <title>Cosmic Skies - Personal Style Questionnaire</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
         :root {
@@ -35,6 +35,7 @@
             transform: translateY(50px);
             transition: all var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1);
             position: absolute;
+            text-align: center;
         }
 
         .question-stage.active {
@@ -45,16 +46,6 @@
         .question-stage.exit-left {
             opacity: 0;
             transform: translateX(-100%);
-        }
-
-        .question-stage.exit-right {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-
-        .cosmic-question {
-            text-align: center;
-            margin-bottom: 40px;
         }
 
         .cosmic-question h2 {
@@ -71,7 +62,7 @@
             color: #666;
             font-style: italic;
             max-width: 500px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
         }
 
         .option-constellation {
@@ -94,27 +85,6 @@
             overflow: hidden;
         }
 
-        .cosmic-option::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at center, 
-                rgba(135, 206, 250, 0.1) 0%, 
-                transparent 70%
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .cosmic-option:hover::before,
-        .cosmic-option.selected::before {
-            opacity: 1;
-        }
-
         .cosmic-option:hover {
             transform: scale(1.05);
             border-color: var(--cosmic-primary);
@@ -130,51 +100,20 @@
             font-size: 1.2rem;
             color: #333;
             margin-bottom: 10px;
-            transition: color 0.3s ease;
         }
 
         .cosmic-option p {
             font-size: 0.9rem;
             color: #666;
-            transition: color 0.3s ease;
-        }
-
-        .navigation-controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 20px;
-        }
-
-        .nav-button {
-            background: linear-gradient(135deg, var(--cosmic-primary), var(--cosmic-secondary));
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0.7;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-3px);
-            opacity: 1;
-            box-shadow: 0 6px 15px rgba(135, 206, 250, 0.4);
-        }
-
-        .nav-button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
         .progress-indicator {
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
         }
 
         .progress-dot {
@@ -219,42 +158,7 @@
     <div class="stars-container"></div>
 
     <div class="questionnaire-container">
-        <!-- Mood Question -->
-        <div class="question-stage active" data-question="mood">
-            <div class="cosmic-question">
-                <h2>Decode Your Current Orbit</h2>
-                <p>Your mood isn't just a state—it's a cosmic signal. What's your current wavelength?</p>
-            </div>
-            <div class="option-constellation">
-                <div class="cosmic-option" data-value="calm">
-                    <h3>Calm Horizon</h3>
-                    <p>Steady as a neutron star, unshakeable</p>
-                </div>
-                <div class="cosmic-option" data-value="focused">
-                    <h3>Mission Control</h3>
-                    <p>Laser-sharp, goals in gravitational lock</p>
-                </div>
-                <div class="cosmic-option" data-value="floating">
-                    <h3>Orbital Drift</h3>
-                    <p>Gently navigating the cosmic currents</p>
-                </div>
-                <div class="cosmic-option" data-value="low-energy">
-                    <h3>Minimal Thrust</h3>
-                    <p>Conserving fuel, system in standby</p>
-                </div>
-                <div class="cosmic-option" data-value="irritated">
-                    <h3>Solar Flare</h3>
-                    <p>Slight electromagnetic disturbance detected</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- More question stages will be dynamically added here -->
-    </div>
-
-    <div class="navigation-controls">
-        <button id="prev-button" class="nav-button" disabled>Previous</button>
-        <button id="next-button" class="nav-button" disabled>Next</button>
+        <!-- Stages will be dynamically added here -->
     </div>
 
     <div class="progress-indicator">
@@ -269,42 +173,66 @@
         document.addEventListener('DOMContentLoaded', () => {
             const questions = [
                 {
-                    id: 'mood',
-                    title: 'Decode Your Current Orbit',
-                    subtitle: 'Your mood isn\'t just a state—it\'s a cosmic signal. What\'s your current wavelength?',
+                    title: 'Pick a mood',
+                    subtitle: '(*Because "fine" isn\'t telling us anything.*)',
                     options: [
-                        { value: 'calm', title: 'Calm Horizon', description: 'Steady as a neutron star, unshakeable' },
-                        { value: 'focused', title: 'Mission Control', description: 'Laser-sharp, goals in gravitational lock' },
-                        { value: 'floating', title: 'Orbital Drift', description: 'Gently navigating the cosmic currents' },
-                        { value: 'low-energy', title: 'Minimal Thrust', description: 'Conserving fuel, system in standby' },
-                        { value: 'irritated', title: 'Solar Flare', description: 'Slight electromagnetic disturbance detected' }
+                        { title: 'Calm and steady', description: 'nothing phases you, not even Mondays' },
+                        { title: 'Focused and fast', description: 'your calendar needs a nap' },
+                        { title: 'Floating through', description: 'mentally present-ish' },
+                        { title: 'Low energy', description: 'battery\'s in power-saving mode' },
+                        { title: 'Mildly irritated', description: 'not angry, just extremely done' }
                     ]
                 },
                 {
-                    id: 'shirt-style',
-                    title: 'Textile Mission Parameters',
-                    subtitle: 'Your garment is more than fabric—it\'s your personal spacecraft design.',
+                    title: 'Pick a shirt style',
+                    subtitle: '(*A.K.A. what you\'ll actually wear outside.*)',
                     options: [
-                        { value: 'minimal', title: 'Stealth Mode', description: 'Sleek design, zero resistance' },
-                        { value: 'big-graphic', title: 'Signal Broadcast', description: 'Loud visual communication' },
-                        { value: 'text-logo', title: 'Data Transmission', description: 'Text as your primary interface' },
-                        { value: 'wildcard', title: 'Quantum Wardrobe', description: 'Unpredictable clothing trajectory' }
+                        { title: 'Minimal', description: 'clean, simple, nothing fighting for attention' },
+                        { title: 'Big graphic', description: 'your shirt speaks louder than you' },
+                        { title: 'Text/logo', description: 'words, slogans, branding front and center' },
+                        { title: 'Honestly? Depends', description: 'your closet is a wildcard' }
+                    ]
+                },
+                {
+                    title: 'Pick a body type',
+                    subtitle: '(*So we don\'t show you shirts made for someone else\'s torso.*)',
+                    options: [
+                        { title: 'Slim build', description: 'lean, narrow frame' },
+                        { title: 'Average build', description: 'not too big, not too small' },
+                        { title: 'Broad or built', description: 'wider up top, strength included' },
+                        { title: 'Fuller body', description: 'more shape, more space to cover' },
+                        { title: 'Somewhere in between', description: 'let\'s not overthink it' }
+                    ]
+                },
+                {
+                    title: 'Pick a size',
+                    subtitle: '(*Because "shrinks in the wash" isn\'t a size.*)',
+                    options: [
+                        { title: 'XS or S', description: 'small frame, big opinions' },
+                        { title: 'Medium', description: 'classic middle-lane fit' },
+                        { title: 'L or XL', description: 'roomy, but not lost' },
+                        { title: 'XXL or above', description: 'more to style, more to love' },
+                        { title: 'No clue', description: 'shirt sizing is a mystery' }
+                    ]
+                },
+                {
+                    title: 'Pick your price vibe',
+                    subtitle: '(*You know what you want. We\'re just asking nicely.*)',
+                    options: [
+                        { title: 'Classic', description: 'good quality, solid price, no drama' },
+                        { title: 'Premium', description: 'feels nice, lasts long, costs a little more' }
                     ]
                 }
-                // More questions will be added here
             ];
 
             let currentQuestionIndex = 0;
             const questionnaire = document.querySelector('.questionnaire-container');
-            const prevButton = document.getElementById('prev-button');
-            const nextButton = document.getElementById('next-button');
             const progressDots = document.querySelectorAll('.progress-dot');
             const answers = {};
 
             function createQuestionStage(question) {
                 const stage = document.createElement('div');
                 stage.classList.add('question-stage');
-                stage.dataset.question = question.id;
 
                 stage.innerHTML = `
                     <div class="cosmic-question">
@@ -312,10 +240,10 @@
                         <p>${question.subtitle}</p>
                     </div>
                     <div class="option-constellation">
-                        ${question.options.map(option => `
-                            <div class="cosmic-option" data-value="${option.value}">
+                        ${question.options.map((option, index) => `
+                            <div class="cosmic-option" data-index="${index}">
                                 <h3>${option.title}</h3>
-                                <p>${option.description}</p>
+                                <p>— ${option.description}</p>
                             </div>
                         `).join('')}
                     </div>
@@ -328,35 +256,30 @@
                 const options = stage.querySelectorAll('.cosmic-option');
                 options.forEach(option => {
                     option.addEventListener('click', () => {
-                        // Deselect all options
-                        options.forEach(opt => opt.classList.remove('selected'));
-                        
-                        // Select clicked option
-                        option.classList.add('selected');
-                        
                         // Store answer
-                        const questionId = stage.dataset.question;
-                        answers[questionId] = option.dataset.value;
+                        const optionIndex = option.dataset.index;
+                        answers[currentQuestionIndex] = optionIndex;
                         
-                        // Enable next button
-                        nextButton.disabled = false;
+                        // Move to next question
+                        if (currentQuestionIndex < questions.length - 1) {
+                            currentQuestionIndex++;
+                            transitionToNextQuestion();
+                        } else {
+                            // Last question completed
+                            console.log('Final answers:', answers);
+                            alert('Questionnaire complete! Thanks for sharing your style preferences.');
+                        }
                     });
                 });
             }
 
-            function transitionToQuestion(direction) {
-                const currentStage = document.querySelector('.question-stage.active');
+            function transitionToNextQuestion() {
+                const currentStage = document.querySelector('.question-stage');
                 
-                // Add exit animation
-                currentStage.classList.add(direction === 'next' ? 'exit-left' : 'exit-right');
-                
-                // Remove current stage after animation
-                setTimeout(() => {
+                // Remove current stage
+                if (currentStage) {
                     currentStage.remove();
-                }, 600);
-
-                // Update question index
-                currentQuestionIndex += direction === 'next' ? 1 : -1;
+                }
 
                 // Create and append new stage
                 const newStage = createQuestionStage(questions[currentQuestionIndex]);
@@ -368,34 +291,19 @@
                     setupQuestionInteractions(newStage);
                 }, 50);
 
-                // Update navigation buttons
-                prevButton.disabled = currentQuestionIndex === 0;
-                nextButton.disabled = true;
-
                 // Update progress dots
                 progressDots.forEach((dot, index) => {
                     dot.classList.toggle('active', index <= currentQuestionIndex);
                 });
             }
 
-            // Initial setup
-            prevButton.addEventListener('click', () => transitionToQuestion('prev'));
-            nextButton.addEventListener('click', () => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    transitionToQuestion('next');
-                } else {
-                    console.log('Final answers:', answers);
-                    alert('Cosmic journey complete! Your personal style profile has been mapped.');
-                }
-            });
-
-            // Setup first additional question after initial page load
+            // Start the questionnaire
+            const initialStage = createQuestionStage(questions[0]);
+            questionnaire.appendChild(initialStage);
             setTimeout(() => {
-                if (questions.length > 1) {
-                    const nextStage = createQuestionStage(questions[1]);
-                    questionnaire.appendChild(nextStage);
-                }
-            }, 1000);
+                initialStage.classList.add('active');
+                setupQuestionInteractions(initialStage);
+            }, 50);
         });
     </script>
     <script src="navbar.js"></script>
