@@ -103,6 +103,30 @@
             transform: scaleX(0);
             transition: transform 0.5s ease;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .option-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-stage {
+                padding: 20px;
+                margin: 0 10px;
+            }
+            
+            .question-title {
+                font-size: 1.7rem;
+            }
+            
+            .option-card h3 {
+                font-size: 1rem;
+            }
+            
+            .option-card p {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,12 +151,47 @@
                 <div class="orb-emoji">🎯</div>
             </div>
         </div>
-        
-        <div class="empty-space"></div>
     </nav>
     
     <div class="sky-backdrop"></div>
     <div class="stars-container"></div>
+
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="shop">
+                <div class="sky-preview">
+                    <div class="sky-icon">🛍️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Shop All</h3>
+                    <p>Browse full collection</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="recommendations">
+                <div class="sky-preview">
+                    <div class="sky-icon">✨</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Recommendations</h3>
+                    <p>Personalized picks</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="about-style">
+                <div class="sky-preview">
+                    <div class="sky-icon">🤔</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>About Style</h3>
+                    <p>Learn more about our approach</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="questionnaire-container">
         <!-- Questions will be dynamically inserted here -->
