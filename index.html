@@ -1,211 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cosmic Questionnaire</title>
-  <style>
-    :root {
-      --bg-color: #0a0a0a;
-      --container-bg: rgba(255, 255, 255, 0.1);
-      --border-color: rgba(255, 255, 255, 0.18);
-      --accent-color: #1E90FF;
-      --text-color: #fff;
-      --transition-time: 0.4s;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overflow-x: hidden;
-    }
-    .cosmic-navbar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
-      z-index: 10;
-    }
-    .brand-name {
-      font-size: 1.8rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, var(--accent-color), #87CEEB);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .stars-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1;
-    }
-    .star {
-      position: absolute;
-      background: #fff;
-      border-radius: 50%;
-      filter: blur(1px);
-      animation: twinkle 3s ease-in-out infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
-    .questionnaire-container {
-      margin: 100px auto 0;
-      background: var(--container-bg);
-      border-radius: 15px;
-      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--border-color);
-      max-width: 600px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .progress {
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-color), #87CEEB);
-      width: 0%;
-      margin-bottom: 1rem;
-      transition: width var(--transition-time) ease;
-    }
-    .question {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity var(--transition-time) ease, transform var(--transition-time) ease;
-    }
-    .question.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .question h2 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      background: linear-gradient(135deg, var(--accent-color), #87CEEB);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .answers {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .answers li {
-      margin: 1rem 0;
-    }
-    .answer-btn {
-      width: 100%;
-      padding: 1rem;
-      background: transparent;
-      border: 2px solid var(--accent-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      color: var(--text-color);
-      cursor: pointer;
-      transition: background var(--transition-time) ease, color var(--transition-time) ease;
-    }
-    .answer-btn:hover {
-      background: var(--accent-color);
-      color: #000;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Questionnaire</title>
+<style>
+:root {
+  --bg-color: #0a0a0a;
+  --container-bg: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.18);
+  --accent-color: #1E90FF;
+  --text-color: #fff;
+  --transition-time: 0.4s;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow-x:hidden; }
+.cosmic-navbar {
+  position: fixed; top:0; width:100%; height:70px;
+  display: flex; justify-content: center; align-items: center;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index:10;
+}
+.brand-name {
+  font-size:1.8rem; font-weight:600;
+  background: linear-gradient(135deg, var(--accent-color), #87CEEB);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stars-container {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  overflow:hidden; z-index:-1;
+}
+.star {
+  position: absolute; background: #fff; border-radius: 50%;
+  filter: blur(1px); animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle { 0%,100% { opacity:0.2; } 50% { opacity:1; } }
+.questionnaire-container {
+  margin: 100px auto 0; background: var(--container-bg);
+  border-radius:15px; box-shadow: 0 8px 32px rgba(31,38,135,0.37);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color); max-width:600px; padding:2rem;
+  text-align:center; position: relative; overflow: hidden;
+}
+.progress {
+  height:4px; background: linear-gradient(90deg, var(--accent-color), #87CEEB);
+  width: 0%; margin-bottom:1rem; transition: width var(--transition-time) ease;
+}
+.question {
+  opacity:0; transform: translateY(20px);
+  transition: opacity var(--transition-time) ease, transform var(--transition-time) ease;
+}
+.question.active { opacity:1; transform: translateY(0); }
+.question h2 {
+  margin-bottom:1rem; font-size:1.5rem;
+  background: linear-gradient(135deg, var(--accent-color), #87CEEB);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.answers { list-style:none; padding:0; margin:0; }
+.answers li { margin:1rem 0; }
+.answer-btn {
+  width:100%; padding:1rem; background: transparent;
+  border: 2px solid var(--accent-color); border-radius:8px;
+  font-size:1rem; color: var(--text-color); cursor:pointer;
+  transition: background var(--transition-time) ease, color var(--transition-time) ease,
+              transform var(--transition-time) ease;
+}
+.answer-btn:hover {
+  background: var(--accent-color); color: #000; transform: scale(1.03);
+}
+.confetti {
+  position: absolute; width: 8px; height: 8px;
+  opacity: 0.8; pointer-events: none;
+}
+@keyframes confetti-fall {
+  0% { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--x, 100px), 500px, 0) rotate(360deg); opacity: 0; }
+}
+</style>
 </head>
 <body>
-  <div class="cosmic-navbar">
-    <div class="brand-name">Cosmic Quiz</div>
+<div class="cosmic-navbar"><div class="brand-name">Cosmic Quiz</div></div>
+<div class="stars-container"></div>
+<div class="questionnaire-container">
+  <div class="progress" id="progress"></div>
+  <div class="question active" data-index="0">
+    <h2>Question 1: What is your favorite color?</h2>
+    <ul class="answers">
+      <li><button class="answer-btn" data-answer="a">Red</button></li>
+      <li><button class="answer-btn" data-answer="b">Blue</button></li>
+      <li><button class="answer-btn" data-answer="c">Green</button></li>
+      <li><button class="answer-btn" data-answer="d">Yellow</button></li>
+    </ul>
   </div>
-  <div class="stars-container"></div>
-  <div class="questionnaire-container">
-    <div class="progress" id="progress"></div>
-    <div class="question active" data-index="0">
-      <h2>Question 1: What is your favorite color?</h2>
-      <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">Red</button></li>
-        <li><button class="answer-btn" data-answer="b">Blue</button></li>
-        <li><button class="answer-btn" data-answer="c">Green</button></li>
-        <li><button class="answer-btn" data-answer="d">Yellow</button></li>
-      </ul>
-    </div>
-    <div class="question" data-index="1">
-      <h2>Question 2: What is your favorite season?</h2>
-      <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">Spring</button></li>
-        <li><button class="answer-btn" data-answer="b">Summer</button></li>
-        <li><button class="answer-btn" data-answer="c">Autumn</button></li>
-        <li><button class="answer-btn" data-answer="d">Winter</button></li>
-      </ul>
-    </div>
-    <div class="question" data-index="2">
-      <h2>Question 3: What is your favorite animal?</h2>
-      <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">Cat</button></li>
-        <li><button class="answer-btn" data-answer="b">Dog</button></li>
-        <li><button class="answer-btn" data-answer="c">Bird</button></li>
-        <li><button class="answer-btn" data-answer="d">Fish</button></li>
-      </ul>
-    </div>
-    <div class="question" data-index="3">
-      <h2>Question 4: What is your favorite hobby?</h2>
-      <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">Reading</button></li>
-        <li><button class="answer-btn" data-answer="b">Traveling</button></li>
-        <li><button class="answer-btn" data-answer="c">Gaming</button></li>
-        <li><button class="answer-btn" data-answer="d">Cooking</button></li>
-      </ul>
-    </div>
+  <div class="question" data-index="1">
+    <h2>Question 2: What is your favorite season?</h2>
+    <ul class="answers">
+      <li><button class="answer-btn" data-answer="a">Spring</button></li>
+      <li><button class="answer-btn" data-answer="b">Summer</button></li>
+      <li><button class="answer-btn" data-answer="c">Autumn</button></li>
+      <li><button class="answer-btn" data-answer="d">Winter</button></li>
+    </ul>
   </div>
-  <script>
-    const questions = document.querySelectorAll('.question');
-    const progress = document.getElementById('progress');
-    let currentQuestion = 0;
-    function showQuestion(index) {
-      questions.forEach((q, i) => { q.classList.toggle('active', i === index); });
-      progress.style.width = ((index) / questions.length * 100) + '%';
-    }
-    showQuestion(currentQuestion);
-    document.querySelectorAll('.answer-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const parent = btn.closest('.question');
-        parent.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
-        setTimeout(() => {
-          currentQuestion++;
-          if (currentQuestion < questions.length) { showQuestion(currentQuestion); }
-          else {
-            document.querySelector('.questionnaire-container').innerHTML = '<h2 style="font-size:1.8rem; background: linear-gradient(135deg, var(--accent-color), #87CEEB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thank you for completing the quiz!</h2>';
-            progress.style.width = '100%';
-          }
-        }, 400);
-      });
-    });
-    function createStars() {
-      const starsContainer = document.querySelector('.stars-container');
-      const count = window.innerWidth < 768 ? 50 : 100;
-      for (let i = 0; i < count; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        const size = Math.random() * 2 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 3 + 's';
-        starsContainer.appendChild(star);
-      }
-    }
-    createStars();
-  </script>
+  <div class="question" data-index="2">
+    <h2>Question 3: What is your favorite animal?</h2>
+    <ul class="answers">
+      <li><button class="answer-btn" data-answer="a">Cat</button></li>
+      <li><button class="answer-btn" data-answer="b">Dog</button></li>
+      <li><button class="answer-btn" data-answer="c">Bird</button></li>
+      <li><button class="answer-btn" data-answer="d">Fish</button></li>
+    </ul>
+  </div>
+  <div class="question" data-index="3">
+    <h2>Question 4: What is your favorite hobby?</h2>
+    <ul class="answers">
+      <li><button class="answer-btn" data-answer="a">Reading</button></li>
+      <li><button class="answer-btn" data-answer="b">Traveling</button></li>
+      <li><button class="answer-btn" data-answer="c">Gaming</button></li>
+      <li><button class="answer-btn" data-answer="d">Cooking</button></li>
+    </ul>
+  </div>
+</div>
+<script>
+const questions = document.querySelectorAll('.question'), progress = document.getElementById('progress');
+let currentQuestion = 0;
+function showQuestion(index) {
+  questions.forEach((q,i)=>q.classList.toggle('active',i===index));
+  progress.style.width = (index/questions.length*100)+'%';
+}
+showQuestion(currentQuestion);
+document.querySelectorAll('.answer-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    let parent = btn.closest('.question');
+    parent.querySelectorAll('.answer-btn').forEach(b=>b.disabled=true);
+    parent.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    parent.style.opacity = '0';
+    parent.style.transform = 'translateY(-20px)';
+    setTimeout(()=>{
+      currentQuestion++;
+      if(currentQuestion<questions.length) { showQuestion(currentQuestion); }
+      else { completeQuiz(); }
+    },300);
+  });
+});
+function completeQuiz() {
+  const container = document.querySelector('.questionnaire-container');
+  container.innerHTML = '<h2 style="font-size:1.8rem; background: linear-gradient(135deg, var(--accent-color), #87CEEB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thank you for completing the quiz!</h2>';
+  progress.style.width = '100%';
+  launchConfetti();
+}
+function createStars() {
+  const starsContainer = document.querySelector('.stars-container');
+  const count = window.innerWidth<768?50:150;
+  for(let i=0;i<count;i++){
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random()*2+1;
+    star.style.width = size+'px';
+    star.style.height = size+'px';
+    star.style.left = Math.random()*100+'%';
+    star.style.top = Math.random()*100+'%';
+    star.style.animationDelay = Math.random()*3+'s';
+    starsContainer.appendChild(star);
+  }
+}
+createStars();
+function launchConfetti() {
+  const container = document.querySelector('.questionnaire-container');
+  for(let i=0;i<100;i++){
+    const conf = document.createElement('div');
+    conf.classList.add('confetti');
+    conf.style.left = Math.random()*100+'%';
+    conf.style.top = '-10px';
+    conf.style.setProperty('--x', (Math.random()*200-100)+'px');
+    conf.style.background = ['#ff595e','#ffca3a','#8ac926','#1982c4','#6a4c93'][Math.floor(Math.random()*5)];
+    conf.style.animation = 'confetti-fall 2s ease-out forwards';
+    container.appendChild(conf);
+    setTimeout(()=>{ conf.remove(); },2000);
+  }
+}
+</script>
 </body>
 </html>
