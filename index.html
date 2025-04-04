@@ -4,8 +4,256 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blend of Skies - Style Questionnaire</title>
-    <link rel="stylesheet" href="navbar.css">
     <style>
+        /* General styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f9fbff;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar styles */
+        .cosmic-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .brand-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .brand-icon {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            margin-right: 12px;
+        }
+        
+        .orbit-icon {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .planet {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(30, 144, 255, 0.5);
+        }
+        
+        .satellite {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: orbit 3s linear infinite;
+        }
+        
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(18px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
+        }
+        
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .sky-selector {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .selector-orb {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(135, 206, 250, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .selector-orb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.5);
+        }
+        
+        .selector-orb.active {
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(135, 206, 250, 0.5);
+        }
+        
+        .orb-inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .orb-inner span {
+            font-size: 0.55rem;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .orb-emoji {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .selector-orb.active .orb-emoji {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .selector-orb.active .orb-inner {
+            opacity: 0;
+        }
+        
+        /* Sky panorama */
+        .sky-panorama {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 90;
+            overflow: hidden;
+            transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sky-panorama.open {
+            height: 150px;
+        }
+        
+        .sky-options {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .sky-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .sky-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .sky-option:hover .sky-preview {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-color: #1E90FF;
+        }
+        
+        .sky-icon {
+            font-size: 1.8rem;
+            transform: translateY(2px);
+        }
+        
+        .sky-reflection {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.7));
+            transform: scaleY(-1);
+            opacity: 0.3;
+        }
+        
+        .sky-details {
+            text-align: center;
+        }
+        
+        .sky-details h3 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            color: #333;
+        }
+        
+        .sky-details p {
+            font-size: 0.7rem;
+            color: #666;
+            max-width: 100px;
+            text-align: center;
+        }
+        
+        /* Questionnaire container */
         .questionnaire-container {
             position: fixed;
             top: 70px;
@@ -15,31 +263,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.7));
             overflow: hidden;
+            z-index: 50;
         }
-
+        
         .question-stage {
             width: 100%;
             max-width: 800px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(135, 206, 250, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(135, 206, 250, 0.2);
             padding: 40px;
             text-align: center;
             position: relative;
             transform: scale(0.9);
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
         }
-
+        
         .question-stage.active {
             transform: scale(1);
             opacity: 1;
         }
-
+        
         .question-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             background: linear-gradient(135deg, #1E90FF, #87CEEB);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -47,97 +297,261 @@
             margin-bottom: 15px;
             font-weight: 600;
         }
-
+        
         .question-subtitle {
             color: #666;
             font-style: italic;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
         }
-
+        
         .option-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 20px;
         }
-
+        
         .option-card {
             background: white;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            padding: 20px;
+            border: 2px solid #e6f2ff;
+            border-radius: 12px;
+            padding: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(135, 206, 250, 0.1);
+            box-shadow: 0 6px 15px rgba(135, 206, 250, 0.05);
+            position: relative;
+            overflow: hidden;
         }
-
+        
         .option-card:hover {
             border-color: #1E90FF;
             transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(135, 206, 250, 0.2);
+            box-shadow: 0 12px 25px rgba(135, 206, 250, 0.15);
         }
-
+        
         .option-card.selected {
             border-color: #1E90FF;
-            background: rgba(135, 206, 250, 0.05);
+            background: rgba(30, 144, 255, 0.05);
         }
-
+        
+        .option-card.selected::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            background: #1E90FF;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .option-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 12px;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeIn 0.3s 0.1s forwards;
+        }
+        
         .option-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
             color: #333;
+            transition: all 0.3s ease;
         }
-
+        
+        .option-card:hover h3 {
+            color: #1E90FF;
+        }
+        
         .option-card p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #666;
+            line-height: 1.4;
         }
-
+        
         .progress-bar {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 6px;
             background: linear-gradient(to right, #1E90FF, #87CEEB);
             transform-origin: left;
             transform: scaleX(0);
             transition: transform 0.5s ease;
         }
-
-        .sky-panorama {
-            display: none;
+        
+        /* Results content styles */
+        .results-content {
+            text-align: left;
+            margin-bottom: 30px;
         }
-
-        .sky-panorama.open {
-            display: block;
+        
+        .result-item {
+            background: rgba(240, 248, 255, 0.5);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 8px rgba(135, 206, 250, 0.05);
+            border-left: 4px solid #1E90FF;
         }
-
+        
+        .result-item h3 {
+            color: #1E90FF;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .result-item p {
+            color: #444;
+            font-size: 0.95rem;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(135, 206, 250, 0.3);
+        }
+        
+        /* Confetti effect for results */
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #1E90FF;
+            top: -20px;
+            opacity: 0;
+        }
+        
+        /* Responsive styles */
         @media (max-width: 768px) {
             .option-grid {
                 grid-template-columns: 1fr;
             }
             
             .question-stage {
-                padding: 20px;
-                margin: 0 10px;
+                padding: 30px 20px;
+                margin: 0 15px;
+                max-width: 100%;
             }
             
             .question-title {
-                font-size: 1.7rem;
+                font-size: 1.8rem;
+            }
+            
+            .question-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 25px;
             }
             
             .option-card h3 {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .option-card p {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .sky-panorama.open {
+                height: 200px;
+            }
+            
+            .sky-options {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .result-item {
+                padding: 12px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cosmic-navbar {
+                height: 60px;
+                padding: 0 15px;
+            }
+            
+            .brand-name {
+                font-size: 1.1rem;
+            }
+            
+            .selector-orb {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .question-title {
+                font-size: 1.6rem;
+            }
+            
+            .option-card {
+                padding: 20px;
+            }
+            
+            .questionnaire-container {
+                top: 60px;
+                height: calc(100vh - 60px);
             }
         }
     </style>
 </head>
 <body>
-    <nav class="cosmic-navbar" style="height: 70px;">
+    <nav class="cosmic-navbar">
         <div class="brand-container">
             <div class="brand-icon">
                 <div class="orbit-icon">
@@ -213,17 +627,75 @@
                 </div>
                 <div class="sky-details">
                     <h3>Rainbow</h3>
-                    <p>Colorful rainbow after rain</p>
+                    <p>Colorful sky after rain</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="questionnaire-container">
+        <!-- Question content will be dynamically added here -->
     </div>
-
+    
     <script>
+        // Function to create stars for added visual interest
+        function createStars() {
+            const container = document.createElement('div');
+            container.classList.add('stars-container');
+            container.style.position = 'fixed';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.pointerEvents = 'none';
+            container.style.zIndex = '45';
+            container.style.opacity = '0';
+            container.style.transition = 'opacity 0.5s ease';
+            document.body.appendChild(container);
+            
+            const starCount = window.innerWidth < 768 ? 50 : 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random properties
+                const size = Math.random() * 3 + 1;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const delay = Math.random() * 3;
+                
+                star.style.position = 'absolute';
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.backgroundColor = 'white';
+                star.style.borderRadius = '50%';
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8)';
+                star.style.animation = `twinkle 3s infinite ${delay}s`;
+                
+                container.appendChild(star);
+            }
+            
+            // Add animation style
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes twinkle {
+                    0% { opacity: 0.3; transform: scale(1); }
+                    50% { opacity: 1; transform: scale(1.2); }
+                    100% { opacity: 0.3; transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            return container;
+        }
+        
         document.addEventListener('DOMContentLoaded', () => {
+            // Create stars background
+            const starsContainer = createStars();
+            // Define questions and options
             const questions = [
                 {
                     title: 'Pick a mood',
@@ -281,17 +753,81 @@
                 }
             ];
 
+            // State variables
             let currentQuestionIndex = 0;
             const questionnaire = document.querySelector('.questionnaire-container');
             const skyPanorama = document.querySelector('.sky-panorama');
             const skySelector = document.querySelector('.sky-selector');
             const selectorOrb = document.querySelector('.selector-orb');
             const answers = {};
-
+            
+            // Sky selection elements
+            const skyOptions = document.querySelectorAll('.sky-option');
+            const orbEmoji = document.querySelector('.orb-emoji');
+            const starsContainer = document.querySelector('.stars-container');
+            
+            // Add sky selector toggle functionality
+            skySelector.addEventListener('click', () => {
+                skyPanorama.classList.toggle('open');
+                selectorOrb.classList.toggle('active');
+                
+                if (skyPanorama.classList.contains('open')) {
+                    // Show sky options with staggered animation
+                    skyOptions.forEach((option, index) => {
+                        setTimeout(() => {
+                            option.style.opacity = '1';
+                            option.style.transform = 'translateY(0)';
+                        }, 100 + (index * 50));
+                    });
+                    
+                    // Show stars
+                    if (starsContainer) {
+                        starsContainer.style.opacity = '0.7';
+                    }
+                } else {
+                    // Hide sky options
+                    skyOptions.forEach(option => {
+                        option.style.opacity = '0';
+                        option.style.transform = 'translateY(20px)';
+                    });
+                    
+                    // Hide stars
+                    if (starsContainer) {
+                        starsContainer.style.opacity = '0';
+                    }
+                }
+            });
+            
+            // Sky option click handlers
+            skyOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const skyType = option.getAttribute('data-sky');
+                    const skyIcon = option.querySelector('.sky-icon').textContent;
+                    
+                    // Update orb with selected sky
+                    orbEmoji.textContent = skyIcon;
+                    selectorOrb.classList.add('active');
+                    
+                    // Close sky panorama after selection
+                    setTimeout(() => {
+                        skyPanorama.classList.remove('open');
+                        
+                        // Hide stars
+                        if (starsContainer) {
+                            starsContainer.style.opacity = '0';
+                        }
+                    }, 300);
+                });
+            });
+            
+            // Function to create a question stage
             function createQuestionStage(question) {
                 const stage = document.createElement('div');
                 stage.classList.add('question-stage');
-
+                
+                // Progress calculation
+                const progress = ((currentQuestionIndex + 1) / questions.length);
+                
                 stage.innerHTML = `
                     <h2 class="question-title">${question.title}</h2>
                     <p class="question-subtitle">${question.subtitle}</p>
@@ -305,42 +841,66 @@
                     </div>
                     <div class="progress-bar"></div>
                 `;
-
+                
                 return stage;
             }
-
+            
+            // Function to handle interactions with the question options
             function setupQuestionInteractions(stage) {
                 const options = stage.querySelectorAll('.option-card');
                 const progressBar = stage.querySelector('.progress-bar');
-
+                
+                // Set progress bar width based on current question
                 progressBar.style.transform = `scaleX(${(currentQuestionIndex + 1) / questions.length})`;
-
+                
+                // Add click handlers to options
                 options.forEach(option => {
                     option.addEventListener('click', () => {
+                        // Deselect all options first
                         options.forEach(opt => opt.classList.remove('selected'));
                         
+                        // Select the clicked option
                         option.classList.add('selected');
                         
+                        // Store the answer
                         const optionIndex = option.dataset.index;
                         answers[currentQuestionIndex] = optionIndex;
                         
+                        // Special handling for sky selection question
                         if (questions[currentQuestionIndex].title === 'Pick your sky') {
-                            const selectedSky = option.querySelector('h3').textContent.toLowerCase().replace(' ', '-');
-                            skyPanorama.classList.add('open');
+                            const selectedSkyTitle = questions[currentQuestionIndex].options[optionIndex].title;
+                            const skyIconMap = {
+                                'Sunny Day': '☀️',
+                                'Sunset': '🌅',
+                                'Storm': '⛈️',
+                                'Night': '🌃',
+                                'Rainbow': '🌈'
+                            };
+                            
+                            // Update the orb emoji
+                            orbEmoji.textContent = skyIconMap[selectedSkyTitle] || '🌤️';
                             selectorOrb.classList.add('active');
                             
-                            const skyOptions = document.querySelectorAll('.sky-option');
+                            // Show the sky panorama
+                            skyPanorama.classList.add('open');
+                            
+                            // Highlight the selected sky option
+                            const selectedSkyType = selectedSkyTitle.toLowerCase().replace(' ', '-');
                             skyOptions.forEach(skyOption => {
-                                if (skyOption.getAttribute('data-sky') === selectedSky) {
+                                const skyType = skyOption.getAttribute('data-sky');
+                                if (skyType === selectedSkyType || 
+                                    (selectedSkyType === 'sunny-day' && skyType === 'clear-blue') ||
+                                    (selectedSkyType === 'night' && skyType === 'starry-night')) {
                                     skyOption.style.opacity = '1';
                                     skyOption.style.transform = 'translateY(0)';
                                 } else {
-                                    skyOption.style.opacity = '0';
-                                    skyOption.style.transform = 'translateY(20px)';
+                                    skyOption.style.opacity = '0.3';
+                                    skyOption.style.transform = 'translateY(10px)';
                                 }
                             });
                         }
                         
+                        // Add a delay before moving to the next question
                         setTimeout(() => {
                             if (currentQuestionIndex < questions.length - 1) {
                                 currentQuestionIndex++;
@@ -349,75 +909,132 @@
                                 console.log('Completed Questionnaire:', answers);
                                 showResults();
                             }
-                        }, 300);
+                        }, 500);
                     });
                 });
             }
-
+            
+            // Function to transition to the next question
             function transitionToNextQuestion() {
                 const currentStage = document.querySelector('.question-stage');
                 
-                currentStage.remove();
-
-                const newStage = createQuestionStage(questions[currentQuestionIndex]);
-                questionnaire.appendChild(newStage);
-
+                // Fade out current stage
+                currentStage.style.opacity = '0';
+                currentStage.style.transform = 'scale(0.9)';
+                
+                // Remove after animation
                 setTimeout(() => {
-                    newStage.classList.add('active');
-                    setupQuestionInteractions(newStage);
-                }, 50);
+                    currentStage.remove();
+                    
+                    // Create and add new stage
+                    const newStage = createQuestionStage(questions[currentQuestionIndex]);
+                    questionnaire.appendChild(newStage);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        newStage.classList.add('active');
+                        setupQuestionInteractions(newStage);
+                    }, 50);
+                }, 300);
             }
-
+            
+            // Function to show results at the end
             function showResults() {
                 const resultsStage = document.createElement('div');
-                resultsStage.classList.add('question-stage', 'active');
-
+                resultsStage.classList.add('question-stage');
+                
+                // Create result content
                 resultsStage.innerHTML = `
                     <h2 class="question-title">Your Style Profile</h2>
+                    <p class="question-subtitle">Here's what we learned about you</p>
                     <div class="results-content">
                         ${questions.map((question, index) => `
                             <div class="result-item">
                                 <h3>${question.title}</h3>
-                                <p>${question.options[answers[index]].title}: ${question.options[answers[index]].description}</p>
+                                <p><strong>${question.options[answers[index]].title}:</strong> ${question.options[answers[index]].description}</p>
                             </div>
                         `).join('')}
                     </div>
-                    <button id="restart-btn" style="
-                        margin-top: 20px;
-                        padding: 10px 20px;
-                        background: linear-gradient(135deg, #1E90FF, #87CEEB);
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    ">Start Over</button>
+                    <button id="restart-btn" class="btn-primary">Start Over</button>
+                    <div class="confetti" id="confetti-container"></div>
                 `;
-
+                
+                // Replace current content with results
                 questionnaire.innerHTML = '';
                 questionnaire.appendChild(resultsStage);
-
+                
+                // Show results with animation
+                setTimeout(() => {
+                    resultsStage.classList.add('active');
+                    createConfetti();
+                }, 50);
+                
+                // Create confetti effect
+                function createConfetti() {
+                    const confettiContainer = document.getElementById('confetti-container');
+                    const colors = ['#1E90FF', '#87CEEB', '#4682B4', '#00BFFF', '#B0E0E6'];
+                    
+                    for (let i = 0; i < 100; i++) {
+                        const confetti = document.createElement('div');
+                        confetti.classList.add('confetti-piece');
+                        
+                        // Random properties
+                        const size = Math.floor(Math.random() * 10) + 5;
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        const left = Math.random() * 100;
+                        const delay = Math.random() * 3;
+                        const duration = Math.random() * 3 + 2;
+                        const shape = Math.random() > 0.5 ? '50%' : '0';
+                        
+                        // Set styles
+                        confetti.style.width = `${size}px`;
+                        confetti.style.height = `${size}px`;
+                        confetti.style.backgroundColor = color;
+                        confetti.style.left = `${left}%`;
+                        confetti.style.borderRadius = shape;
+                        confetti.style.position = 'absolute';
+                        confetti.style.opacity = '0';
+                        
+                        // Add animation
+                        confetti.style.animation = `fall ${duration}s ease-in ${delay}s forwards`;
+                        
+                        // Add to container
+                        confettiContainer.appendChild(confetti);
+                    }
+                    
+                    // Add animation style
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes fall {
+                            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+                            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                // Add restart button functionality
                 const restartBtn = resultsStage.querySelector('#restart-btn');
                 restartBtn.addEventListener('click', () => {
+                    // Reset state
                     currentQuestionIndex = 0;
                     skyPanorama.classList.remove('open');
                     selectorOrb.classList.remove('active');
+                    
+                    // Clear answers
+                    Object.keys(answers).forEach(key => delete answers[key]);
+                    
+                    // Create first question again
                     const initialStage = createQuestionStage(questions[0]);
                     questionnaire.innerHTML = '';
                     questionnaire.appendChild(initialStage);
+                    
+                    // Animate in
                     setTimeout(() => {
                         initialStage.classList.add('active');
                         setupQuestionInteractions(initialStage);
                     }, 50);
                 });
-            }
-
-            const initialStage = createQuestionStage(questions[0]);
-            questionnaire.appendChild(initialStage);
-            setTimeout(() => {
-                initialStage.classList.add('active');
-                setupQuestionInteractions(initialStage);
-            }, 50);
-        });
     </script>
     <script src="navbar.js"></script>
 </body>
