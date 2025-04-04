@@ -3,147 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies</title>
+    <title>Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
-        .sky-questionnaire {
+        .sky-blend-container {
             max-width: 800px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(135, 206, 250, 0.2);
+            margin: 30px auto;
+            position: relative;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .question-card {
-            padding: 25px;
-            margin: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.1);
-            margin-bottom: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .sky-layers {
+            height: 180px;
+            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
             position: relative;
             overflow: hidden;
-            display: none;
+            transition: background 0.5s ease;
         }
         
-        .question-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, #1E90FF, #87CEEB);
-        }
-        
-        .question-card.active {
-            display: block;
-        }
-        
-        .question-card h3 {
-            font-size: 1.3rem;
-            color: #1E90FF;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-        
-        .question-card p {
-            color: #666;
-            font-style: italic;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-        
-        .weather-icon {
+        .interactive-message {
             position: absolute;
             top: 15px;
-            right: 15px;
-            font-size: 2rem;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+            padding: 0 20px;
         }
         
-        .option-list {
+        .sun {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #FFD45C, #FF9C38);
+            border-radius: 50%;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px rgba(255, 212, 92, 0.7);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.6);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .sun:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+        
+        .clouds-row {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 0 10px;
+            z-index: 3;
+        }
+        
+        .clouds-row.row-1 {
+            bottom: 20px;
+        }
+        
+        .cloud {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .cloud-icon {
+            font-size: 1.5rem;
+        }
+        
+        .cloud-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1E90FF;
+        }
+        
+        .cloud:hover, .cloud.active {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cloud.completed::after {
+            content: "✓";
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #1E90FF;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .question-panel {
+            background: white;
+            padding: 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        
+        .question-panel.active {
+            max-height: 500px;
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .question-icon {
+            font-size: 1.8rem;
+            color: #1E90FF;
+        }
+        
+        .question-title h3 {
+            margin: 0 0 5px 0;
+            color: #1E90FF;
+        }
+        
+        .question-title p {
+            margin: 0;
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .options-list {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
         
         .option-item {
             padding: 12px 15px;
-            margin-bottom: 10px;
-            background: #f5f9ff;
+            background: #f7f9fc;
             border-radius: 8px;
+            margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid transparent;
+            border-left: 3px solid transparent;
         }
         
         .option-item:hover {
-            background: #e6f2ff;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(135, 206, 250, 0.1);
+            background: #edf5ff;
+            transform: translateX(5px);
         }
         
         .option-item.selected {
-            background: #e1f0ff;
-            border-color: #1E90FF;
+            background: #e6f2ff;
+            border-left-color: #1E90FF;
             font-weight: 500;
         }
         
-        .option-item.selected::after {
-            content: "✓";
-            float: right;
-            color: #1E90FF;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            background: #f5f9ff;
-        }
-        
-        .nav-button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .nav-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .nav-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background: #edf5ff;
+        .completion-bar {
+            height: 5px;
             width: 100%;
-            position: relative;
+            background: #edf5ff;
+            margin-top: 20px;
         }
         
-        .progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
+        .completion-fill {
             height: 100%;
-            background: linear-gradient(to right, #1E90FF, #87CEEB);
+            width: 0;
+            background: linear-gradient(to right, #87CEEB, #1E90FF);
             transition: width 0.3s ease;
-            width: 0%;
         }
         
         .completion-message {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
+            color: #1E90FF;
             display: none;
         }
         
@@ -151,48 +208,51 @@
             display: block;
         }
         
-        .completion-message h2 {
-            color: #1E90FF;
-            margin-bottom: 10px;
-        }
-        
-        .completion-message p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        
         .completion-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: block;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .note-hint {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.85rem;
+            font-style: italic;
         }
         
         @media (max-width: 600px) {
-            .sky-questionnaire {
+            .sky-blend-container {
                 margin: 20px 10px;
             }
             
-            .question-card {
-                padding: 20px 15px;
-                margin: 10px;
+            .sky-layers {
+                height: 240px;
             }
             
-            .question-card h3 {
-                font-size: 1.1rem;
-                padding-right: 40px;
+            .clouds-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                bottom: auto;
+            }
+            
+            .clouds-row.row-1 {
+                top: 120px;
+            }
+            
+            .cloud {
+                width: 90%;
+                justify-content: center;
+            }
+            
+            .question-panel {
+                padding: 20px 15px;
             }
             
             .option-item {
                 padding: 10px 12px;
-            }
-            
-            .nav-buttons {
-                padding: 15px;
-            }
-            
-            .nav-button {
-                padding: 8px 15px;
-                font-size: 0.9rem;
             }
         }
     </style>
@@ -206,7 +266,7 @@
                     <div class="satellite"></div>
                 </div>
             </div>
-            <div class="brand-name">Cosmic Skies</div>
+            <div class="brand-name">Blend of Skies</div>
         </div>
         
         <div class="sky-selector">
@@ -284,85 +344,132 @@
     </div>
     
     <div class="content-area">
-        <h2>Welcome to Cosmic Skies</h2>
+        <h2>Welcome to Blend of Skies</h2>
         <p>Select a sky experience from the menu in the top right. Each option represents a different atmospheric condition.</p>
         <p>Explore the various sky themes by clicking on the options in the dropdown menu.</p>
         
-        <div class="sky-questionnaire">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+        <div class="sky-blend-container">
+            <div class="sky-layers" id="skyLayers">
+                <div class="interactive-message">Tap on the clouds below to answer questions</div>
+                <div class="sun" id="completeSurvey">STYLE</div>
+                
+                <div class="clouds-row row-1">
+                    <div class="cloud" data-question="mood">
+                        <div class="cloud-icon">☁️</div>
+                        <div class="cloud-text">Mood</div>
+                    </div>
+                    <div class="cloud" data-question="shirtstyle">
+                        <div class="cloud-icon">⛅</div>
+                        <div class="cloud-text">Style</div>
+                    </div>
+                    <div class="cloud" data-question="bodytype">
+                        <div class="cloud-icon">🌥️</div>
+                        <div class="cloud-text">Body</div>
+                    </div>
+                    <div class="cloud" data-question="size">
+                        <div class="cloud-icon">🌤️</div>
+                        <div class="cloud-text">Size</div>
+                    </div>
+                    <div class="cloud" data-question="price">
+                        <div class="cloud-icon">🌦️</div>
+                        <div class="cloud-text">Price</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="question-card active" data-question="1">
-                <div class="weather-icon">☁️</div>
-                <h3>Pick a mood</h3>
-                <p>(Because "fine" isn't telling us anything.)</p>
-                <ul class="option-list">
-                    <li class="option-item" data-value="calm">Calm and steady — nothing phases you, not even Mondays</li>
-                    <li class="option-item" data-value="focused">Focused and fast — your calendar needs a nap</li>
-                    <li class="option-item" data-value="floating">Floating through — mentally present-ish</li>
-                    <li class="option-item" data-value="low">Low energy — battery's in power-saving mode</li>
-                    <li class="option-item" data-value="irritated">Mildly irritated — not angry, just extremely done</li>
-                </ul>
-            </div>
-            
-            <div class="question-card" data-question="2">
-                <div class="weather-icon">⛅</div>
-                <h3>Pick a shirt style</h3>
-                <p>(A.K.A. what you'll actually wear outside.)</p>
-                <ul class="option-list">
-                    <li class="option-item" data-value="minimal">Minimal — clean, simple, nothing fighting for attention</li>
-                    <li class="option-item" data-value="graphic">Big graphic — your shirt speaks louder than you</li>
-                    <li class="option-item" data-value="text">Text/logo — words, slogans, branding front and center</li>
-                    <li class="option-item" data-value="depends">Honestly? Depends — your closet is a wildcard</li>
-                </ul>
-            </div>
-            
-            <div class="question-card" data-question="3">
-                <div class="weather-icon">🌥️</div>
-                <h3>Pick a body type</h3>
-                <p>(So we don't show you shirts made for someone else's torso.)</p>
-                <ul class="option-list">
-                    <li class="option-item" data-value="slim">Slim build — lean, narrow frame</li>
-                    <li class="option-item" data-value="average">Average build — not too big, not too small</li>
-                    <li class="option-item" data-value="broad">Broad or built — wider up top, strength included</li>
-                    <li class="option-item" data-value="fuller">Fuller body — more shape, more space to cover</li>
-                    <li class="option-item" data-value="between">Somewhere in between — let's not overthink it</li>
-                </ul>
-            </div>
-            
-            <div class="question-card" data-question="4">
-                <div class="weather-icon">🌤️</div>
-                <h3>Pick a size</h3>
-                <p>(Because "shrinks in the wash" isn't a size.)</p>
-                <ul class="option-list">
-                    <li class="option-item" data-value="xs">XS or S — small frame, big opinions</li>
-                    <li class="option-item" data-value="m">Medium — classic middle-lane fit</li>
-                    <li class="option-item" data-value="l">L or XL — roomy, but not lost</li>
-                    <li class="option-item" data-value="xxl">XXL or above — more to style, more to love</li>
-                    <li class="option-item" data-value="unknown">No clue — shirt sizing is a mystery</li>
-                </ul>
-            </div>
-            
-            <div class="question-card" data-question="5">
-                <div class="weather-icon">🌦️</div>
-                <h3>Pick your price vibe</h3>
-                <p>(You know what you want. We're just asking nicely.)</p>
-                <ul class="option-list">
-                    <li class="option-item" data-value="classic">Classic — good quality, solid price, no drama</li>
-                    <li class="option-item" data-value="premium">Premium — feels nice, lasts long, costs a little more</li>
-                </ul>
+            <div class="question-panel" id="questionPanel">
+                <div class="question-content" id="moodQuestion">
+                    <div class="question-header">
+                        <div class="question-icon">☁️</div>
+                        <div class="question-title">
+                            <h3>Pick a mood</h3>
+                            <p>(Because "fine" isn't telling us anything.)</p>
+                        </div>
+                    </div>
+                    <ul class="options-list">
+                        <li class="option-item" data-question="mood" data-value="calm">Calm and steady — nothing phases you, not even Mondays</li>
+                        <li class="option-item" data-question="mood" data-value="focused">Focused and fast — your calendar needs a nap</li>
+                        <li class="option-item" data-question="mood" data-value="floating">Floating through — mentally present-ish</li>
+                        <li class="option-item" data-question="mood" data-value="low">Low energy — battery's in power-saving mode</li>
+                        <li class="option-item" data-question="mood" data-value="irritated">Mildly irritated — not angry, just extremely done</li>
+                    </ul>
+                </div>
+                
+                <div class="question-content" id="shirtstyleQuestion" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-icon">⛅</div>
+                        <div class="question-title">
+                            <h3>Pick a shirt style</h3>
+                            <p>(A.K.A. what you'll actually wear outside.)</p>
+                        </div>
+                    </div>
+                    <ul class="options-list">
+                        <li class="option-item" data-question="shirtstyle" data-value="minimal">Minimal — clean, simple, nothing fighting for attention</li>
+                        <li class="option-item" data-question="shirtstyle" data-value="graphic">Big graphic — your shirt speaks louder than you</li>
+                        <li class="option-item" data-question="shirtstyle" data-value="text">Text/logo — words, slogans, branding front and center</li>
+                        <li class="option-item" data-question="shirtstyle" data-value="depends">Honestly? Depends — your closet is a wildcard</li>
+                    </ul>
+                </div>
+                
+                <div class="question-content" id="bodytypeQuestion" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-icon">🌥️</div>
+                        <div class="question-title">
+                            <h3>Pick a body type</h3>
+                            <p>(So we don't show you shirts made for someone else's torso.)</p>
+                        </div>
+                    </div>
+                    <ul class="options-list">
+                        <li class="option-item" data-question="bodytype" data-value="slim">Slim build — lean, narrow frame</li>
+                        <li class="option-item" data-question="bodytype" data-value="average">Average build — not too big, not too small</li>
+                        <li class="option-item" data-question="bodytype" data-value="broad">Broad or built — wider up top, strength included</li>
+                        <li class="option-item" data-question="bodytype" data-value="fuller">Fuller body — more shape, more space to cover</li>
+                        <li class="option-item" data-question="bodytype" data-value="between">Somewhere in between — let's not overthink it</li>
+                    </ul>
+                </div>
+                
+                <div class="question-content" id="sizeQuestion" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-icon">🌤️</div>
+                        <div class="question-title">
+                            <h3>Pick a size</h3>
+                            <p>(Because "shrinks in the wash" isn't a size.)</p>
+                        </div>
+                    </div>
+                    <ul class="options-list">
+                        <li class="option-item" data-question="size" data-value="xs">XS or S — small frame, big opinions</li>
+                        <li class="option-item" data-question="size" data-value="m">Medium — classic middle-lane fit</li>
+                        <li class="option-item" data-question="size" data-value="l">L or XL — roomy, but not lost</li>
+                        <li class="option-item" data-question="size" data-value="xxl">XXL or above — more to style, more to love</li>
+                        <li class="option-item" data-question="size" data-value="unknown">No clue — shirt sizing is a mystery</li>
+                    </ul>
+                </div>
+                
+                <div class="question-content" id="priceQuestion" style="display: none;">
+                    <div class="question-header">
+                        <div class="question-icon">🌦️</div>
+                        <div class="question-title">
+                            <h3>Pick your price vibe</h3>
+                            <p>(You know what you want. We're just asking nicely.)</p>
+                        </div>
+                    </div>
+                    <ul class="options-list">
+                        <li class="option-item" data-question="price" data-value="classic">Classic — good quality, solid price, no drama</li>
+                        <li class="option-item" data-question="price" data-value="premium">Premium — feels nice, lasts long, costs a little more</li>
+                    </ul>
+                </div>
+                
+                <div class="completion-bar">
+                    <div class="completion-fill" id="completionFill"></div>
+                </div>
+                
+                <p class="note-hint">Click a cloud again to change your answer</p>
             </div>
             
             <div class="completion-message" id="completionMessage">
-                <span class="completion-icon">🌈</span>
-                <h2>Your Sky Style is Ready!</h2>
-                <p>We've gathered everything we need to show you the perfect shirts for your style.</p>
-            </div>
-            
-            <div class="nav-buttons">
-                <button class="nav-button" id="prevButton" disabled>Previous</button>
-                <button class="nav-button" id="nextButton">Next</button>
+                <div class="completion-icon">🌈</div>
+                <h3>Your Sky Blend is Ready!</h3>
+                <p>We've captured your style preferences and will show you items that match your unique blend.</p>
             </div>
         </div>
     </div>
@@ -370,92 +477,127 @@
     <script src="navbar.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const questions = document.querySelectorAll('.question-card');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-        const progressFill = document.getElementById('progressFill');
+        const clouds = document.querySelectorAll('.cloud');
+        const questionPanel = document.getElementById('questionPanel');
+        const questionContents = document.querySelectorAll('.question-content');
+        const completionFill = document.getElementById('completionFill');
+        const completeButton = document.getElementById('completeSurvey');
         const completionMessage = document.getElementById('completionMessage');
+        const skyLayers = document.getElementById('skyLayers');
         
-        let currentQuestion = 1;
-        const totalQuestions = questions.length;
+        const skyBackgrounds = {
+            mood: 'linear-gradient(to bottom, #87CEEB, #1E90FF)',
+            shirtstyle: 'linear-gradient(to bottom, #FF9C38, #ff6a00)',
+            bodytype: 'linear-gradient(to bottom, #90EE90, #32CD32)',
+            size: 'linear-gradient(to bottom, #E0B0FF, #9370DB)',
+            price: 'linear-gradient(to bottom, #FFD700, #FFA500)'
+        };
         
-        function updateProgress() {
-            const progress = ((currentQuestion - 1) / (totalQuestions)) * 100;
-            progressFill.style.width = `${progress}%`;
-        }
+        let answeredQuestions = 0;
+        const totalQuestions = clouds.length;
         
-        function showQuestion(questionNumber) {
-            questions.forEach(q => {
-                q.classList.remove('active');
-            });
-            
-            const questionToShow = document.querySelector(`.question-card[data-question="${questionNumber}"]`);
-            if (questionToShow) {
-                questionToShow.classList.add('active');
-            }
-            
-            prevButton.disabled = questionNumber === 1;
-            
-            if (questionNumber === totalQuestions) {
-                nextButton.textContent = 'Finish';
-            } else {
-                nextButton.textContent = 'Next';
-            }
-            
-            updateProgress();
-        }
-        
-        function handleNext() {
-            const currentQuestionEl = document.querySelector(`.question-card[data-question="${currentQuestion}"]`);
-            const hasSelection = currentQuestionEl.querySelector('.option-item.selected');
-            
-            if (!hasSelection) {
-                alert('Please select an option before continuing.');
-                return;
-            }
-            
-            if (currentQuestion < totalQuestions) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-            } else {
-                completeQuestionnaire();
-            }
-        }
-        
-        function handlePrev() {
-            if (currentQuestion > 1) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-            }
-        }
-        
-        function completeQuestionnaire() {
-            document.querySelectorAll('.question-card').forEach(q => {
-                q.classList.remove('active');
-            });
-            
-            document.querySelector('.nav-buttons').style.display = 'none';
-            completionMessage.classList.add('active');
-            progressFill.style.width = '100%';
-        }
-        
-        prevButton.addEventListener('click', handlePrev);
-        nextButton.addEventListener('click', handleNext);
-        
-        const optionItems = document.querySelectorAll('.option-item');
-        optionItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const siblings = Array.from(this.parentNode.children);
-                siblings.forEach(sibling => {
-                    sibling.classList.remove('selected');
+        // Show a question when clicking a cloud
+        clouds.forEach(cloud => {
+            cloud.addEventListener('click', function() {
+                const questionType = this.getAttribute('data-question');
+                
+                // Hide all question contents
+                questionContents.forEach(content => {
+                    content.style.display = 'none';
                 });
                 
-                this.classList.add('selected');
+                // Show the selected question content
+                document.getElementById(`${questionType}Question`).style.display = 'block';
+                
+                // Open the question panel
+                questionPanel.classList.add('active');
+                
+                // Change sky background
+                skyLayers.style.background = skyBackgrounds[questionType];
+                
+                // Set active cloud
+                clouds.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
             });
         });
         
-        // Initialize
-        updateProgress();
+        // Handle option selection
+        document.querySelectorAll('.option-item').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionType = this.getAttribute('data-question');
+                
+                // Deselect other options in the same group
+                document.querySelectorAll(`.option-item[data-question="${questionType}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Select this option
+                this.classList.add('selected');
+                
+                // Mark the cloud as completed if not already
+                const relatedCloud = document.querySelector(`.cloud[data-question="${questionType}"]`);
+                
+                if (!relatedCloud.classList.contains('completed')) {
+                    relatedCloud.classList.add('completed');
+                    answeredQuestions++;
+                    updateProgress();
+                }
+            });
+        });
+        
+        // Update progress bar
+        function updateProgress() {
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            completionFill.style.width = `${progress}%`;
+            
+            // Enable complete button when all questions are answered
+            if (answeredQuestions === totalQuestions) {
+                completeButton.style.cursor = 'pointer';
+                completeButton.style.animation = 'pulse 1.5s infinite';
+                completeButton.style.boxShadow = '0 0 30px rgba(255, 212, 92, 0.9)';
+            }
+        }
+        
+        // Complete survey button
+        completeButton.addEventListener('click', function() {
+            if (answeredQuestions === totalQuestions) {
+                // Hide question panel and show completion message
+                questionPanel.classList.remove('active');
+                completionMessage.classList.add('active');
+                
+                // Fancy sky background for completion
+                skyLayers.style.background = 'linear-gradient(to bottom, #87CEEB, #1E90FF, #FFD700, #FF7F50)';
+            } else {
+                alert('Please answer all questions by clicking on each cloud!');
+            }
+        });
+        
+        // Add some simple animation to the sun
+        let animating = false;
+        function addPulse() {
+            if (!animating) {
+                animating = true;
+                completeButton.style.animation = 'pulse 2s';
+                
+                setTimeout(() => {
+                    completeButton.style.animation = '';
+                    animating = false;
+                }, 2000);
+            }
+        }
+        
+        completeButton.addEventListener('mouseover', addPulse);
+        
+        // Add keyframe animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes pulse {
+                0% { transform: translateX(-50%) scale(1); }
+                50% { transform: translateX(-50%) scale(1.1); }
+                100% { transform: translateX(-50%) scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
     });
     </script>
 </body>
