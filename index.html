@@ -3,132 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interactive Quiz Game</title>
+  <title>Minimalist Interactive Questionnaire</title>
   <style>
+    :root {
+      --bg-color: #f0f0f0;
+      --container-bg: #fff;
+      --text-color: #333;
+      --primary-color: #222;
+      --accent-color: #1a73e8;
+      --border-radius: 8px;
+      --transition-time: 0.3s;
+    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--text-color);
     }
-    .quiz-container {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    .container {
+      background-color: var(--container-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       width: 90%;
-      max-width: 600px;
-      padding: 30px;
+      max-width: 500px;
       text-align: center;
-      animation: fadeIn 0.7s ease;
-    }
-    .header {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #333;
+      position: relative;
+      overflow: hidden;
     }
     .progress {
-      margin-bottom: 20px;
-      font-weight: bold;
-      color: #555;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background-color: var(--accent-color);
+      transition: width var(--transition-time) ease-in-out;
     }
     .question {
-      margin-bottom: 20px;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--transition-time) ease, transform var(--transition-time) ease;
+    }
+    .question.active {
+      opacity: 1;
+      transform: translateY(0);
     }
     .answers {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     .answers li {
-      margin: 12px 0;
+      margin: 1rem 0;
     }
     .answer-btn {
       width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
+      padding: 1rem;
+      background-color: transparent;
+      border: 2px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      color: var(--primary-color);
       cursor: pointer;
-      background-color: #007bff;
-      color: #fff;
-      transition: transform 0.2s ease, background-color 0.2s ease;
+      transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
     }
     .answer-btn:hover {
-      transform: scale(1.05);
-      background-color: #0056b3;
-    }
-    .hidden {
-      display: none;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    .game-over {
-      font-size: 28px;
-      color: #28a745;
+      background-color: var(--primary-color);
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <div class="header">Quiz Challenge</div>
-    <div class="progress" id="progress">Question 1 of 2</div>
-    <div class="question" id="question-1">
-      <h2>Question 1: What is your favorite color?</h2>
+  <div class="container">
+    <div class="progress" id="progress" style="width: 0%;"></div>
+    <div class="question active" data-index="0">
+      <h2>What is your favorite color?</h2>
       <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">A. Red</button></li>
-        <li><button class="answer-btn" data-answer="b">B. Blue</button></li>
-        <li><button class="answer-btn" data-answer="c">C. Green</button></li>
-        <li><button class="answer-btn" data-answer="d">D. Yellow</button></li>
+        <li><button class="answer-btn" data-answer="a">Red</button></li>
+        <li><button class="answer-btn" data-answer="b">Blue</button></li>
+        <li><button class="answer-btn" data-answer="c">Green</button></li>
+        <li><button class="answer-btn" data-answer="d">Yellow</button></li>
       </ul>
     </div>
-    <div class="question hidden" id="question-2">
-      <h2>Question 2: What is your favorite season?</h2>
+    <div class="question" data-index="1">
+      <h2>What is your favorite season?</h2>
       <ul class="answers">
-        <li><button class="answer-btn" data-answer="a">A. Spring</button></li>
-        <li><button class="answer-btn" data-answer="b">B. Summer</button></li>
-        <li><button class="answer-btn" data-answer="c">C. Autumn</button></li>
-        <li><button class="answer-btn" data-answer="d">D. Winter</button></li>
+        <li><button class="answer-btn" data-answer="a">Spring</button></li>
+        <li><button class="answer-btn" data-answer="b">Summer</button></li>
+        <li><button class="answer-btn" data-answer="c">Autumn</button></li>
+        <li><button class="answer-btn" data-answer="d">Winter</button></li>
       </ul>
     </div>
   </div>
   <script>
     const questions = document.querySelectorAll('.question');
-    let currentQuestion = 0;
+    const progressBar = document.getElementById('progress');
+    let currentIndex = 0;
+    function updateProgress(index) {
+      progressBar.style.width = (index / questions.length) * 100 + '%';
+    }
+    updateProgress(currentIndex);
     function showQuestion(index) {
       questions.forEach((q, i) => {
-        if (i === index) {
-          q.classList.remove('hidden');
-          q.style.animation = 'fadeIn 0.7s ease';
-        } else {
-          q.classList.add('hidden');
-        }
+        q.classList.toggle('active', i === index);
       });
-      document.getElementById('progress').textContent = "Question " + (index + 1) + " of " + questions.length;
+      updateProgress(index);
     }
-    showQuestion(currentQuestion);
-    document.querySelectorAll('.answer-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        button.style.backgroundColor = '#28a745';
-        const currentDiv = questions[currentQuestion];
-        currentDiv.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('.answer-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parentQuestion = btn.closest('.question');
+        const currentIdx = parseInt(parentQuestion.getAttribute('data-index'));
+        parentQuestion.querySelectorAll('.answer-btn').forEach(button => button.disabled = true);
         setTimeout(() => {
-          currentQuestion++;
-          if (currentQuestion < questions.length) {
-            showQuestion(currentQuestion);
+          const nextIndex = currentIdx + 1;
+          if (nextIndex < questions.length) {
+            showQuestion(nextIndex);
           } else {
-            document.querySelector('.quiz-container').innerHTML = '<div class="game-over">Congratulations! You have completed the challenge!</div>';
+            document.querySelector('.container').innerHTML = '<h2 style="margin: 2rem 0;">Thank you for your responses.</h2>';
           }
-        }, 1000);
+        }, 400);
       });
     });
   </script>
