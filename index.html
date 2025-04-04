@@ -2,36 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies - Personal Style Precision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blend of Skies - Style Questionnaire</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
-        :root {
-            --cosmic-primary: #1E90FF;
-            --cosmic-secondary: #87CEEB;
-            --transition-primary: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --neutral-text: #333;
-            --subtle-text: #666;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body, html {
-            height: 100%;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(
-                135deg, 
-                rgba(30, 144, 255, 0.03) 0%, 
-                rgba(135, 206, 235, 0.03) 100%
-            );
-        }
-
-        .precision-interface {
+        .questionnaire-container {
             position: fixed;
             top: 70px;
             left: 0;
@@ -40,191 +15,93 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 2000px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+            overflow: hidden;
         }
 
-        .precision-stage {
-            position: absolute;
+        .question-stage {
             width: 100%;
-            max-width: 1000px;
-            height: 600px;
+            max-width: 800px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 
-                0 30px 60px rgba(0,0,0,0.08),
-                0 10px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transform-origin: center;
-            transition: 
-                transform 0.7s var(--transition-primary),
-                opacity 0.5s ease;
-            display: flex;
-            opacity: 0;
-            transform: 
-                rotateX(30deg) 
-                translateZ(-200px) 
-                scale(0.8);
-        }
-
-        .precision-stage.active {
-            opacity: 1;
-            transform: 
-                rotateX(0) 
-                translateZ(0) 
-                scale(1);
-        }
-
-        .precision-stage.exit-left {
-            opacity: 0;
-            transform: 
-                rotateY(90deg) 
-                translateX(-100%) 
-                scale(0.7);
-        }
-
-        .precision-stage.exit-right {
-            opacity: 0;
-            transform: 
-                rotateY(-90deg) 
-                translateX(100%) 
-                scale(0.7);
-        }
-
-        .precision-content {
-            display: flex;
-            width: 100%;
-        }
-
-        .question-panel {
-            width: 60%;
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: #f9f9fc;
-        }
-
-        .visual-panel {
-            width: 40%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(135, 206, 250, 0.2);
+            padding: 40px;
+            text-align: center;
             position: relative;
-            overflow: hidden;
-            background: linear-gradient(
-                135deg, 
-                var(--cosmic-primary) 0%, 
-                var(--cosmic-secondary) 100%
-            );
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .precision-question {
-            text-align: left;
+        .question-stage.active {
+            transform: scale(1);
+            opacity: 1;
         }
 
-        .precision-question h2 {
+        .question-title {
             font-size: 2rem;
-            color: var(--neutral-text);
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 15px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        .precision-question p {
-            color: var(--subtle-text);
+        .question-subtitle {
+            color: #666;
             font-style: italic;
             margin-bottom: 30px;
         }
 
         .option-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
 
-        .precision-option {
+        .option-card {
             background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 18px 25px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            position: relative;
+            box-shadow: 0 4px 10px rgba(135, 206, 250, 0.1);
         }
 
-        .precision-option:hover {
-            border-color: var(--cosmic-primary);
-            transform: translateX(5px);
-            box-shadow: 0 6px 12px rgba(30, 144, 255, 0.1);
+        .option-card:hover {
+            border-color: #1E90FF;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(135, 206, 250, 0.2);
         }
 
-        .precision-option.selected {
-            border-color: var(--cosmic-primary);
-            background: rgba(30, 144, 255, 0.02);
+        .option-card.selected {
+            border-color: #1E90FF;
+            background: rgba(135, 206, 250, 0.05);
         }
 
-        .precision-option-label {
-            flex-grow: 1;
+        .option-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #333;
         }
 
-        .precision-option h3 {
-            font-size: 1rem;
-            color: var(--neutral-text);
-            margin-bottom: 5px;
-            font-weight: 600;
+        .option-card p {
+            font-size: 0.9rem;
+            color: #666;
         }
 
-        .precision-option p {
-            font-size: 0.85rem;
-            color: var(--subtle-text);
-            margin: 0;
-        }
-
-        .precision-option-indicator {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            margin-left: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .precision-option.selected .precision-option-indicator {
-            background: var(--cosmic-primary);
-            border-color: var(--cosmic-primary);
-        }
-
-        .visual-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px;
-            height: 250px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.6s var(--transition-primary);
-        }
-
-        .progress-indicator {
+        .progress-bar {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(
-                to right, 
-                var(--cosmic-primary), 
-                var(--cosmic-secondary)
-            );
+            background: linear-gradient(to right, #1E90FF, #87CEEB);
             transform-origin: left;
             transform: scaleX(0);
-            transition: transform 0.6s ease;
+            transition: transform 0.5s ease;
         }
     </style>
 </head>
@@ -237,23 +114,28 @@
                     <div class="satellite"></div>
                 </div>
             </div>
-            <div class="brand-name">Cosmic Skies</div>
+            <h1 class="brand-name">Blend of Skies</h1>
         </div>
         
         <div class="sky-selector">
             <div class="selector-orb">
                 <div class="orb-inner">
-                    <span>Personal</span>
+                    <span>Choose</span>
+                    <span>Your</span>
                     <span>Style</span>
-                    <span>Precision</span>
                 </div>
                 <div class="orb-emoji">🎯</div>
             </div>
         </div>
+        
+        <div class="empty-space"></div>
     </nav>
+    
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
 
-    <div class="precision-interface">
-        <!-- Precision stages will be dynamically inserted here -->
+    <div class="questionnaire-container">
+        <!-- Questions will be dynamically inserted here -->
     </div>
 
     <script>
@@ -262,18 +144,6 @@
                 {
                     title: 'Pick a mood',
                     subtitle: '(*Because "fine" isn\'t telling us anything.*)',
-                    visualContent: `
-                        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="mood-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:0.7"/>
-                                    <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:0.7"/>
-                                </linearGradient>
-                            </defs>
-                            <circle cx="100" cy="100" r="90" fill="url(#mood-gradient)" opacity="0.2"/>
-                            <path d="M70,120 Q100,150 130,120" stroke="#1E90FF" stroke-width="4" fill="none"/>
-                        </svg>
-                    `,
                     options: [
                         { title: 'Calm and steady', description: 'nothing phases you, not even Mondays' },
                         { title: 'Focused and fast', description: 'your calendar needs a nap' },
@@ -282,78 +152,79 @@
                         { title: 'Mildly irritated', description: 'not angry, just extremely done' }
                     ]
                 },
-                // Remaining questions would follow the same structure
                 {
                     title: 'Pick a shirt style',
                     subtitle: '(*A.K.A. what you\'ll actually wear outside.*)',
-                    visualContent: `
-                        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="shirt-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:0.7"/>
-                                    <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:0.7"/>
-                                </linearGradient>
-                            </defs>
-                            <path d="M50,70 L100,40 L150,70 L150,160 Q100,180 50,160 Z" fill="url(#shirt-gradient)" opacity="0.3"/>
-                            <line x1="100" y1="40" x2="100" y2="160" stroke="#1E90FF" stroke-width="2" stroke-dasharray="5,5"/>
-                        </svg>
-                    `,
                     options: [
                         { title: 'Minimal', description: 'clean, simple, nothing fighting for attention' },
                         { title: 'Big graphic', description: 'your shirt speaks louder than you' },
                         { title: 'Text/logo', description: 'words, slogans, branding front and center' },
                         { title: 'Honestly? Depends', description: 'your closet is a wildcard' }
                     ]
+                },
+                {
+                    title: 'Pick a body type',
+                    subtitle: '(*So we don\'t show you shirts made for someone else\'s torso.*)',
+                    options: [
+                        { title: 'Slim build', description: 'lean, narrow frame' },
+                        { title: 'Average build', description: 'not too big, not too small' },
+                        { title: 'Broad or built', description: 'wider up top, strength included' },
+                        { title: 'Fuller body', description: 'more shape, more space to cover' },
+                        { title: 'Somewhere in between', description: 'let\'s not overthink it' }
+                    ]
+                },
+                {
+                    title: 'Pick a size',
+                    subtitle: '(*Because "shrinks in the wash" isn\'t a size.*)',
+                    options: [
+                        { title: 'XS or S', description: 'small frame, big opinions' },
+                        { title: 'Medium', description: 'classic middle-lane fit' },
+                        { title: 'L or XL', description: 'roomy, but not lost' },
+                        { title: 'XXL or above', description: 'more to style, more to love' },
+                        { title: 'No clue', description: 'shirt sizing is a mystery' }
+                    ]
+                },
+                {
+                    title: 'Pick your price vibe',
+                    subtitle: '(*You know what you want. We\'re just asking nicely.*)',
+                    options: [
+                        { title: 'Classic', description: 'good quality, solid price, no drama' },
+                        { title: 'Premium', description: 'feels nice, lasts long, costs a little more' }
+                    ]
                 }
-                // Other questions would be added here
             ];
 
             let currentQuestionIndex = 0;
-            const precisionInterface = document.querySelector('.precision-interface');
+            const questionnaire = document.querySelector('.questionnaire-container');
             const answers = {};
 
-            function createPrecisionStage(question) {
+            function createQuestionStage(question) {
                 const stage = document.createElement('div');
-                stage.classList.add('precision-stage');
+                stage.classList.add('question-stage');
 
                 stage.innerHTML = `
-                    <div class="precision-content">
-                        <div class="question-panel">
-                            <div class="precision-question">
-                                <h2>${question.title}</h2>
-                                <p>${question.subtitle}</p>
+                    <h2 class="question-title">${question.title}</h2>
+                    <p class="question-subtitle">${question.subtitle}</p>
+                    <div class="option-grid">
+                        ${question.options.map((option, index) => `
+                            <div class="option-card" data-index="${index}">
+                                <h3>${option.title}</h3>
+                                <p>— ${option.description}</p>
                             </div>
-                            <div class="option-grid">
-                                ${question.options.map((option, index) => `
-                                    <div class="precision-option" data-index="${index}">
-                                        <div class="precision-option-label">
-                                            <h3>${option.title}</h3>
-                                            <p>— ${option.description}</p>
-                                        </div>
-                                        <div class="precision-option-indicator"></div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <div class="visual-panel">
-                            <div class="visual-content">
-                                ${question.visualContent}
-                            </div>
-                        </div>
+                        `).join('')}
                     </div>
-                    <div class="progress-indicator"></div>
+                    <div class="progress-bar"></div>
                 `;
 
                 return stage;
             }
 
             function setupQuestionInteractions(stage) {
-                const options = stage.querySelectorAll('.precision-option');
-                const progressIndicator = stage.querySelector('.progress-indicator');
-                const visualContent = stage.querySelector('.visual-content');
+                const options = stage.querySelectorAll('.option-card');
+                const progressBar = stage.querySelector('.progress-bar');
 
-                // Progress bar animation
-                progressIndicator.style.transform = `scaleX(${(currentQuestionIndex + 1) / questions.length})`;
+                // Update progress bar
+                progressBar.style.transform = `scaleX(${(currentQuestionIndex + 1) / questions.length})`;
 
                 options.forEach(option => {
                     option.addEventListener('click', () => {
@@ -367,38 +238,30 @@
                         const optionIndex = option.dataset.index;
                         answers[currentQuestionIndex] = optionIndex;
                         
-                        // Subtle visual feedback
-                        visualContent.style.transform = 'translate(-50%, -50%) scale(1.05)';
-                        
-                        // Transition to next question
+                        // Move to next question
                         setTimeout(() => {
                             if (currentQuestionIndex < questions.length - 1) {
                                 currentQuestionIndex++;
                                 transitionToNextQuestion();
                             } else {
-                                // Final stage
-                                console.log('Personal Style Profile Generated:', answers);
-                                alert('Style Profile Complete! Your unique preferences have been mapped.');
+                                // Questionnaire complete
+                                console.log('Completed Questionnaire:', answers);
+                                showResults();
                             }
-                        }, 400);
+                        }, 300);
                     });
                 });
             }
 
             function transitionToNextQuestion() {
-                const currentStage = document.querySelector('.precision-stage');
+                const currentStage = document.querySelector('.question-stage');
                 
-                // Exit current stage
-                currentStage.classList.add('exit-left');
-                
-                // Remove current stage after transition
-                setTimeout(() => {
-                    currentStage.remove();
-                }, 700);
+                // Remove current stage
+                currentStage.remove();
 
                 // Create and append new stage
-                const newStage = createPrecisionStage(questions[currentQuestionIndex]);
-                precisionInterface.appendChild(newStage);
+                const newStage = createQuestionStage(questions[currentQuestionIndex]);
+                questionnaire.appendChild(newStage);
 
                 // Trigger reflow to enable transition
                 setTimeout(() => {
@@ -407,14 +270,56 @@
                 }, 50);
             }
 
-            // Start the precision journey
-            const initialStage = createPrecisionStage(questions[0]);
-            precisionInterface.appendChild(initialStage);
+            function showResults() {
+                const resultsStage = document.createElement('div');
+                resultsStage.classList.add('question-stage', 'active');
+
+                resultsStage.innerHTML = `
+                    <h2 class="question-title">Your Style Profile</h2>
+                    <div class="results-content">
+                        ${questions.map((question, index) => `
+                            <div class="result-item">
+                                <h3>${question.title}</h3>
+                                <p>${question.options[answers[index]].title}: ${question.options[answers[index]].description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button id="restart-btn" style="
+                        margin-top: 20px;
+                        padding: 10px 20px;
+                        background: linear-gradient(135deg, #1E90FF, #87CEEB);
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    ">Start Over</button>
+                `;
+
+                questionnaire.innerHTML = '';
+                questionnaire.appendChild(resultsStage);
+
+                const restartBtn = resultsStage.querySelector('#restart-btn');
+                restartBtn.addEventListener('click', () => {
+                    currentQuestionIndex = 0;
+                    const initialStage = createQuestionStage(questions[0]);
+                    questionnaire.innerHTML = '';
+                    questionnaire.appendChild(initialStage);
+                    setTimeout(() => {
+                        initialStage.classList.add('active');
+                        setupQuestionInteractions(initialStage);
+                    }, 50);
+                });
+            }
+
+            // Start the questionnaire
+            const initialStage = createQuestionStage(questions[0]);
+            questionnaire.appendChild(initialStage);
             setTimeout(() => {
                 initialStage.classList.add('active');
                 setupQuestionInteractions(initialStage);
             }, 50);
         });
     </script>
+    <script src="navbar.js"></script>
 </body>
 </html>
