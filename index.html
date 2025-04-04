@@ -5,7 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Skies</title>
     <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="questionnaire.css">
+    <style>
+        /* Questionnaire styles */
+        .questions-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .questions-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(135, 206, 250, 0.2);
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        }
+
+        .question p {
+            font-style: italic;
+            margin-top: 0;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            margin: 12px 0;
+            padding: 12px 18px;
+            background: linear-gradient(145deg, #f5f5f5, #ffffff);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(135, 206, 250, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .options li:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+            background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
+        }
+
+        .options li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .options li:hover:before {
+            opacity: 1;
+        }
+
+        .options li.selected {
+            background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+        }
+
+        .options li.selected:before {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .questions-container {
+                padding: 20px;
+                margin: 30px 15px;
+            }
+            
+            .question h3 {
+                font-size: 1.1rem;
+            }
+            
+            .question p {
+                font-size: 0.8rem;
+            }
+            
+            .options li {
+                padding: 10px 15px;
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .questions-container {
+                padding: 15px;
+                margin: 20px 10px;
+            }
+            
+            .question h3 {
+                font-size: 1rem;
+            }
+            
+            .question p {
+                font-size: 0.75rem;
+            }
+            
+            .options li {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="cosmic-navbar">
@@ -158,6 +287,26 @@
     </div>
     
     <script src="navbar.js"></script>
-    <script src="questionnaire.js"></script>
+    <script>
+        // Simple option selection script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all option list items
+            const optionItems = document.querySelectorAll('.options li');
+            
+            // Add click event listener to each option
+            optionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove 'selected' class from all siblings
+                    const siblings = Array.from(this.parentNode.children);
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    // Add 'selected' class to clicked item
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
