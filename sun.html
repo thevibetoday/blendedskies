@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blend of Skies | Your Daily Sunshine</title>
+    <title>Blend of Skies | Premium Essentials</title>
     <style>
         /* Base Styles */
         :root {
-            --primary: #f7b731;
-            --primary-dark: #e69d16;
-            --secondary: #4299e1;
-            --accent: #f5a623;
-            --sunny: #ffd700;
-            --light: #fffdf7;
+            --primary: #f5a623;
+            --primary-light: #ffd166;
+            --secondary: #4a90e2;
+            --light: #ffffff;
+            --light-gray: #f7f7f7;
+            --medium-gray: #e6e6e6;
+            --dark-gray: #717171;
             --dark: #333333;
-            --white: #ffffff;
-            --gray: #e2e8f0;
             --transition: all 0.3s ease;
         }
         
@@ -23,7 +22,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
         
         body {
@@ -34,103 +33,60 @@
         
         a {
             text-decoration: none;
-            color: var(--primary-dark);
+            color: var(--dark);
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         /* Header */
         header {
-            background-color: var(--white);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background-color: var(--light);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
         }
         
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: 15px 0;
         }
         
         .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            background: linear-gradient(to bottom, var(--sunny) 60%, var(--secondary) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(to bottom, var(--primary-light) 60%, var(--secondary) 100%);
             border: 2px solid var(--primary);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .logo-sun {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--sunny);
-            border-radius: 50%;
-            top: 5px;
-            right: 9px;
-        }
-        
-        .logo-waves {
-            position: absolute;
-            height: 10px;
-            background-color: var(--secondary);
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border-radius: 50% 50% 0 0;
-        }
-        
-        .logo-cloud {
-            position: absolute;
-            width: 12px;
-            height: 6px;
-            background-color: var(--white);
-            border-radius: 6px;
-        }
-        
-        .logo-cloud:nth-child(1) {
-            top: 10px;
-            left: 5px;
-        }
-        
-        .logo-cloud:nth-child(2) {
-            top: 15px;
-            left: 18px;
-        }
-        
-        .logo span {
-            color: var(--primary);
         }
         
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 30px;
         }
         
         .nav-link {
-            color: var(--dark);
             font-weight: 500;
+            font-size: 0.95rem;
             transition: var(--transition);
         }
         
@@ -138,83 +94,27 @@
             color: var(--primary);
         }
         
-        .community-button {
-            background-color: var(--primary);
-            color: var(--dark);
-            border: none;
-            padding: 0.5rem 1.25rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .community-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(247, 183, 49, 0.2);
-        }
-        
-        /* Hero Section */
+        /* Hero */
         .hero {
-            padding: 5rem 0;
-            text-align: center;
-            background: linear-gradient(to bottom, #fffdf7, #fff8e1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .sun-rays {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 70% 20%, rgba(255, 215, 0, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
-        .floating-cloud {
-            position: absolute;
-            background-color: var(--white);
-            border-radius: 50px;
-            opacity: 0.8;
-            z-index: 1;
-        }
-        
-        .cloud-1 {
-            width: 80px;
-            height: 40px;
-            top: 15%;
-            left: 10%;
-        }
-        
-        .cloud-2 {
-            width: 120px;
-            height: 60px;
-            top: 25%;
-            right: 15%;
-        }
-        
-        .cloud-3 {
-            width: 100px;
-            height: 50px;
-            bottom: 30%;
-            left: 20%;
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
         }
         
         .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+            flex: 1;
+            padding-right: 40px;
+        }
+        
+        .hero-visual {
+            flex: 1;
         }
         
         h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
         }
         
         .highlight {
@@ -222,606 +122,414 @@
         }
         
         .hero-text {
-            font-size: 1.25rem;
-            color: #64748b;
-            margin-bottom: 2rem;
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+            max-width: 500px;
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
         }
         
         .primary-btn {
             background-color: var(--primary);
-            color: var(--dark);
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            transition: var(--transition);
+            color: white;
             border: none;
-            cursor: pointer;
         }
         
         .primary-btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(247, 183, 49, 0.2);
+            background-color: #e69816;
+            transform: translateY(-2px);
         }
         
         .secondary-btn {
             background-color: transparent;
             color: var(--dark);
-            border: 2px solid var(--primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
+            border: 1px solid var(--medium-gray);
+            margin-left: 15px;
         }
         
         .secondary-btn:hover {
-            background-color: rgba(247, 183, 49, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(247, 183, 49, 0.1);
+            border-color: var(--dark-gray);
+            transform: translateY(-2px);
         }
         
-        .welcome-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        
-        .welcome-option {
-            background-color: var(--white);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            width: 200px;
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .welcome-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .option-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .option-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .option-description {
-            font-size: 0.875rem;
-            color: #64748b;
-        }
-        
-        /* Daily Content Section */
-        .daily-content {
-            padding: 5rem 0;
-            background-color: var(--white);
+        /* Featured Collection */
+        .featured {
+            padding: 80px 0;
+            background-color: var(--light-gray);
         }
         
         h2 {
-            font-size: 2.25rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 600;
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
         }
         
-        .section-description {
+        .section-intro {
             text-align: center;
+            color: var(--dark-gray);
             max-width: 600px;
-            margin: 0 auto 3rem;
-            color: #64748b;
+            margin: 0 auto 40px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background-color: var(--light);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 280px;
+            background-color: var(--light-gray);
+            position: relative;
+        }
+        
+        .product-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--light);
+            color: var(--dark);
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .product-details {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .product-price {
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        /* Values */
+        .values {
+            padding: 80px 0;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .value-card {
+            text-align: center;
+        }
+        
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            font-size: 1.5rem;
+        }
+        
+        .value-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .value-text {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Content */
+        .content {
+            padding: 80px 0;
+            background-color: var(--light-gray);
         }
         
         .content-tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 3rem;
-            gap: 1rem;
-            flex-wrap: wrap;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--medium-gray);
         }
         
         .content-tab {
-            padding: 0.75rem 1.5rem;
-            background-color: var(--light);
-            border-radius: 2rem;
+            padding: 10px 20px;
             cursor: pointer;
-            color: var(--dark);
-            font-weight: 500;
             transition: var(--transition);
+            margin: 0 5px;
+            font-weight: 500;
+            position: relative;
         }
         
         .content-tab.active {
-            background-color: var(--primary);
-            color: var(--dark);
-            font-weight: 600;
+            color: var(--primary);
         }
         
-        .content-tab:hover:not(.active) {
-            background-color: rgba(247, 183, 49, 0.1);
+        .content-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
         }
         
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
         }
         
         .content-card {
             background-color: var(--light);
-            border-radius: 1rem;
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
         .content-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .content-image {
             height: 200px;
-            background-color: #f8f9fa;
-            position: relative;
+            background-color: var(--light-gray);
         }
         
-        .content-type {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background-color: var(--primary);
-            color: var(--dark);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.75rem;
+        .content-details {
+            padding: 20px;
+        }
+        
+        .content-title {
             font-weight: 600;
-        }
-        
-        .content-info {
-            padding: 1.5rem;
-        }
-        
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
         }
         
         .content-description {
-            color: #64748b;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
         }
         
-        .content-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .read-more {
-            color: var(--primary-dark);
+        .content-link {
             font-weight: 500;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            color: var(--primary);
             transition: var(--transition);
         }
         
-        .read-more:hover {
-            color: var(--primary);
-        }
-        
-        .content-stats {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-        
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        /* Inspiration Quotes */
-        .quotes {
-            padding: 5rem 0;
-            background: linear-gradient(to bottom, #fff8e1, #fffdf7);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quote-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--white);
-            padding: 3rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .quote-text {
-            font-size: 1.5rem;
-            font-weight: 500;
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        .quote-text::before,
-        .quote-text::after {
-            content: '"';
-            font-size: 4rem;
-            color: var(--primary);
-            opacity: 0.3;
-            position: absolute;
-            font-family: serif;
-        }
-        
-        .quote-text::before {
-            left: -2rem;
-            top: -1rem;
-        }
-        
-        .quote-text::after {
-            right: -2rem;
-            bottom: -2rem;
-        }
-        
-        .quote-author {
-            text-align: right;
-            font-weight: 600;
-        }
-        
-        .quote-actions {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-        
-        .quote-btn {
-            background-color: transparent;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            color: #64748b;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .quote-btn:hover {
-            color: var(--primary);
-        }
-        
-        /* Shop Section */
-        .shop {
-            padding: 5rem 0;
-            background-color: var(--white);
-        }
-        
-        .featured-products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .product-card {
-            background-color: var(--light);
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .product-image {
-            height: 200px;
-            background-color: #f8f9fa;
-            position: relative;
-        }
-        
-        .product-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background-color: var(--primary);
-            color: var(--dark);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .product-info {
-            padding: 1.5rem;
-        }
-        
-        .product-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .product-description {
-            color: #64748b;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-        }
-        
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .product-price {
-            font-weight: 600;
-            font-size: 1.125rem;
-        }
-        
-        .add-to-cart {
-            background-color: var(--primary);
-            color: var(--dark);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .add-to-cart:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        /* Community Section */
-        .community {
-            padding: 5rem 0;
-            background-color: var(--light);
-            text-align: center;
-        }
-        
-        .community-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .community-card {
-            background-color: var(--white);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            text-align: left;
-        }
-        
-        .community-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-        
-        .community-title {
-            font-weight: 600;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        
-        .community-description {
-            color: #64748b;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-        }
-        
-        .community-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary-dark);
-            font-weight: 500;
-            font-size: 0.875rem;
-            transition: var(--transition);
-        }
-        
-        .community-link:hover {
-            color: var(--primary);
+        .content-link:hover {
+            text-decoration: underline;
         }
         
         /* Newsletter */
         .newsletter {
-            padding: 5rem 0;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            color: var(--dark);
+            padding: 80px 0;
+            background-color: #fafafa;
+        }
+        
+        .newsletter-content {
+            max-width: 500px;
+            margin: 0 auto;
             text-align: center;
-        }
-        
-        .newsletter h2 {
-            color: var(--dark);
-        }
-        
-        .newsletter-description {
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
         }
         
         .newsletter-form {
             display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-            gap: 0.5rem;
+            margin-top: 30px;
         }
         
         .newsletter-input {
             flex: 1;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 2rem;
-            font-size: 1rem;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 0.95rem;
         }
         
         .newsletter-btn {
-            background-color: var(--dark);
-            color: var(--white);
+            background-color: var(--primary);
+            color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            font-weight: 600;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
         }
         
         .newsletter-btn:hover {
-            background-color: #000;
-            transform: translateY(-2px);
+            background-color: #e69816;
         }
         
         /* Footer */
         footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 5rem 0 2rem;
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--medium-gray);
         }
         
         .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3rem;
-            justify-content: space-between;
-            margin-bottom: 3rem;
-        }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
         
         .footer-logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--white);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .footer-description {
-            color: #a0aec0;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-            max-width: 300px;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .social-link {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-        
-        .social-link:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-        
-        .footer-title {
             font-weight: 600;
-            margin-bottom: 1.5rem;
-            font-size: 1.125rem;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-text {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+            max-width: 300px;
+            font-size: 0.95rem;
+        }
+        
+        .footer-heading {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1rem;
         }
         
         .footer-links {
             list-style: none;
         }
         
+        .footer-item {
+            margin-bottom: 10px;
+        }
+        
         .footer-link {
-            margin-bottom: 0.75rem;
-        }
-        
-        .footer-link a {
-            color: #a0aec0;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
             transition: var(--transition);
-            font-size: 0.875rem;
         }
         
-        .footer-link a:hover {
+        .footer-link:hover {
             color: var(--primary);
         }
         
         .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #a0aec0;
-            font-size: 0.875rem;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            color: var(--dark-gray);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            color: var(--primary);
         }
         
         /* Responsive */
-        @media (max-width: 768px) {
-            nav {
+        @media (max-width: 900px) {
+            .hero {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
+                text-align: center;
+                gap: 40px;
             }
             
-            .nav-links {
-                width: 100%;
-                justify-content: space-between;
+            .hero-content {
+                padding-right: 0;
+            }
+            
+            .hero-text {
+                margin: 0 auto 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
             }
             
             h1 {
-                font-size: 2.25rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
+                font-size: 2rem;
             }
             
             .newsletter-form {
                 flex-direction: column;
+                gap: 10px;
+            }
+            
+            .newsletter-input {
+                border-radius: 4px;
+                border-right: 1px solid var(--medium-gray);
+            }
+            
+            .newsletter-btn {
+                border-radius: 4px;
+                padding: 12px 0;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
@@ -830,255 +538,158 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">
-                    <div class="logo-icon">
-                        <div class="logo-sun"></div>
-                        <div class="logo-cloud"></div>
-                        <div class="logo-cloud"></div>
-                        <div class="logo-waves"></div>
-                    </div>
-                    Blend of <span>Skies</span>
-                </div>
+                <a href="#" class="logo">
+                    <div class="logo-icon"></div>
+                    Blend of Skies
+                </a>
                 <div class="nav-links">
-                    <a href="#daily" class="nav-link">Daily Sunshine</a>
-                    <a href="#inspiration" class="nav-link">Inspiration</a>
                     <a href="#shop" class="nav-link">Shop</a>
-                    <a href="#community" class="nav-link">Community</a>
+                    <a href="#values" class="nav-link">Our Values</a>
+                    <a href="#content" class="nav-link">Journal</a>
+                    <a href="#about" class="nav-link">About</a>
                 </div>
-                <button class="community-button">Join Us</button>
             </nav>
         </div>
     </header>
     
     <section class="hero">
-        <div class="sun-rays"></div>
-        <div class="floating-cloud cloud-1"></div>
-        <div class="floating-cloud cloud-2"></div>
-        <div class="floating-cloud cloud-3"></div>
-        
         <div class="container">
             <div class="hero-content">
-                <h1>Find Your <span class="highlight">Daily Sunshine</span></h1>
-                <p class="hero-text">A space to brighten your day, find inspiration, connect with like-minded people, and yes, discover premium essentials that complement your lifestyle.</p>
-                
-                <div class="action-buttons">
-                    <button class="primary-btn">How Are You Today?</button>
-                    <button class="secondary-btn">Show Me Something Uplifting</button>
+                <h1>Premium Essentials for <span class="highlight">Every Day</span></h1>
+                <p class="hero-text">Quality apparel designed with attention to detail. Clean aesthetics, exceptional comfort.</p>
+                <div>
+                    <a href="#shop" class="btn primary-btn">Shop Collection</a>
+                    <a href="#about" class="btn secondary-btn">Our Story</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="/api/placeholder/600/400" alt="Blend of Skies collection">
+            </div>
+        </div>
+    </section>
+    
+    <section id="shop" class="featured">
+        <div class="container">
+            <h2>Featured Collection</h2>
+            <p class="section-intro">Versatile pieces that seamlessly integrate into your wardrobe.</p>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-tag">New</span>
+                        <img src="/api/placeholder/400/280" alt="Essential Tee" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Essential Tee</h3>
+                        <p class="product-price">$45</p>
+                    </div>
                 </div>
                 
-                <div class="welcome-options">
-                    <div class="welcome-option">
-                        <div class="option-icon">☀️</div>
-                        <h3 class="option-title">Daily Dose</h3>
-                        <p class="option-description">Start your day with positivity and inspiration</p>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-tag">Popular</span>
+                        <img src="/api/placeholder/400/280" alt="Classic Polo" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    
-                    <div class="welcome-option">
-                        <div class="option-icon">👚</div>
-                        <h3 class="option-title">Our Collection</h3>
-                        <p class="option-description">Premium essentials that complement your day</p>
+                    <div class="product-details">
+                        <h3 class="product-title">Classic Polo</h3>
+                        <p class="product-price">$58</p>
                     </div>
-                    
-                    <div class="welcome-option">
-                        <div class="option-icon">🤝</div>
-                        <h3 class="option-title">Community</h3>
-                        <p class="option-description">Connect with like-minded people</p>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/api/placeholder/400/280" alt="Signature Cap" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    
-                    <div class="welcome-option">
-                        <div class="option-icon">🎁</div>
-                        <h3 class="option-title">Surprise Me</h3>
-                        <p class="option-description">Let us brighten your day in unexpected ways</p>
+                    <div class="product-details">
+                        <h3 class="product-title">Signature Cap</h3>
+                        <p class="product-price">$32</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="/api/placeholder/400/280" alt="Premium Pullover" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Premium Pullover</h3>
+                        <p class="product-price">$75</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     
-    <section id="daily" class="daily-content">
+    <section id="values" class="values">
         <div class="container">
-            <h2>Your Daily Sunshine</h2>
-            <p class="section-description">Discover content that brightens your day, no matter what you're looking for.</p>
+            <h2>Our Values</h2>
+            <p class="section-intro">What drives us to create better essentials.</p>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🌱</div>
+                    <h3 class="value-title">Sustainability</h3>
+                    <p class="value-text">Responsibly sourced materials and ethical production processes.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">✨</div>
+                    <h3 class="value-title">Quality</h3>
+                    <p class="value-text">Premium fabrics and meticulous construction built to last.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">🔄</div>
+                    <h3 class="value-title">Versatility</h3>
+                    <p class="value-text">Designed to integrate seamlessly into your existing wardrobe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="content" class="content">
+        <div class="container">
+            <h2>Journal</h2>
+            <p class="section-intro">Stories, guides, and inspiration.</p>
             
             <div class="content-tabs">
                 <div class="content-tab active">All</div>
-                <div class="content-tab">Articles</div>
-                <div class="content-tab">Quick Reads</div>
-                <div class="content-tab">Videos</div>
-                <div class="content-tab">Podcasts</div>
+                <div class="content-tab">Style</div>
+                <div class="content-tab">Sustainability</div>
+                <div class="content-tab">Community</div>
             </div>
             
             <div class="content-grid">
                 <div class="content-card">
                     <div class="content-image">
-                        <span class="content-type">Article</span>
-                        <img src="/api/placeholder/400/320" alt="Article Image" style="width:100%; height:100%; object-fit:cover;">
+                        <img src="/api/placeholder/400/200" alt="Journal Image" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    <div class="content-info">
-                        <h3>Finding Your Sunshine in Everyday Moments</h3>
-                        <p class="content-description">Simple ways to notice and appreciate the small joys that happen throughout your day.</p>
-                        <div class="content-actions">
-                            <a href="#" class="read-more">Read More</a>
-                            <div class="content-stats">
-                                <span class="stat">☀️ 42</span>
-                                <span class="stat">📑 5 min</span>
-                            </div>
-                        </div>
+                    <div class="content-details">
+                        <h3 class="content-title">Building a Versatile Wardrobe</h3>
+                        <p class="content-description">Tips for creating a functional wardrobe with fewer, better pieces.</p>
+                        <a href="#" class="content-link">Read More</a>
                     </div>
                 </div>
                 
                 <div class="content-card">
                     <div class="content-image">
-                        <span class="content-type">Quick Read</span>
-                        <img src="/api/placeholder/400/320" alt="Quick Read Image" style="width:100%; height:100%; object-fit:cover;">
+                        <img src="/api/placeholder/400/200" alt="Journal Image" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    <div class="content-info">
-                        <h3>5 Morning Habits That Set the Tone for a Great Day</h3>
-                        <p class="content-description">Start your day right with these simple but effective morning rituals.</p>
-                        <div class="content-actions">
-                            <a href="#" class="read-more">Read More</a>
-                            <div class="content-stats">
-                                <span class="stat">☀️ 56</span>
-                                <span class="stat">📑 3 min</span>
-                            </div>
-                        </div>
+                    <div class="content-details">
+                        <h3 class="content-title">Behind Our Materials</h3>
+                        <p class="content-description">How we source the premium fabrics that go into every piece.</p>
+                        <a href="#" class="content-link">Read More</a>
                     </div>
                 </div>
                 
                 <div class="content-card">
                     <div class="content-image">
-                        <span class="content-type">Video</span>
-                        <img src="/api/placeholder/400/320" alt="Video Thumbnail" style="width:100%; height:100%; object-fit:cover;">
+                        <img src="/api/placeholder/400/200" alt="Journal Image" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    <div class="content-info">
-                        <h3>A 10-Minute Routine to Boost Your Energy</h3>
-                        <p class="content-description">This quick routine combines movement and breathing to naturally increase your energy levels.</p>
-                        <div class="content-actions">
-                            <a href="#" class="read-more">Watch Now</a>
-                            <div class="content-stats">
-                                <span class="stat">☀️ 89</span>
-                                <span class="stat">⏱️ 10 min</span>
-                            </div>
-                        </div>
+                    <div class="content-details">
+                        <h3 class="content-title">Meet Our Makers</h3>
+                        <p class="content-description">The skilled craftspeople behind our premium essentials.</p>
+                        <a href="#" class="content-link">Read More</a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="inspiration" class="quotes">
-        <div class="container">
-            <h2>Daily Inspiration</h2>
-            <p class="section-description">Words that uplift, motivate, and bring a little sunshine to your day.</p>
-            
-            <div class="quote-container">
-                <p class="quote-text">The sun himself is weak when he first rises, and gathers strength and courage as the day gets on.</p>
-                <p class="quote-author">— Charles Dickens</p>
-                
-                <div class="quote-actions">
-                    <button class="quote-btn">⬅️ Previous</button>
-                    <button class="quote-btn">Save ❤️</button>
-                    <button class="quote-btn">Next ➡️</button>
-                    <button class="quote-btn">Share 🔗</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="shop" class="shop">
-        <div class="container">
-            <h2>Premium Essentials</h2>
-            <p class="section-description">Quality apparel that complements your lifestyle — because what you wear should feel as good as it looks.</p>
-            
-            <div class="featured-products">
-                <div class="product-card">
-                    <div class="product-image">
-                        <span class="product-badge">Bestseller</span>
-                        <img src="/api/placeholder/400/320" alt="Essential Tee" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Essential Tee</h3>
-                        <p class="product-description">Premium cotton blend with exceptional comfort for everyday wear.</p>
-                        <div class="product-footer">
-                            <span class="product-price">$45</span>
-                            <button class="add-to-cart">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">
-                        <span class="product-badge">New</span>
-                        <img src="/api/placeholder/400/320" alt="Signature Polo" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Signature Polo</h3>
-                        <p class="product-description">Sophisticated design with exceptional comfort for any occasion.</p>
-                        <div class="product-footer">
-                            <span class="product-price">$58</span>
-                            <button class="add-to-cart">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">
-                        <span class="product-badge">Favorite</span>
-                        <img src="/api/placeholder/400/320" alt="Classic Cap" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Classic Cap</h3>
-                        <p class="product-description">Clean, modern design with subtle accents for a distinctive everyday look.</p>
-                        <div class="product-footer">
-                            <span class="product-price">$32</span>
-                            <button class="add-to-cart">View Details</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">
-                        <span class="product-badge">Limited</span>
-                        <img src="/api/placeholder/400/320" alt="Premium Pullover" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Premium Pullover</h3>
-                        <p class="product-description">Exceptional warmth and versatility in a clean, timeless design.</p>
-                        <div class="product-footer">
-                            <span class="product-price">$75</span>
-                            <button class="add-to-cart">View Details</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="community" class="community">
-        <div class="container">
-            <h2>Join Our Community</h2>
-            <p class="section-description">Connect with like-minded people who are looking for more sunshine in their daily lives.</p>
-            
-            <div class="community-cards">
-                <div class="community-card">
-                    <div class="community-icon">💬</div>
-                    <h3 class="community-title">Sunshine Forums</h3>
-                    <p class="community-description">Share experiences, ask questions, and connect with people who understand what you're going through.</p>
-                    <a href="#" class="community-link">Join the Conversation →</a>
-                </div>
-                
-                <div class="community-card">
-                    <div class="community-icon">📅</div>
-                    <h3 class="community-title">Local Meetups</h3>
-                    <p class="community-description">Find events in your area where you can meet other community members in person.</p>
-                    <a href="#" class="community-link">Find Events Near You →</a>
-                </div>
-                
-                <div class="community-card">
-                    <div class="community-icon">🎯</div>
-                    <h3 class="community-title">Challenges</h3>
-                    <p class="community-description">Join weekly challenges designed to help you build positive habits and find more sunshine.</p>
-                    <a href="#" class="community-link">See This Week's Challenge →</a>
                 </div>
             </div>
         </div>
@@ -1086,74 +697,69 @@
     
     <section class="newsletter">
         <div class="container">
-            <h2>Get Your Daily Dose of Sunshine</h2>
-            <p class="newsletter-description">Sign up for our newsletter to receive daily inspiration, community updates, and exclusive offers.</p>
-            
-            <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Your email address" required>
-                <button type="submit" class="newsletter-btn">Subscribe</button>
-            </form>
+            <div class="newsletter-content">
+                <h2>Stay Connected</h2>
+                <p class="section-intro">Be the first to know about new releases and exclusive offers.</p>
+                
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
         </div>
     </section>
     
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-column">
+                <div>
                     <div class="footer-logo">
-                        <div class="logo-icon">
-                            <div class="logo-sun"></div>
-                            <div class="logo-cloud"></div>
-                            <div class="logo-cloud"></div>
-                            <div class="logo-waves"></div>
-                        </div>
+                        <div class="logo-icon"></div>
                         Blend of Skies
                     </div>
-                    <p class="footer-description">A space to find your daily sunshine, connect with others, and discover premium essentials that complement your lifestyle.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link">📱</a>
-                        <a href="#" class="social-link">📸</a>
-                        <a href="#" class="social-link">🐦</a>
-                        <a href="#" class="social-link">📘</a>
-                    </div>
+                    <p class="footer-text">Premium essentials designed with quality, comfort, and versatility in mind.</p>
                 </div>
                 
-                <div class="footer-column">
-                    <h4 class="footer-title">Explore</h4>
+                <div>
+                    <h4 class="footer-heading">Shop</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#daily">Daily Sunshine</a></li>
-                        <li class="footer-link"><a href="#inspiration">Inspiration</a></li>
-                        <li class="footer-link"><a href="#shop">Shop</a></li>
-                        <li class="footer-link"><a href="#community">Community</a></li>
-                        <li class="footer-link"><a href="#">About Us</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">New Arrivals</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Bestsellers</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Collections</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Accessories</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-column">
-                    <h4 class="footer-title">Shop</h4>
+                <div>
+                    <h4 class="footer-heading">Company</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">New Arrivals</a></li>
-                        <li class="footer-link"><a href="#">Bestsellers</a></li>
-                        <li class="footer-link"><a href="#">Collections</a></li>
-                        <li class="footer-link"><a href="#">Size Guide</a></li>
-                        <li class="footer-link"><a href="#">Gift Cards</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Our Story</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Values</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Sustainability</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Journal</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-column">
-                    <h4 class="footer-title">Support</h4>
+                <div>
+                    <h4 class="footer-heading">Support</h4>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="#">Contact Us</a></li>
-                        <li class="footer-link"><a href="#">Shipping & Returns</a></li>
-                        <li class="footer-link"><a href="#">FAQs</a></li>
-                        <li class="footer-link"><a href="#">Privacy Policy</a></li>
-                        <li class="footer-link"><a href="#">Terms of Service</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">FAQ</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Shipping & Returns</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Size Guide</a></li>
+                        <li class="footer-item"><a href="#" class="footer-link">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
+                <p class="copyright">&copy; 2025 Blend of Skies. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Facebook</a>
+                </div>
             </div>
         </div>
     </footer>
+</body>
+</html>
