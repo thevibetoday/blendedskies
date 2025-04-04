@@ -20,15 +20,79 @@
             </div>
             <h1 class="brand-name">Blend of Skies</h1>
         </div>
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">🌤️</div>
+            </div>
+        </div>
         <div class="empty-space"></div>
     </nav>
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌤️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
+            </div>
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌅</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
+            </div>
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <div class="sky-icon">⛈️</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
+            </div>
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌌</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
+            </div>
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <div class="sky-icon">🌈</div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-content">
         <section class="questionnaire-section">
-            <h2>Help Us Get To Know Your Style</h2>
-            <p>We want to tailor the perfect clothing suggestions for you. No judgments, just fun.</p>
+            <h2>Tell Us About Your Style</h2>
+            <p>We’ll use this quick (and fun) quiz to tailor your clothing experience. No judgments—just good vibes.</p>
             <form id="style-form">
                 <div class="form-group">
-                    <label for="bodyType">Your Body Type</label>
+                    <label for="bodyType">Which Of These Best Fits Your Build?</label>
                     <select id="bodyType" name="bodyType" required>
                         <option value="">Select one</option>
                         <option value="lean">Lean</option>
@@ -41,7 +105,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="stylePreference">Describe Your Usual Style</label>
+                    <label for="stylePreference">Describe Your Overall Style</label>
                     <select id="stylePreference" name="stylePreference" required>
                         <option value="">Select one</option>
                         <option value="casual">Casual</option>
@@ -54,16 +118,25 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="comfortNeed">Do You Overheat or Get Cold Easily?</label>
+                    <label for="comfortNeed">Temperature Check—How Do You Usually Feel?</label>
                     <select id="comfortNeed" name="comfortNeed" required>
                         <option value="">Select one</option>
-                        <option value="alwaysCold">Always Cold</option>
-                        <option value="alwaysHot">Always Hot</option>
-                        <option value="balanced">Pretty Balanced</option>
+                        <option value="alwaysCold">I’m always freezing</option>
+                        <option value="alwaysHot">I’m basically a furnace</option>
+                        <option value="balanced">Comfortably in between</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="vibe">Which Best Describes Your Vibe?</label>
+                    <label for="sweatLevel">Sweat Level (Hey, We’re All Friends Here)</label>
+                    <select id="sweatLevel" name="sweatLevel" required>
+                        <option value="">Select one</option>
+                        <option value="desertDry">Dry as a desert</option>
+                        <option value="normalSweat">Typical perspiration</option>
+                        <option value="superSoaker">I could fill a kiddie pool</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vibe">Which Word Best Captures Your Vibe?</label>
                     <select id="vibe" name="vibe" required>
                         <option value="">Select one</option>
                         <option value="chill">Chill</option>
@@ -75,8 +148,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="extraNotes">Anything Else We Should Know?</label>
-                    <textarea id="extraNotes" name="extraNotes" rows="4" placeholder="Tell us your favorite colors, patterns, or anything special you love or hate."></textarea>
+                    <label for="extraNotes">Any Special Preferences? Colors? Patterns?</label>
+                    <textarea id="extraNotes" name="extraNotes" rows="4" placeholder="Do you love neon? Hate polka dots? Spill the tea."></textarea>
                 </div>
                 <button type="submit" class="btn primary-btn">Submit</button>
             </form>
@@ -84,23 +157,90 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded',function(){
+            const skySelector=document.querySelector('.sky-selector');
+            const skyPanorama=document.querySelector('.sky-panorama');
+            const skyBackdrop=document.querySelector('.sky-backdrop');
+            const skyOptions=document.querySelectorAll('.sky-option');
+            const orbEmoji=document.querySelector('.orb-emoji');
+            const orbInner=document.querySelector('.orb-inner');
+            const brandName=document.querySelector('.brand-name');
+            skySelector.onclick=function(e){
+                e.preventDefault();
+                skyPanorama.classList.toggle('open');
+                skyBackdrop.classList.toggle('active');
+            };
+            skyBackdrop.onclick=function(){
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+            };
+            function updateSky(skyType,skyIcon){
+                orbEmoji.textContent=skyIcon;
+                orbEmoji.style.opacity='1';
+                orbInner.style.opacity='0';
+                document.body.className='';
+                document.body.classList.add(`sky-${skyType}`);
+                const skySphere=document.querySelector('.sky-sphere');
+                if(skySphere){
+                    skySphere.className='sky-sphere';
+                    skySphere.classList.add(`sky-sphere-${skyType}`);
+                }
+            }
+            skyOptions.forEach(option=>{
+                option.onclick=function(e){
+                    e.preventDefault();
+                    const skyType=this.getAttribute('data-sky');
+                    const skyIcon=this.querySelector('.sky-icon').textContent;
+                    updateSky(skyType,skyIcon);
+                    setTimeout(function(){
+                        skyPanorama.classList.remove('open');
+                        skyBackdrop.classList.remove('active');
+                    },300);
+                };
+            });
+            skySelector.onmouseenter=function(){
+                orbEmoji.style.opacity='1';
+                orbInner.style.opacity='0';
+            };
+            skySelector.onmouseleave=function(){
+                if(orbEmoji.textContent==='🌤️'){
+                    orbEmoji.style.opacity='0';
+                    orbInner.style.opacity='1';
+                }
+            };
+            brandName.onclick=function(){
+                window.scrollTo({
+                    top:0,
+                    behavior:'smooth'
+                });
+            };
+            document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+                anchor.addEventListener('click',function(e){
+                    if(this.getAttribute('href')!=='#'){
+                        e.preventDefault();
+                        const targetId=this.getAttribute('href');
+                        const targetElement=document.querySelector(targetId);
+                        if(targetElement){
+                            targetElement.scrollIntoView({
+                                behavior:'smooth'
+                            });
+                        }
+                    }
+                });
+            });
             const styleForm=document.getElementById('style-form');
             styleForm.addEventListener('submit',function(e){
                 e.preventDefault();
                 const formData=new FormData(styleForm);
-                const bodyType=formData.get('bodyType');
-                const stylePreference=formData.get('stylePreference');
-                const comfortNeed=formData.get('comfortNeed');
-                const vibe=formData.get('vibe');
-                const extraNotes=formData.get('extraNotes');
-                console.log({
-                    bodyType:bodyType,
-                    stylePreference:stylePreference,
-                    comfortNeed:comfortNeed,
-                    vibe:vibe,
-                    extraNotes:extraNotes
-                });
-                alert('Thanks for sharing your style! We got you covered.');
+                const logData={
+                    bodyType:formData.get('bodyType'),
+                    stylePreference:formData.get('stylePreference'),
+                    comfortNeed:formData.get('comfortNeed'),
+                    sweatLevel:formData.get('sweatLevel'),
+                    vibe:formData.get('vibe'),
+                    extraNotes:formData.get('extraNotes')
+                };
+                console.log(logData);
+                alert('Awesome! Your style info is saved. Thanks for sharing!');
                 styleForm.reset();
             });
         });
