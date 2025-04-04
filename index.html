@@ -1,587 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
-    <title>Blend of Skies - Heroic Style Quiz</title>
-    <style>
-        :root {
-            --bg-color: #f1f5f9;
-            --text-color: #1a202c;
-            --light-text: #718096;
-            --accent-blue: #4299e1;
-            --transition: 0.3s ease;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        body {
-            background: var(--bg-color);
-            color: var(--text-color);
-            transition: var(--transition);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        .cosmic-navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(6px);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-        }
-        .brand-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-        }
-        .brand-icon {
-            position: relative;
-            width: 35px;
-            height: 35px;
-        }
-        .planet {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .satellite {
-            width: 6px;
-            height: 6px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: orbit 3s linear infinite;
-        }
-        @keyframes orbit {
-            0% { transform: rotate(0deg) translateX(15px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(15px) rotate(-360deg); }
-        }
-        .brand-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent-blue);
-        }
-        .navbar-spacer {
-            flex: 1;
-        }
-        .sky-selector {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #edf2f7, #ffffff);
-            border-radius: 50%;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform var(--transition);
-        }
-        .sky-selector:hover {
-            transform: scale(1.05);
-        }
-        .selector-inner {
-            text-align: center;
-        }
-        .selector-text {
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: var(--text-color);
-            line-height: 1.2;
-        }
-        .selector-emoji {
-            position: absolute;
-            font-size: 1.6rem;
-            opacity: 0;
-            transition: opacity var(--transition);
-        }
-        .sky-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: 900;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-        .sky-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .sky-panorama {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            padding: 2rem;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            transform: translateY(-130%);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 950;
-        }
-        .sky-panorama.open {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        .sky-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-        }
-        .sky-option {
-            width: 120px;
-            cursor: pointer;
-            transition: transform var(--transition);
-        }
-        .sky-option:hover {
-            transform: translateY(-4px);
-        }
-        .sky-preview {
-            width: 100%;
-            height: 80px;
-            background: #edf2f7;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
-        .sky-icon {
-            font-size: 2rem;
-        }
-        .sky-reflection {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3));
-            transform: scaleY(-1);
-        }
-        .sky-details h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 0.2rem;
-        }
-        .sky-details p {
-            font-size: 0.8rem;
-            color: var(--light-text);
-        }
-        .container {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-        }
-        .quiz-wrapper {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-        .quiz-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .quiz-header h2 {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
-        }
-        .quiz-header p {
-            font-size: 0.95rem;
-            color: var(--light-text);
-        }
-        .quiz-steps {
-            display: none;
-        }
-        .quiz-steps.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .step-question {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .options-grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            margin-bottom: 1.5rem;
-        }
-        .option-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 1rem;
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        .option-card:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-3px);
-        }
-        .option-card.selected {
-            border-color: var(--accent-blue);
-            background: rgba(66, 153, 225, 0.1);
-        }
-        .option-icon {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-        .option-title {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-        .option-desc {
-            font-size: 0.85rem;
-            color: var(--light-text);
-        }
-        .quiz-results {
-            display: none;
-            text-align: center;
-            animation: fadeIn 0.4s ease;
-        }
-        .results-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        .results-title {
-            font-size: 1.4rem;
-            color: var(--accent-blue);
-            margin-bottom: 0.5rem;
-        }
-        .results-desc {
-            font-size: 0.9rem;
-            color: var(--light-text);
-            max-width: 500px;
-            margin: 0.5rem auto;
-        }
-        @media (max-width: 600px) {
-            .sky-option {
-                width: 100px;
-            }
-            .sky-preview {
-                height: 70px;
-            }
-            .options-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        .sky-clear-blue {
-            background: linear-gradient(to bottom, #ebf8ff, #f7fafc);
-        }
-        .sky-sunset-glow {
-            background: linear-gradient(to bottom, #fffbf0, #fff5f5);
-        }
-        .sky-storm-brewing {
-            background: linear-gradient(to bottom, #e2e8f0, #edf2f7);
-        }
-        .sky-starry-night {
-            background: linear-gradient(to bottom, #2d3748, #4a5568);
-            color: white;
-        }
-        .sky-rainbow-sky {
-            background: linear-gradient(135deg, #fff5f5, #fffaf0, #fefcbf, #f0fff4, #e6fffa, #ebf8ff, #ebf4ff);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
+  <title>Blend of Skies - Style Shenanigans Quiz</title>
+  <style>
+    :root {
+      --bg-color: #f1f5f9;
+      --text-color: #1a202c;
+      --light-text: #718096;
+      --accent-blue: #4299e1;
+      --transition: 0.3s ease;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: var(--transition);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .cosmic-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(6px);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+    }
+    .brand-icon {
+      position: relative;
+      width: 35px;
+      height: 35px;
+    }
+    .planet {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .satellite {
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: orbit 3s linear infinite;
+    }
+    @keyframes orbit {
+      0% { transform: rotate(0deg) translateX(15px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(15px) rotate(-360deg); }
+    }
+    .brand-name {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--accent-blue);
+    }
+    .navbar-spacer {
+      flex: 1;
+    }
+    .sky-selector {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #edf2f7, #ffffff);
+      border-radius: 50%;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition);
+    }
+    .sky-selector:hover {
+      transform: scale(1.05);
+    }
+    .selector-inner {
+      text-align: center;
+    }
+    .selector-text {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--text-color);
+      line-height: 1.2;
+    }
+    .selector-emoji {
+      position: absolute;
+      font-size: 1.6rem;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .sky-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .sky-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-panorama {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-130%);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 950;
+    }
+    .sky-panorama.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .sky-option {
+      width: 120px;
+      cursor: pointer;
+      transition: transform var(--transition);
+    }
+    .sky-option:hover {
+      transform: translateY(-4px);
+    }
+    .sky-preview {
+      width: 100%;
+      height: 80px;
+      background: #edf2f7;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    .sky-icon {
+      font-size: 2rem;
+    }
+    .sky-reflection {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 15px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3));
+      transform: scaleY(-1);
+    }
+    .sky-details h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 0.2rem;
+    }
+    .sky-details p {
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+    .quiz-wrapper {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-header h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-header p {
+      font-size: 0.95rem;
+      color: var(--light-text);
+    }
+    .quiz-step {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .quiz-step.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .step-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .options-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      margin-bottom: 1.5rem;
+    }
+    .option-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .option-card:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-3px);
+    }
+    .option-card.selected {
+      border-color: var(--accent-blue);
+      background: rgba(66, 153, 225, 0.1);
+    }
+    .option-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .option-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+    .option-desc {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    .loading-screen {
+      display: none;
+      background: rgba(255, 255, 255, 0.95);
+      position: absolute;
+      inset: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      animation: fadeIn 0.4s ease;
+      z-index: 10;
+    }
+    .loading-screen.active {
+      display: flex;
+    }
+    .loading-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: var(--text-color);
+      text-align: center;
+      max-width: 300px;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #e2e8f0;
+      border-top: 5px solid var(--accent-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .quiz-result-final {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+      animation: fadeIn 0.4s ease;
+    }
+    .quiz-result-final.active {
+      display: block;
+    }
+    .final-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .final-title {
+      font-size: 1.4rem;
+      color: var(--accent-blue);
+      margin-bottom: 0.5rem;
+    }
+    .final-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      max-width: 500px;
+      margin: 0.5rem auto;
+    }
+    .sky-clear-blue {
+      background: linear-gradient(to bottom, #ebf8ff, #f7fafc);
+    }
+    .sky-sunset-glow {
+      background: linear-gradient(to bottom, #fffbf0, #fff5f5);
+    }
+    .sky-storm-brewing {
+      background: linear-gradient(to bottom, #e2e8f0, #edf2f7);
+    }
+    .sky-starry-night {
+      background: linear-gradient(to bottom, #2d3748, #4a5568);
+      color: white;
+    }
+    .sky-rainbow-sky {
+      background: linear-gradient(135deg, #fff5f5, #fffaf0, #fefcbf, #f0fff4, #e6fffa, #ebf8ff, #ebf4ff);
+    }
+  </style>
 </head>
 <body class="sky-clear-blue">
-    <div class="sky-backdrop"></div>
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="planet"></div>
-                <div class="satellite"></div>
-            </div>
-            <span class="brand-name">Blend of Skies</span>
-        </div>
-        <div class="navbar-spacer"></div>
-        <div class="sky-selector">
-            <div class="selector-inner">
-                <span class="selector-text">Pick</span>
-                <span class="selector-text">Your</span>
-                <span class="selector-text">Sky</span>
-            </div>
-            <div class="selector-emoji">🌤️</div>
-        </div>
-    </nav>
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌤️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>Nothing but calm, crisp vibes</p>
-                </div>
-            </div>
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌅</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Fiery warmth meets chilled evening</p>
-                </div>
-            </div>
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">⛈️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dark and dramatic in all the best ways</p>
-                </div>
-            </div>
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌌</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Infinite wonder under cosmic skies</p>
-                </div>
-            </div>
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌈</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Cheerfully bold and full of life</p>
-                </div>
-            </div>
-        </div>
+  <div class="sky-backdrop"></div>
+  <nav class="cosmic-navbar">
+    <div class="brand-container">
+      <div class="brand-icon">
+        <div class="planet"></div>
+        <div class="satellite"></div>
+      </div>
+      <span class="brand-name">Blend of Skies</span>
     </div>
-    <div class="container">
-        <div class="quiz-wrapper">
-            <div class="quiz-header">
-                <h2>Real Heroes of Wardrobe</h2>
-                <p>We salute you, oh fearless style adventurer. Answer these quick questions, and we’ll do the rest.</p>
-            </div>
-            <div class="quiz-steps active" data-step="1">
-                <h3 class="step-question">1. How are you feeling right this moment?</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="winning">
-                        <div class="option-icon">💪</div>
-                        <div class="option-title">On Top Of The World</div>
-                        <div class="option-desc">Bow down, peasants—I’m unstoppable.</div>
-                    </div>
-                    <div class="option-card" data-value="chill">
-                        <div class="option-icon">😌</div>
-                        <div class="option-title">Pretty Chill</div>
-                        <div class="option-desc">Feet up, mind on cruise control.</div>
-                    </div>
-                    <div class="option-card" data-value="tired">
-                        <div class="option-icon">😴</div>
-                        <div class="option-title">Running On Fumes</div>
-                        <div class="option-desc">Caffeine is my life source today.</div>
-                    </div>
-                    <div class="option-card" data-value="mischief">
-                        <div class="option-icon">😏</div>
-                        <div class="option-title">Feeling Edgy</div>
-                        <div class="option-desc">Might start a revolution. Might take a nap.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="quiz-steps" data-step="2">
-                <h3 class="step-question">2. Which "Look" Secretly Calls Your Name?</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="comfort-king">
-                        <div class="option-icon">🩳</div>
-                        <div class="option-title">Comfort Over Everything</div>
-                        <div class="option-desc">Sweatpants at a wedding? Don’t tempt me.</div>
-                    </div>
-                    <div class="option-card" data-value="casual-cool">
-                        <div class="option-icon">👕</div>
-                        <div class="option-title">Casual & Cool</div>
-                        <div class="option-desc">Jeans, a tee, and zero regrets.</div>
-                    </div>
-                    <div class="option-card" data-value="proper-pro">
-                        <div class="option-icon">🕴️</div>
-                        <div class="option-title">Slick & Polished</div>
-                        <div class="option-desc">Dress to impress. Then impress some more.</div>
-                    </div>
-                    <div class="option-card" data-value="look-at-me">
-                        <div class="option-icon">🤩</div>
-                        <div class="option-title">Flashy & Fearless</div>
-                        <div class="option-desc">Glitter, neon... the bigger, the better.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="quiz-steps" data-step="3">
-                <h3 class="step-question">3. Be Honest: Your Usual Fit?</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="tight-and-trendy">
-                        <div class="option-icon">📏</div>
-                        <div class="option-title">Snug & Trendy</div>
-                        <div class="option-desc">Because baggy is for the weak. Or so they say.</div>
-                    </div>
-                    <div class="option-card" data-value="loose-goose">
-                        <div class="option-icon">🦢</div>
-                        <div class="option-title">Breezy & Loose</div>
-                        <div class="option-desc">Arms free to flap majestically at will.</div>
-                    </div>
-                    <div class="option-card" data-value="classic-regular">
-                        <div class="option-icon">📐</div>
-                        <div class="option-title">The Goldilocks</div>
-                        <div class="option-desc">Not too tight, not too baggy—just right.</div>
-                    </div>
-                    <div class="option-card" data-value="mystery-mix">
-                        <div class="option-icon">🌀</div>
-                        <div class="option-title">Random Roulette</div>
-                        <div class="option-desc">I get what I get—life’s an adventure.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="quiz-steps" data-step="4">
-                <h3 class="step-question">4. If Someone Glanced At Your Closet, They'd Say...</h3>
-                <div class="options-grid">
-                    <div class="option-card" data-value="neutral-kingdom">
-                        <div class="option-icon">⚪</div>
-                        <div class="option-title">50 Shades of Neutral</div>
-                        <div class="option-desc">Monochrome and proud.</div>
-                    </div>
-                    <div class="option-card" data-value="bright-pop">
-                        <div class="option-icon">🌈</div>
-                        <div class="option-title">Color Confetti</div>
-                        <div class="option-desc">Rainbows, tie-dye, neon—oh my.</div>
-                    </div>
-                    <div class="option-card" data-value="earthy-vibes">
-                        <div class="option-icon">🌿</div>
-                        <div class="option-title">Nature Tones</div>
-                        <div class="option-desc">Greens, browns... basically a walking forest.</div>
-                    </div>
-                    <div class="option-card" data-value="stealthy-black">
-                        <div class="option-icon">🕶️</div>
-                        <div class="option-title">All Black, Always</div>
-                        <div class="option-desc">Because midnight matches everything.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="quiz-results">
-                <div class="results-icon">🌤️</div>
-                <h2 class="results-title">Salutations, Master of Style!</h2>
-                <p class="results-desc">Your heroic answers have been logged in our secret style vault. We’ll silently tweak your shopping experience behind the scenes—just keep being awesome, and let us work our magic.</p>
-                <p class="results-desc">Now go forth, conquering wardrobes and dispensing high-fives like the unstoppable legend you are!</p>
-            </div>
-        </div>
+    <div class="navbar-spacer"></div>
+    <div class="sky-selector">
+      <div class="selector-inner">
+        <span class="selector-text">Pick</span>
+        <span class="selector-text">Your</span>
+        <span class="selector-text">Sky</span>
+      </div>
+      <div class="selector-emoji">🌤️</div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded',function(){
-            const skySelector=document.querySelector('.sky-selector');
-            const selectorEmoji=document.querySelector('.selector-emoji');
-            const selectorText=document.querySelector('.selector-inner');
-            const skyBackdrop=document.querySelector('.sky-backdrop');
-            const skyPanorama=document.querySelector('.sky-panorama');
-            const skyOptions=document.querySelectorAll('.sky-option');
-            skySelector.onclick=function(e){
-                e.preventDefault();
-                skyBackdrop.classList.toggle('active');
-                skyPanorama.classList.toggle('open');
-            };
-            skyBackdrop.onclick=function(){
-                skyBackdrop.classList.remove('active');
-                skyPanorama.classList.remove('open');
-            };
-            function updateSky(sky,emoji){
-                selectorEmoji.textContent=emoji;
-                selectorEmoji.style.opacity='1';
-                selectorText.style.opacity='0';
-                document.body.className='';
-                document.body.classList.add(`sky-${sky}`);
-            }
-            skyOptions.forEach(opt=>{
-                opt.onclick=function(e){
-                    e.preventDefault();
-                    const s=this.getAttribute('data-sky');
-                    const ic=this.querySelector('.sky-icon').textContent;
-                    updateSky(s,ic);
-                    setTimeout(function(){
-                        skyBackdrop.classList.remove('active');
-                        skyPanorama.classList.remove('open');
-                    },250);
-                };
-            });
-            skySelector.onmouseenter=function(){
-                selectorEmoji.style.opacity='1';
-                selectorText.style.opacity='0';
-            };
-            skySelector.onmouseleave=function(){
-                if(selectorEmoji.textContent==='🌤️'){
-                    selectorEmoji.style.opacity='0';
-                    selectorText.style.opacity='1';
-                }
-            };
+  </nav>
+  <div class="sky-panorama">
+    <div class="sky-options">
+      <div class="sky-option" data-sky="clear-blue">
+        <div class="sky-preview">
+          <div class="sky-icon">🌤️</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Clear Blue</h3>
+          <p>Serene and calm as can be</p>
+        </div>
+      </div>
+      <div class="sky-option" data-sky="sunset-glow">
+        <div class="sky-preview">
+          <div class="sky-icon">🌅</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Sunset Glow</h3>
+          <p>Hot hues meet mellow vibes</p>
+        </div>
+      </div>
+      <div class="sky-option" data-sky="storm-brewing">
+        <div class="sky-preview">
+          <div class="sky-icon">⛈️</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Storm Brewing</h3>
+          <p>Dark & dramatic with a punch</p>
+        </div>
+      </div>
+      <div class="sky-option" data-sky="starry-night">
+        <div class="sky-preview">
+          <div class="sky-icon">🌌</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Starry Night</h3>
+          <p>Deep cosmic wonder</p>
+        </div>
+      </div>
+      <div class="sky-option" data-sky="rainbow-sky">
+        <div class="sky-preview">
+          <div class="sky-icon">🌈</div>
+          <div class="sky-reflection"></div>
+        </div>
+        <div class="sky-details">
+          <h3>Rainbow Sky</h3>
+          <p>All colors, all fun</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="quiz-wrapper">
+      <div class="quiz-header">
+        <h2>Sky-High Shenanigans Quiz</h2>
+        <p>Answer these lighthearted questions and let us secretly tailor your style behind the scenes.</p>
+      </div>
+      <div class="quiz-step active" data-step="1">
+        <h3 class="step-question">1. Current Mood—Pick One & No Take-Backs</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="power-tripper">
+            <div class="option-icon">💪</div>
+            <div class="option-title">Conqueror</div>
+            <div class="option-desc">Mountains? I'll climb 'em in flip-flops.</div>
+          </div>
+          <div class="option-card" data-value="zen-guru">
+            <div class="option-icon">😌</div>
+            <div class="option-title">Zen Master</div>
+            <div class="option-desc">Feet up, mind floating, life's good.</div>
+          </div>
+          <div class="option-card" data-value="need-nap">
+            <div class="option-icon">😴</div>
+            <div class="option-title">Nap Crusader</div>
+            <div class="option-desc">Official sponsor of the snooze button.</div>
+          </div>
+          <div class="option-card" data-value="thrill-seeker">
+            <div class="option-icon">😎</div>
+            <div class="option-title">Thrill Seeker</div>
+            <div class="option-desc">Skydiving at noon, party by 5.</div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="2">
+        <h3 class="step-question">2. Dream Outfit Motto?</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="pj-life">
+            <div class="option-icon">🛌</div>
+            <div class="option-title">PJs Forever</div>
+            <div class="option-desc">Would wear 'em to the Oscars if they'd let me.</div>
+          </div>
+          <div class="option-card" data-value="street-cool">
+            <div class="option-icon">🧢</div>
+            <div class="option-title">Street Smart</div>
+            <div class="option-desc">Casual but slick, ready for anything.</div>
+          </div>
+          <div class="option-card" data-value="boardroom-boss">
+            <div class="option-icon">💼</div>
+            <div class="option-title">Boardroom Hero</div>
+            <div class="option-desc">Dress to impress, deals to conquer.</div>
+          </div>
+          <div class="option-card" data-value="disco-duck">
+            <div class="option-icon">💃</div>
+            <div class="option-title">Disco Dynamo</div>
+            <div class="option-desc">Sequins, sparkle—make 'em stare.</div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="3">
+        <h3 class="step-question">3. The Fit That Suits You Best?</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="tight-flex">
+            <div class="option-icon">🩳</div>
+            <div class="option-title">Slim & Trim</div>
+            <div class="option-desc">Show off them gains (or illusions of gains).</div>
+          </div>
+          <div class="option-card" data-value="relaxed-fit">
+            <div class="option-icon">🏖️</div>
+            <div class="option-title">Beachy Loose</div>
+            <div class="option-desc">More airflow, fewer constraints. Amen.</div>
+          </div>
+          <div class="option-card" data-value="classic-mid">
+            <div class="option-icon">📐</div>
+            <div class="option-title">Classic Middle</div>
+            <div class="option-desc">Goldilocks zone: Just right.</div>
+          </div>
+          <div class="option-card" data-value="wildcard-fit">
+            <div class="option-icon">🎲</div>
+            <div class="option-title">Wildcard</div>
+            <div class="option-desc">It's a mood thing. Every day is new.</div>
+          </div>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="4">
+        <h3 class="step-question">4. Let's Talk Colors. Your Closet Scream…</h3>
+        <div class="options-grid">
+          <div class="option-card" data-value="neutralville">
+            <div class="option-icon">⚪</div>
+            <div class="option-title">Neutral Town</div>
+            <div class="option-desc">Blacks, whites, grays—like a stylish grayscale film.</div>
+          </div>
+          <div class="option-card" data-value="technicolor">
+            <div class="option-icon">🎨</div>
+            <div class="option-title">Color Explosion</div>
+            <div class="option-desc">If it's bright, I'm wearing it. Sunglasses recommended.</div>
+          </div>
+          <div class="option-card" data-value="forest-elf">
+            <div class="option-icon">🌳</div>
+            <div class="option-title">Earth Tones</div>
+            <div class="option-desc">Greens, browns—feels like a hike every day.</div>
+          </div>
+          <div class="option-card" data-value="night-prowl">
+            <div class="option-icon">🕶️</div>
+            <div class="option-title">Midnight Mode</div>
+            <div class="option-desc">All black, all stealth, all classy.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Cool "crafting your style" loading screen -->
+      <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+        <div class="loading-text">Compiling your top-secret style formula.<br>Hold tight...</div>
+      </div>
+      <!-- After loading, final message: we're not telling them results yet -->
+      <div class="quiz-result-final" id="finalResult">
+        <div class="final-icon">✨</div>
+        <h2 class="final-title">Style Data Locked In!</h2>
+        <p class="final-desc">
+          We've captured your answers and are quietly curating your perfect look behind the scenes.
+          No spoilers yet—just know a cooler closet is headed your way!
+        </p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      // Sky selection
+      const skySelector=document.querySelector('.sky-selector');
+      const selectorEmoji=document.querySelector('.selector-emoji');
+      const selectorText=document.querySelector('.selector-inner');
+      const skyBackdrop=document.querySelector('.sky-backdrop');
+      const skyPanorama=document.querySelector('.sky-panorama');
+      const skyOptions=document.querySelectorAll('.sky-option');
 
-            const quizSteps=document.querySelectorAll('.quiz-steps');
-            const optionCards=document.querySelectorAll('.option-card');
-            const quizResults=document.querySelector('.quiz-results');
-            let currentStep=1;
-            const totalSteps=quizSteps.length;
-            let userAnswers={};
+      skySelector.onclick=function(e){
+        e.preventDefault();
+        skyBackdrop.classList.toggle('active');
+        skyPanorama.classList.toggle('open');
+      };
+      skyBackdrop.onclick=function(){
+        skyBackdrop.classList.remove('active');
+        skyPanorama.classList.remove('open');
+      };
+      function updateSky(sky,emoji){
+        selectorEmoji.textContent=emoji;
+        selectorEmoji.style.opacity='1';
+        selectorText.style.opacity='0';
+        document.body.className='';
+        document.body.classList.add(`sky-${sky}`);
+      }
+      skyOptions.forEach(opt=>{
+        opt.onclick=function(e){
+          e.preventDefault();
+          const s=this.getAttribute('data-sky');
+          const ic=this.querySelector('.sky-icon').textContent;
+          updateSky(s,ic);
+          setTimeout(function(){
+            skyBackdrop.classList.remove('active');
+            skyPanorama.classList.remove('open');
+          },250);
+        };
+      });
+      skySelector.onmouseenter=function(){
+        selectorEmoji.style.opacity='1';
+        selectorText.style.opacity='0';
+      };
+      skySelector.onmouseleave=function(){
+        if(selectorEmoji.textContent==='🌤️'){
+          selectorEmoji.style.opacity='0';
+          selectorText.style.opacity='1';
+        }
+      };
 
-            optionCards.forEach(card=>{
-                card.addEventListener('click',function(){
-                    const parent=this.closest('.quiz-steps');
-                    const stepNum=Number(parent.getAttribute('data-step'));
-                    parent.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const val=this.getAttribute('data-value');
-                    userAnswers[`step${stepNum}`]=val;
-                    if(stepNum<totalSteps){
-                        parent.classList.remove('active');
-                        const nextStep=stepNum+1;
-                        quizSteps.forEach(s=>s.classList.remove('active'));
-                        document.querySelector(`.quiz-steps[data-step="${nextStep}"]`).classList.add('active');
-                        currentStep=nextStep;
-                    } else {
-                        quizSteps.forEach(s=>s.classList.remove('active'));
-                        quizResults.style.display='block';
-                        console.log("User's secret answers:",userAnswers);
-                    }
-                });
-            });
+      // Quiz logic
+      const quizSteps=document.querySelectorAll('.quiz-step');
+      const optionCards=document.querySelectorAll('.option-card');
+      const loadingScreen=document.getElementById('loadingScreen');
+      const finalResult=document.getElementById('finalResult');
+      let currentStep=1;
+      const totalSteps=quizSteps.length;
+      const userAnswers={};
+
+      // Auto-advance to next step upon selection
+      optionCards.forEach(card=>{
+        card.addEventListener('click',function(){
+          const parentStep=this.closest('.quiz-step');
+          const stepNum=parseInt(parentStep.getAttribute('data-step'));
+          parentStep.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
+          this.classList.add('selected');
+          const val=this.getAttribute('data-value');
+          userAnswers[`step${stepNum}`]=val;
+
+          if(stepNum<totalSteps){
+            parentStep.classList.remove('active');
+            const nextStep=stepNum+1;
+            document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
+            currentStep=nextStep;
+          } else {
+            // Last step -> show loading, then final screen
+            parentStep.classList.remove('active');
+            console.log("User's secret answers:",userAnswers);
+            loadingScreen.classList.add('active');
+
+            // Fake a short delay to mimic "crafting" process
+            setTimeout(()=>{
+              loadingScreen.classList.remove('active');
+              finalResult.classList.add('active');
+              // Here you'd send userAnswers to your backend/AI system
+            },2500);
+          }
         });
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
