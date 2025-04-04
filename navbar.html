@@ -3,69 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Day</title>
+    <title>Cosmic Skies</title>
     <link rel="stylesheet" href="navbar.css">
-    <style>
-        /* Sun page specific styles */
-        body {
-            background: linear-gradient(to bottom, #87CEEB, #E0F7FF);
-        }
-        
-        .sun-content {
-            padding: 100px 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .sun-icon {
-            font-size: 120px;
-            margin-bottom: 30px;
-            animation: pulse 3s infinite ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #FF8C00, #FFD700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto 20px;
-        }
-        
-        .back-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(30, 144, 255, 0.3);
-        }
-    </style>
 </head>
 <body>
-    <!-- Navbar (Include your existing navbar HTML here) -->
     <nav class="cosmic-navbar">
         <div class="brand-container">
             <div class="brand-icon">
@@ -84,16 +25,14 @@
                     <span>Your</span>
                     <span>Sky</span>
                 </div>
-                <div class="orb-emoji">☀️</div>
+                <div class="orb-emoji">🌤️</div>
             </div>
         </div>
     </nav>
     
-    <!-- Sky backdrop and stars -->
     <div class="sky-backdrop"></div>
     <div class="stars-container"></div>
     
-    <!-- Sky panorama menu -->
     <div class="sky-panorama">
         <div class="sky-options">
             <div class="sky-option" data-sky="clear-blue">
@@ -153,17 +92,12 @@
         </div>
     </div>
     
-    <!-- Sun Page Content -->
-    <div class="sun-content">
-        <div class="sun-icon">☀️</div>
-        <h1>Bright Sunny Day</h1>
-        <p>Welcome to the Sunny Day page! Here, the sky is a brilliant blue, and the sun shines brightly above. Perfect weather for outdoor activities and soaking in vitamin D.</p>
-        <p>The warmth of the sun's rays brings life and energy to everything it touches. Birds are singing, flowers are blooming, and the world seems full of possibilities.</p>
-        <p>Enjoy the clear blue sky and the gentle breeze that accompanies this perfect day.</p>
-        <a href="index.html" class="back-button">Back to Home</a>
+    <div class="content-area">
+        <h2>Welcome to Cosmic Skies</h2>
+        <p>Select a sky experience from the menu in the top right. Each option represents a different atmospheric condition.</p>
+        <p>Explore the various sky themes by clicking on the options in the dropdown menu.</p>
     </div>
 
-    <!-- Include your JavaScript -->
     <script src="navbar.js"></script>
 </body>
 </html>
