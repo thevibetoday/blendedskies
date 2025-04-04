@@ -2,392 +2,725 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sun - Blend of Skies</title>
-    <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blend of Skies | Choose Your Day</title>
     <style>
+        /* Base Styles */
+        :root {
+            --primary: #3b82f6;
+            --sunny: #f59e0b;
+            --stormy: #475569;
+            --frost: #a5f3fc;
+            --intense: #f43f5e;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
         body {
-            background: linear-gradient(180deg, #f7f7f7 0%, #e5e5e5 100%);
-            color: #333;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
         }
         
-        .cosmic-navbar {
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        a {
+            text-decoration: none;
+            color: var(--primary);
         }
         
-        .brand-name {
-            background: linear-gradient(135deg, #f5a623, #f8e71c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        .planet {
-            background: linear-gradient(145deg, #f5a623, #f8e71c);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .forecast-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .forecast-button:hover {
+            background-color: #2563eb;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            text-align: center;
+            background-color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .highlight {
+            color: var(--primary);
+        }
+        
+        .hero-text {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
         }
         
         .primary-btn {
-            background: linear-gradient(135deg, #f5a623, #f8e71c);
-            color: #333;
-            font-weight: 600;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .primary-btn:hover {
+            background-color: #2563eb;
         }
         
         .secondary-btn {
-            color: #f5a623;
-            border-color: #f5a623;
+            background-color: transparent;
+            color: var(--dark);
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            transition: var(--transition);
         }
         
         .secondary-btn:hover {
-            background-color: rgba(245, 166, 35, 0.1);
+            background-color: #f1f5f9;
         }
         
-        .hero-title span {
-            color: #f5a623;
+        .hero-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
-        .section-title {
-            color: #333;
+        /* Collection Section */
+        .collection {
+            padding: 5rem 0;
+            background-color: #f8fafc;
         }
         
-        .feature-icon {
-            background-color: #f5f5f5;
-            color: #f5a623;
+        h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
         }
         
-        .cta-section {
-            background: linear-gradient(135deg, #f5a623, #f8e71c);
-            color: #333;
+        .section-description {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            color: #64748b;
         }
         
-        .view-btn {
-            color: #f5a623;
-        }
-        
-        .view-btn:hover {
-            background-color: rgba(245, 166, 35, 0.1);
-        }
-        
-        .accent-circle {
-            position: absolute;
-            top: 120px;
-            right: 80px;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f5a623, #f8e71c);
-            opacity: 0.8;
-            z-index: -1;
-        }
-        
-        .design-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            pointer-events: none;
-        }
-        
-        .design-element {
-            position: absolute;
-            background-color: #f5a623;
-            opacity: 0.1;
-            border-radius: 50%;
-        }
-        
-        .element1 {
-            top: 20%;
-            left: 10%;
-            width: 300px;
-            height: 300px;
-        }
-        
-        .element2 {
-            bottom: 30%;
-            right: 5%;
-            width: 200px;
-            height: 200px;
-        }
-        
-        .element3 {
-            top: 60%;
-            left: 30%;
-            width: 150px;
-            height: 150px;
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
         
         .product-card {
             background-color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: var(--transition);
         }
         
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-0.5rem);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f1f5f9;
+            position: relative;
+        }
+        
+        .product-icon {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: white;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 1.25rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .product-tagline {
+            background-color: #f1f5f9;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            font-style: italic;
+            color: #475569;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+        
+        .cart-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cart-button:hover {
+            background-color: #2563eb;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        }
+        
+        .step-icon {
+            background-color: #dbeafe;
+            color: var(--primary);
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-description {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 0;
+            background-color: #f8fafc;
+        }
+        
+        .testimonial {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+        }
+        
+        .testimonial-quote {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .testimonial-quote::before {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            left: -0.5rem;
+            top: -1rem;
+            color: #cbd5e1;
+            font-family: serif;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .author-name {
+            font-weight: 600;
+        }
+        
+        /* CTA */
+        .cta {
+            padding: 5rem 0;
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .cta h2 {
+            color: white;
+        }
+        
+        .cta-description {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: #f1f5f9;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-link a {
+            color: #cbd5e1;
+            transition: var(--transition);
+        }
+        
+        .footer-link a:hover {
+            color: white;
         }
         
         .footer-bottom {
-            background-color: #f5f5f5;
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            h1 {
+                font-size: 2.25rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="accent-circle"></div>
-    <div class="design-elements">
-        <div class="design-element element1"></div>
-        <div class="design-element element2"></div>
-        <div class="design-element element3"></div>
-    </div>
-
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Blend of <span>Skies</span></div>
+                <div class="nav-links">
+                    <a href="#collection" class="nav-link">Collection</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="#testimonials" class="nav-link">Stories</a>
                 </div>
-            </div>
-            <h1 class="brand-name">Blend of Skies</h1>
+                <button class="forecast-button">Find Your Forecast</button>
+            </nav>
         </div>
-        
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
-                </div>
-                <div class="orb-emoji">☀️</div>
-            </div>
-        </div>
-        
-        <div class="empty-space"></div>
-    </nav>
+    </header>
     
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌤️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌅</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">⛈️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌌</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌈</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="main-content">
-        <section class="hero-section">
+    <section class="hero">
+        <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Bright Days, <span>Bold Style</span></h1>
-                <p class="hero-text">Premium quality essentials with a touch of warmth and energy. Clean design meets functional comfort in our versatile collection.</p>
-                <div class="hero-buttons">
-                    <a href="#collection" class="btn primary-btn">View Collection</a>
-                    <a href="#about" class="btn secondary-btn">Our Story</a>
+                <h1>Choose The <span class="highlight">Weather</span> You Want To Wear</h1>
+                <p class="hero-text">We all live under the same sky, but sometimes, you want to choose which one you wear. From casual comfort to bold statements, our collection lets you forecast your own style.</p>
+                <div class="cta-buttons">
+                    <a href="#collection" class="primary-btn">Shop Collection</a>
+                    <a href="#how-it-works" class="secondary-btn">How It Works</a>
                 </div>
+                <img src="/api/placeholder/800/400" alt="Blend of Skies Collection" class="hero-image">
             </div>
-            <div class="hero-visual">
-                <div class="product-display">
-                    <img src="https://via.placeholder.com/400x500" alt="Premium apparel" class="product-image">
-                    <div class="floating-elements">
-                        <div class="floating-element element-1"></div>
-                        <div class="floating-element element-2"></div>
-                        <div class="floating-element element-3"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="collection" class="collection-section">
-            <h2 class="section-title">Signature Collection</h2>
-            <div class="product-cards">
-                <div class="product-card" data-sky="clear-blue">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Essential Tee" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">☀️</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Essential Tee</h3>
-                        <p class="product-desc">Premium cotton blend with clean lines and exceptional comfort for everyday wear.</p>
-                        <div class="product-details">
-                            <span class="product-price">$45</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-sky="sunset-glow">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Premium Pullover" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">☀️</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Premium Pullover</h3>
-                        <p class="product-desc">Sophisticated design with exceptional warmth and versatility for any occasion.</p>
-                        <div class="product-details">
-                            <span class="product-price">$58</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-sky="clear-blue">
-                    <div class="product-image-container">
-                        <img src="https://via.placeholder.com/300x350" alt="Signature Cap" class="product-img">
-                        <div class="product-overlay">
-                            <span class="subtle-icon">☀️</span>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Signature Cap</h3>
-                        <p class="product-desc">Clean, modern design with subtle accents for a distinctive everyday look.</p>
-                        <div class="product-details">
-                            <span class="product-price">$32</span>
-                            <a href="#" class="view-btn">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="about" class="about-section">
-            <div class="about-content">
-                <h2 class="section-title">Our Promise</h2>
-                <p>We create premium essentials that blend seamlessly into your lifestyle. Each piece is designed with a focus on quality materials, clean aesthetics, and versatile function to elevate your everyday wardrobe.</p>
-                
-                <div class="features">
-                    <div class="feature">
-                        <div class="feature-icon">🌱</div>
-                        <h3>Sustainable</h3>
-                        <p>Responsibly sourced materials with eco-conscious production methods.</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <div class="feature-icon">✨</div>
-                        <h3>Premium Quality</h3>
-                        <p>Exceptional fabrics and construction designed to last season after season.</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <div class="feature-icon">🎨</div>
-                        <h3>Timeless Design</h3>
-                        <p>Clean, versatile aesthetics that integrate seamlessly with your existing style.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="cta-section">
-            <div class="cta-content">
-                <h2>Elevate Your Everyday</h2>
-                <p>Discover premium essentials designed for comfort, style, and versatility.</p>
-                <a href="#collection" class="btn primary-btn">Shop Now</a>
-            </div>
-        </section>
-    </div>
+        </div>
+    </section>
     
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h3>Blend of Skies</h3>
-                <p>Creating premium essentials since 2025.</p>
-            </div>
+    <section id="collection" class="collection">
+        <div class="container">
+            <h2>The Forecast Collection</h2>
+            <p class="section-description">Tired of waiting on the weatherman? Forecast your own style—because life's too short to let the clouds decide for you.</p>
             
-            <div class="footer-links">
-                <div class="link-group">
-                    <h4>Navigation</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#collection">Collection</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
+            <div class="products">
+                <!-- Baseline Breeze -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">🌤️</div>
+                        <img src="/api/placeholder/400/320" alt="Baseline Breeze" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Baseline Breeze</h3>
+                        <p class="product-description">Steady, easygoing, no drama. Our essential cotton blend with clean lines and exceptional comfort.</p>
+                        <div class="product-tagline">"For the days you're just cruisin'—like a gentle breeze on a mellow afternoon."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$45</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="link-group">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Returns</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
+                <!-- Solar Surge -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">☀️</div>
+                        <img src="/api/placeholder/400/320" alt="Solar Surge" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Solar Surge</h3>
+                        <p class="product-description">Bright, bold, and full of life. For those days when you're radiating energy and ready to shine.</p>
+                        <div class="product-tagline">"When you're basically a walking ray of sunshine. Shades optional."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$48</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="link-group">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                    </ul>
+                <!-- Electric Eclipse -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">⛈️</div>
+                        <img src="/api/placeholder/400/320" alt="Electric Eclipse" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Electric Eclipse</h3>
+                        <p class="product-description">Moody, dramatic, a bit edgy. Make a statement even on the cloudiest days with our bold design.</p>
+                        <div class="product-tagline">"It might be cloudy, but you're bringing the thunder anyway. Proceed with caution."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$52</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Frost & Focus -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">❄️</div>
+                        <img src="/api/placeholder/400/320" alt="Frost & Focus" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Frost & Focus</h3>
+                        <p class="product-description">Crisp, cool, a little distant. For those days that call for calm concentration and collected composure.</p>
+                        <div class="product-tagline">"For those chill vibes—like a frosty morning that somehow feels invigorating."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$52</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cataclysmic Chic -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-icon">🌪️</div>
+                        <img src="/api/placeholder/400/320" alt="Cataclysmic Chic" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="product-info">
+                        <h3>Cataclysmic Chic</h3>
+                        <p class="product-description">All-out drama, end-of-the-world intensity—but stylish. Make an entrance when you walk in the room.</p>
+                        <div class="product-tagline">"Because if it's gonna feel like the end, might as well look amazing doing it."</div>
+                        <div class="product-footer">
+                            <span class="product-price">$58</span>
+                            <button class="cart-button">Add to Cart</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
+    </section>
+    
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <p class="section-description">From selecting your forecast to wearing your weather, we've made the experience simple.</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3 class="step-title">Choose Your Weather</h3>
+                    <p class="step-description">Browse our collection and find the forecast that matches your mood or the day ahead.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3 class="step-title">Select Your Style</h3>
+                    <p class="step-description">Each weather pattern comes in multiple styles to suit your personal taste.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3 class="step-title">Wear with Confidence</h3>
+                    <p class="step-description">No matter what's happening outside, you're in control of your personal forecast.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2>Weather Stories</h2>
+            <p class="section-description">Real people, real forecasts. Here's what our community has to say about controlling their weather.</p>
+            
+            <div class="testimonial">
+                <p class="testimonial-quote">I used to let my mood be dictated by the actual weather. With Blend of Skies, I decide how I want to feel each day. I've been wearing Solar Surge during rainy days, and it genuinely lifts my spirits!</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JS</div>
+                    <div>
+                        <div class="author-name">Jamie S.</div>
+                        <div>Solar Surge Fan</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <p class="testimonial-quote">As someone who's always running between meetings, I appreciate how Baseline Breeze keeps me looking professional but feeling comfortable. It's my go-to for busy workdays when I need to stay focused.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MK</div>
+                    <div>
+                        <div class="author-name">Michael K.</div>
+                        <div>Baseline Breeze Enthusiast</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <div class="container">
+            <h2>Forecast Your Style Today</h2>
+            <p class="cta-description">No crystal balls, zodiac charts, or complicated quizzes. Just pick your weather and wear it your way.</p>
+            <a href="#collection" class="cta-button">Shop the Collection</a>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">Blend of Skies</h4>
+                    <p>Creating premium essentials since 2025. Choose your sky. Own your day.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Shop</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#collection">All Products</a></li>
+                        <li class="footer-link"><a href="#">Baseline Breeze</a></li>
+                        <li class="footer-link"><a href="#">Solar Surge</a></li>
+                        <li class="footer-link"><a href="#">Electric Eclipse</a></li>
+                        <li class="footer-link"><a href="#">Frost & Focus</a></li>
+                        <li class="footer-link"><a href="#">Cataclysmic Chic</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">About Us</a></li>
+                        <li class="footer-link"><a href="#">Sustainability</a></li>
+                        <li class="footer-link"><a href="#">Our Story</a></li>
+                        <li class="footer-link"><a href="#">Careers</a></li>
+                        <li class="footer-link"><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Help</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Shipping & Returns</a></li>
+                        <li class="footer-link"><a href="#">FAQs</a></li>
+                        <li class="footer-link"><a href="#">Size Guide</a></li>
+                        <li class="footer-link"><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
+            </div>
         </div>
     </footer>
-
-    <script src="navbar.js"></script>
 </body>
 </html>
