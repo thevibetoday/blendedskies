@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
   <title>Blend of Skies - Locked Quiz</title>
   <style>
-    /* Base Styles */
     :root {
       --bg: #f5f7fa;
       --text: #1a202c;
@@ -23,13 +22,9 @@
       color: var(--text);
       transition: var(--transition);
       min-height: 100vh;
-      overflow: hidden; /* Keep body from scrolling behind the overlay */
+      overflow: hidden;
       position: relative;
     }
-
-    /********************************
-     *  LOCK OVERLAY (PASSWORD GATE)
-     ********************************/
     .lock-overlay {
       position: fixed;
       inset: 0;
@@ -88,10 +83,6 @@
       margin-bottom: 0.5rem;
       display: none;
     }
-
-    /********************************
-     *  NAVBAR (DO NOT TOUCH/EDIT)
-     ********************************/
     .cosmic-navbar {
       display: flex;
       align-items: center;
@@ -178,12 +169,91 @@
       position: absolute;
       font-size: 1.6rem;
       opacity: 0;
-      transition: opacity var(--transition);
+      transition: var(--transition);
     }
-
-    /********************************
-     *  FUN QUIZ
-     ********************************/
+    .sky-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.45);
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .sky-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-panorama {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transform: translateY(-130%);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 950;
+    }
+    .sky-panorama.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .sky-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .sky-option {
+      width: 120px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sky-option:hover {
+      transform: translateY(-4px);
+    }
+    .sky-preview {
+      width: 100%;
+      height: 80px;
+      background: #edf2f7;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    .sky-icon {
+      font-size: 2rem;
+    }
+    .sky-reflection {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 15px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
+      transform: scaleY(-1);
+    }
+    .sky-details h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .sky-details p {
+      font-size: 0.8rem;
+      color: #666;
+    }
     .container {
       max-width: 800px;
       margin: 2rem auto;
@@ -257,7 +327,6 @@
       line-height: 1.4;
       color: #555;
     }
-
     .loading-screen {
       display: none;
       background: rgba(255,255,255,0.95);
@@ -320,18 +389,15 @@
   </style>
 </head>
 <body>
-  <!-- Password Overlay -->
   <div class="lock-overlay" id="lockOverlay">
     <div class="lock-box">
       <h1>Private Access</h1>
-      <p>Enter the secret password to unlock the page.</p>
-      <p class="lock-error" id="lockError">Incorrect. Try again!</p>
-      <input type="password" id="lockPassword" placeholder="Password here" autocomplete="new-password">
-      <button id="unlockBtn">Let Me In</button>
+      <p>Enter the password to unlock this page.</p>
+      <p class="lock-error" id="lockError">Wrong password.</p>
+      <input type="password" id="lockPassword" placeholder="Password">
+      <button id="unlockBtn">Unlock</button>
     </div>
   </div>
-
-  <!-- Navbar (unchanged) -->
   <nav class="cosmic-navbar">
     <div class="brand-container">
       <div class="brand-icon">
@@ -350,23 +416,20 @@
       <div class="selector-emoji">🌤️</div>
     </div>
   </nav>
-
-  <!-- Hidden sky menu -->
   <div class="sky-backdrop"></div>
   <div class="sky-panorama">
     <div class="sky-options">
-      <!-- Just reusing old approach; can keep or omit -->
-      <div class="sky-option" data-sky="happy">
+      <div class="sky-option">
         <div class="sky-preview">
           <div class="sky-icon">😁</div>
           <div class="sky-reflection"></div>
         </div>
         <div class="sky-details">
           <h3>Happy</h3>
-          <p>All smiles here</p>
+          <p>All smiles</p>
         </div>
       </div>
-      <div class="sky-option" data-sky="chill">
+      <div class="sky-option">
         <div class="sky-preview">
           <div class="sky-icon">😎</div>
           <div class="sky-reflection"></div>
@@ -378,214 +441,176 @@
       </div>
     </div>
   </div>
-
-  <!-- Main Content -->
   <div class="container">
     <div class="quiz-wrapper">
       <div class="quiz-header">
         <h2>Pick Your Tee Vibe</h2>
-        <p>Help us figure out which T-shirt designs you'll actually wear. No judgment—just your style.</p>
+        <p>We’ll quietly tailor your shirt picks based on these answers.</p>
       </div>
-      
-      <!-- Step 1 -->
       <div class="quiz-step active" data-step="1">
-        <h3 class="step-question">1. Your general mood these days?</h3>
+        <h3 class="step-question">1. What’s your overall mood lately?</h3>
         <div class="options-grid">
           <div class="option-card" data-value="chill">
             <div class="option-icon">😌</div>
-            <div class="option-title">Chill AF</div>
-            <div class="option-desc">Nothing bothers me; I'm breezy like Sunday morning.</div>
+            <div class="option-title">Chill</div>
+            <div class="option-desc">No rush, no fuss. I’m good.</div>
           </div>
           <div class="option-card" data-value="amped">
             <div class="option-icon">🤘</div>
-            <div class="option-title">Fired Up</div>
-            <div class="option-desc">I’m all about big energy, let's go!</div>
+            <div class="option-title">Amped</div>
+            <div class="option-desc">High energy, let’s do this.</div>
           </div>
-          <div class="option-card" data-value="silly">
+          <div class="option-card" data-value="quirky">
             <div class="option-icon">🤪</div>
-            <div class="option-title">Goofy</div>
-            <div class="option-desc">Cracking jokes, wearing weird stuff—life's a party.</div>
+            <div class="option-title">Quirky</div>
+            <div class="option-desc">Random jokes, random tees—it’s my thing.</div>
           </div>
           <div class="option-card" data-value="neutral">
             <div class="option-icon">😐</div>
-            <div class="option-title">Just Normal</div>
-            <div class="option-desc">No extremes, just me and my T-shirt collection.</div>
+            <div class="option-title">Neutral</div>
+            <div class="option-desc">Neither hype nor slump, just steady.</div>
           </div>
         </div>
       </div>
-
-      <!-- Step 2 -->
       <div class="quiz-step" data-step="2">
-        <h3 class="step-question">2. Pick a tee style you'd rock on any random day</h3>
+        <h3 class="step-question">2. Ideal T-shirt style for any day?</h3>
         <div class="options-grid">
           <div class="option-card" data-value="clean">
             <div class="option-icon">🧼</div>
-            <div class="option-title">Clean Minimal</div>
-            <div class="option-desc">No big graphics. Simple, subtle text or design.</div>
+            <div class="option-title">Clean & Simple</div>
+            <div class="option-desc">Minimal graphics, calm colors.</div>
           </div>
-          <div class="option-card" data-value="loud">
+          <div class="option-card" data-value="bold">
             <div class="option-icon">🔊</div>
-            <div class="option-title">Loud & Proud</div>
-            <div class="option-desc">Bold prints, bright colors, can't miss me in a crowd.</div>
+            <div class="option-title">Bold & Bright</div>
+            <div class="option-desc">Make it pop. I want eyes on me.</div>
           </div>
           <div class="option-card" data-value="text">
             <div class="option-icon">📝</div>
-            <div class="option-title">Slogan Tee</div>
-            <div class="option-desc">Funny phrases, witty lines—wear your thoughts out loud.</div>
+            <div class="option-title">Slogan / Quotes</div>
+            <div class="option-desc">Words speak louder than silence.</div>
           </div>
-          <div class="option-card" data-value="graphic">
+          <div class="option-card" data-value="artsy">
             <div class="option-icon">🎨</div>
-            <div class="option-title">Graphic Art</div>
-            <div class="option-desc">Cool illustrations, album-cover vibes, artsy touches.</div>
+            <div class="option-title">Artsy Prints</div>
+            <div class="option-desc">A splash of design or album-cover vibe.</div>
           </div>
         </div>
       </div>
-      
-      <!-- Step 3 -->
       <div class="quiz-step" data-step="3">
-        <h3 class="step-question">3. Fit preference? (We got all shapes covered.)</h3>
+        <h3 class="step-question">3. Preferred fit?</h3>
         <div class="options-grid">
           <div class="option-card" data-value="fitted">
             <div class="option-icon">🤏</div>
             <div class="option-title">Fitted</div>
-            <div class="option-desc">Love it hugging me close—no baggy corners.</div>
+            <div class="option-desc">I like it snug, no wasted space.</div>
           </div>
-          <div class="option-card" data-value="relaxed">
+          <div class="option-card" data-value="loose">
             <div class="option-icon">🧸</div>
             <div class="option-title">Relaxed</div>
-            <div class="option-desc">Comfort is king, let me breathe and move.</div>
+            <div class="option-desc">A little breathing room never hurt.</div>
           </div>
           <div class="option-card" data-value="oversized">
-            <div class="option-icon">🪂</div>
+            <div class="option-icon">🎈</div>
             <div class="option-title">Oversized</div>
-            <div class="option-desc">Baggy is life. I want it big and roomy.</div>
+            <div class="option-desc">Baggy is comfy. Let me swim in it.</div>
           </div>
-          <div class="option-card" data-value="varies">
-            <div class="option-icon">🔄</div>
-            <div class="option-title">Depends on Mood</div>
-            <div class="option-desc">Some days I show shape, other days I hide in fabric.</div>
+          <div class="option-card" data-value="depends">
+            <div class="option-icon">🔀</div>
+            <div class="option-title">Depends</div>
+            <div class="option-desc">Mood-based. Some days snug, others giant.</div>
           </div>
         </div>
       </div>
-
-      <!-- Loading -->
       <div class="loading-screen" id="loadingScreen">
         <div class="spinner"></div>
-        <div class="loading-text">Analyzing your T-shirt destiny... Hold tight.</div>
+        <div class="loading-text">Computing your T-shirt destiny...</div>
       </div>
-
-      <!-- Final -->
       <div class="quiz-result-final" id="finalResult">
         <div class="final-icon">🎉</div>
-        <h2 class="final-title">We Got Your Tee Vibes!</h2>
-        <p class="final-desc">
-          That’s all we need. Keep browsing as usual, but expect some subtle (or not-so-subtle) suggestions 
-          that match your picks. You’ll thank us later.
-        </p>
+        <h2 class="final-title">We Got Your Data</h2>
+        <p class="final-desc">Stay tuned for T-shirt suggestions that match what you’ve told us. No pressure—just wearing your vibe.</p>
       </div>
     </div>
   </div>
-
   <script>
-    // ********** PASSWORD LOCK **********
-    const MASTER_PASSWORD = "Secret123";  // Change this to anything you like.
+    const MASTER_PASSWORD="Secret123";
     document.addEventListener('DOMContentLoaded',function(){
-      const lockOverlay = document.getElementById('lockOverlay');
-      const lockError = document.getElementById('lockError');
-      const lockPassword = document.getElementById('lockPassword');
-      const unlockBtn = document.getElementById('unlockBtn');
-
-      unlockBtn.onclick = function(){
-        if(lockPassword.value === MASTER_PASSWORD){
-          // Hide overlay, allow scrolling
-          lockOverlay.style.display = 'none';
-          document.body.style.overflow = 'auto';
-        } else {
-          lockError.style.display = 'block';
+      const lockOverlay=document.getElementById('lockOverlay');
+      const lockError=document.getElementById('lockError');
+      const lockPassword=document.getElementById('lockPassword');
+      const unlockBtn=document.getElementById('unlockBtn');
+      unlockBtn.onclick=function(){
+        if(lockPassword.value===MASTER_PASSWORD){
+          lockOverlay.style.display='none';
+          document.body.style.overflow='auto';
+        }else{
+          lockError.style.display='block';
         }
       };
-
-      // ********** NAVBAR SKY SELECTOR (unchanged except for inside code) **********
-      const skySelector = document.querySelector('.sky-selector');
-      const selectorEmoji = document.querySelector('.selector-emoji');
-      const selectorText = document.querySelector('.selector-inner');
-      const skyBackdrop = document.querySelector('.sky-backdrop');
-      const skyPanorama = document.querySelector('.sky-panorama');
-      const skyOptions = document.querySelectorAll('.sky-option');
-
-      skySelector.onclick = function(e){
+      const skySelector=document.querySelector('.sky-selector');
+      const selectorEmoji=document.querySelector('.selector-emoji');
+      const selectorText=document.querySelector('.selector-inner');
+      const skyBackdrop=document.querySelector('.sky-backdrop');
+      const skyPanorama=document.querySelector('.sky-panorama');
+      const skyOptions=document.querySelectorAll('.sky-option');
+      skySelector.onclick=function(e){
         e.preventDefault();
         skyBackdrop.classList.toggle('active');
         skyPanorama.classList.toggle('open');
       };
-      skyBackdrop.onclick = function(){
+      skyBackdrop.onclick=function(){
         skyBackdrop.classList.remove('active');
         skyPanorama.classList.remove('open');
       };
-
       skyOptions.forEach(opt=>{
-        opt.onclick = function(e){
+        opt.onclick=function(e){
           e.preventDefault();
-          // Just close the menu. Feel free to add body classes or style changes
           setTimeout(()=>{
             skyBackdrop.classList.remove('active');
             skyPanorama.classList.remove('open');
           },250);
         };
       });
-
-      skySelector.onmouseenter = function(){
-        selectorEmoji.style.opacity = '1';
-        selectorText.style.opacity = '0';
+      skySelector.onmouseenter=function(){
+        selectorEmoji.style.opacity='1';
+        selectorText.style.opacity='0';
       };
-      skySelector.onmouseleave = function(){
-        if(selectorEmoji.textContent === '🌤️'){
-          selectorEmoji.style.opacity = '0';
-          selectorText.style.opacity = '1';
+      skySelector.onmouseleave=function(){
+        if(selectorEmoji.textContent==='🌤️'){
+          selectorEmoji.style.opacity='0';
+          selectorText.style.opacity='1';
         }
       };
-
-      // ********** QUIZ LOGIC **********
-      const quizSteps = document.querySelectorAll('.quiz-step');
-      const optionCards = document.querySelectorAll('.option-card');
-      const loadingScreen = document.getElementById('loadingScreen');
-      const finalResult = document.getElementById('finalResult');
-
-      let currentStep = 1;
-      const totalSteps = quizSteps.length;
-      const userAnswers = {};
-
-      // Show the first step by default
+      const quizSteps=document.querySelectorAll('.quiz-step');
+      const optionCards=document.querySelectorAll('.option-card');
+      const loadingScreen=document.getElementById('loadingScreen');
+      const finalResult=document.getElementById('finalResult');
+      let currentStep=1;
+      const totalSteps=quizSteps.length;
+      const userAnswers={};
       quizSteps[0].classList.add('active');
-
-      optionCards.forEach(card => {
-        card.addEventListener('click', function(){
-          const parentStep = this.closest('.quiz-step');
-          const stepNum = parseInt(parentStep.getAttribute('data-step'));
-
-          parentStep.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      optionCards.forEach(card=>{
+        card.addEventListener('click',function(){
+          const parentStep=this.closest('.quiz-step');
+          const stepNum=parseInt(parentStep.getAttribute('data-step'));
+          parentStep.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
           this.classList.add('selected');
-
-          const val = this.getAttribute('data-value');
-          userAnswers[`step${stepNum}`] = val;
-
-          // Move to next or show final
-          if(stepNum < totalSteps){
+          const val=this.getAttribute('data-value');
+          userAnswers[`step${stepNum}`]=val;
+          if(stepNum<totalSteps){
             parentStep.classList.remove('active');
-            const nextStep = stepNum + 1;
+            const nextStep=stepNum+1;
             document.querySelector(`.quiz-step[data-step="${nextStep}"]`).classList.add('active');
-            currentStep = nextStep;
-          } else {
-            // Last step -> show loading, then final
+            currentStep=nextStep;
+          }else{
             parentStep.classList.remove('active');
-            console.log("User's secret T-shirt answers:", userAnswers);
-
             loadingScreen.classList.add('active');
-            setTimeout(() => {
+            setTimeout(()=>{
               loadingScreen.classList.remove('active');
               finalResult.classList.add('active');
-              // Here you can send userAnswers to your backend or AI system, etc.
-            }, 2000);
+              console.log("User's T-shirt answers:",userAnswers);
+            },2000);
           }
         });
       });
