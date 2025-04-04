@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle sky selection
+    // Handle sky selection - MODIFIED FOR PAGE NAVIGATION
     skyOptions.forEach(option => {
         // Initially hide the options for animation
         option.style.opacity = '0';
@@ -108,13 +108,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update orb appearance
             updateOrbWithSelection(currentSky);
             
-            // Close the menu
+            // Close the menu with a slight delay
             setTimeout(() => {
                 if (isOpen) toggleMenu();
+                
+                // Navigate to the corresponding page based on sky type
+                navigateToSkyPage(skyType);
             }, 300);
-            
-            // Apply sky effect to the page
-            applySkyEffect(skyType);
         });
         
         // Also handle touch events for mobile
@@ -138,13 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update orb appearance
                 updateOrbWithSelection(currentSky);
                 
-                // Close the menu
+                // Close the menu with a slight delay
                 setTimeout(() => {
                     if (isOpen) toggleMenu();
+                    
+                    // Navigate to the corresponding page based on sky type
+                    navigateToSkyPage(skyType);
                 }, 300);
-                
-                // Apply sky effect to the page
-                applySkyEffect(skyType);
             }
         });
         
@@ -192,6 +192,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // NEW FUNCTION: Navigate to sky pages
+    function navigateToSkyPage(skyType) {
+        // Map sky types to their respective HTML pages
+        const skyPages = {
+            'clear-blue': 'sun.html',
+            'sunset-glow': 'sunset.html', 
+            'storm-brewing': 'storm.html',
+            'starry-night': 'nighttime.html',
+            'rainbow-sky': 'rainbow.html'
+        };
+        
+        // Default page if the sky type doesn't match any in our mapping
+        const defaultPage = 'index.html';
+        
+        // Get the page URL for the selected sky type or use the default
+        const pageUrl = skyPages[skyType] || defaultPage;
+        
+        // Navigate to the page
+        window.location.href = pageUrl;
+    }
+    
     // Create stars in the background
     function createStars() {
         const starsCount = window.innerWidth < 768 ? 50 : 100;
@@ -231,51 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hide the text
         orbInner.style.opacity = '0';
-    }
-    
-    // Apply sky effect to page
-    function applySkyEffect(skyType) {
-        // Reset any previous effects
-        document.body.className = '';
-        
-        // Apply effect based on sky type
-        document.body.classList.add(`sky-${skyType}`);
-        
-        // Subtle background color transition
-        let bgColor;
-        
-        switch(skyType) {
-            case 'clear-blue':
-                bgColor = 'rgba(240, 248, 255, 0.3)';
-                break;
-            case 'sunset-glow':
-                bgColor = 'rgba(255, 222, 173, 0.3)';
-                break;
-            case 'storm-brewing':
-                bgColor = 'rgba(211, 211, 211, 0.3)';
-                break;
-            case 'starry-night':
-                bgColor = 'rgba(25, 25, 112, 0.05)';
-                break;
-            case 'rainbow-sky':
-                bgColor = 'rgba(255, 250, 250, 0.3)';
-                break;
-            default:
-                bgColor = 'rgba(255, 255, 255, 1)';
-        }
-        
-        document.body.style.backgroundColor = bgColor;
-        
-        // Animation to show the effect was applied
-        const contentArea = document.querySelector('.content-area');
-        if (contentArea) {
-            contentArea.style.transition = 'transform 0.5s ease';
-            contentArea.style.transform = 'translateY(5px)';
-            
-            setTimeout(() => {
-                contentArea.style.transform = 'translateY(0)';
-            }, 500);
-        }
     }
     
     // Handle scroll effects
