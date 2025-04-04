@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blend of Skies</title>
     <style>
-        :root {
-            --primary: #1E90FF;
-            --secondary: #87CEEB;
-            --text-dark: #333;
-            --text-light: #fff;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --radius: 15px;
-            --transition: all 0.3s ease;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -23,587 +13,1478 @@
         }
         
         body {
-            background-color: #f5f8fc;
-            color: var(--text-dark);
-        }
-        
-        .cosmic-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            overflow-x: hidden;
+            background: #2c3e50;
             color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .brand-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .brand-icon {
-            width: 40px;
-            height: 40px;
-            position: relative;
-        }
-        
-        .orbit-icon {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            animation: rotate 10s linear infinite;
-        }
-        
-        .planet {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .satellite {
-            width: 8px;
-            height: 8px;
-            background: #FFD700;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: orbit 5s linear infinite;
-        }
-        
-        .brand-name {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .sky-card {
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
-            transform: translateY(0);
-            transition: var(--transition);
-            background: white;
-        }
-        
-        .sky-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .sky-header {
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            color: white;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .sky-header h3 {
-            font-size: 1.4rem;
-            margin: 0 0 5px 0;
-            z-index: 2;
-        }
-        
-        .sky-header p {
-            font-size: 0.9rem;
-            margin: 0;
-            opacity: 0.9;
-            z-index: 2;
-        }
-        
-        .header-icon {
-            font-size: 2.5rem;
-            z-index: 2;
-        }
-        
-        .options-container {
-            padding: 20px;
-        }
-        
-        .option-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f7f9fc;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-        }
-        
-        .option-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .option-item:hover {
-            background: #edf5ff;
-            transform: translateX(5px);
-        }
-        
-        .option-item.selected {
-            background: #e6f2ff;
-            border-left-color: var(--primary);
-            font-weight: 500;
-            position: relative;
-        }
-        
-        .option-item.selected::after {
-            content: "✓";
-            position: absolute;
-            right: 15px;
-            color: var(--primary);
-            font-weight: bold;
-        }
-        
-        .completion-panel {
-            padding: 30px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            border-radius: var(--radius);
-            background: white;
-            margin-top: 40px;
-            display: none;
-        }
-        
-        .completion-panel.active {
-            display: block;
-            animation: fadeIn 0.5s ease forwards;
-        }
-        
-        .progress-bar {
+        .sky-canvas {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 500px;
-            background: white;
-            padding: 15px 20px;
-            border-radius: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            z-index: 100;
-        }
-        
-        .progress-text {
-            margin-right: 15px;
-            font-weight: 500;
-        }
-        
-        .progress-track {
-            flex-grow: 1;
-            height: 8px;
-            background: #edf5ff;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .complete-btn {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            border-radius: 20px;
-            margin-left: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-            display: none;
-        }
-        
-        .complete-btn.active {
-            display: block;
-        }
-        
-        .complete-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 144, 255, 0.3);
-        }
-        
-        .sky-background {
-            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: -1;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            transition: background 1.5s ease;
+            overflow: hidden;
         }
         
-        .completion-icon {
-            font-size: 3rem;
+        .celestial-object {
+            position: absolute;
+            transition: all 2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .sun {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #fffc00 20%, #ff9500);
+            border-radius: 50%;
+            box-shadow: 0 0 50px #ff7b00;
+            opacity: 1;
+            left: 20%;
+            top: -100px;
+        }
+        
+        .moon {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #dddddd, #bbbbbb);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            right: 15%;
+            top: -100px;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 2s ease;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 3px white;
+            transition: opacity 2s ease;
+        }
+        
+        .raindrop {
+            position: absolute;
+            width: 1px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .snow {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .lightning {
+            position: absolute;
+            width: 3px;
+            background: white;
+            opacity: 0;
+            filter: blur(1px);
+            box-shadow: 0 0 20px white, 0 0 40px white;
+            transform-origin: top;
+            z-index: 0;
+            transition: opacity 0.1s ease;
+        }
+        
+        .rainbow {
+            position: absolute;
+            width: 400px;
+            height: 200px;
+            border-top-left-radius: 200px;
+            border-top-right-radius: 200px;
+            background: linear-gradient(to bottom, 
+                rgba(255, 0, 0, 0.5), 
+                rgba(255, 165, 0, 0.5), 
+                rgba(255, 255, 0, 0.5), 
+                rgba(0, 128, 0, 0.5), 
+                rgba(0, 0, 255, 0.5), 
+                rgba(75, 0, 130, 0.5), 
+                rgba(238, 130, 238, 0.5));
+            border: none;
+            opacity: 0;
+            left: 50%;
+            bottom: -150px;
+            transform: translateX(-50%) rotate(180deg);
+            transition: all 2s ease;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .question-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .question-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .question-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .question-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            max-width: 600px;
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .option-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .option-card.selected {
+            border-color: white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .option-icon {
+            font-size: 32px;
             margin-bottom: 15px;
-            display: inline-block;
+            transition: transform 0.3s ease;
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .option-card:hover .option-icon {
+            transform: scale(1.2);
         }
         
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .option-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
         
-        @keyframes orbit {
-            from { transform: translateX(-50%) rotate(0deg) translateY(-20px) rotate(0deg); }
-            to { transform: translateX(-50%) rotate(360deg) translateY(-20px) rotate(-360deg); }
+        .option-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
         
-        @media (max-width: 600px) {
-            .sky-header {
-                height: 100px;
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: translateY(0);
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .progress-dot.active {
+            background: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .results-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        
+        .results-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .results-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: pulse 3s infinite;
+        }
+        
+        .results-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .results-description {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .restart-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .restart-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.9; }
+        }
+        
+        @keyframes rain {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(1000px); }
+        }
+        
+        @keyframes snow {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(1000px) rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
             }
             
-            .option-item {
-                padding: 12px;
+            .question-title {
+                font-size: 2rem;
             }
             
-            .progress-bar {
-                padding: 10px 15px;
+            .option-title {
+                font-size: 1.1rem;
             }
             
-            .progress-text {
-                font-size: 0.9rem;
+            .results-title {
+                font-size: 2.5rem;
             }
             
-            .complete-btn {
-                padding: 6px 15px;
-                font-size: 0.9rem;
+            .results-description {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
-                </div>
-            </div>
-            <div class="brand-name">Blend of Skies</div>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <div class="header">
-            <h1>Welcome to Blend of Skies</h1>
-            <p>Answer a few questions about yourself to discover your unique sky blend.</p>
-        </div>
-        
-        <div id="questionnaire"></div>
-        
-        <div id="completion-panel" class="completion-panel">
-            <span class="completion-icon">🌈</span>
-            <h2>Your Sky Blend is Ready!</h2>
-            <p>We've created your perfect atmosphere of style based on your selections.</p>
-            <p>Get ready to explore clothing that matches your unique blend of preferences!</p>
-        </div>
+    <div class="sky-canvas" id="sky-canvas">
+        <div class="celestial-object sun" id="sun"></div>
+        <div class="celestial-object moon" id="moon"></div>
+        <div class="rainbow" id="rainbow"></div>
+        <!-- Weather elements will be added dynamically via JS -->
     </div>
     
-    <div class="progress-bar">
-        <div class="progress-text">Your Sky: <span id="progress-count">0/0</span></div>
-        <div class="progress-track">
-            <div id="progress-fill" class="progress-fill"></div>
-        </div>
-        <button id="complete-btn" class="complete-btn">Complete</button>
+    <nav class="navbar">
+        <div class="brand">Blend of Skies</div>
+    </nav>
+    
+    <div class="progress-indicator" id="progress-indicator">
+        <!-- Progress dots will be added dynamically -->
+    </div>
+    
+    <div id="questions-container">
+        <!-- Questions will be generated dynamically -->
+    </div>
+    
+    <div class="results-container" id="results-container">
+        <div class="results-icon" id="results-icon">✨</div>
+        <h1 class="results-title" id="results-title">Your Sky Personality</h1>
+        <p class="results-description" id="results-description">Based on your choices, we've created a unique sky that reflects your personality.</p>
+        <button class="restart-button" id="restart-button">Start Again</button>
+    </div>
+    
+    <div class="navigation">
+        <button class="nav-button" id="prev-button" disabled>Previous</button>
+        <button class="nav-button" id="next-button">Next</button>
     </div>
     
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const skyBackgrounds = {
-            mood: {
-                bgClass: 'mood-sky',
-                style: 'background: linear-gradient(to bottom right, #87CEEB, #1E90FF)',
-                icon: '☀️'
-            },
-            energy: {
-                bgClass: 'energy-sky',
-                style: 'background: linear-gradient(to bottom right, #FFB347, #FFCC33)',
-                icon: '⚡'
-            },
-            style: {
-                bgClass: 'style-sky',
-                style: 'background: linear-gradient(to bottom right, #B5D8E9, #7BA7BC)',
-                icon: '⛅'
-            },
-            build: {
-                bgClass: 'build-sky',
-                style: 'background: linear-gradient(to bottom right, #465A63, #262E33)',
-                icon: '⛈️'
-            },
-            price: {
-                bgClass: 'price-sky',
-                style: 'background: linear-gradient(to bottom right, #FF7F50, #FF1493)',
-                icon: '🌅'
-            }
-        };
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sky elements
+        const skyCanvas = document.getElementById('sky-canvas');
+        const sun = document.getElementById('sun');
+        const moon = document.getElementById('moon');
+        const rainbow = document.getElementById('rainbow');
         
+        // Navigation elements
+        const questionsContainer = document.getElementById('questions-container');
+        const resultsContainer = document.getElementById('results-container');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const progressIndicator = document.getElementById('progress-indicator');
+        const restartButton = document.getElementById('restart-button');
+        
+        // Results elements
+        const resultsIcon = document.getElementById('results-icon');
+        const resultsTitle = document.getElementById('results-title');
+        const resultsDescription = document.getElementById('results-description');
+        
+        // State management
+        let currentQuestion = 0;
+        let userAnswers = {};
+        
+        // Define all questions
         const questions = [
             {
-                id: 'mood',
-                title: 'Pick a sky mood',
-                subtitle: 'How does your inner atmosphere feel today?',
+                id: 'time',
+                title: "What time of day speaks to your soul?",
+                subtitle: "Choose the sky phase that resonates with your natural rhythm",
                 options: [
-                    { value: 'calm', text: 'Clear blue — calm, peaceful, unbothered' },
-                    { value: 'focused', text: 'Bright sunshine — energetic, focused, productive' },
-                    { value: 'floating', text: 'Light clouds — daydreaming, floating through' },
-                    { value: 'low', text: 'Overcast — low energy, contemplative' },
-                    { value: 'irritated', text: 'Storm brewing — tense, restless, ready for change' }
+                    {
+                        id: 'dawn',
+                        icon: '🌅',
+                        title: 'Dawn',
+                        description: 'Early riser, fresh starts, new beginnings',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #ff9966, #ff5e62)',
+                            sun: { visible: true, position: { left: '20%', top: '20%' } },
+                            moon: { visible: false },
+                            clouds: { amount: 'few', color: '#ffcccb' },
+                            stars: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'midday',
+                        icon: '☀️',
+                        title: 'Midday',
+                        description: 'Peak energy, clarity, productivity, directness',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #1e90ff, #87ceeb)',
+                            sun: { visible: true, position: { left: '50%', top: '15%' } },
+                            moon: { visible: false },
+                            clouds: { amount: 'few', color: 'white' },
+                            stars: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'sunset',
+                        icon: '🌇',
+                        title: 'Sunset',
+                        description: 'Reflective, romantic, winding down, transitional',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #ff7e5f, #feb47b)',
+                            sun: { visible: true, position: { left: '80%', top: '30%' } },
+                            moon: { visible: false },
+                            clouds: { amount: 'moderate', color: '#ffd700' },
+                            stars: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'night',
+                        icon: '🌃',
+                        title: 'Night',
+                        description: 'Mysterious, deep thinking, creative, magical',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #0f2027, #203a43, #2c5364)',
+                            sun: { visible: false },
+                            moon: { visible: true, position: { right: '30%', top: '20%' } },
+                            clouds: { amount: 'few', color: '#555' },
+                            stars: { visible: true, amount: 'many' }
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'weather',
+                title: "What weather matches your temperament?",
+                subtitle: "Select the atmospheric condition that best represents you",
+                options: [
+                    {
+                        id: 'clear',
+                        icon: '☀️',
+                        title: 'Clear Skies',
+                        description: 'Straightforward, optimistic, nothing to hide',
+                        skyEffect: {
+                            clouds: { amount: 'none' },
+                            rain: { visible: false },
+                            snow: { visible: false },
+                            lightning: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'cloudy',
+                        icon: '⛅',
+                        title: 'Partly Cloudy',
+                        description: 'Balanced, thoughtful, adaptable, changing',
+                        skyEffect: {
+                            clouds: { amount: 'moderate', color: 'white' },
+                            rain: { visible: false },
+                            snow: { visible: false },
+                            lightning: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'rainy',
+                        icon: '🌧️',
+                        title: 'Rainy',
+                        description: 'Emotional, introspective, cleansing, thoughtful',
+                        skyEffect: {
+                            clouds: { amount: 'many', color: '#888' },
+                            rain: { visible: true, intensity: 'moderate' },
+                            snow: { visible: false },
+                            lightning: { visible: false }
+                        }
+                    },
+                    {
+                        id: 'stormy',
+                        icon: '⛈️',
+                        title: 'Thunderstorm',
+                        description: 'Passionate, intense, powerful, dynamic',
+                        skyEffect: {
+                            clouds: { amount: 'many', color: '#555' },
+                            rain: { visible: true, intensity: 'heavy' },
+                            snow: { visible: false },
+                            lightning: { visible: true }
+                        }
+                    },
+                    {
+                        id: 'snowy',
+                        icon: '❄️',
+                        title: 'Snowy',
+                        description: 'Gentle, quiet, peaceful, pristine',
+                        skyEffect: {
+                            clouds: { amount: 'many', color: '#ccc' },
+                            rain: { visible: false },
+                            snow: { visible: true },
+                            lightning: { visible: false }
+                        }
+                    }
+                ]
+            },
+            {
+                id: 'element',
+                title: "What elemental force guides you?",
+                subtitle: "Choose the natural element that shapes your interactions",
+                options: [
+                    {
+                        id: 'air',
+                        icon: '💨',
+                        title: 'Air',
+                        description: 'Free-spirited, intellectual, communicative',
+                        skyEffect: {
+                            clouds: { amount: 'few', motion: 'fast' }
+                        }
+                    },
+                    {
+                        id: 'fire',
+                        icon: '🔥',
+                        title: 'Fire',
+                        description: 'Passionate, energetic, transformative',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #ff416c, #ff4b2b)',
+                            sun: { visible: true, size: 'large' }
+                        }
+                    },
+                    {
+                        id: 'water',
+                        icon: '💧',
+                        title: 'Water',
+                        description: 'Fluid, intuitive, emotional, adaptable',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #4ca1af, #c4e0e5)',
+                            rain: { visible: true, intensity: 'light' }
+                        }
+                    },
+                    {
+                        id: 'earth',
+                        icon: '🌱',
+                        title: 'Earth',
+                        description: 'Grounded, practical, reliable, nurturing',
+                        skyEffect: {
+                            background: 'linear-gradient(to bottom, #76b852, #8dc26f)',
+                            rainbow: { visible: true }
+                        }
+                    }
                 ]
             },
             {
                 id: 'energy',
-                title: 'Pick your energy level',
-                subtitle: 'What powers your day?',
+                title: "What energy level drives your day?",
+                subtitle: "Select the atmospheric intensity that matches your pace",
                 options: [
-                    { value: 'morning', text: 'Sunrise energy — early riser, fresh start' },
-                    { value: 'midday', text: 'Midday bright — peak productivity, full power' },
-                    { value: 'evening', text: 'Sunset vibes — winding down, reflective' },
-                    { value: 'night', text: 'Moonlight mode — mysterious, creative night owl' }
+                    {
+                        id: 'calm',
+                        icon: '🌤️',
+                        title: 'Calm & Serene',
+                        description: 'Peaceful, mindful, unhurried, present',
+                        skyEffect: {
+                            clouds: { amount: 'few', motion: 'slow' },
+                            background: 'linear-gradient(to bottom, #2980b9, #6dd5fa)'
+                        }
+                    },
+                    {
+                        id: 'vibrant',
+                        icon: '🌈',
+                        title: 'Vibrant & Lively',
+                        description: 'Energetic, colorful, expressive, enthusiastic',
+                        skyEffect: {
+                            rainbow: { visible: true },
+                            background: 'linear-gradient(to bottom, #00b09b, #96c93d)'
+                        }
+                    },
+                    {
+                        id: 'intense',
+                        icon: '⚡',
+                        title: 'Intense & Focused',
+                        description: 'Driven, determined, powerful, single-minded',
+                        skyEffect: {
+                            lightning: { visible: true, frequency: 'occasional' },
+                            background: 'linear-gradient(to bottom, #373b44, #4286f4)'
+                        }
+                    },
+                    {
+                        id: 'mellow',
+                        icon: '🌙',
+                        title: 'Mellow & Contemplative',
+                        description: 'Thoughtful, relaxed, introspective, measured',
+                        skyEffect: {
+                            moon: { visible: true },
+                            stars: { visible: true, amount: 'moderate' },
+                            background: 'linear-gradient(to bottom, #141e30, #243b55)'
+                        }
+                    }
                 ]
             },
             {
-                id: 'style',
-                title: 'Pick your style atmosphere',
-                subtitle: 'What vibe do you bring to a room?',
+                id: 'horizon',
+                title: "How far do you look into the distance?",
+                subtitle: "Choose the view that reflects your perspective on life",
                 options: [
-                    { value: 'minimal', text: 'Clear horizons — minimal, clean, uncluttered' },
-                    { value: 'bold', text: 'Rainbow skies — colorful, expressive, bold' },
-                    { value: 'classic', text: 'Blue hour — timeless, elegant, reliable' },
-                    { value: 'eclectic', text: 'Changing weather — varied, unpredictable, eclectic' }
-                ]
-            },
-            {
-                id: 'build',
-                title: 'Pick your physical skyline',
-                subtitle: 'How you take up space in the world',
-                options: [
-                    { value: 'slim', text: 'High altitude — tall, slim silhouette' },
-                    { value: 'average', text: 'Middle atmosphere — balanced proportions' },
-                    { value: 'broad', text: 'Expansive clouds — wider, stronger frame' },
-                    { value: 'fuller', text: 'Full horizon — rounded, fuller silhouette' }
-                ]
-            },
-            {
-                id: 'price',
-                title: 'Pick your investment climate',
-                subtitle: 'What value means to you',
-                options: [
-                    { value: 'budget', text: 'Light showers — budget-friendly, practical value' },
-                    { value: 'midrange', text: 'Steady climate — balanced quality and cost' },
-                    { value: 'premium', text: 'Rich atmosphere — premium materials, lasting investment' }
+                    {
+                        id: 'immediate',
+                        icon: '👁️',
+                        title: 'Immediate Focus',
+                        description: 'Present-oriented, detail-focused, hands-on',
+                        skyEffect: {
+                            clouds: { amount: 'many', height: 'low' }
+                        }
+                    },
+                    {
+                        id: 'balanced',
+                        icon: '⚖️',
+                        title: 'Balanced View',
+                        description: 'Adaptable, practical, realistic, flexible',
+                        skyEffect: {
+                            clouds: { amount: 'moderate', height: 'medium' }
+                        }
+                    },
+                    {
+                        id: 'farSighted',
+                        icon: '🔭',
+                        title: 'Far Horizon',
+                        description: 'Visionary, big-picture thinker, future-focused',
+                        skyEffect: {
+                            clouds: { amount: 'few', height: 'high' },
+                            stars: { visible: true, amount: 'few' }
+                        }
+                    },
+                    {
+                        id: 'cosmic',
+                        icon: '✨',
+                        title: 'Cosmic Perspective',
+                        description: 'Philosophical, boundless, spiritual, expansive',
+                        skyEffect: {
+                            stars: { visible: true, amount: 'many' },
+                            background: 'linear-gradient(to bottom, #000428, #004e92)'
+                        }
+                    }
                 ]
             }
         ];
         
-        const questionnaireEl = document.getElementById('questionnaire');
-        const progressFill = document.getElementById('progress-fill');
-        const progressCount = document.getElementById('progress-count');
-        const completeBtn = document.getElementById('complete-btn');
-        const completionPanel = document.getElementById('completion-panel');
-        
-        let answeredQuestions = 0;
-        const totalQuestions = questions.length;
-        
-        progressCount.textContent = `0/${totalQuestions}`;
-        
-        function renderQuestions() {
-            questions.forEach(question => {
-                const bgInfo = skyBackgrounds[question.id] || {
-                    style: 'background: linear-gradient(to bottom right, #87CEEB, #1E90FF)',
-                    icon: '☁️'
-                };
-                
-                const card = document.createElement('div');
-                card.className = 'sky-card';
-                card.dataset.question = question.id;
-                
-                card.innerHTML = `
-                    <div class="sky-header" style="${bgInfo.style}">
-                        <div class="header-content">
-                            <h3>${question.title}</h3>
-                            <p>${question.subtitle}</p>
-                        </div>
-                        <div class="header-icon">${bgInfo.icon}</div>
-                    </div>
-                    <div class="options-container">
-                        ${question.options.map(option => `
-                            <div class="option-item" data-value="${option.value}">
-                                ${option.text}
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                
-                questionnaireEl.appendChild(card);
-            });
-            
-            attachEventListeners();
-        }
-        
-        function attachEventListeners() {
-            const optionItems = document.querySelectorAll('.option-item');
-            
-            optionItems.forEach(option => {
-                option.addEventListener('click', function() {
-                    const card = this.closest('.sky-card');
-                    
-                    card.querySelectorAll('.option-item').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    this.classList.add('selected');
-                    
-                    if (!card.classList.contains('answered')) {
-                        card.classList.add('answered');
-                        answeredQuestions++;
-                        updateProgress();
-                    }
-                    
-                    const nextCard = card.nextElementSibling;
-                    if (nextCard && nextCard.classList.contains('sky-card')) {
-                        setTimeout(() => {
-                            nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 300);
-                    }
-                });
-            });
-            
-            completeBtn.addEventListener('click', function() {
-                if (answeredQuestions === totalQuestions) {
-                    questionnaireEl.style.display = 'none';
-                    completionPanel.classList.add('active');
-                    document.querySelector('.progress-bar').style.display = 'none';
-                    
-                    collectUserChoices();
-                } else {
-                    alert('Please answer all questions to complete your sky blend!');
+        // Sky personality profiles based on answers
+        const skyProfiles = [
+            {
+                name: "Dawn Explorer",
+                description: "You're an optimistic pioneer with boundless energy for new beginnings. Like the first light of dawn, you bring fresh perspective and clarity to everything you touch.",
+                icon: "🌅",
+                matches: {
+                    time: ["dawn"],
+                    energy: ["vibrant", "intense"],
+                    horizon: ["farSighted", "cosmic"]
                 }
-            });
+            },
+            {
+                name: "Serene Drifter",
+                description: "Peaceful and contemplative, you move through life with grace. Like clouds on a clear day, you adapt to change while maintaining your essential nature.",
+                icon: "⛅",
+                matches: {
+                    weather: ["clear", "cloudy"],
+                    energy: ["calm", "mellow"],
+                    element: ["air", "water"]
+                }
+            },
+            {
+                name: "Electric Visionary",
+                description: "Powerfully charged and intensely focused, you cut through obstacles like lightning through the sky. Your energy is both inspiring and transformative.",
+                icon: "⚡",
+                matches: {
+                    weather: ["stormy"],
+                    energy: ["intense"],
+                    element: ["fire"]
+                }
+            },
+            {
+                name: "Twilight Dreamer",
+                description: "Like the magical transition of sunset, you thrive in the in-between moments. You see beauty in change and possibility in transitions.",
+                icon: "🌇",
+                matches: {
+                    time: ["sunset"],
+                    energy: ["mellow"],
+                    horizon: ["farSighted"]
+                }
+            },
+            {
+                name: "Celestial Thinker",
+                description: "Deep and mysterious like the night sky, your mind contains vast constellations of ideas. You see patterns others miss and find comfort in life's deeper questions.",
+                icon: "🌌",
+                matches: {
+                    time: ["night"],
+                    horizon: ["cosmic"],
+                    energy: ["mellow"]
+                }
+            },
+            {
+                name: "Vibrant Rainbow",
+                description: "Diverse, colorful, and appearing after life's storms, you bring joy and perspective. Your presence signals hope and your personality contains multitudes.",
+                icon: "🌈",
+                matches: {
+                    energy: ["vibrant"],
+                    weather: ["rainy"],
+                    element: ["water"]
+                }
+            },
+            {
+                name: "Grounded Sunbeam",
+                description: "Practical yet warm, you shine consistent light on those around you. Your reliable energy and clear perspective makes you a cornerstone for others.",
+                icon: "☀️",
+                matches: {
+                    time: ["midday"],
+                    weather: ["clear"],
+                    element: ["earth", "fire"]
+                }
+            },
+            {
+                name: "Gentle Snowfall",
+                description: "Quiet and transformative, you create space for reflection. Your gentle presence changes landscapes and invites others to see the world anew.",
+                icon: "❄️",
+                matches: {
+                    weather: ["snowy"],
+                    energy: ["calm"],
+                    element: ["water"]
+                }
+            }
+        ];
+        
+        // Initialize sky elements and event listeners
+        function initialize() {
+            createProgressIndicator();
+            renderQuestion(currentQuestion);
+            createInitialSkyElements();
+            
+            prevButton.addEventListener('click', navigateToPrevious);
+            nextButton.addEventListener('click', navigateToNext);
+            restartButton.addEventListener('click', restartQuiz);
         }
         
-        function updateProgress() {
-            const progress = (answeredQuestions / totalQuestions) * 100;
-            progressFill.style.width = `${progress}%`;
-            progressCount.textContent = `${answeredQuestions}/${totalQuestions}`;
+        // Create initial clouds, stars, and weather elements
+        function createInitialSkyElements() {
+            // Create clouds
+            for (let i = 0; i < 5; i++) {
+                createCloud();
+            }
             
-            if (answeredQuestions === totalQuestions) {
-                completeBtn.classList.add('active');
+            // Create stars
+            for (let i = 0; i < 50; i++) {
+                createStar();
             }
         }
         
-        function collectUserChoices() {
-            const userChoices = {};
+        // Create a single cloud element
+        function createCloud() {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
             
-            questions.forEach(question => {
-                const card = document.querySelector(`.sky-card[data-question="${question.id}"]`);
-                const selectedOption = card.querySelector('.option-item.selected');
-                
-                if (selectedOption) {
-                    userChoices[question.id] = selectedOption.dataset.value;
-                }
-            });
+            // Random size between 50px and 150px
+            const size = Math.random() * 100 + 50;
+            cloud.style.width = `${size}px`;
+            cloud.style.height = `${size * 0.6}px`;
             
-            console.log('User choices:', userChoices);
+            // Random position
+            cloud.style.left = `${Math.random() * 100}%`;
+            cloud.style.top = `${Math.random() * 20 + 10}%`;
             
-            determineUserSkyBlend(userChoices);
+            // Add the cloud to the sky
+            skyCanvas.appendChild(cloud);
+            return cloud;
         }
         
-        function determineUserSkyBlend(choices) {
-            const skyBlends = {
-                'Radiant Dawn': { mood: ['calm', 'focused'], energy: ['morning', 'midday'] },
-                'Tranquil Twilight': { mood: ['calm', 'low'], energy: ['evening', 'night'] },
-                'Dynamic Thunderhead': { mood: ['focused', 'irritated'], style: ['bold', 'eclectic'] },
-                'Serene Cirrus': { mood: ['floating', 'calm'], style: ['minimal', 'classic'] },
-                'Vibrant Sunset': { mood: ['floating'], energy: ['evening'], style: ['bold'] },
-                'Celestial Night': { energy: ['night'], style: ['classic', 'minimal'] },
-                'Practical Daylight': { energy: ['morning', 'midday'], price: ['budget', 'midrange'] },
-                'Premium Atmosphere': { style: ['classic'], price: ['premium'] }
-            };
+        // Create a single star element
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
             
-            let userBlend = 'Custom Sky Blend';
-            let highestMatch = 0;
+            // Random position
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 60}%`;
             
-            Object.entries(skyBlends).forEach(([blend, criteria]) => {
-                let matchCount = 0;
-                let criteriaCount = 0;
+            // Random size between 1px and 3px
+            const size = Math.random() * 2 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // Add the star to the sky
+            skyCanvas.appendChild(star);
+            return star;
+        }
+        
+        // Create a raindrop element
+        function createRaindrop() {
+            const raindrop = document.createElement('div');
+            raindrop.className = 'raindrop';
+            
+            // Random position
+            raindrop.style.left = `${Math.random() * 100}%`;
+            raindrop.style.top = '0%';
+            
+            // Add the raindrop to the sky
+            skyCanvas.appendChild(raindrop);
+            
+            return raindrop;
+        }
+        
+        // Create a snowflake element
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snow';
+            
+            // Random position
+            snowflake.style.left = `${Math.random() * 100}%`;
+            snowflake.style.top = '0%';
+            
+            // Add the snowflake to the sky
+            skyCanvas.appendChild(snowflake);
+            return snowflake;
+        }
+        
+        // Create a lightning element
+        function createLightning() {
+            const lightning = document.createElement('div');
+            lightning.className = 'lightning';
+            
+            // Random position
+            const leftPos = Math.random() * 80 + 10;
+            lightning.style.left = `${leftPos}%`;
+            lightning.style.top = '0%';
+            
+            // Random height and width
+            const height = Math.random() * 300 + 100;
+            lightning.style.height = `${height}px`;
+            
+            // Add the lightning to the sky
+            skyCanvas.appendChild(lightning);
+            
+            // Animate the lightning
+            setTimeout(() => {
+                lightning.style.opacity = 0.8;
                 
-                Object.entries(criteria).forEach(([category, values]) => {
-                    criteriaCount += values.length;
-                    if (choices[category] && values.includes(choices[category])) {
-                        matchCount++;
+                setTimeout(() => {
+                    lightning.style.opacity = 0;
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        skyCanvas.removeChild(lightning);
+                    }, 100);
+                }, 100);
+            }, 10);
+        }
+        
+        // Create progress indicator dots
+        function createProgressIndicator() {
+            for (let i = 0; i < questions.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = i === 0 ? 'progress-dot active' : 'progress-dot';
+                progressIndicator.appendChild(dot);
+            }
+        }
+        
+        // Render a specific question
+        function renderQuestion(index) {
+            // Clear previous questions
+            questionsContainer.innerHTML = '';
+            
+            const question = questions[index];
+            
+            // Create question container
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question-container';
+            questionElement.id = `question-${question.id}`;
+            
+            // Create question content
+            questionElement.innerHTML = `
+                <h2 class="question-title">${question.title}</h2>
+                <p class="question-subtitle">${question.subtitle}</p>
+                <div class="options-grid" id="options-${question.id}">
+                    ${question.options.map(option => `
+                        <div class="option-card" data-option-id="${option.id}">
+                            <div class="option-icon">${option.icon}</div>
+                            <h3 class="option-title">${option.title}</h3>
+                            <p class="option-description">${option.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Add to container
+            questionsContainer.appendChild(questionElement);
+            
+            // Add event listeners to options
+            const optionCards = questionElement.querySelectorAll('.option-card');
+            optionCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Deselect all options
+                    optionCards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Select this option
+                    card.classList.add('selected');
+                    
+                    // Save the answer
+                    const optionId = card.getAttribute('data-option-id');
+                    userAnswers[question.id] = optionId;
+                    
+                    // Apply sky effect
+                    const selectedOption = question.options.find(o => o.id === optionId);
+                    applySkyEffect(selectedOption.skyEffect);
+                    
+                    // Enable next button if disabled
+                    nextButton.disabled = false;
+                });
+            });
+            
+            // Check if this question was already answered
+            if (userAnswers[question.id]) {
+                const selectedOption = questionElement.querySelector(`.option-card[data-option-id="${userAnswers[question.id]}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                }
+            }
+            
+            // Make question visible after a short delay
+            setTimeout(() => {
+                questionElement.classList.add('visible');
+            }, 100);
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Update progress indicator
+            updateProgressIndicator();
+        }
+        
+        // Apply sky effects based on selected option
+        function applySkyEffect(effect) {
+            if (!effect) return;
+            
+            // Background effect
+            if (effect.background) {
+                skyCanvas.style.background = effect.background;
+            }
+            
+            // Sun effect
+            if (effect.sun) {
+                if (effect.sun.visible) {
+                    sun.style.opacity = 1;
+                    if (effect.sun.position) {
+                        if (effect.sun.position.left) sun.style.left = effect.sun.position.left;
+                        if (effect.sun.position.top) sun.style.top = effect.sun.position.top;
                     }
+                    if (effect.sun.size === 'large') {
+                        sun.style.width = '100px';
+                        sun.style.height = '100px';
+                    } else {
+                        sun.style.width = '80px';
+                        sun.style.height = '80px';
+                    }
+                } else {
+                    sun.style.opacity = 0;
+                }
+            }
+            
+            // Moon effect
+            if (effect.moon) {
+                if (effect.moon.visible) {
+                    moon.style.opacity = 1;
+                    if (effect.moon.position) {
+                        if (effect.moon.position.right) moon.style.right = effect.moon.position.right;
+                        if (effect.moon.position.top) moon.style.top = effect.moon.position.top;
+                    }
+                } else {
+                    moon.style.opacity = 0;
+                }
+            }
+            
+            // Cloud effect
+            if (effect.clouds) {
+                // Remove existing clouds
+                document.querySelectorAll('.cloud').forEach(cloud => {
+                    cloud.style.opacity = 0;
+                    setTimeout(() => {
+                        if (cloud.parentNode) {
+                            cloud.parentNode.removeChild(cloud);
+                        }
+                    }, 1000);
                 });
                 
-                const matchPercentage = matchCount / criteriaCount;
+                let cloudCount = 0;
                 
-                if (matchPercentage > highestMatch) {
-                    highestMatch = matchPercentage;
-                    userBlend = blend;
+                if (effect.clouds.amount === 'few') cloudCount = 3;
+                else if (effect.clouds.amount === 'moderate') cloudCount = 8;
+                else if (effect.clouds.amount === 'many') cloudCount = 15;
+                
+                // Create new clouds
+                for (let i = 0; i < cloudCount; i++) {
+                    const cloud = createCloud();
+                    
+                    if (effect.clouds.color) {
+                        cloud.style.background = effect.clouds.color;
+                    }
+                    
+                    if (effect.clouds.height === 'low') {
+                        cloud.style.top = `${Math.random() * 10 + 30}%`;
+                    } else if (effect.clouds.height === 'medium') {
+                        cloud.style.top = `${Math.random() * 10 + 20}%`;
+                    } else if (effect.clouds.height === 'high') {
+                        cloud.style.top = `${Math.random() * 10 + 10}%`;
+                    }
+                    
+                    // Make cloud visible
+                    setTimeout(() => {
+                        cloud.style.opacity = 0.8;
+                    }, i * 100);
+                    
+                    // Add motion to clouds if specified
+                    if (effect.clouds.motion) {
+                        const direction = Math.random() > 0.5 ? 1 : -1;
+                        const speed = effect.clouds.motion === 'fast' ? 30 : 10;
+                        
+                        setInterval(() => {
+                            const currentLeft = parseFloat(cloud.style.left);
+                            let newLeft = currentLeft + (direction * speed / 100);
+                            
+                            if (newLeft > 110) newLeft = -10;
+                            if (newLeft < -10) newLeft = 110;
+                            
+                            cloud.style.left = `${newLeft}%`;
+                        }, 1000);
+                    }
+                }
+            }
+            
+            // Star effect
+            if (effect.stars) {
+                const stars = document.querySelectorAll('.star');
+                
+                stars.forEach(star => {
+                    star.style.opacity = effect.stars.visible ? 0.8 : 0;
+                });
+                
+                if (effect.stars.visible && effect.stars.amount === 'many') {
+                    // Add more stars
+                    for (let i = 0; i < 30; i++) {
+                        const star = createStar();
+                        setTimeout(() => {
+                            star.style.opacity = 0.8;
+                        }, i * 50);
+                    }
+                }
+            }
+            
+            // Rain effect
+            if (effect.rain) {
+                if (effect.rain.visible) {
+                    // Create raindrops
+                    const intensity = effect.rain.intensity === 'heavy' ? 50 : 
+                                       effect.rain.intensity === 'moderate' ? 30 : 15;
+                    
+                    const rainInterval = setInterval(() => {
+                        const raindrop = createRaindrop();
+                        raindrop.style.opacity = 0.7;
+                        
+                        // Animate raindrop
+                        raindrop.style.animation = `rain ${Math.random() * 1 + 1}s linear`;
+                        
+                        // Remove raindrop after animation
+                        setTimeout(() => {
+                            if (raindrop.parentNode) {
+                                raindrop.parentNode.removeChild(raindrop);
+                            }
+                        }, 2000);
+                    }, 2000 / intensity);
+                    
+                    // Store the interval to clear it later
+                    window.rainInterval = rainInterval;
+                } else {
+                    // Stop rain animation
+                    if (window.rainInterval) {
+                        clearInterval(window.rainInterval);
+                    }
+                }
+            }
+            
+            // Snow effect
+            if (effect.snow) {
+                if (effect.snow.visible) {
+                    // Create snowflakes
+                    const snowInterval = setInterval(() => {
+                        const snowflake = createSnowflake();
+                        snowflake.style.opacity = 0.9;
+                        
+                        // Animate snowflake
+                        snowflake.style.animation = `snow ${Math.random() * 5 + 5}s linear`;
+                        
+                        // Remove snowflake after animation
+                        setTimeout(() => {
+                            if (snowflake.parentNode) {
+                                snowflake.parentNode.removeChild(snowflake);
+                            }
+                        }, 10000);
+                    }, 200);
+                    
+                    // Store the interval to clear it later
+                    window.snowInterval = snowInterval;
+                } else {
+                    // Stop snow animation
+                    if (window.snowInterval) {
+                        clearInterval(window.snowInterval);
+                    }
+                }
+            }
+            
+            // Lightning effect
+            if (effect.lightning) {
+                if (effect.lightning.visible) {
+                    // Create lightning at random intervals
+                    const lightningInterval = setInterval(() => {
+                        if (Math.random() > 0.7) {
+                            createLightning();
+                        }
+                    }, 3000);
+                    
+                    // Store the interval to clear it later
+                    window.lightningInterval = lightningInterval;
+                } else {
+                    // Stop lightning animation
+                    if (window.lightningInterval) {
+                        clearInterval(window.lightningInterval);
+                    }
+                }
+            }
+            
+            // Rainbow effect
+            if (effect.rainbow) {
+                rainbow.style.opacity = effect.rainbow.visible ? 0.7 : 0;
+                if (effect.rainbow.visible) {
+                    rainbow.style.bottom = '20%';
+                } else {
+                    rainbow.style.bottom = '-150px';
+                }
+            }
+        }
+        
+        // Update navigation buttons based on current question
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestion === 0;
+            nextButton.textContent = currentQuestion === questions.length - 1 ? 'Finish' : 'Next';
+            
+            // Disable next button if no answer selected
+            if (!userAnswers[questions[currentQuestion].id]) {
+                nextButton.disabled = true;
+            }
+        }
+        
+        // Update progress indicator
+        function updateProgressIndicator() {
+            const dots = progressIndicator.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentQuestion);
+            });
+        }
+        
+        // Navigate to previous question
+        function navigateToPrevious() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion(currentQuestion);
+            }
+        }
+        
+        // Navigate to next question
+        function navigateToNext() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion(currentQuestion);
+            } else {
+                showResults();
+            }
+        }
+        
+        // Show results
+        function showResults() {
+            // Hide questions and navigation
+            questionsContainer.style.display = 'none';
+            prevButton.style.display = 'none';
+            nextButton.style.display = 'none';
+            
+            // Show results container
+            resultsContainer.classList.add('visible');
+            
+            // Determine sky personality based on answers
+            const skyPersonality = determineSkyPersonality();
+            
+            // Update results content
+            resultsIcon.textContent = skyPersonality.icon;
+            resultsTitle.textContent = skyPersonality.name;
+            resultsDescription.textContent = skyPersonality.description;
+            
+            // Create a final sky based on all answers
+            createFinalSky();
+        }
+        
+        // Determine sky personality based on answers
+        function determineSkyPersonality() {
+            // Default personality in case no match is found
+            let bestMatch = {
+                name: "Unique Atmosphere",
+                description: "Your blend of choices creates a totally unique sky personality. Like a weather pattern never seen before, you bring something new to the world.",
+                icon: "🌤️",
+                matchScore: 0
+            };
+            
+            // Evaluate each profile for matching answers
+            skyProfiles.forEach(profile => {
+                let matchScore = 0;
+                let totalPossibleMatches = 0;
+                
+                // Check each category in the profile
+                for (const [category, values] of Object.entries(profile.matches)) {
+                    totalPossibleMatches++;
+                    
+                    // If user answered this category and the answer is in the profile's values
+                    if (userAnswers[category] && values.includes(userAnswers[category])) {
+                        matchScore++;
+                    }
+                }
+                
+                // Calculate match percentage
+                const matchPercentage = totalPossibleMatches > 0 ? 
+                    matchScore / totalPossibleMatches : 0;
+                
+                // Update best match if this is better
+                if (matchPercentage > bestMatch.matchScore) {
+                    bestMatch = {
+                        ...profile,
+                        matchScore: matchPercentage
+                    };
                 }
             });
             
-            const completionIcon = document.querySelector('.completion-icon');
-            const completionTitle = document.querySelector('#completion-panel h2');
-            
-            completionTitle.textContent = `Your Sky Blend: ${userBlend}`;
-            
-            const blendIcons = {
-                'Radiant Dawn': '☀️',
-                'Tranquil Twilight': '🌆',
-                'Dynamic Thunderhead': '⛈️',
-                'Serene Cirrus': '☁️',
-                'Vibrant Sunset': '🌅',
-                'Celestial Night': '🌃',
-                'Practical Daylight': '🌤️',
-                'Premium Atmosphere': '✨',
-                'Custom Sky Blend': '🌈'
-            };
-            
-            completionIcon.textContent = blendIcons[userBlend] || '🌈';
+            return bestMatch;
         }
         
-        renderQuestions();
+        // Create a final sky based on all answers
+        function createFinalSky() {
+            // Clear existing intervals
+            if (window.rainInterval) clearInterval(window.rainInterval);
+            if (window.snowInterval) clearInterval(window.snowInterval);
+            if (window.lightningInterval) clearInterval(window.lightningInterval);
+            
+            // Based on time of day
+            if (userAnswers.time === 'dawn') {
+                skyCanvas.style.background = 'linear-gradient(to bottom, #ff9966, #ff5e62)';
+                sun.style.opacity = 1;
+                sun.style.left = '30%';
+                sun.style.top = '20%';
+                moon.style.opacity = 0;
+            } else if (userAnswers.time === 'midday') {
+                skyCanvas.style.background = 'linear-gradient(to bottom, #1e90ff, #87ceeb)';
+                sun.style.opacity = 1;
+                sun.style.left = '50%';
+                sun.style.top = '15%';
+                moon.style.opacity = 0;
+            } else if (userAnswers.time === 'sunset') {
+                skyCanvas.style.background = 'linear-gradient(to bottom, #ff7e5f, #feb47b)';
+                sun.style.opacity = 1;
+                sun.style.left = '70%';
+                sun.style.top = '25%';
+                moon.style.opacity = 0;
+            } else if (userAnswers.time === 'night') {
+                skyCanvas.style.background = 'linear-gradient(to bottom, #0f2027, #203a43, #2c5364)';
+                sun.style.opacity = 0;
+                moon.style.opacity = 1;
+                moon.style.right = '40%';
+                moon.style.top = '20%';
+                
+                // Add stars
+                document.querySelectorAll('.star').forEach(star => {
+                    star.style.opacity = 0.8;
+                });
+            }
+            
+            // Based on weather
+            if (userAnswers.weather) {
+                if (userAnswers.weather === 'cloudy') {
+                    // Add clouds
+                    for (let i = 0; i < 8; i++) {
+                        const cloud = createCloud();
+                        cloud.style.opacity = 0.8;
+                    }
+                } else if (userAnswers.weather === 'rainy') {
+                    // Dark clouds and rain
+                    for (let i = 0; i < 12; i++) {
+                        const cloud = createCloud();
+                        cloud.style.background = '#888';
+                        cloud.style.opacity = 0.8;
+                    }
+                    
+                    // Add rain
+                    setInterval(() => {
+                        const raindrop = createRaindrop();
+                        raindrop.style.opacity = 0.7;
+                        raindrop.style.animation = `rain ${Math.random() * 1 + 1}s linear`;
+                        
+                        setTimeout(() => {
+                            if (raindrop.parentNode) {
+                                raindrop.parentNode.removeChild(raindrop);
+                            }
+                        }, 2000);
+                    }, 50);
+                } else if (userAnswers.weather === 'stormy') {
+                    // Dark clouds, rain and lightning
+                    for (let i = 0; i < 15; i++) {
+                        const cloud = createCloud();
+                        cloud.style.background = '#555';
+                        cloud.style.opacity = 0.9;
+                    }
+                    
+                    // Add rain
+                    setInterval(() => {
+                        const raindrop = createRaindrop();
+                        raindrop.style.opacity = 0.7;
+                        raindrop.style.animation = `rain ${Math.random() * 1 + 0.8}s linear`;
+                        
+                        setTimeout(() => {
+                            if (raindrop.parentNode) {
+                                raindrop.parentNode.removeChild(raindrop);
+                            }
+                        }, 2000);
+                    }, 30);
+                    
+                    // Add lightning
+                    setInterval(() => {
+                        if (Math.random() > 0.7) {
+                            createLightning();
+                        }
+                    }, 2000);
+                } else if (userAnswers.weather === 'snowy') {
+                    // Light clouds and snow
+                    for (let i = 0; i < 10; i++) {
+                        const cloud = createCloud();
+                        cloud.style.background = '#ccc';
+                        cloud.style.opacity = 0.8;
+                    }
+                    
+                    // Add snow
+                    setInterval(() => {
+                        const snowflake = createSnowflake();
+                        snowflake.style.opacity = 0.9;
+                        snowflake.style.animation = `snow ${Math.random() * 5 + 5}s linear`;
+                        
+                        setTimeout(() => {
+                            if (snowflake.parentNode) {
+                                snowflake.parentNode.removeChild(snowflake);
+                            }
+                        }, 10000);
+                    }, 200);
+                }
+            }
+            
+            // Add rainbow if vibrant energy
+            if (userAnswers.energy === 'vibrant') {
+                rainbow.style.opacity = 0.7;
+                rainbow.style.bottom = '20%';
+            }
+        }
+        
+        // Restart the quiz
+        function restartQuiz() {
+            // Reset state
+            currentQuestion = 0;
+            userAnswers = {};
+            
+            // Show questions and navigation again
+            questionsContainer.style.display = 'block';
+            prevButton.style.display = 'block';
+            nextButton.style.display = 'block';
+            
+            // Hide results
+            resultsContainer.classList.remove('visible');
+            
+            // Clear existing intervals
+            if (window.rainInterval) clearInterval(window.rainInterval);
+            if (window.snowInterval) clearInterval(window.snowInterval);
+            if (window.lightningInterval) clearInterval(window.lightningInterval);
+            
+            // Reset sky
+            skyCanvas.style.background = 'linear-gradient(to bottom, #1e3c72, #2a5298)';
+            sun.style.opacity = 0;
+            moon.style.opacity = 0;
+            rainbow.style.opacity = 0;
+            rainbow.style.bottom = '-150px';
+            
+            // Remove all weather elements
+            document.querySelectorAll('.cloud, .raindrop, .snow, .lightning').forEach(el => {
+                el.parentNode.removeChild(el);
+            });
+            
+            // Reset stars
+            document.querySelectorAll('.star').forEach(star => {
+                star.style.opacity = 0;
+            });
+            
+            // Create initial sky elements
+            createInitialSkyElements();
+            
+            // Render first question
+            renderQuestion(currentQuestion);
+        }
+        
+        // Initialize the app
+        initialize();
     });
     </script>
 </body>
