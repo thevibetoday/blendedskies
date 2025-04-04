@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
-    <style>
-        /* Home page specific styles */
-        .content-area {
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <!-- Sky backdrop elements -->
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
     <!-- Navbar -->
     <nav class="cosmic-navbar">
         <div class="brand-container">
@@ -24,7 +21,7 @@
                     <div class="satellite"></div>
                 </div>
             </div>
-            <div class="brand-name">Cosmic Skies</div>
+            <h1 class="brand-name">Blend of Skies</h1>
         </div>
         
         <div class="sky-selector">
@@ -37,23 +34,21 @@
                 <div class="orb-emoji">🌤️</div>
             </div>
         </div>
+        
+        <div class="empty-space"></div>
     </nav>
     
-    <!-- Sky backdrop and stars -->
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <!-- Sky panorama menu -->
+    <!-- Sky Panorama Menu -->
     <div class="sky-panorama">
         <div class="sky-options">
             <div class="sky-option" data-sky="clear-blue">
                 <div class="sky-preview">
-                    <div class="sky-icon">☀️</div>
+                    <div class="sky-icon">🌤️</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Sunny Day</h3>
-                    <p>Bright blue skies with sunshine</p>
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
                 </div>
             </div>
             
@@ -63,8 +58,8 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Sunset</h3>
-                    <p>Warm golden hour vibes</p>
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
                 </div>
             </div>
             
@@ -74,19 +69,19 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Storm</h3>
-                    <p>Dramatic clouds and thunder</p>
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
                 </div>
             </div>
             
             <div class="sky-option" data-sky="starry-night">
                 <div class="sky-preview">
-                    <div class="sky-icon">🌃</div>
+                    <div class="sky-icon">🌌</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Night</h3>
-                    <p>Peaceful starry darkness</p>
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
                 </div>
             </div>
             
@@ -96,21 +91,287 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Rainbow</h3>
-                    <p>Colorful rainbow after rain</p>
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Content Area -->
-    <div class="content-area">
-        <h2>Welcome to Cosmic Skies</h2>
-        <p>Use the selector in the top right to choose different sky experiences. Each option will take you to a different themed page.</p>
-        <p>Click on the orb to open the menu, then select any sky option to be redirected to its dedicated page.</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Express Yourself <span>Through the Sky</span></h1>
+                <p class="hero-text">Our collection captures the essence of different skies, reflecting your personal style and mood in comfortable, quality clothing.</p>
+                <div class="hero-buttons">
+                    <a href="#collection" class="btn primary-btn">View Collection</a>
+                    <a href="#about" class="btn secondary-btn">Our Story</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="product-display">
+                    <img src="https://via.placeholder.com/400x500" alt="Sky-inspired shirt" class="product-image">
+                    <div class="floating-elements">
+                        <div class="floating-element element-1"></div>
+                        <div class="floating-element element-2"></div>
+                        <div class="floating-element element-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="collection" class="collection-section">
+            <h2 class="section-title">Our Collection</h2>
+            <div class="product-cards">
+                <div class="product-card" data-sky="clear-blue">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Clear Blue shirt" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">🌤️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Clarity Tee</h3>
+                        <p class="product-desc">Clean lines and a refreshing palette inspired by clear blue horizons.</p>
+                        <div class="product-details">
+                            <span class="product-price">$45</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="sunset-glow">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Sunset Glow shirt" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">🌅</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Horizon Crew</h3>
+                        <p class="product-desc">Warm, rich tones that capture the essence of a beautiful sunset.</p>
+                        <div class="product-details">
+                            <span class="product-price">$48</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="starry-night">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Starry Night shirt" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">🌌</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Cosmos Pullover</h3>
+                        <p class="product-desc">Deep, thoughtful design reminiscent of the vast night sky.</p>
+                        <div class="product-details">
+                            <span class="product-price">$52</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="about-section">
+            <div class="about-content">
+                <h2 class="section-title">Our Story</h2>
+                <p>At Blend of Skies, we believe that clothing should reflect your individual perspective. Each piece in our collection is designed to capture the subtle qualities and essence of different skies - from tranquil blues to vibrant sunsets - allowing you to wear what resonates with your personal mood and style.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🌱</div>
+                        <h3>Sustainable</h3>
+                        <p>Ethically sourced materials with eco-friendly production methods.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">✨</div>
+                        <h3>Premium Quality</h3>
+                        <p>Soft, durable fabrics that maintain their look and feel wash after wash.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Unique Design</h3>
+                        <p>Thoughtfully crafted pieces that stand out with subtle, inspired details.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Express Yourself With Our New Collection</h2>
+                <p>Discover pieces that speak to your mood and style.</p>
+                <a href="#collection" class="btn primary-btn">Shop Now</a>
+            </div>
+        </section>
     </div>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Blend of Skies</h3>
+                <p>Creating atmospheric experiences since 2025.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#sky-showcase">Showcase</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Licensing</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <!-- Include your JavaScript -->
-    <script src="navbar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar functionality
+            const skySelector = document.querySelector('.sky-selector');
+            const skyPanorama = document.querySelector('.sky-panorama');
+            const skyBackdrop = document.querySelector('.sky-backdrop');
+            const skyOptions = document.querySelectorAll('.sky-option');
+            const orbEmoji = document.querySelector('.orb-emoji');
+            const orbInner = document.querySelector('.orb-inner');
+            const brandName = document.querySelector('.brand-name');
+            
+            // Card buttons
+            const cardButtons = document.querySelectorAll('.card-btn');
+            
+            skySelector.onclick = function(e) {
+                e.preventDefault();
+                skyPanorama.classList.toggle('open');
+                skyBackdrop.classList.toggle('active');
+            };
+            
+            skyBackdrop.onclick = function() {
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+            };
+            
+            // Function to update sky
+            function updateSky(skyType, skyIcon) {
+                // Update orb emoji
+                orbEmoji.textContent = skyIcon;
+                orbEmoji.style.opacity = '1';
+                orbInner.style.opacity = '0';
+                
+                // Apply sky effect to the page
+                document.body.className = '';
+                document.body.classList.add(`sky-${skyType}`);
+                
+                // Update sky sphere in hero section
+                const skySphere = document.querySelector('.sky-sphere');
+                if (skySphere) {
+                    skySphere.className = 'sky-sphere';
+                    skySphere.classList.add(`sky-sphere-${skyType}`);
+                }
+            }
+            
+            // Handle sky selection from navbar
+            skyOptions.forEach(option => {
+                option.onclick = function(e) {
+                    e.preventDefault();
+                    const skyType = this.getAttribute('data-sky');
+                    const skyIcon = this.querySelector('.sky-icon').textContent;
+                    
+                    updateSky(skyType, skyIcon);
+                    
+                    setTimeout(function() {
+                        skyPanorama.classList.remove('open');
+                        skyBackdrop.classList.remove('active');
+                    }, 300);
+                };
+            });
+            
+            // Handle sky selection from cards
+            cardButtons.forEach(button => {
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    const skyCard = this.closest('.sky-card');
+                    const skyType = skyCard.getAttribute('data-sky');
+                    const skyIcon = skyCard.querySelector('.sky-emoji-lg').textContent;
+                    
+                    updateSky(skyType, skyIcon);
+                    
+                    // Smooth scroll to top
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                };
+            });
+            
+            skySelector.onmouseenter = function() {
+                orbEmoji.style.opacity = '1';
+                orbInner.style.opacity = '0';
+            };
+            
+            skySelector.onmouseleave = function() {
+                if (orbEmoji.textContent === '🌤️') {
+                    orbEmoji.style.opacity = '0';
+                    orbInner.style.opacity = '1';
+                }
+            };
+            
+            brandName.onclick = function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
