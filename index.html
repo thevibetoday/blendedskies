@@ -6,328 +6,331 @@
     <title>Cosmic Skies</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
-        .questions-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 18px;
-            box-shadow: 0 15px 35px rgba(30, 144, 255, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            overflow: hidden;
-            position: relative;
-        }
+    .sky-questionnaire {
+        max-width: 850px;
+        margin: 50px auto;
+        position: relative;
+        min-height: 500px;
+    }
 
-        .questions-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, #1E90FF, #87CEEB, #1E90FF);
-            background-size: 200% 100%;
-            animation: gradient-shift 8s ease infinite;
-        }
+    .sky-atmosphere {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 20px;
+        background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+    }
 
-        @keyframes gradient-shift {
-            0% {background-position: 0% 50%}
-            50% {background-position: 100% 50%}
-            100% {background-position: 0% 50%}
-        }
+    .sun-center {
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle at 30% 30%, #FFD45C, #FF9C38);
+        border-radius: 50%;
+        box-shadow: 0 0 30px rgba(255, 212, 92, 0.7);
+        z-index: 10;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+        transition: all 0.5s ease;
+    }
 
-        .questions-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(30, 144, 255, 0.2), 0 10px 20px rgba(0, 0, 0, 0.05);
-        }
+    .cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #1E90FF;
+        z-index: 5;
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        user-select: none;
+    }
 
-        .question {
-            opacity: 1;
-            margin-bottom: 35px;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
+    .cloud::before, .cloud::after {
+        content: "";
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+    }
 
-        .question:not(.active) {
-            display: none;
-        }
+    .cloud::before {
+        width: 50%;
+        height: 80%;
+        top: -30%;
+        left: 25%;
+    }
 
-        .question.active {
-            display: block;
-            animation: fadeIn 0.6s forwards;
-        }
+    .cloud::after {
+        width: 60%;
+        height: 80%;
+        top: -20%;
+        left: 55%;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .cloud span {
+        z-index: 2;
+        position: relative;
+    }
 
-        .question h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 0.5px;
-            transition: transform 0.3s ease;
-        }
+    .cloud:hover, .cloud.active {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.95);
+    }
 
-        .question p {
-            font-style: italic;
-            margin-top: 0;
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
+    .sky-content {
+        position: absolute;
+        width: 320px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+        z-index: 20;
+    }
 
-        .options {
-            list-style-type: none;
-            padding: 0;
-        }
+    .sky-content.active {
+        opacity: 1;
+        visibility: visible;
+    }
 
-        .options li {
-            margin: 14px 0;
-            padding: 15px 22px;
-            background: linear-gradient(145deg, #f7f9ff, #ffffff);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 4px 12px rgba(135, 206, 250, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(135, 206, 250, 0.1);
-            transform-origin: left center;
-        }
+    .sky-content h3 {
+        background: linear-gradient(135deg, #1E90FF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-top: 0;
+    }
 
-        .options li:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.25);
-            background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
-            border-color: rgba(135, 206, 250, 0.3);
-        }
+    .sky-content p {
+        color: #555;
+        font-style: italic;
+        margin-bottom: 15px;
+    }
 
-        .options li:active {
-            transform: translateY(1px) scale(0.99);
-        }
+    .option-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
 
-        .options li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(to bottom, #1E90FF, #87CEEB);
+    .option {
+        padding: 10px;
+        background: linear-gradient(145deg, #f5f5f5, #ffffff);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        border: 1px solid transparent;
+    }
+
+    .option:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
+        border-color: rgba(135, 206, 250, 0.5);
+    }
+
+    .option.selected {
+        background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
+        border-color: #1E90FF;
+        font-weight: 500;
+    }
+
+    .sky-submit {
+        position: absolute;
+        bottom: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 30px;
+        background: linear-gradient(135deg, #1E90FF, #87CEEB);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
+        transition: all 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .sky-submit.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .sky-submit:hover {
+        transform: translateX(-50%) translateY(-5px);
+        box-shadow: 0 8px 20px rgba(135, 206, 250, 0.5);
+    }
+
+    .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.2;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .option-single {
+        padding: 12px;
+        background: linear-gradient(145deg, #f5f5f5, #ffffff);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 10px;
+        border: 1px solid transparent;
+    }
+
+    .option-single:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
+        border-color: rgba(135, 206, 250, 0.5);
+    }
+
+    .option-single.selected {
+        background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
+        border-color: #1E90FF;
+        font-weight: 500;
+    }
+
+    .completion-message {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(135, 206, 250, 0.95), rgba(30, 144, 255, 0.95));
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s ease;
+        z-index: 30;
+        color: white;
+    }
+
+    .completion-message.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .completion-message h2 {
+        margin-bottom: 20px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .shooting-star {
+        position: absolute;
+        background: linear-gradient(to right, white, transparent);
+        height: 2px;
+        opacity: 0;
+    }
+
+    @keyframes shootingStar {
+        0% {
+            transform: translate(0, 0) rotate(45deg);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            width: 50px;
         }
-
-        .options li:hover::before {
+        10% {
             opacity: 1;
         }
-
-        .options li.selected {
-            background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
-            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.2);
-            border-color: rgba(135, 206, 250, 0.5);
-            font-weight: 500;
-        }
-
-        .options li.selected::before {
-            opacity: 1;
-            width: 6px;
-        }
-
-        .options li.selected::after {
-            content: "✓";
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #1E90FF;
-            font-weight: bold;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
+        100% {
+            transform: translate(300px, 300px) rotate(45deg);
             opacity: 0;
-            animation: fadeIn 0.6s 0.3s forwards;
+            width: 100px;
         }
+    }
 
-        .nav-button {
-            padding: 12px 24px;
-            background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(135, 206, 250, 0.15);
-            color: #1E90FF;
-            outline: none;
-            position: relative;
-            overflow: hidden;
-        }
+    .rainbow {
+        width: 0;
+        height: 150px;
+        border-radius: 150px 150px 0 0;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(to bottom, 
+            rgba(255, 0, 0, 0.5),
+            rgba(255, 165, 0, 0.5),
+            rgba(255, 255, 0, 0.5),
+            rgba(0, 128, 0, 0.5),
+            rgba(0, 0, 255, 0.5),
+            rgba(75, 0, 130, 0.5),
+            rgba(238, 130, 238, 0.5));
+        opacity: 0;
+        transition: all 2s ease;
+    }
 
-        .nav-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
+    .rainbow.active {
+        width: 300px;
+        opacity: 0.7;
+    }
 
-        .nav-button:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.25);
-            background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
+    @media (max-width: 768px) {
+        .sky-atmosphere {
+            transform: scale(0.8);
+            height: 450px;
         }
+        
+        .sky-content {
+            width: 280px;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
+        
+        .option-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 
-        .nav-button::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
+    @media (max-width: 480px) {
+        .sky-atmosphere {
+            transform: scale(0.6);
+            height: 400px;
         }
-
-        .nav-button:hover::before {
-            transform: translateX(100%);
+        
+        .sun-center {
+            width: 100px;
+            height: 100px;
         }
-
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(135, 206, 250, 0.2);
-            border-radius: 2px;
-            margin: 20px 0 10px;
-            overflow: hidden;
+        
+        .sky-content {
+            width: 240px;
         }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(to right, #1E90FF, #87CEEB);
-            width: 0%;
-            transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            border-radius: 2px;
-        }
-
-        .question-indicator {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            gap: 8px;
-        }
-
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: rgba(135, 206, 250, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .indicator-dot.active {
-            background-color: #1E90FF;
-            transform: scale(1.2);
-        }
-
-        @media (max-width: 768px) {
-            .questions-container {
-                padding: 25px;
-                margin: 30px 15px;
-            }
-            
-            .question h3 {
-                font-size: 1.3rem;
-            }
-            
-            .options li {
-                padding: 12px 18px;
-                margin: 12px 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .questions-container {
-                padding: 20px;
-                margin: 20px 10px;
-            }
-            
-            .question h3 {
-                font-size: 1.2rem;
-            }
-            
-            .question p {
-                font-size: 0.9rem;
-            }
-            
-            .options li {
-                padding: 10px 16px;
-                font-size: 0.95rem;
-            }
-            
-            .nav-button {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
-        }
-
-        .complete-message {
-            text-align: center;
-            display: none;
-        }
-
-        .complete-message.show {
-            display: block;
-            animation: scaleIn 0.6s forwards;
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .complete-message h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .complete-icon {
-            font-size: 4rem;
-            margin: 20px 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+    }
     </style>
 </head>
 <body>
@@ -421,78 +424,74 @@
         <p>Select a sky experience from the menu in the top right. Each option represents a different atmospheric condition.</p>
         <p>Explore the various sky themes by clicking on the options in the dropdown menu.</p>
         
-        <div class="questions-container">
-            <div class="progress-container">
-                <div class="progress-bar" id="questionProgress"></div>
+        <div class="sky-questionnaire">
+            <div class="sky-atmosphere">
+                <div class="sun-center">STYLE</div>
+                <div class="rainbow" id="styleRainbow"></div>
             </div>
             
-            <div class="question-indicator" id="questionIndicator"></div>
-            
-            <div class="question" data-question="1">
+            <!-- Mood Cloud -->
+            <div class="sky-content" id="mood-content">
                 <h3>Pick a mood</h3>
                 <p>(Because "fine" isn't telling us anything.)</p>
-                <ul class="options">
-                    <li>Calm and steady — nothing phases you, not even Mondays</li>
-                    <li>Focused and fast — your calendar needs a nap</li>
-                    <li>Floating through — mentally present-ish</li>
-                    <li>Low energy — battery's in power-saving mode</li>
-                    <li>Mildly irritated — not angry, just extremely done</li>
-                </ul>
+                <div class="option-single" data-value="calm">Calm and steady — nothing phases you, not even Mondays</div>
+                <div class="option-single" data-value="focused">Focused and fast — your calendar needs a nap</div>
+                <div class="option-single" data-value="floating">Floating through — mentally present-ish</div>
+                <div class="option-single" data-value="low">Low energy — battery's in power-saving mode</div>
+                <div class="option-single" data-value="irritated">Mildly irritated — not angry, just extremely done</div>
             </div>
             
-            <div class="question" data-question="2">
+            <!-- Shirt Style Cloud -->
+            <div class="sky-content" id="shirtstyle-content">
                 <h3>Pick a shirt style</h3>
                 <p>(A.K.A. what you'll actually wear outside.)</p>
-                <ul class="options">
-                    <li>Minimal — clean, simple, nothing fighting for attention</li>
-                    <li>Big graphic — your shirt speaks louder than you</li>
-                    <li>Text/logo — words, slogans, branding front and center</li>
-                    <li>Honestly? Depends — your closet is a wildcard</li>
-                </ul>
+                <div class="option-grid">
+                    <div class="option" data-value="minimal">Minimal</div>
+                    <div class="option" data-value="graphic">Big graphic</div>
+                    <div class="option" data-value="text">Text/logo</div>
+                    <div class="option" data-value="depends">Honestly? Depends</div>
+                </div>
             </div>
             
-            <div class="question" data-question="3">
+            <!-- Body Type Cloud -->
+            <div class="sky-content" id="bodytype-content">
                 <h3>Pick a body type</h3>
                 <p>(So we don't show you shirts made for someone else's torso.)</p>
-                <ul class="options">
-                    <li>Slim build — lean, narrow frame</li>
-                    <li>Average build — not too big, not too small</li>
-                    <li>Broad or built — wider up top, strength included</li>
-                    <li>Fuller body — more shape, more space to cover</li>
-                    <li>Somewhere in between — let's not overthink it</li>
-                </ul>
+                <div class="option-single" data-value="slim">Slim build — lean, narrow frame</div>
+                <div class="option-single" data-value="average">Average build — not too big, not too small</div>
+                <div class="option-single" data-value="broad">Broad or built — wider up top, strength included</div>
+                <div class="option-single" data-value="fuller">Fuller body — more shape, more space to cover</div>
+                <div class="option-single" data-value="between">Somewhere in between — let's not overthink it</div>
             </div>
             
-            <div class="question" data-question="4">
+            <!-- Size Cloud -->
+            <div class="sky-content" id="size-content">
                 <h3>Pick a size</h3>
                 <p>(Because "shrinks in the wash" isn't a size.)</p>
-                <ul class="options">
-                    <li>XS or S — small frame, big opinions</li>
-                    <li>Medium — classic middle-lane fit</li>
-                    <li>L or XL — roomy, but not lost</li>
-                    <li>XXL or above — more to style, more to love</li>
-                    <li>No clue — shirt sizing is a mystery</li>
-                </ul>
+                <div class="option-grid">
+                    <div class="option" data-value="xs">XS or S</div>
+                    <div class="option" data-value="m">Medium</div>
+                    <div class="option" data-value="l">L or XL</div>
+                    <div class="option" data-value="xxl">XXL or above</div>
+                    <div class="option" data-value="unknown">No clue</div>
+                </div>
             </div>
             
-            <div class="question" data-question="5">
+            <!-- Price Cloud -->
+            <div class="sky-content" id="price-content">
                 <h3>Pick your price vibe</h3>
                 <p>(You know what you want. We're just asking nicely.)</p>
-                <ul class="options">
-                    <li>Classic — good quality, solid price, no drama</li>
-                    <li>Premium — feels nice, lasts long, costs a little more</li>
-                </ul>
+                <div class="option-grid">
+                    <div class="option" data-value="classic">Classic</div>
+                    <div class="option" data-value="premium">Premium</div>
+                </div>
             </div>
             
-            <div class="complete-message" id="completeMessage">
-                <div class="complete-icon">🚀</div>
-                <h3>Perfect! We've got your style.</h3>
-                <p>Get ready for a curated selection that matches your exact preferences.</p>
-            </div>
+            <button class="sky-submit" id="skySubmit">Complete Sky Journey</button>
             
-            <div class="nav-buttons" id="navButtons">
-                <button class="nav-button" id="prevButton" disabled>Previous</button>
-                <button class="nav-button" id="nextButton">Next</button>
+            <div class="completion-message" id="completionMessage">
+                <h2>Your Perfect Sky Style</h2>
+                <p>We've captured your atmospheric preferences. Your sky-inspired style awaits!</p>
             </div>
         </div>
     </div>
@@ -500,110 +499,135 @@
     <script src="navbar.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const questions = document.querySelectorAll('.question');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-        const progressBar = document.getElementById('questionProgress');
-        const questionIndicator = document.getElementById('questionIndicator');
-        const completeMessage = document.getElementById('completeMessage');
-        const navButtons = document.getElementById('navButtons');
+        const skyAtmosphere = document.querySelector('.sky-atmosphere');
+        const sunCenter = document.querySelector('.sun-center');
+        const skyContents = document.querySelectorAll('.sky-content');
+        const submitButton = document.getElementById('skySubmit');
+        const completionMessage = document.getElementById('completionMessage');
+        const styleRainbow = document.getElementById('styleRainbow');
         
-        let currentQuestion = 1;
-        const totalQuestions = questions.length;
+        // Cloud data
+        const cloudData = [
+            { id: 'mood', emoji: '☁️', color: 'rgba(255, 255, 255, 0.9)', size: 80, top: '20%', left: '20%' },
+            { id: 'shirtstyle', emoji: '⛅', color: 'rgba(255, 255, 255, 0.9)', size: 70, top: '15%', left: '75%' },
+            { id: 'bodytype', emoji: '🌥️', color: 'rgba(255, 255, 255, 0.9)', size: 75, top: '40%', left: '85%' },
+            { id: 'size', emoji: '🌤️', color: 'rgba(255, 255, 255, 0.9)', size: 65, top: '70%', left: '70%' },
+            { id: 'price', emoji: '🌦️', color: 'rgba(255, 255, 255, 0.9)', size: 60, top: '65%', left: '15%' }
+        ];
         
-        function createIndicators() {
-            for (let i = 1; i <= totalQuestions; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('indicator-dot');
-                if (i === 1) dot.classList.add('active');
-                questionIndicator.appendChild(dot);
-            }
+        // Create stars
+        for (let i = 0; i < 30; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = Math.random() * 2 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 3 + 2 + 's';
+            skyAtmosphere.appendChild(star);
         }
         
-        function updateIndicators() {
-            const dots = questionIndicator.querySelectorAll('.indicator-dot');
-            dots.forEach((dot, index) => {
-                if (index + 1 === currentQuestion) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+        // Create clouds
+        cloudData.forEach(cloud => {
+            const cloudEl = document.createElement('div');
+            cloudEl.classList.add('cloud');
+            cloudEl.id = cloud.id;
+            cloudEl.style.width = cloud.size + 'px';
+            cloudEl.style.height = cloud.size * 0.6 + 'px';
+            cloudEl.style.top = cloud.top;
+            cloudEl.style.left = cloud.left;
+            cloudEl.style.backgroundColor = cloud.color;
+            
+            const span = document.createElement('span');
+            span.textContent = cloud.emoji;
+            cloudEl.appendChild(span);
+            
+            // Add event listener
+            cloudEl.addEventListener('click', function() {
+                showSkyContent(cloud.id);
             });
-        }
-        
-        function updateProgressBar() {
-            const progress = ((currentQuestion - 1) / (totalQuestions - 1)) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        function showQuestion(questionNumber) {
-            questions.forEach(q => {
-                q.classList.remove('active');
-            });
             
-            const questionToShow = document.querySelector(`.question[data-question="${questionNumber}"]`);
-            if (questionToShow) {
-                questionToShow.classList.add('active');
-            }
+            skyAtmosphere.appendChild(cloudEl);
+        });
+        
+        // Create shooting stars
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+            star.style.left = Math.random() * 50 + '%';
+            star.style.top = Math.random() * 30 + '%';
+            star.style.animation = `shootingStar ${Math.random() * 2 + 1}s linear forwards`;
+            skyAtmosphere.appendChild(star);
             
-            prevButton.disabled = questionNumber === 1;
+            setTimeout(() => {
+                star.remove();
+            }, 3000);
+        }
+        
+        setInterval(createShootingStar, 5000);
+        
+        // Show content
+        function showSkyContent(cloudId) {
+            // Reset all clouds
+            document.querySelectorAll('.cloud').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.sky-content').forEach(pc => pc.classList.remove('active'));
             
-            if (questionNumber === totalQuestions) {
-                nextButton.textContent = 'Finish';
-            } else {
-                nextButton.textContent = 'Next';
-            }
+            // Activate clicked cloud
+            document.getElementById(cloudId).classList.add('active');
             
-            updateProgressBar();
-            updateIndicators();
+            // Show content
+            const content = document.getElementById(`${cloudId}-content`);
+            content.classList.add('active');
+            
+            // Position content near the cloud
+            const cloud = document.getElementById(cloudId);
+            const cloudRect = cloud.getBoundingClientRect();
+            const atmosphereRect = skyAtmosphere.getBoundingClientRect();
+            
+            content.style.left = (cloudRect.left - atmosphereRect.left) + 'px';
+            content.style.top = (cloudRect.top - atmosphereRect.top) + 'px';
+            
+            // Check if submit button should be shown
+            checkAllSelected();
         }
         
-        function checkIfCanProceed() {
-            const currentQuestionElement = document.querySelector(`.question[data-question="${currentQuestion}"]`);
-            const hasSelection = currentQuestionElement.querySelector('.options li.selected');
-            return !!hasSelection;
-        }
-        
-        function handleNext() {
-            if (currentQuestion < totalQuestions) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-            } else {
-                completeQuestionnaire();
-            }
-        }
-        
-        function handlePrev() {
-            if (currentQuestion > 1) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-            }
-        }
-        
-        function completeQuestionnaire() {
-            questions.forEach(q => q.style.display = 'none');
-            navButtons.style.display = 'none';
-            completeMessage.classList.add('show');
-            progressBar.style.width = '100%';
-        }
-        
-        prevButton.addEventListener('click', handlePrev);
-        nextButton.addEventListener('click', handleNext);
-        
-        const optionItems = document.querySelectorAll('.options li');
-        optionItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const siblings = Array.from(this.parentNode.children);
-                siblings.forEach(sibling => {
-                    sibling.classList.remove('selected');
+        // Select options
+        document.querySelectorAll('.option, .option-single').forEach(option => {
+            option.addEventListener('click', function() {
+                // Deselect siblings
+                const parent = this.parentNode;
+                parent.querySelectorAll('.selected').forEach(selected => {
+                    selected.classList.remove('selected');
                 });
                 
+                // Select this option
                 this.classList.add('selected');
+                
+                // Check if all questions have been answered
+                checkAllSelected();
             });
         });
         
-        createIndicators();
-        showQuestion(1);
+        // Check if all clouds have selections
+        function checkAllSelected() {
+            let allSelected = true;
+            cloudData.forEach(cloud => {
+                const content = document.getElementById(`${cloud.id}-content`);
+                if (!content.querySelector('.selected')) {
+                    allSelected = false;
+                }
+            });
+            
+            if (allSelected) {
+                submitButton.classList.add('active');
+                styleRainbow.classList.add('active');
+            }
+        }
+        
+        // Submit button
+        submitButton.addEventListener('click', function() {
+            completionMessage.classList.add('active');
+        });
     });
     </script>
 </body>
