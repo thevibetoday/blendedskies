@@ -3,55 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minimalist Interactive Questionnaire</title>
+  <title>Cosmic Questionnaire</title>
   <style>
     :root {
-      --bg-color: #f0f0f0;
-      --container-bg: #fff;
-      --text-color: #333;
-      --primary-color: #222;
-      --accent-color: #1a73e8;
-      --border-radius: 8px;
-      --transition-time: 0.3s;
+      --bg-color: #0a0a0a;
+      --container-bg: rgba(255, 255, 255, 0.1);
+      --border-color: rgba(255, 255, 255, 0.18);
+      --accent-color: #1E90FF;
+      --text-color: #fff;
+      --transition-time: 0.4s;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     body {
-      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .cosmic-navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 70px;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background-color: var(--bg-color);
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: var(--text-color);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 10;
     }
-    .container {
-      background-color: var(--container-bg);
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 500px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    .brand-name {
+      font-size: 1.8rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent-color), #87CEEB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .progress {
-      position: absolute;
+    .stars-container {
+      position: fixed;
       top: 0;
       left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    .questionnaire-container {
+      margin: 100px auto 0;
+      background: var(--container-bg);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      max-width: 600px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .progress {
       height: 4px;
-      background-color: var(--accent-color);
-      transition: width var(--transition-time) ease-in-out;
+      background: linear-gradient(90deg, var(--accent-color), #87CEEB);
+      width: 0%;
+      margin-bottom: 1rem;
+      transition: width var(--transition-time) ease;
     }
     .question {
-      margin: 1rem 0;
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(20px);
       transition: opacity var(--transition-time) ease, transform var(--transition-time) ease;
     }
     .question.active {
       opacity: 1;
       transform: translateY(0);
+    }
+    .question h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--accent-color), #87CEEB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .answers {
       list-style: none;
@@ -64,25 +109,29 @@
     .answer-btn {
       width: 100%;
       padding: 1rem;
-      background-color: transparent;
-      border: 2px solid var(--primary-color);
-      border-radius: var(--border-radius);
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
       font-size: 1rem;
-      color: var(--primary-color);
+      color: var(--text-color);
       cursor: pointer;
-      transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
+      transition: background var(--transition-time) ease, color var(--transition-time) ease;
     }
     .answer-btn:hover {
-      background-color: var(--primary-color);
-      color: #fff;
+      background: var(--accent-color);
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="progress" id="progress" style="width: 0%;"></div>
+  <div class="cosmic-navbar">
+    <div class="brand-name">Cosmic Quiz</div>
+  </div>
+  <div class="stars-container"></div>
+  <div class="questionnaire-container">
+    <div class="progress" id="progress"></div>
     <div class="question active" data-index="0">
-      <h2>What is your favorite color?</h2>
+      <h2>Question 1: What is your favorite color?</h2>
       <ul class="answers">
         <li><button class="answer-btn" data-answer="a">Red</button></li>
         <li><button class="answer-btn" data-answer="b">Blue</button></li>
@@ -91,7 +140,7 @@
       </ul>
     </div>
     <div class="question" data-index="1">
-      <h2>What is your favorite season?</h2>
+      <h2>Question 2: What is your favorite season?</h2>
       <ul class="answers">
         <li><button class="answer-btn" data-answer="a">Spring</button></li>
         <li><button class="answer-btn" data-answer="b">Summer</button></li>
@@ -99,36 +148,64 @@
         <li><button class="answer-btn" data-answer="d">Winter</button></li>
       </ul>
     </div>
+    <div class="question" data-index="2">
+      <h2>Question 3: What is your favorite animal?</h2>
+      <ul class="answers">
+        <li><button class="answer-btn" data-answer="a">Cat</button></li>
+        <li><button class="answer-btn" data-answer="b">Dog</button></li>
+        <li><button class="answer-btn" data-answer="c">Bird</button></li>
+        <li><button class="answer-btn" data-answer="d">Fish</button></li>
+      </ul>
+    </div>
+    <div class="question" data-index="3">
+      <h2>Question 4: What is your favorite hobby?</h2>
+      <ul class="answers">
+        <li><button class="answer-btn" data-answer="a">Reading</button></li>
+        <li><button class="answer-btn" data-answer="b">Traveling</button></li>
+        <li><button class="answer-btn" data-answer="c">Gaming</button></li>
+        <li><button class="answer-btn" data-answer="d">Cooking</button></li>
+      </ul>
+    </div>
   </div>
   <script>
     const questions = document.querySelectorAll('.question');
-    const progressBar = document.getElementById('progress');
-    let currentIndex = 0;
-    function updateProgress(index) {
-      progressBar.style.width = (index / questions.length) * 100 + '%';
-    }
-    updateProgress(currentIndex);
+    const progress = document.getElementById('progress');
+    let currentQuestion = 0;
     function showQuestion(index) {
-      questions.forEach((q, i) => {
-        q.classList.toggle('active', i === index);
-      });
-      updateProgress(index);
+      questions.forEach((q, i) => { q.classList.toggle('active', i === index); });
+      progress.style.width = ((index) / questions.length * 100) + '%';
     }
+    showQuestion(currentQuestion);
     document.querySelectorAll('.answer-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const parentQuestion = btn.closest('.question');
-        const currentIdx = parseInt(parentQuestion.getAttribute('data-index'));
-        parentQuestion.querySelectorAll('.answer-btn').forEach(button => button.disabled = true);
+        const parent = btn.closest('.question');
+        parent.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
         setTimeout(() => {
-          const nextIndex = currentIdx + 1;
-          if (nextIndex < questions.length) {
-            showQuestion(nextIndex);
-          } else {
-            document.querySelector('.container').innerHTML = '<h2 style="margin: 2rem 0;">Thank you for your responses.</h2>';
+          currentQuestion++;
+          if (currentQuestion < questions.length) { showQuestion(currentQuestion); }
+          else {
+            document.querySelector('.questionnaire-container').innerHTML = '<h2 style="font-size:1.8rem; background: linear-gradient(135deg, var(--accent-color), #87CEEB); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thank you for completing the quiz!</h2>';
+            progress.style.width = '100%';
           }
         }, 400);
       });
     });
+    function createStars() {
+      const starsContainer = document.querySelector('.stars-container');
+      const count = window.innerWidth < 768 ? 50 : 100;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+    createStars();
   </script>
 </body>
 </html>
