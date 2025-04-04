@@ -2,70 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Day - Cosmic Skies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sunny Day - Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="main.css">
     <style>
-        /* Sun page specific styles */
+        /* Sun-specific styling */
         body {
-            background: linear-gradient(to bottom, #87CEEB, #E0F7FF);
+            background: linear-gradient(180deg, #f7f3e6 0%, #ffd27d 100%);
         }
         
-        .sun-content {
-            padding: 100px 20px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
+        .cosmic-navbar {
+            background-color: rgba(255, 243, 217, 0.85);
         }
         
-        .sun-icon {
-            font-size: 120px;
-            margin-bottom: 30px;
-            animation: pulse 3s infinite ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .brand-name {
             background: linear-gradient(135deg, #FF8C00, #FFD700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto 20px;
+        .planet {
+            background: linear-gradient(145deg, #FFD700, #FF8C00);
         }
         
-        .sun-rays {
+        .primary-btn {
+            background: linear-gradient(135deg, #FF8C00, #FFD700);
+        }
+        
+        .secondary-btn {
+            color: #FF8C00;
+            border-color: #FF8C00;
+        }
+        
+        .secondary-btn:hover {
+            background-color: rgba(255, 140, 0, 0.1);
+        }
+        
+        .hero-title span {
+            color: #FF8C00;
+        }
+        
+        .section-title {
+            color: #FF8C00;
+        }
+        
+        .feature-icon {
+            background-color: #FFF0D4;
+            color: #FF8C00;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+        }
+        
+        .view-btn {
+            color: #FF8C00;
+        }
+        
+        .view-btn:hover {
+            background-color: rgba(255, 140, 0, 0.1);
+        }
+        
+        /* Sun visual element */
+        .sun-visual {
             position: absolute;
-            top: 150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(255,215,0,0) 70%);
-            z-index: -1;
+            top: 100px;
+            right: 50px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            animation: expand 8s infinite alternate ease-in-out;
+            background: radial-gradient(circle, #FFD700 0%, #FF8C00 70%);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.7);
+            z-index: -1;
+            animation: sun-pulse 5s infinite alternate ease-in-out;
         }
         
-        @keyframes expand {
-            0% { transform: translateX(-50%) scale(1); }
-            100% { transform: translateX(-50%) scale(1.2); }
+        @keyframes sun-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 60px rgba(255, 215, 0, 0.7); }
+            100% { transform: scale(1.1); box-shadow: 0 0 80px rgba(255, 215, 0, 0.9); }
+        }
+        
+        .floating-clouds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        .cloud {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            filter: blur(5px);
+        }
+        
+        .cloud1 {
+            top: 15%;
+            left: 10%;
+            width: 120px;
+            height: 40px;
+            animation: float-slow 20s infinite alternate ease-in-out;
+        }
+        
+        .cloud2 {
+            top: 25%;
+            right: 15%;
+            width: 180px;
+            height: 60px;
+            animation: float-slow 15s infinite alternate-reverse ease-in-out;
+        }
+        
+        .cloud3 {
+            bottom: 30%;
+            left: 20%;
+            width: 150px;
+            height: 50px;
+            animation: float-slow 18s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float-slow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50px); }
         }
     </style>
 </head>
 <body>
+    <!-- Sun Visual Elements -->
+    <div class="sun-visual"></div>
+    <div class="floating-clouds">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+    </div>
+
+    <!-- Sky backdrop elements -->
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
     <!-- Navbar -->
     <nav class="cosmic-navbar">
         <div class="brand-container">
@@ -75,7 +153,7 @@
                     <div class="satellite"></div>
                 </div>
             </div>
-            <div class="brand-name">Cosmic Skies</div>
+            <h1 class="brand-name">Blend of Skies</h1>
         </div>
         
         <div class="sky-selector">
@@ -88,23 +166,21 @@
                 <div class="orb-emoji">☀️</div>
             </div>
         </div>
+        
+        <div class="empty-space"></div>
     </nav>
     
-    <!-- Sky backdrop and stars -->
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <!-- Sky panorama menu -->
+    <!-- Sky Panorama Menu -->
     <div class="sky-panorama">
         <div class="sky-options">
             <div class="sky-option" data-sky="clear-blue">
                 <div class="sky-preview">
-                    <div class="sky-icon">☀️</div>
+                    <div class="sky-icon">🌤️</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Sunny Day</h3>
-                    <p>Bright blue skies with sunshine</p>
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
                 </div>
             </div>
             
@@ -114,8 +190,8 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Sunset</h3>
-                    <p>Warm golden hour vibes</p>
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
                 </div>
             </div>
             
@@ -125,19 +201,19 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Storm</h3>
-                    <p>Dramatic clouds and thunder</p>
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
                 </div>
             </div>
             
             <div class="sky-option" data-sky="starry-night">
                 <div class="sky-preview">
-                    <div class="sky-icon">🌃</div>
+                    <div class="sky-icon">🌌</div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Night</h3>
-                    <p>Peaceful starry darkness</p>
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
                 </div>
             </div>
             
@@ -147,24 +223,172 @@
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
-                    <h3>Rainbow</h3>
-                    <p>Colorful rainbow after rain</p>
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Sun Page Content -->
-    <div class="sun-rays"></div>
-    <div class="sun-content">
-        <div class="sun-icon">☀️</div>
-        <h1>Bright Sunny Day</h1>
-        <p>Welcome to the Sunny Day page! Here, the sky is a brilliant blue, and the sun shines brightly above. Perfect weather for outdoor activities and soaking in vitamin D.</p>
-        <p>The warmth of the sun's rays brings life and energy to everything it touches. Birds are singing, flowers are blooming, and the world seems full of possibilities.</p>
-        <p>Enjoy the clear blue sky and the gentle breeze that accompanies this perfect day.</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Bright Days, <span>Bright Styles</span></h1>
+                <p class="hero-text">Our sun-inspired collection brings warmth and energy to your wardrobe, reflecting the radiance of clear sunny days.</p>
+                <div class="hero-buttons">
+                    <a href="#collection" class="btn primary-btn">View Collection</a>
+                    <a href="#about" class="btn secondary-btn">Our Story</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="product-display">
+                    <img src="https://via.placeholder.com/400x500" alt="Sun-inspired shirt" class="product-image">
+                    <div class="floating-elements">
+                        <div class="floating-element element-1"></div>
+                        <div class="floating-element element-2"></div>
+                        <div class="floating-element element-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="collection" class="collection-section">
+            <h2 class="section-title">Sunny Collection</h2>
+            <div class="product-cards">
+                <div class="product-card" data-sky="clear-blue">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Sunshine Yellow Tee" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">☀️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sunshine Tee</h3>
+                        <p class="product-desc">Vibrant yellow with a relaxed fit inspired by carefree sunny days.</p>
+                        <div class="product-details">
+                            <span class="product-price">$45</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="sunset-glow">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Golden Hour Pullover" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">☀️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Golden Hour Pullover</h3>
+                        <p class="product-desc">Rich gold tones reminiscent of the sun's warm glow in the late afternoon.</p>
+                        <div class="product-details">
+                            <span class="product-price">$58</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-sky="clear-blue">
+                    <div class="product-image-container">
+                        <img src="https://via.placeholder.com/300x350" alt="Radiance Cap" class="product-img">
+                        <div class="product-overlay">
+                            <span class="subtle-icon">☀️</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Radiance Cap</h3>
+                        <p class="product-desc">A striking accessory that captures the brilliance of sunshine.</p>
+                        <div class="product-details">
+                            <span class="product-price">$32</span>
+                            <a href="#" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="about-section">
+            <div class="about-content">
+                <h2 class="section-title">Our Sunny Vision</h2>
+                <p>Our Sun collection celebrates the warm, uplifting energy of perfect sunny days. Each piece is designed to bring a sense of brightness and optimism to your wardrobe, with colors and textures inspired by golden sunshine and clear blue skies.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🌱</div>
+                        <h3>Sustainable</h3>
+                        <p>Solar-powered production facilities and eco-friendly materials.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">✨</div>
+                        <h3>Light & Breathable</h3>
+                        <p>Perfect fabrics for warm days, designed to keep you cool and comfortable.</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Vibrant Colors</h3>
+                        <p>Rich golden yellows and bright accents that capture the essence of sunshine.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Bring Sunshine to Your Wardrobe</h2>
+                <p>Experience the warmth and brightness of our sun-inspired collection.</p>
+                <a href="#collection" class="btn primary-btn">Shop Now</a>
+            </div>
+        </section>
     </div>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Blend of Skies</h3>
+                <p>Creating atmospheric experiences since 2025.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#collection">Collection</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Licensing</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Blend of Skies. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <!-- Include your JavaScript -->
     <script src="navbar.js"></script>
 </body>
 </html>
