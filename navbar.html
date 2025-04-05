@@ -3,310 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies</title>
+    <title>Neural Horizons</title>
     <link rel="stylesheet" href="navbar.css">
-    <style>
-        /* Questionnaire styles */
-        .questions-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .questions-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(135, 206, 250, 0.2);
-        }
-
-        .question {
-            margin-bottom: 30px;
-        }
-
-        .question h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 0.5px;
-        }
-
-        .question p {
-            font-style: italic;
-            margin-top: 0;
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .options {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .options li {
-            margin: 12px 0;
-            padding: 12px 18px;
-            background: linear-gradient(145deg, #f5f5f5, #ffffff);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(135, 206, 250, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .options li:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
-            background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
-        }
-
-        .options li:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .options li:hover:before {
-            opacity: 1;
-        }
-
-        .options li.selected {
-            background: linear-gradient(145deg, #e6f7ff, #d4f0ff);
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.3);
-        }
-
-        .options li.selected:before {
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .questions-container {
-                padding: 20px;
-                margin: 30px 15px;
-            }
-            
-            .question h3 {
-                font-size: 1.1rem;
-            }
-            
-            .question p {
-                font-size: 0.8rem;
-            }
-            
-            .options li {
-                padding: 10px 15px;
-                margin: 10px 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .questions-container {
-                padding: 15px;
-                margin: 20px 10px;
-            }
-            
-            .question h3 {
-                font-size: 1rem;
-            }
-            
-            .question p {
-                font-size: 0.75rem;
-            }
-            
-            .options li {
-                padding: 8px 12px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
 </head>
 <body>
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
-                </div>
+    <div class="neural-grid"></div>
+    <div class="noise-overlay"></div>
+    <div class="hologram-projector"></div>
+    
+    <nav class="quantum-navbar">
+        <div class="entity-badge">
+            <div class="quantum-core">
+                <div class="core-nucleus"></div>
+                <div class="orbital-ring ring-1"></div>
+                <div class="orbital-ring ring-2"></div>
+                <div class="orbital-ring ring-3"></div>
+                <div class="quantum-particles"></div>
             </div>
-            <div class="brand-name">Cosmic Skies</div>
+            <div class="entity-signature">Neural Horizons</div>
         </div>
         
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
+        <div class="neural-gate">
+            <div class="gate-interface">
+                <div class="interface-sphere">
+                    <div class="sphere-pulse"></div>
+                    <div class="gate-text">
+                        <span>Access</span>
+                        <span>Neural</span>
+                        <span>Sectors</span>
+                    </div>
+                    <div class="biometric-scan"></div>
                 </div>
-                <div class="orb-emoji">🌤️</div>
             </div>
         </div>
     </nav>
     
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">☀️</div>
-                    <div class="sky-reflection"></div>
+    <div class="neural-dimension">
+        <div class="dimension-scanner"></div>
+        <div class="dimension-sectors">
+            <div class="sector-node" data-sector="alpha-cognition">
+                <div class="node-projection">
+                    <div class="node-hologram" data-symbol="α"></div>
+                    <div class="node-reflection"></div>
                 </div>
-                <div class="sky-details">
-                    <h3>Sunny Day</h3>
-                    <p>Bright blue skies with sunshine</p>
+                <div class="node-data">
+                    <h3>Alpha Sector</h3>
+                    <p>Cognitive Enhancement Protocols</p>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌅</div>
-                    <div class="sky-reflection"></div>
+            <div class="sector-node" data-sector="beta-synthesis">
+                <div class="node-projection">
+                    <div class="node-hologram" data-symbol="β"></div>
+                    <div class="node-reflection"></div>
                 </div>
-                <div class="sky-details">
-                    <h3>Sunset</h3>
-                    <p>Warm golden hour vibes</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">⛈️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm</h3>
-                    <p>Dramatic clouds and thunder</p>
+                <div class="node-data">
+                    <h3>Beta Sector</h3>
+                    <p>Synthetic Reality Interfaces</p>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌃</div>
-                    <div class="sky-reflection"></div>
+            <div class="sector-node" data-sector="gamma-flux">
+                <div class="node-projection">
+                    <div class="node-hologram" data-symbol="γ"></div>
+                    <div class="node-reflection"></div>
                 </div>
-                <div class="sky-details">
-                    <h3>Night</h3>
-                    <p>Peaceful starry darkness</p>
+                <div class="node-data">
+                    <h3>Gamma Sector</h3>
+                    <p>Quantum Flux Stabilization</p>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌈</div>
-                    <div class="sky-reflection"></div>
+            <div class="sector-node" data-sector="delta-void">
+                <div class="node-projection">
+                    <div class="node-hologram" data-symbol="δ"></div>
+                    <div class="node-reflection"></div>
                 </div>
-                <div class="sky-details">
-                    <h3>Rainbow</h3>
-                    <p>Colorful rainbow after rain</p>
+                <div class="node-data">
+                    <h3>Delta Sector</h3>
+                    <p>Void Consciousness Mapping</p>
+                </div>
+            </div>
+            
+            <div class="sector-node" data-sector="epsilon-nexus">
+                <div class="node-projection">
+                    <div class="node-hologram" data-symbol="ε"></div>
+                    <div class="node-reflection"></div>
+                </div>
+                <div class="node-data">
+                    <h3>Epsilon Sector</h3>
+                    <p>Nexus Protocol Implementation</p>
                 </div>
             </div>
         </div>
     </div>
     
     <div class="content-area">
-        <h2>Welcome to Cosmic Skies</h2>
-        <p>Select a sky experience from the menu in the top right. Each option represents a different atmospheric condition.</p>
-        <p>Explore the various sky themes by clicking on the options in the dropdown menu.</p>
+        <h2>Neural Horizons Interface</h2>
+        <p>Access advanced neural sectors through the quantum interface above. Each sector represents a distinct cognitive domain.</p>
+        <p>Biometric scanning sequence will initiate upon sector selection.</p>
         
         <div class="questions-container">
             <div class="question">
-                <h3>Pick a mood</h3>
-                <p>(Because "fine" isn't telling us anything.)</p>
+                <h3>Neural Configuration</h3>
+                <p>(State optimization preferences for neural interface calibration)</p>
                 <ul class="options">
-                    <li>Calm and steady — nothing phases you, not even Mondays</li>
-                    <li>Focused and fast — your calendar needs a nap</li>
-                    <li>Floating through — mentally present-ish</li>
-                    <li>Low energy — battery's in power-saving mode</li>
-                    <li>Mildly irritated — not angry, just extremely done</li>
+                    <li>Equilibrium State — optimal neural pathway efficiency</li>
+                    <li>Accelerated Processing — enhanced synaptic response protocols</li>
+                    <li>Passive Quantum State — minimal cognitive engagement</li>
+                    <li>Conservation Protocol — reduced energy consumption mode</li>
+                    <li>Resistance Pattern — defensive neural positioning</li>
                 </ul>
             </div>
             
             <div class="question">
-                <h3>Pick a shirt style</h3>
-                <p>(A.K.A. what you'll actually wear outside.)</p>
+                <h3>Interface Projection</h3>
+                <p>(Select preferred visual manifestation protocol)</p>
                 <ul class="options">
-                    <li>Minimal — clean, simple, nothing fighting for attention</li>
-                    <li>Big graphic — your shirt speaks louder than you</li>
-                    <li>Text/logo — words, slogans, branding front and center</li>
-                    <li>Honestly? Depends — your closet is a wildcard</li>
+                    <li>Minimalist Projection — streamlined visual data transmission</li>
+                    <li>Enhanced Resolution — high-density information visualization</li>
+                    <li>Symbolic Representation — conceptual data encoding</li>
+                    <li>Adaptive Interface — context-sensitive projection</li>
                 </ul>
             </div>
             
             <div class="question">
-                <h3>Pick a body type</h3>
-                <p>(So we don't show you shirts made for someone else's torso.)</p>
+                <h3>Physical Manifestation</h3>
+                <p>(Specify corporeal interface requirements)</p>
                 <ul class="options">
-                    <li>Slim build — lean, narrow frame</li>
-                    <li>Average build — not too big, not too small</li>
-                    <li>Broad or built — wider up top, strength included</li>
-                    <li>Fuller body — more shape, more space to cover</li>
-                    <li>Somewhere in between — let's not overthink it</li>
+                    <li>Condensed Form — minimal physical footprint</li>
+                    <li>Standard Manifestation — balanced dimensional parameters</li>
+                    <li>Expanded Configuration — enhanced physical presence</li>
+                    <li>Volumetric Optimization — adaptive spatial requirements</li>
+                    <li>Inter-dimensional Variance — quantum state fluctuation</li>
                 </ul>
             </div>
             
             <div class="question">
-                <h3>Pick a size</h3>
-                <p>(Because "shrinks in the wash" isn't a size.)</p>
+                <h3>Dimensional Calibration</h3>
+                <p>(Specify spatial parameters for optimal integration)</p>
                 <ul class="options">
-                    <li>XS or S — small frame, big opinions</li>
-                    <li>Medium — classic middle-lane fit</li>
-                    <li>L or XL — roomy, but not lost</li>
-                    <li>XXL or above — more to style, more to love</li>
-                    <li>No clue — shirt sizing is a mystery</li>
+                    <li>XS/S Parameters — minimal spatial distortion</li>
+                    <li>Medium Calibration — standard dimensional alignment</li>
+                    <li>L/XL Configuration — expanded spatial requirements</li>
+                    <li>XXL+ Dimensions — maximum spatial displacement</li>
+                    <li>Quantum Uncertainty — dimensional flux state</li>
                 </ul>
             </div>
             
             <div class="question">
-                <h3>Pick your price vibe</h3>
-                <p>(You know what you want. We're just asking nicely.)</p>
+                <h3>Resource Allocation</h3>
+                <p>(Specify quantum resource distribution preferences)</p>
                 <ul class="options">
-                    <li>Classic — good quality, solid price, no drama</li>
-                    <li>Premium — feels nice, lasts long, costs a little more</li>
+                    <li>Standard Protocol — balanced resource allocation</li>
+                    <li>Premium Allocation — enhanced performance parameters</li>
                 </ul>
             </div>
         </div>
     </div>
     
     <script src="navbar.js"></script>
-    <script>
-        // Simple option selection script
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all option list items
-            const optionItems = document.querySelectorAll('.options li');
-            
-            // Add click event listener to each option
-            optionItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove 'selected' class from all siblings
-                    const siblings = Array.from(this.parentNode.children);
-                    siblings.forEach(sibling => {
-                        sibling.classList.remove('selected');
-                    });
-                    
-                    // Add 'selected' class to clicked item
-                    this.classList.add('selected');
-                });
-            });
-        });
-    </script>
 </body>
 </html>
