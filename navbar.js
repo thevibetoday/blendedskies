@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isOpen = false;
     let currentSky = null;
     
-    // Create pattern
+    // Add dot pattern
     createPattern();
     
     // Toggle menu function
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle sky selection - MODIFIED FOR PAGE NAVIGATION
+    // Handle sky selection
     skyOptions.forEach(option => {
         // Initially hide the options for animation
         option.style.opacity = '0';
@@ -94,9 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Get sky data
             const skyType = this.getAttribute('data-sky');
-            
-            // Add subtle interaction effect
-            addRippleEffect(this.querySelector('.sky-preview'));
             
             // Navigate to the corresponding page based on sky type
             setTimeout(() => {
@@ -114,9 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Get sky data
                 const skyType = this.getAttribute('data-sky');
-                
-                // Add subtle interaction effect
-                addRippleEffect(this.querySelector('.sky-preview'));
                 
                 // Navigate to the corresponding page
                 setTimeout(() => {
@@ -136,44 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.isScrolling = false;
         });
     });
-    
-    // Add ripple effect
-    function addRippleEffect(element) {
-        if (!element) return;
-        
-        const ripple = document.createElement('div');
-        ripple.className = 'ripple';
-        
-        element.appendChild(ripple);
-        
-        const rect = element.getBoundingClientRect();
-        
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: ${rect.width * 2}px;
-            height: ${rect.width * 2}px;
-            background: rgba(0, 112, 243, 0.05);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            animation: ripple-animation 0.6s forwards cubic-bezier(0.25, 1, 0.5, 1);
-        `;
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    }
-    
-    // Add ripple animation to CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes ripple-animation {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
     
     // Navigate to sky pages
     function navigateToSkyPage(skyType) {
@@ -242,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add shadow and reduce height on scroll
         if (scrollTop > 10) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.06)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
             navbar.style.borderBottom = '1px solid #edf2f7';
             
             if (window.innerWidth > 480) {
