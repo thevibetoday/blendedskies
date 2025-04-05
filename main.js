@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Mark that the script has loaded
+  window.navbarInitialized = true;
+  
+  // Log to help with debugging
+  console.log('Main JS loaded successfully');
   const navbar = document.getElementById('navbar');
   const menuToggle = document.getElementById('menuToggle');
   const searchBtn = document.getElementById('searchBtn');
@@ -320,58 +325,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 30000 + Math.random() * 30000);
   
-  if ('webkitSpeechRecognition' in window) {
-    const recognition = new webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    
-    let lastTap = 0;
-    navbar.addEventListener('click', function() {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
+  // Speech recognition wrapped in a try-catch to prevent errors in unsupported browsers
+  try {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
       
-      if (tapLength < 500 && tapLength > 0) {
-        recognition.start();
+      let lastTap = 0;
+      navbar.addEventListener('click', function() {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
         
-        const listeningIndicator = document.createElement('div');
-        listeningIndicator.className = 'listening-indicator';
-        listeningIndicator.innerHTML = 'Listening...';
-        listeningIndicator.style.cssText = `
-          position: fixed;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: rgba(0, 255, 255, 0.2);
-          color: var(--primary);
-          padding: 10px 20px;
-          border-radius: 20px;
-          font-weight: bold;
-          z-index: 1000;
-        `;
-        document.body.appendChild(listeningIndicator);
-        
-        recognition.onend = function() {
-          document.body.removeChild(listeningIndicator);
-        };
-      }
-      lastTap = currentTime;
-    });
-    
-    recognition.onresult = function(event) {
-      const command = event.results[0][0].transcript.toLowerCase();
+        if (tapLength < 500 && tapLength > 0) {
+          try {
+            recognition.start();
+            
+            const listeningIndicator = document.createElement('div');
+            listeningIndicator.className = 'listening-indicator';
+            listeningIndicator.innerHTML = 'Listening...';
+            listeningIndicator.style.cssText = `
+              position: fixed;
+              bottom: 20px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: rgba(0, 255, 255, 0.2);
+              color: var(--primary);
+              padding: 10px 20px;
+              border-radius: 20px;
+              font-weight: bold;
+              z-index: 1000;
+            `;
+            document.body.appendChild(listeningIndicator);
+            
+            recognition.onend = function() {
+              if (document.body.contains(listeningIndicator)) {
+                document.body.removeChild(listeningIndicator);
+              }
+            };
+          } catch (e) {
+            console.log('Speech recognition error:', e);
+          }
+        }
+        lastTap = currentTime;
+      });
       
-      if (command.includes('search')) {
-        searchModal.classList.add('active');
-        setTimeout(() => {
-          searchInput.focus();
-        }, 100);
-      } else if (command.includes('notification')) {
-        notificationDrawer.classList.toggle('active');
-        isNotificationOpen = !isNotificationOpen;
-      } else if (command.includes('theme') || command.includes('dark') || command.includes('light')) {
-        themeToggle.click();
-      }
-    };
+      recognition.onresult = function(event) {
+        const command = event.results[0][0].transcript.toLowerCase();
+        
+        if (command.includes('search')) {
+          searchModal.classList.add('active');
+          setTimeout(() => {
+            searchInput.focus();
+          }, 100);
+        } else if (command.includes('notification')) {
+          notificationDrawer.classList.toggle('active');
+          isNotificationOpen = !isNotificationOpen;
+        } else if (command.includes('theme') || command.includes('dark') || command.includes('light')) {
+          themeToggle.click();
+        }
+      };
+    }
+  } catch (e) {
+    console.log('Speech recognition not supported');
   }
   
   const buttons = document.querySelectorAll('.action-btn, .avatar');
