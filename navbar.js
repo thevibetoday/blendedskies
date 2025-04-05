@@ -1,280 +1,499 @@
-// Wait for the DOM to be fully loaded before executing
 document.addEventListener('DOMContentLoaded', function() {
-    // Elements
-    const skySelector = document.querySelector('.sky-selector');
-    const selectorOrb = document.querySelector('.selector-orb');
-    const skyPanorama = document.querySelector('.sky-panorama');
-    const skyOptions = document.querySelectorAll('.sky-option');
+    // Core Elements
+    const neuralGate = document.querySelector('.neural-gate');
+    const interfaceSphere = document.querySelector('.interface-sphere');
+    const neuralDimension = document.querySelector('.neural-dimension');
+    const sectorNodes = document.querySelectorAll('.sector-node');
     const skyBackdrop = document.querySelector('.sky-backdrop');
-    const starsContainer = document.querySelector('.stars-container');
-    const navbar = document.querySelector('.cosmic-navbar');
-    const orbInner = document.querySelector('.orb-inner');
-    const orbEmoji = document.querySelector('.orb-emoji');
+    const noiseOverlay = document.querySelector('.noise-overlay');
+    const hologramProjector = document.querySelector('.hologram-projector');
+    const navbar = document.querySelector('.quantum-navbar');
+    const gateText = document.querySelector('.gate-text');
+    const biometricScan = document.querySelector('.biometric-scan');
+    const dimensionScanner = document.querySelector('.dimension-scanner');
     
     // Check if all required elements exist
-    if (!skySelector || !selectorOrb || !skyPanorama || !skyBackdrop || 
-        !starsContainer || !navbar || !orbInner || !orbEmoji) {
-        console.error('Some required elements are missing from the DOM.');
-        return; // Exit early if elements are missing
+    if (!neuralGate || !interfaceSphere || !neuralDimension || 
+        !noiseOverlay || !navbar || !gateText || !biometricScan) {
+        console.error('Core neural components missing from dimensional plane.');
+        return;
     }
     
-    // State
-    let isOpen = false;
-    let currentSky = null;
+    // Quantum State
+    let dimensionOpen = false;
+    let currentSector = null;
     
-    // Create stars
-    createStars();
+    // Create quantum particles
+    generateQuantumField();
     
-    // Toggle menu function
-    function toggleMenu() {
-        isOpen = !isOpen;
+    // Toggle neural dimension
+    function toggleDimension() {
+        dimensionOpen = !dimensionOpen;
         
-        if (isOpen) {
-            // Open menu
-            selectorOrb.classList.add('active');
-            skyPanorama.classList.add('open');
-            skyBackdrop.classList.add('active');
-            starsContainer.classList.add('active');
+        if (dimensionOpen) {
+            // Open dimension
+            interfaceSphere.classList.add('active');
+            neuralDimension.classList.add('open');
+            skyBackdrop && skyBackdrop.classList.add('active');
             navbar.classList.add('expanded');
             
-            // Delay the appearance of each sky option for staggered animation
-            skyOptions.forEach((option, index) => {
+            // Scan animation
+            dimensionScanner.style.opacity = '1';
+            
+            // Sequentially reveal sector nodes for dimensional stabilization
+            sectorNodes.forEach((node, index) => {
                 setTimeout(() => {
-                    option.style.opacity = '1';
-                    option.style.transform = 'translateY(0)';
-                }, 100 + (index * 50));
+                    node.style.opacity = '1';
+                    node.style.transform = 'translateY(0)';
+                }, 100 + (index * 70));
             });
+            
+            // Add particle animation
+            document.body.classList.add('particles-active');
         } else {
-            // Close menu
-            selectorOrb.classList.remove('active');
-            skyPanorama.classList.remove('open');
-            skyBackdrop.classList.remove('active');
-            starsContainer.classList.remove('active');
+            // Close dimension
+            interfaceSphere.classList.remove('active');
+            neuralDimension.classList.remove('open');
+            skyBackdrop && skyBackdrop.classList.remove('active');
             navbar.classList.remove('expanded');
             
-            // Reset sky options
-            skyOptions.forEach(option => {
-                option.style.opacity = '';
-                option.style.transform = '';
+            // Reset dimension scanner
+            dimensionScanner.style.opacity = '0';
+            
+            // Reset sector nodes
+            sectorNodes.forEach(node => {
+                node.style.opacity = '';
+                node.style.transform = '';
             });
+            
+            // Remove particle animation
+            document.body.classList.remove('particles-active');
         }
     }
     
-    // Toggle menu when clicking the selector
-    skySelector.addEventListener('click', function(e) {
+    // Toggle dimension when clicking the neural gate
+    neuralGate.addEventListener('click', function(e) {
         e.preventDefault();
-        toggleMenu();
+        toggleDimension();
+        
+        // Quantum pulse effect
+        createQuantumPulse(e);
     });
     
-    // Also handle touch events for mobile
-    skySelector.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        toggleMenu();
-    });
-    
-    // Close menu when clicking the backdrop
-    skyBackdrop.addEventListener('click', function() {
-        if (isOpen) toggleMenu();
-    });
-    
-    // Close menu with escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && isOpen) {
-            toggleMenu();
+    // Touch events for neural interfaces
+    neuralGate.addEventListener('touchend', function(e) {
+        if (!this.isScrolling) {
+            e.preventDefault();
+            toggleDimension();
         }
     });
     
-    // Handle sky selection - MODIFIED FOR PAGE NAVIGATION
-    skyOptions.forEach(option => {
-        // Initially hide the options for animation
-        option.style.opacity = '0';
-        option.style.transform = 'translateY(20px)';
+    // Track scrolling state
+    neuralGate.addEventListener('touchmove', function() {
+        this.isScrolling = true;
+    });
+    
+    neuralGate.addEventListener('touchstart', function() {
+        this.isScrolling = false;
+    });
+    
+    // Close dimension with escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && dimensionOpen) {
+            toggleDimension();
+        }
+    });
+    
+    // Neural backdrop interaction
+    if (skyBackdrop) {
+        skyBackdrop.addEventListener('click', function() {
+            if (dimensionOpen) toggleDimension();
+        });
+    }
+    
+    // Handle sector node selection
+    sectorNodes.forEach(node => {
+        // Initially hide the nodes
+        node.style.opacity = '0';
+        node.style.transform = 'translateY(20px)';
         
-        option.addEventListener('click', function(e) {
+        node.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Get sky data
-            const skyType = this.getAttribute('data-sky');
+            // Get sector data
+            const sectorType = this.getAttribute('data-sector');
             
-            // Navigate to the corresponding page based on sky type
-            // This is the key change to enable page navigation
-            if (skyType) {
-                navigateToSkyPage(skyType);
+            // Navigate to corresponding neural sector
+            if (sectorType) {
+                navigateToSector(sectorType);
             }
+            
+            // Create sector selection pulse
+            createSectorPulse(e, this);
         });
         
-        // Also handle touch events for mobile
-        option.addEventListener('touchend', function(e) {
-            // Prevent default only if this isn't a scroll
+        // Touch events for neural interfaces
+        node.addEventListener('touchend', function(e) {
             if (!this.isScrolling) {
                 e.preventDefault();
                 
-                // Get sky data
-                const skyType = this.getAttribute('data-sky');
+                // Get sector data
+                const sectorType = this.getAttribute('data-sector');
                 
-                // Navigate to the corresponding page
-                if (skyType) {
-                    navigateToSkyPage(skyType);
+                // Navigate to corresponding neural sector
+                if (sectorType) {
+                    navigateToSector(sectorType);
                 }
+                
+                // Create sector selection pulse
+                const touch = e.changedTouches[0];
+                createSectorPulse({clientX: touch.clientX, clientY: touch.clientY}, this);
             }
         });
         
-        // Track if user is scrolling
-        option.addEventListener('touchmove', function() {
+        // Track scrolling state
+        node.addEventListener('touchmove', function() {
             this.isScrolling = true;
         });
         
-        option.addEventListener('touchstart', function() {
+        node.addEventListener('touchstart', function() {
             this.isScrolling = false;
         });
         
-        // Add hover effect to create dynamic reflections
-        option.addEventListener('mouseenter', function() {
-            const preview = this.querySelector('.sky-preview');
-            const skyType = this.getAttribute('data-sky');
+        // Add hover effects for holographic projections
+        node.addEventListener('mouseenter', function() {
+            const projection = this.querySelector('.node-projection');
+            const sectorType = this.getAttribute('data-sector');
             let glowColor;
             
-            switch(skyType) {
-                case 'clear-blue':
-                    glowColor = 'rgba(135, 206, 235, 0.5)';
+            switch(sectorType) {
+                case 'alpha-cognition':
+                    glowColor = 'rgba(0, 240, 255, 0.4)';
                     break;
-                case 'sunset-glow':
-                    glowColor = 'rgba(255, 111, 0, 0.5)';
+                case 'beta-synthesis':
+                    glowColor = 'rgba(119, 0, 255, 0.4)';
                     break;
-                case 'storm-brewing':
-                    glowColor = 'rgba(105, 105, 105, 0.5)';
+                case 'gamma-flux':
+                    glowColor = 'rgba(255, 0, 170, 0.4)';
                     break;
-                case 'starry-night':
-                    glowColor = 'rgba(25, 25, 112, 0.5)';
+                case 'delta-void':
+                    glowColor = 'rgba(170, 0, 255, 0.4)';
                     break;
-                case 'rainbow-sky':
-                    glowColor = 'rgba(255, 105, 180, 0.4)';
+                case 'epsilon-nexus':
+                    glowColor = 'rgba(0, 255, 170, 0.4)';
                     break;
                 default:
-                    glowColor = 'rgba(135, 206, 250, 0.3)';
+                    glowColor = 'rgba(0, 240, 255, 0.3)';
             }
             
-            preview.style.boxShadow = `0 5px 20px ${glowColor}`;
+            if (projection) {
+                projection.style.boxShadow = `0 0 25px ${glowColor}`;
+            }
         });
         
-        option.addEventListener('mouseleave', function() {
-            const preview = this.querySelector('.sky-preview');
-            preview.style.boxShadow = '';
+        node.addEventListener('mouseleave', function() {
+            const projection = this.querySelector('.node-projection');
+            if (projection) {
+                projection.style.boxShadow = '';
+            }
         });
     });
     
-    // NEW FUNCTION: Navigate to sky pages
-    function navigateToSkyPage(skyType) {
-        // Map sky types to their respective HTML pages
-        const skyPages = {
-            'clear-blue': 'sun.html',
-            'sunset-glow': 'sunset.html', 
-            'storm-brewing': 'storm.html',
-            'starry-night': 'nighttime.html',
-            'rainbow-sky': 'rainbow.html'
+    // Neural sector navigation
+    function navigateToSector(sectorType) {
+        // Map sectors to their corresponding neural pathways
+        const neuralPathways = {
+            'alpha-cognition': 'cognitive.html',
+            'beta-synthesis': 'synthesis.html', 
+            'gamma-flux': 'quantum.html',
+            'delta-void': 'void.html',
+            'epsilon-nexus': 'nexus.html'
         };
         
-        // Default page if the sky type doesn't match any in our mapping
-        const defaultPage = 'index.html';
+        // Default pathway if sector type doesn't match mapping
+        const defaultPathway = 'index.html';
         
-        // Get the page URL for the selected sky type or use the default
-        const pageUrl = skyPages[skyType] || defaultPage;
+        // Get the neural pathway for the selected sector
+        const pathwayUrl = neuralPathways[sectorType] || defaultPathway;
         
-        // Navigate to the page
-        window.location.href = pageUrl;
+        // Initiate neural interface transition
+        setTimeout(() => {
+            window.location.href = pathwayUrl;
+        }, 500);
     }
     
-    // Create stars in the background
-    function createStars() {
-        const starsCount = window.innerWidth < 768 ? 50 : 100;
+    // Create quantum pulse effect
+    function createQuantumPulse(e) {
+        const pulse = document.createElement('div');
+        pulse.className = 'quantum-pulse';
         
-        for (let i = 0; i < starsCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
+        const rect = neuralGate.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        pulse.style.cssText = `
+            position: fixed;
+            left: ${centerX}px;
+            top: ${centerY}px;
+            width: 10px;
+            height: 10px;
+            background: rgba(0, 240, 255, 0.8);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+            pointer-events: none;
+            animation: quantum-pulse 1s forwards ease-out;
+        `;
+        
+        document.body.appendChild(pulse);
+        
+        setTimeout(() => {
+            pulse.remove();
+        }, 1000);
+    }
+    
+    // Create sector pulse effect
+    function createSectorPulse(e, node) {
+        const pulse = document.createElement('div');
+        pulse.className = 'sector-pulse';
+        
+        const rect = node.getBoundingClientRect();
+        const projection = node.querySelector('.node-projection');
+        const projRect = projection.getBoundingClientRect();
+        
+        const centerX = projRect.left + projRect.width / 2;
+        const centerY = projRect.top + projRect.height / 2;
+        
+        // Get sector color
+        const sectorType = node.getAttribute('data-sector');
+        let pulseColor;
+        
+        switch(sectorType) {
+            case 'alpha-cognition':
+                pulseColor = 'rgba(0, 240, 255, 0.8)';
+                break;
+            case 'beta-synthesis':
+                pulseColor = 'rgba(119, 0, 255, 0.8)';
+                break;
+            case 'gamma-flux':
+                pulseColor = 'rgba(255, 0, 170, 0.8)';
+                break;
+            case 'delta-void':
+                pulseColor = 'rgba(170, 0, 255, 0.8)';
+                break;
+            case 'epsilon-nexus':
+                pulseColor = 'rgba(0, 255, 170, 0.8)';
+                break;
+            default:
+                pulseColor = 'rgba(0, 240, 255, 0.8)';
+        }
+        
+        pulse.style.cssText = `
+            position: fixed;
+            left: ${centerX}px;
+            top: ${centerY}px;
+            width: 10px;
+            height: 10px;
+            background: ${pulseColor};
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            box-shadow: 0 0 20px ${pulseColor};
+            pointer-events: none;
+            animation: quantum-pulse 1s forwards ease-out;
+        `;
+        
+        document.body.appendChild(pulse);
+        
+        setTimeout(() => {
+            pulse.remove();
+        }, 1000);
+    }
+    
+    // Add quantum pulse animation to CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes quantum-pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Generate quantum field
+    function generateQuantumField() {
+        const particleCount = window.innerWidth < 768 ? 30 : 50;
+        const container = document.createElement('div');
+        container.className = 'quantum-field';
+        container.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        `;
+        
+        document.body.appendChild(container);
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'quantum-particle';
             
-            // Random star properties
+            // Random particle properties
             const size = Math.random() * 3 + 1;
             const x = Math.random() * 100;
             const y = Math.random() * 100;
-            const delay = Math.random() * 3;
-            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 5 + 5;
+            const color = Math.random() > 0.5 ? 'var(--neural-primary)' : 'var(--neural-secondary)';
             
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${x}%`;
-            star.style.top = `${y}%`;
-            star.style.animationDelay = `${delay}s`;
-            star.style.setProperty('--twinkle-duration', `${duration}s`);
+            particle.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}vw;
+                top: ${y}vh;
+                background: ${color};
+                border-radius: 50%;
+                box-shadow: 0 0 ${size * 3}px ${color};
+                animation: float-particle ${duration}s infinite ease-in-out ${delay}s;
+                opacity: 0.7;
+            `;
             
-            starsContainer.appendChild(star);
+            container.appendChild(particle);
         }
-    }
-    
-    // Update orb with sky selection
-    function updateOrbWithSelection(sky) {
-        if (!sky) return;
         
-        // Update emoji to match selection
-        orbEmoji.textContent = sky.icon;
-        
-        // Keep the emoji visible after selection
-        orbEmoji.style.opacity = '1';
-        orbEmoji.style.transform = 'scale(1)';
-        
-        // Hide the text
-        orbInner.style.opacity = '0';
+        // Add particle animation
+        const particleStyle = document.createElement('style');
+        particleStyle.textContent = `
+            @keyframes float-particle {
+                0%, 100% { transform: translate(0, 0); }
+                25% { transform: translate(${Math.random() * 30 + 10}px, -${Math.random() * 30 + 10}px); }
+                50% { transform: translate(${Math.random() * 20 + 5}px, ${Math.random() * 30 + 10}px); }
+                75% { transform: translate(-${Math.random() * 30 + 10}px, ${Math.random() * 20 + 5}px); }
+            }
+            
+            body.particles-active .quantum-field {
+                opacity: 1;
+            }
+        `;
+        document.head.appendChild(particleStyle);
     }
     
     // Handle scroll effects
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Add shadow and reduce height on scroll
-        if (scrollTop > 10) {
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        // Neural interfaces adjust based on scroll
+        if (scrollTop > 20) {
+            navbar.style.boxShadow = '0 5px 20px rgba(0, 240, 255, 0.15)';
+            navbar.style.borderBottom = '1px solid rgba(0, 240, 255, 0.3)';
+            
             if (window.innerWidth > 480) {
-                navbar.style.height = '60px';
+                navbar.style.height = '65px';
             } else {
-                navbar.style.height = '50px';
+                navbar.style.height = '55px';
             }
         } else {
             navbar.style.boxShadow = 'none';
+            navbar.style.borderBottom = '1px solid rgba(0, 240, 255, 0.2)';
+            
             if (window.innerWidth > 480) {
-                navbar.style.height = '70px';
+                navbar.style.height = '80px';
             } else {
                 navbar.style.height = '60px';
             }
         }
     });
     
-    // Add a subtle parallax effect to the stars when moving mouse
+    // Parallax effect for quantum field
     document.addEventListener('mousemove', function(e) {
-        if (!starsContainer.classList.contains('active')) return;
+        if (!document.body.classList.contains('particles-active')) return;
         
-        const stars = document.querySelectorAll('.star');
+        const particles = document.querySelectorAll('.quantum-particle');
         const mouseX = e.clientX / window.innerWidth;
         const mouseY = e.clientY / window.innerHeight;
         
-        stars.forEach(star => {
-            const depth = parseFloat(star.style.width) / 3; // Bigger stars move more
-            const moveX = (mouseX - 0.5) * depth;
-            const moveY = (mouseY - 0.5) * depth;
+        particles.forEach(particle => {
+            const depthFactor = parseFloat(particle.style.width) / 2;
+            const moveX = (mouseX - 0.5) * depthFactor * 20;
+            const moveY = (mouseY - 0.5) * depthFactor * 20;
             
-            star.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            particle.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
     });
     
     // Handle window resize
     window.addEventListener('resize', function() {
-        // Adjust stars for window size
-        starsContainer.innerHTML = '';
-        createStars();
+        // Reset quantum field
+        const existingField = document.querySelector('.quantum-field');
+        if (existingField) {
+            existingField.remove();
+        }
+        
+        generateQuantumField();
         
         // Adjust navbar height
         if (window.innerWidth <= 480) {
-            navbar.style.height = '60px';
+            navbar.style.height = dimensionOpen ? '55px' : '60px';
         } else {
-            navbar.style.height = '70px';
+            navbar.style.height = dimensionOpen ? '65px' : '80px';
         }
     });
+    
+    // Initialize questionnaire selection
+    const optionItems = document.querySelectorAll('.options li');
+    optionItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove selection from siblings
+            const siblings = Array.from(this.parentNode.children);
+            siblings.forEach(sibling => {
+                sibling.classList.remove('selected');
+            });
+            
+            // Add selection to clicked item
+            this.classList.add('selected');
+            
+            // Create selection pulse
+            const rect = this.getBoundingClientRect();
+            const pulse = document.createElement('div');
+            pulse.className = 'selection-pulse';
+            
+            pulse.style.cssText = `
+                position: fixed;
+                left: ${rect.left + rect.width / 2}px;
+                top: ${rect.top + rect.height / 2}px;
+                width: 5px;
+                height: 5px;
+                background: var(--neural-primary);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1100;
+                box-shadow: 0 0 10px var(--neural-primary);
+                pointer-events: none;
+                animation: selection-pulse 0.5s forwards ease-out;
+            `;
+            
+            document.body.appendChild(pulse);
+            
+            setTimeout(() => {
+                pulse.remove();
+            }, 500);
+        });
+    });
+    
+    // Add selection pulse animation
+    const selectionStyle = document.createElement('style');
+    selectionStyle.textContent = `
+        @keyframes selection-pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(selectionStyle);
 });
