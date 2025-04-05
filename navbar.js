@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let isOpen = false;
     let currentSky = null;
     
-    // Create stars
-    createStars();
+    // Create pattern
+    createPattern();
     
     // Toggle menu function
     function toggleMenu() {
@@ -41,11 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     option.style.opacity = '1';
                     option.style.transform = 'translateY(0)';
-                }, 100 + (index * 70));
+                }, 50 + (index * 50));
             });
-            
-            // Add quantum pulse effect
-            createPulseEffect(selectorOrb);
         } else {
             // Close menu
             selectorOrb.classList.remove('active');
@@ -90,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     skyOptions.forEach(option => {
         // Initially hide the options for animation
         option.style.opacity = '0';
-        option.style.transform = 'translateY(20px)';
+        option.style.transform = 'translateY(10px)';
         
         option.addEventListener('click', function(e) {
             e.preventDefault();
@@ -98,15 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get sky data
             const skyType = this.getAttribute('data-sky');
             
-            // Create selection pulse effect
-            createPulseEffect(this.querySelector('.sky-preview'));
+            // Add subtle interaction effect
+            addRippleEffect(this.querySelector('.sky-preview'));
             
             // Navigate to the corresponding page based on sky type
             setTimeout(() => {
                 if (skyType) {
                     navigateToSkyPage(skyType);
                 }
-            }, 400);
+            }, 300);
         });
         
         // Also handle touch events for mobile
@@ -118,15 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Get sky data
                 const skyType = this.getAttribute('data-sky');
                 
-                // Create selection pulse effect
-                createPulseEffect(this.querySelector('.sky-preview'));
+                // Add subtle interaction effect
+                addRippleEffect(this.querySelector('.sky-preview'));
                 
                 // Navigate to the corresponding page
                 setTimeout(() => {
                     if (skyType) {
                         navigateToSkyPage(skyType);
                     }
-                }, 400);
+                }, 300);
             }
         });
         
@@ -138,104 +135,42 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('touchstart', function() {
             this.isScrolling = false;
         });
-        
-        // Add hover effect to create dynamic reflections
-        option.addEventListener('mouseenter', function() {
-            const preview = this.querySelector('.sky-preview');
-            const skyType = this.getAttribute('data-sky');
-            let glowColor;
-            
-            switch(skyType) {
-                case 'clear-blue':
-                    glowColor = 'rgba(0, 191, 255, 0.4)';
-                    break;
-                case 'sunset-glow':
-                    glowColor = 'rgba(255, 111, 0, 0.4)';
-                    break;
-                case 'storm-brewing':
-                    glowColor = 'rgba(105, 105, 105, 0.4)';
-                    break;
-                case 'starry-night':
-                    glowColor = 'rgba(25, 25, 112, 0.4)';
-                    break;
-                case 'rainbow-sky':
-                    glowColor = 'rgba(255, 105, 180, 0.4)';
-                    break;
-                default:
-                    glowColor = 'rgba(0, 240, 255, 0.3)';
-            }
-            
-            preview.style.boxShadow = `0 0 30px ${glowColor}`;
-        });
-        
-        option.addEventListener('mouseleave', function() {
-            const preview = this.querySelector('.sky-preview');
-            const skyType = this.getAttribute('data-sky');
-            
-            switch(skyType) {
-                case 'clear-blue':
-                    preview.style.boxShadow = '0 0 20px rgba(0, 191, 255, 0.3)';
-                    break;
-                case 'sunset-glow':
-                    preview.style.boxShadow = '0 0 20px rgba(255, 111, 0, 0.3)';
-                    break;
-                case 'storm-brewing':
-                    preview.style.boxShadow = '0 0 20px rgba(105, 105, 105, 0.3)';
-                    break;
-                case 'starry-night':
-                    preview.style.boxShadow = '0 0 20px rgba(25, 25, 112, 0.3)';
-                    break;
-                case 'rainbow-sky':
-                    preview.style.boxShadow = '0 0 20px rgba(255, 105, 180, 0.3)';
-                    break;
-                default:
-                    preview.style.boxShadow = '0 0 20px rgba(0, 240, 255, 0.3)';
-            }
-        });
     });
     
-    // Create pulse effect
-    function createPulseEffect(element) {
+    // Add ripple effect
+    function addRippleEffect(element) {
         if (!element) return;
         
-        const pulse = document.createElement('div');
-        pulse.className = 'pulse-effect';
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
         
-        // Get element position
+        element.appendChild(ripple);
+        
         const rect = element.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
         
-        // Add pulse styling
-        pulse.style.cssText = `
-            position: fixed;
-            left: ${centerX}px;
-            top: ${centerY}px;
-            width: 10px;
-            height: 10px;
-            background: rgba(0, 240, 255, 0.8);
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: ${rect.width * 2}px;
+            height: ${rect.width * 2}px;
+            background: rgba(0, 112, 243, 0.05);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
-            pointer-events: none;
-            animation: pulse-animation 0.8s forwards ease-out;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple-animation 0.6s forwards cubic-bezier(0.25, 1, 0.5, 1);
         `;
         
-        document.body.appendChild(pulse);
-        
-        // Remove after animation completes
         setTimeout(() => {
-            pulse.remove();
-        }, 800);
+            ripple.remove();
+        }, 600);
     }
     
-    // Add pulse animation to CSS
+    // Add ripple animation to CSS
     const style = document.createElement('style');
     style.textContent = `
-        @keyframes pulse-animation {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(15); opacity: 0; }
+        @keyframes ripple-animation {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
         }
     `;
     document.head.appendChild(style);
@@ -261,29 +196,28 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = pageUrl;
     }
     
-    // Create stars in the background
-    function createStars() {
-        const starsCount = window.innerWidth < 768 ? 50 : 100;
+    // Create dot pattern
+    function createPattern() {
+        const dotsCount = window.innerWidth < 768 ? 100 : 200;
         
-        for (let i = 0; i < starsCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
+        for (let i = 0; i < dotsCount; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
             
-            // Random star properties
-            const size = Math.random() * 3 + 1;
+            // Random dot properties
+            const size = 1;
             const x = Math.random() * 100;
             const y = Math.random() * 100;
-            const delay = Math.random() * 3;
-            const duration = Math.random() * 3 + 2;
             
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${x}%`;
-            star.style.top = `${y}%`;
-            star.style.animationDelay = `${delay}s`;
-            star.style.setProperty('--twinkle-duration', `${duration}s`);
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${x}%`;
+            dot.style.top = `${y}%`;
+            dot.style.position = 'absolute';
+            dot.style.background = '#e2e8f0';
+            dot.style.borderRadius = '50%';
             
-            starsContainer.appendChild(star);
+            starsContainer.appendChild(dot);
         }
     }
     
@@ -308,8 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add shadow and reduce height on scroll
         if (scrollTop > 10) {
-            navbar.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
-            navbar.style.borderBottom = '1px solid rgba(0, 240, 255, 0.2)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.06)';
+            navbar.style.borderBottom = '1px solid #edf2f7';
             
             if (window.innerWidth > 480) {
                 navbar.style.height = '60px';
@@ -318,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else {
             navbar.style.boxShadow = 'none';
-            navbar.style.borderBottom = '1px solid rgba(0, 240, 255, 0.1)';
+            navbar.style.borderBottom = '1px solid #edf2f7';
             
             if (window.innerWidth > 480) {
                 navbar.style.height = '70px';
@@ -328,28 +262,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add a subtle parallax effect to the stars when moving mouse
+    // Add subtle parallax effect
     document.addEventListener('mousemove', function(e) {
         if (!starsContainer.classList.contains('active')) return;
         
-        const stars = document.querySelectorAll('.star');
+        const dots = document.querySelectorAll('.dot');
         const mouseX = e.clientX / window.innerWidth;
         const mouseY = e.clientY / window.innerHeight;
         
-        stars.forEach(star => {
-            const depth = parseFloat(star.style.width) / 3; // Bigger stars move more
-            const moveX = (mouseX - 0.5) * depth * 10;
-            const moveY = (mouseY - 0.5) * depth * 10;
+        dots.forEach(dot => {
+            const moveX = (mouseX - 0.5) * 5;
+            const moveY = (mouseY - 0.5) * 5;
             
-            star.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            dot.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
     });
     
     // Handle window resize
     window.addEventListener('resize', function() {
-        // Adjust stars for window size
+        // Adjust pattern for window size
         starsContainer.innerHTML = '';
-        createStars();
+        createPattern();
         
         // Adjust navbar height
         if (window.innerWidth <= 480) {
