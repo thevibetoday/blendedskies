@@ -1,161 +1,2028 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Skies</title>
-    <link rel="stylesheet" href="navbar.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Navbar</title>
+  <style>
+    :root {
+      --primary: #0ff;
+      --secondary: #f0f;
+      --dark: #111;
+      --light: #f8f8f8;
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      perspective: 1000px;
+      font-size: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* Navbar Container */
+    .navbar-container {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .navbar {
+      --navbar-height: 80px;
+      width: 96%;
+      height: var(--navbar-height);
+      max-width: 1400px;
+      margin: 1rem auto;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      pointer-events: all;
+      transition: height var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .navbar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+      animation: scanline 4s linear infinite;
+    }
+
+    .navbar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(45deg, transparent, var(--primary), var(--secondary), transparent);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .logo-text {
+      font-weight: 800;
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.5rem;
+      position: relative;
+    }
+
+    .logo-icon::before, .logo-icon::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary));
+      animation: rotate 4s linear infinite;
+    }
+
+    .logo-icon::after {
+      inset: 5px;
+      background: var(--dark);
+      animation: none;
+    }
+
+    /* Menu Toggle */
+    .menu-toggle {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-toggle .line {
+      width: 30px;
+      height: 2px;
+      background: var(--primary);
+      position: absolute;
+      border-radius: 5px;
+      transition: var(--transition-speed) cubic-bezier(.68,-0.6,.32,1.6);
+    }
+
+    .menu-toggle .line:nth-child(1) {
+      transform: translateY(-8px);
+    }
+
+    .menu-toggle .line:nth-child(3) {
+      transform: translateY(8px);
+    }
+
+    .menu-toggle.active .line:nth-child(1) {
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle.active .line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active .line:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: var(--navbar-height);
+      left: 0;
+      width: 100%;
+      height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: hidden;
+      transition: height var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
+      opacity: 0;
+      gap: 1rem;
+      padding: 0 2rem 2rem;
+    }
+
+    .navbar.expanded {
+      height: 400px;
+    }
+
+    .navbar.expanded .menu {
+      height: 320px;
+      opacity: 1;
+    }
+
+    /* Menu Items */
+    .menu-item {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      padding: 1rem;
+      margin: 0.25rem 0;
+      text-align: center;
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      background: rgba(30, 30, 40, 0.5);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    .navbar.expanded .menu-item {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+      transform: translateX(-100%);
+    }
+
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 255, 255, 0.2);
+    }
+
+    .menu-item:hover::before {
+      animation: shimmer 1.5s infinite;
+    }
+
+    /* Nav Pills - Horizontal navigation on desktop */
+    .nav-pills {
+      display: flex;
+      gap: 1rem;
+      margin-right: 1rem;
+    }
+
+    .nav-pill {
+      padding: 0.5rem 1rem;
+      background: rgba(30, 30, 40, 0.5);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-speed);
+    }
+
+    .nav-pill::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .nav-pill span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-pill:hover::before {
+      opacity: 0.2;
+    }
+
+    .nav-pill:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 255, 255, 0.15);
+    }
+
+    /* Search Modal */
+    .search-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-speed);
+    }
+
+    .search-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .search-container {
+      width: 90%;
+      max-width: 700px;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      background: rgba(30, 30, 40, 0.5);
+      border: none;
+      border-radius: 10px;
+      color: var(--light);
+      font-size: 1.5rem;
+      outline: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .search-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--light);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .search-results {
+      width: 90%;
+      max-width: 700px;
+      max-height: 50vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .result-card {
+      background: rgba(30, 30, 40, 0.7);
+      border-radius: 10px;
+      padding: 1rem;
+      transition: all var(--transition-speed);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      background: rgba(40, 40, 50, 0.8);
+      box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+    }
+
+    .result-icon {
+      width: 50px;
+      height: 50px;
+      background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary));
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--dark);
+      font-weight: bold;
+    }
+
+    .result-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .result-desc {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* Notification Drawer */
+    .notification-drawer {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: rgba(15, 15, 20, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      padding: 6rem 1.5rem 1.5rem;
+      transition: right var(--transition-speed) cubic-bezier(0.76, 0, 0.24, 1);
+      overflow-y: auto;
+    }
+
+    .notification-drawer.active {
+      right: 0;
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .notification-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .notification-clear {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .notification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .notification-item {
+      padding: 1rem;
+      background: rgba(30, 30, 40, 0.5);
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform-origin: right;
+      animation: notificationIn 0.5s forwards;
+    }
+
+    .notification-item.new::before {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      left: 0;
+      width: 5px;
+      height: 5px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    .notification-time {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .notification-message {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .notification-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: transparent;
+      border: none;
+      color: var(--light);
+      font-size: 0.8rem;
+      opacity: 0.7;
+      cursor: pointer;
+    }
+
+    /* Context Menu */
+    .context-menu {
+      position: fixed;
+      display: none;
+      flex-direction: column;
+      background: rgba(20, 20, 25, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      animation: contextIn 0.2s forwards;
+    }
+
+    .context-item {
+      padding: 0.75rem 1.5rem;
+      color: var(--light);
+      text-decoration: none;
+      transition: background var(--transition-speed);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .context-item:hover {
+      background: rgba(0, 255, 255, 0.1);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: rgba(30, 30, 40, 0.7);
+      border-radius: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+      margin-left: 1rem;
+    }
+
+    .theme-toggle-thumb {
+      width: 20px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 50%;
+      transition: transform var(--transition-speed);
+    }
+
+    .theme-toggle.dark .theme-toggle-thumb {
+      transform: translateX(30px);
+      background: var(--secondary);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      z-index: 300;
+      transition: width 0.3s;
+    }
+
+    /* Badge */
+    .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 18px;
+      height: 18px;
+      background: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: var(--dark);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .action-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background: rgba(30, 30, 40, 0.5);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+    }
+
+    .action-btn:hover {
+      background: rgba(40, 40, 50, 0.8);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.15);
+    }
+
+    .action-btn.notify {
+      overflow: hidden;
+    }
+
+    .action-btn.notify::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, var(--primary), transparent 70%);
+      opacity: 0;
+      transform: scale(0);
+      animation: pulse 2s infinite;
+    }
+
+    .action-btn.notify .badge {
+      background: var(--primary);
+      animation: bounce 1s infinite;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: var(--dark);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--dark);
+    }
+
+    .avatar span {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 15, 0.9);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-speed);
+      white-space: nowrap;
+    }
+
+    .tooltip::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid rgba(10, 10, 15, 0.9);
+    }
+
+    .action-btn:hover .tooltip,
+    .avatar:hover .tooltip {
+      opacity: 1;
+      bottom: -30px;
+    }
+
+    /* Animations */
+    @keyframes scanline {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 0.3;
+        transform: scale(1.5);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes notificationIn {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes contextIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Media Queries */
+    @media (min-width: 768px) {
+      .navbar {
+        padding: 0 2.5rem;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+
+      .menu {
+        position: static;
+        flex-direction: row;
+        justify-content: center;
+        width: auto;
+        height: auto;
+        opacity: 1;
+        overflow: visible;
+        gap: 0;
+        padding: 0;
+      }
+
+      .menu-item {
+        width: auto;
+        max-width: none;
+        margin: 0 0.5rem;
+        padding: 0.75rem 1.5rem;
+        transform: translateY(0);
+        opacity: 1;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .menu-item:hover {
+        background: rgba(30, 30, 40, 0.5);
+        transform: translateY(-3px);
+      }
+
+      .navbar.expanded {
+        height: var(--navbar-height);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .nav-pills {
+        display: none;
+      }
+
+      .navbar {
+        padding: 0 1.5rem;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
+      .search-modal .search-input {
+        font-size: 1.2rem;
+        padding: 1.2rem 1.5rem;
+      }
+
+      .search-results {
+        grid-template-columns: 1fr;
+      }
+
+      .notification-drawer {
+        width: 100%;
+        max-width: 100%;
+        right: -100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
-                </div>
-            </div>
-            <div class="brand-name">Cosmic Skies</div>
-        </div>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <h1>Futuristic Interactive Navigation</h1>
+    <p>Right-click anywhere for context menu. Explore the navbar's advanced features!</p>
+  </main>
+
+  <!-- Navbar -->
+  <div class="navbar-container">
+    <nav class="navbar" id="navbar">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        <div class="logo-text">QUANTUM</div>
+      </div>
+
+      <!-- Nav Pills - Desktop -->
+      <div class="nav-pills">
+        <a href="#" class="nav-pill"><span>Dashboard</span></a>
+        <a href="#" class="nav-pill"><span>Projects</span></a>
+        <a href="#" class="nav-pill"><span>Analytics</span></a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <!-- Search Button -->
+        <div class="action-btn" id="searchBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      Search
+    </a>
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      View
+    </a>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const navbar = document.getElementById('navbar');
+      const menuToggle = document.getElementById('menuToggle');
+      const searchBtn = document.getElementById('searchBtn');
+      const searchModal = document.getElementById('searchModal');
+      const searchClose = document.getElementById('searchClose');
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      const notifyBtn = document.getElementById('notifyBtn');
+      const notificationDrawer = document.getElementById('notificationDrawer');
+      const notificationItems = document.querySelectorAll('.notification-item');
+      const notificationCloseButtons = document.querySelectorAll('.notification-close');
+      const themeToggle = document.getElementById('themeToggle');
+      const contextMenu = document.getElementById('contextMenu');
+      const progressBar = document.getElementById('progressBar');
+      let isNavExpanded = false;
+      let isNotificationOpen = false;
+      
+      // Mobile menu toggle
+      menuToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navbar.classList.toggle('expanded');
+        isNavExpanded = !isNavExpanded;
+      });
+      
+      // Search functionality
+      searchBtn.addEventListener('click', function() {
+        searchModal.classList.add('active');
+        setTimeout(() => {
+          searchInput.focus();
+        }, 100);
+      });
+      
+      searchClose.addEventListener('click', function() {
+        searchModal.classList.remove('active');
+      });
+      
+      // Close search with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+          searchModal.classList.remove('active');
+        }
+      });
+      
+      // Search input functionality
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        if (query.length > 1) {
+          // Simulated search results
+          const results = [
+            { icon: 'D', title: 'Dashboard', desc: 'Main control panel' },
+            { icon: 'P', title: 'Projects', desc: 'Your active projects' },
+            { icon: 'A', title: 'Analytics', desc: 'Performance metrics' },
+            { icon: 'S', title: 'Settings', desc: 'System preferences' },
+            { icon: 'U', title: 'Users', desc: 'Team members' }
+          ].filter(item => 
+            item.title.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query)
+          );
+          
+          // Clear previous results
+          searchResults.innerHTML = '';
+          
+          // Add new results
+          results.forEach(result => {
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card';
+            resultCard.innerHTML = `
+              <div class="result-icon">${result.icon}</div>
+              <div class="result-title">${result.title}</div>
+              <div class="result-desc">${result.desc}</div>
+            `;
+            searchResults.appendChild(resultCard);
+            
+            // Add animation delay for staggered appearance
+            resultCard.style.animationDelay = `${searchResults.children.length * 0.05}s`;
+          });
+        } else {
+          searchResults.innerHTML = '';
+        }
+      });
+      
+      // Notification drawer
+      notifyBtn.addEventListener('click', function() {
+        notificationDrawer.classList.toggle('active');
+        isNotificationOpen = !isNotificationOpen;
         
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
-                </div>
-                <div class="orb-emoji">🌤️</div>
-            </div>
+        // Close mobile menu if open
+        if (isNavExpanded) {
+          menuToggle.classList.remove('active');
+          navbar.classList.remove('expanded');
+          isNavExpanded = false;
+        }
+      });
+      
+      // Close notification items
+      notificationCloseButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const notificationItem = this.parentNode;
+          notificationItem.style.height = `${notificationItem.offsetHeight}px`;
+          
+          // Trigger reflow
+          notificationItem.offsetHeight;
+          
+          notificationItem.style.height = '0';
+          notificationItem.style.opacity = '0';
+          notificationItem.style.margin = '0';
+          notificationItem.style.padding = '0';
+          
+          setTimeout(() => {
+            notificationItem.remove();
+            
+            // Update badge count
+            const remainingNew = document.querySelectorAll('.notification-item.new').length;
+            const badge = notifyBtn.querySelector('.badge');
+            badge.textContent = remainingNew;
+            
+            if (remainingNew === 0) {
+              badge.style.display = 'none';
+            }
+          }, 300);
+        });
+      });
+      
+      // Theme toggle
+      themeToggle.addEventListener('click', function() {
+        this.classList.toggle('dark');
+        
+        // Toggle theme class on body
+        document.body.classList.toggle('light-theme');
+        
+        // Change theme variables
+        if (document.body.classList.contains('light-theme')) {
+          document.documentElement.style.setProperty('--dark', '#f8f8f8');
+          document.documentElement.style.setProperty('--light', '#222');
+        } else {
+          document.documentElement.style.setProperty('--dark', '#111');
+          document.documentElement.style.setProperty('--light', '#f8f8f8');
+        }
+      });
+      
+      // Context menu
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        // Position the context menu
+        contextMenu.style.display = 'flex';
+        contextMenu.style.top = `${y}px`;
+        contextMenu.style.left = `${x}px`;
+        
+        // Keep menu in viewport
+        const menuRect = contextMenu.getBoundingClientRect();
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+        
+        if (menuRect.right > screenW) {
+          contextMenu.style.left = `${screenW - menuRect.width - 10}px`;
+        }
+        
+        if (menuRect.bottom > screenH) {
+          contextMenu.style.top = `${screenH - menuRect.height - 10}px`;
+        }
+      });
+      
+      // Close context menu on click outside
+      document.addEventListener('click', function() {
+        contextMenu.style.display = 'none';
+      });
+      
+      // Scroll progress bar
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+      });
+      
+      // Close drawers when clicking outside
+      document.addEventListener('click', function(e) {
+        // Close notification drawer if open and click outside
+        if (isNotificationOpen && !notificationDrawer.contains(e.target) && !notifyBtn.contains(e.target)) {
+          notificationDrawer.classList.remove('active');
+          isNotificationOpen = false;
+        }
+      });
+      
+      // Hovering menu items effect
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('mouseover', function() {
+          // Add pulse effect
+          this.style.transform = 'translateY(-5px) scale(1.05)';
+          this.style.boxShadow = '0 10px 25px rgba(0, 255, 255, 0.3)';
+        });
+        
+        item.addEventListener('mouseout', function() {
+          this.style.transform = '';
+          this.style.boxShadow = '';
+        });
+      });
+      
+      // Nav pills hover effect
+      const navPills = document.querySelectorAll('.nav-pill');
+      
+      navPills.forEach(pill => {
+        pill.addEventListener('mouseover', function() {
+          navPills.forEach(p => {
+            if (p !== this) {
+              p.style.opacity = '0.6';
+            }
+          });
+        });
+        
+        pill.addEventListener('mouseout', function() {
+          navPills.forEach(p => {
+            p.style.opacity = '1';
+          });
+        });
+      });
+      
+      // Add 3D tilt effect to navbar
+      navbar.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const angleY = (x - centerX) / centerX * 2; // -2 to 2 degree
+        const angleX = (y - centerY) / centerY * 1; // -1 to 1 degree
+        
+        this.style.transform = `perspective(1000px) rotateX(${-angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
+      });
+      
+      navbar.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+      });
+      
+      // Add starfield effect to search modal background
+      function createStars() {
+        const stars = 100;
+        const searchModalBg = searchModal;
+        
+        for (let i = 0; i < stars; i++) {
+          const star = document.createElement('span');
+          star.className = 'star';
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          const size = Math.random() * 2;
+          const duration = 3 + Math.random() * 7;
+          
+          star.style.cssText = `
+            position: absolute;
+            top: ${y}%;
+            left: ${x}%;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(0, 255, 255, ${Math.random() * 0.7 + 0.3});
+            border-radius: 50%;
+            z-index: -1;
+            opacity: ${Math.random()};
+            animation: twinkle ${duration}s infinite alternate;
+          `;
+          
+          searchModalBg.appendChild(star);
+        }
+      }
+      
+      // Add keyframes for star twinkling
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes twinkle {
+          0% { opacity: 0.3; transform: scale(0.7); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      createStars();
+      
+      // Simulate notifications
+      function simulateNewNotification() {
+        const notifications = [
+          'Your project has been updated.',
+          'New message from Team Lead: "Great work!"',
+          'System maintenance scheduled for tomorrow.',
+          'Your analytics report is ready to view.',
+          'New feature has been deployed successfully.'
+        ];
+        
+        const randomIndex = Math.floor(Math.random() * notifications.length);
+        const message = notifications[randomIndex];
+        
+        const notificationItem = document.createElement('div');
+        notificationItem.className = 'notification-item new';
+        notificationItem.innerHTML = `
+          <div class="notification-time">Just now</div>
+          <div class="notification-message">${message}</div>
+          <button class="notification-close">×</button>
+        `;
+        
+        // Add to notification list at the top
+        const notificationList = document.getElementById('notificationList');
+        notificationList.insertBefore(notificationItem, notificationList.firstChild);
+        
+        // Update badge
+        const badge = notifyBtn.querySelector('.badge');
+        const newCount = parseInt(badge.textContent) + 1;
+        badge.textContent = newCount;
+        badge.style.display = 'flex';
+        
+        // Add pulse animation
+        notifyBtn.classList.add('pulse');
+        setTimeout(() => {
+          notifyBtn.classList.remove('pulse');
+        }, 2000);
+        
+        // Setup close functionality
+        const closeBtn = notificationItem.querySelector('.notification-close');
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const item = this.parentNode;
+          
+          item.style.height = `${item.offsetHeight}px`;
+          item.offsetHeight; // Force reflow
+          
+          item.style.height = '0';
+          item.style.opacity = '0';
+          item.style.margin = '0';
+          item.style.padding = '0';
+          
+          setTimeout(() => {
+            item.remove();
+            
+            // Update badge count
+            const remainingNew = document.querySelectorAll('.notification-item.new').length;
+            badge.textContent = remainingNew;
+            
+            if (remainingNew === 0) {
+              badge.style.display = 'none';
+            }
+          }, 300);
+        });
+      }
+      
+      // Simulate a new notification every 30-60 seconds
+      setInterval(() => {
+        if (Math.random() > 0.5) {
+          simulateNewNotification();
+        }
+      }, 30000 + Math.random() * 30000);
+      
+      // Voice command functionality
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        // Double tap on navbar to activate
+        let lastTap = 0;
+        navbar.addEventListener('click', function() {
+          const currentTime = new Date().getTime();
+          const tapLength = currentTime - lastTap;
+          
+          if (tapLength < 500 && tapLength > 0) {
+            // Double tap detected
+            recognition.start();
+            
+            // Show listening indicator
+            const listeningIndicator = document.createElement('div');
+            listeningIndicator.className = 'listening-indicator';
+            listeningIndicator.innerHTML = 'Listening...';
+            listeningIndicator.style.cssText = `
+              position: fixed;
+              bottom: 20px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: rgba(0, 255, 255, 0.2);
+              color: var(--primary);
+              padding: 10px 20px;
+              border-radius: 20px;
+              font-weight: bold;
+              z-index: 1000;
+            `;
+            document.body.appendChild(listeningIndicator);
+            
+            recognition.onend = function() {
+              document.body.removeChild(listeningIndicator);
+            };
+          }
+          lastTap = currentTime;
+        });
+        
+        // Process voice commands
+        recognition.onresult = function(event) {
+          const command = event.results[0][0].transcript.toLowerCase();
+          
+          if (command.includes('search')) {
+            searchModal.classList.add('active');
+            setTimeout(() => {
+              searchInput.focus();
+            }, 100);
+          } else if (command.includes('notification')) {
+            notificationDrawer.classList.toggle('active');
+            isNotificationOpen = !isNotificationOpen;
+          } else if (command.includes('theme') || command.includes('dark') || command.includes('light')) {
+            themeToggle.click();
+          }
+        };
+      }
+      
+      // Add magnetic effect to buttons
+      const buttons = document.querySelectorAll('.action-btn, .avatar');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const distance = Math.sqrt(
+            Math.pow(x - centerX, 2) + 
+            Math.pow(y - centerY, 2)
+          );
+          
+          // Only apply magnetic effect within certain radius
+          if (distance < 50) {
+            const pull = 1 - distance / 50;
+            const moveX = (x - centerX) * pull * 0.2;
+            const moveY = (y - centerY) * pull * 0.2;
+            
+            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
+          }
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+        });
+      });
+      
+      // Add particle effect on hover for logo
+      const logo = document.querySelector('.logo');
+      const logoIcon = document.querySelector('.logo-icon');
+      
+      logo.addEventListener('mouseenter', function() {
+        for (let i = 0; i < 10; i++) {
+          createParticle();
+        }
+      });
+      
+      function createParticle() {
+        const particle = document.createElement('span');
+        particle.className = 'logo-particle';
+        
+        const rect = logoIcon.getBoundingClientRect();
+        const size = Math.random() * 5 + 2;
+        
+        particle.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${Math.random() > 0.5 ? 'var(--primary)' : 'var(--secondary)'};
+          border-radius: 50%;
+          top: ${rect.top + rect.height/2 + (Math.random() - 0.5) * 20}px;
+          left: ${rect.left + rect.width/2 + (Math.random() - 0.5) * 20}px;
+          pointer-events: none;
+          opacity: ${Math.random() * 0.5 + 0.5};
+          z-index: 1000;
+        `;
+        
+        document.body.appendChild(particle);
+        
+        // Animate particle
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 60 + 40;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        let opacity = 1;
+        
+        function animate() {
+          const x = parseFloat(particle.style.left);
+          const y = parseFloat(particle.style.top);
+          
+          particle.style.left = `${x + vx * 0.05}px`;
+          particle.style.top = `${y + vy * 0.05}px`;
+          
+          opacity -= 0.02;
+          particle.style.opacity = opacity;
+          
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+    });
+  </script>
+</body>
+</html>="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <div class="tooltip">Search</div>
         </div>
+
+        <!-- Notification Button -->
+        <div class="action-btn notify" id="notifyBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <div class="badge">3</div>
+          <div class="tooltip">Notifications</div>
+        </div>
+
+        <!-- User Avatar -->
+        <div class="avatar">
+          <span>JD</span>
+          <div class="tooltip">Profile</div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle dark" id="themeToggle">
+          <div class="theme-toggle-thumb"></div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="menu-toggle" id="menuToggle">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
+
+      <!-- Mobile Menu -->
+      <div class="menu">
+        <a href="#" class="menu-item">Dashboard</a>
+        <a href="#" class="menu-item">Projects</a>
+        <a href="#" class="menu-item">Analytics</a>
+        <a href="#" class="menu-item">Settings</a>
+        <a href="#" class="menu-item">Help Center</a>
+      </div>
     </nav>
-    
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">☀️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunny Day</h3>
-                    <p>Bright blue skies with sunshine</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌅</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset</h3>
-                    <p>Warm golden hour vibes</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">⛈️</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm</h3>
-                    <p>Dramatic clouds and thunder</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌃</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Night</h3>
-                    <p>Peaceful starry darkness</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">🌈</div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow</h3>
-                    <p>Colorful rainbow after rain</p>
-                </div>
-            </div>
-        </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <button class="search-close" id="searchClose">×</button>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search anything..." id="searchInput" autofocus>
     </div>
-    
-    <div class="content-area">
-        <h2>Welcome to Cosmic Skies</h2>
-        <p>Select a sky experience from the menu in the top right. Each option represents a different atmospheric condition.</p>
-        <p>Explore the various sky themes by clicking on the options in the dropdown menu.</p>
+    <div class="search-results" id="searchResults">
+      <!-- Results will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Notification Drawer -->
+  <div class="notification-drawer" id="notificationDrawer">
+    <div class="notification-header">
+      <h3 class="notification-title">Notifications</h3>
+      <button class="notification-clear">Clear All</button>
+    </div>
+    <div class="notification-list" id="notificationList">
+      <div class="notification-item new">
+        <div class="notification-time">Just now</div>
+        <div class="notification-message">Your project "Quantum Interface" has been approved.</div>
+        <button class="notification-close">×</button>
+      </div>
+      <div class="notification-item new">
+        <div class="notification-time">2 hours ago</div>
+        <div class="notification-message">New message from Alex: "Can we schedule a meeting?"</div>
+        <button class="notification-close">×</button>
+      </div>
+      <div class="notification-item">
+        <div class="notification-time">Yesterday</div>
+        <div class="notification-message">System update completed successfully.</div>
+        <button class="notification-close">×</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div class="context-menu" id="contextMenu">
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+      </svg>
+      New Item
+    </a>
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+      </svg>
+      Edit
+    </a>
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+      Delete
+   </a>
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      Search
+    </a>
+    <a href="#" class="context-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      View
+    </a>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const navbar = document.getElementById('navbar');
+      const menuToggle = document.getElementById('menuToggle');
+      const searchBtn = document.getElementById('searchBtn');
+      const searchModal = document.getElementById('searchModal');
+      const searchClose = document.getElementById('searchClose');
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      const notifyBtn = document.getElementById('notifyBtn');
+      const notificationDrawer = document.getElementById('notificationDrawer');
+      const notificationItems = document.querySelectorAll('.notification-item');
+      const notificationCloseButtons = document.querySelectorAll('.notification-close');
+      const themeToggle = document.getElementById('themeToggle');
+      const contextMenu = document.getElementById('contextMenu');
+      const progressBar = document.getElementById('progressBar');
+      let isNavExpanded = false;
+      let isNotificationOpen = false;
+      
+      // Mobile menu toggle
+      menuToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navbar.classList.toggle('expanded');
+        isNavExpanded = !isNavExpanded;
+      });
+      
+      // Search functionality
+      searchBtn.addEventListener('click', function() {
+        searchModal.classList.add('active');
+        setTimeout(() => {
+          searchInput.focus();
+        }, 100);
+      });
+      
+      searchClose.addEventListener('click', function() {
+        searchModal.classList.remove('active');
+      });
+      
+      // Close search with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+          searchModal.classList.remove('active');
+        }
+      });
+      
+      // Search input functionality
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        if (query.length > 1) {
+          // Simulated search results
+          const results = [
+            { icon: 'D', title: 'Dashboard', desc: 'Main control panel' },
+            { icon: 'P', title: 'Projects', desc: 'Your active projects' },
+            { icon: 'A', title: 'Analytics', desc: 'Performance metrics' },
+            { icon: 'S', title: 'Settings', desc: 'System preferences' },
+            { icon: 'U', title: 'Users', desc: 'Team members' }
+          ].filter(item => 
+            item.title.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query)
+          );
+          
+          // Clear previous results
+          searchResults.innerHTML = '';
+          
+          // Add new results
+          results.forEach(result => {
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card';
+            resultCard.innerHTML = `
+              <div class="result-icon">${result.icon}</div>
+              <div class="result-title">${result.title}</div>
+              <div class="result-desc">${result.desc}</div>
+            `;
+            searchResults.appendChild(resultCard);
+            
+            // Add animation delay for staggered appearance
+            resultCard.style.animationDelay = `${searchResults.children.length * 0.05}s`;
+          });
+        } else {
+          searchResults.innerHTML = '';
+        }
+      });
+      
+      // Notification drawer
+      notifyBtn.addEventListener('click', function() {
+        notificationDrawer.classList.toggle('active');
+        isNotificationOpen = !isNotificationOpen;
         
-        <div class="questions-container">
-            <div class="question">
-                <h3>Pick a mood</h3>
-                <p>(Because "fine" isn't telling us anything.)</p>
-                <ul class="options">
-                    <li>Calm and steady — nothing phases you, not even Mondays</li>
-                    <li>Focused and fast — your calendar needs a nap</li>
-                    <li>Floating through — mentally present-ish</li>
-                    <li>Low energy — battery's in power-saving mode</li>
-                    <li>Mildly irritated — not angry, just extremely done</li>
-                </ul>
-            </div>
+        // Close mobile menu if open
+        if (isNavExpanded) {
+          menuToggle.classList.remove('active');
+          navbar.classList.remove('expanded');
+          isNavExpanded = false;
+        }
+      });
+      
+      // Close notification items
+      notificationCloseButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const notificationItem = this.parentNode;
+          notificationItem.style.height = `${notificationItem.offsetHeight}px`;
+          
+          // Trigger reflow
+          notificationItem.offsetHeight;
+          
+          notificationItem.style.height = '0';
+          notificationItem.style.opacity = '0';
+          notificationItem.style.margin = '0';
+          notificationItem.style.padding = '0';
+          
+          setTimeout(() => {
+            notificationItem.remove();
             
-            <div class="question">
-                <h3>Pick a shirt style</h3>
-                <p>(A.K.A. what you'll actually wear outside.)</p>
-                <ul class="options">
-                    <li>Minimal — clean, simple, nothing fighting for attention</li>
-                    <li>Big graphic — your shirt speaks louder than you</li>
-                    <li>Text/logo — words, slogans, branding front and center</li>
-                    <li>Honestly? Depends — your closet is a wildcard</li>
-                </ul>
-            </div>
+            // Update badge count
+            const remainingNew = document.querySelectorAll('.notification-item.new').length;
+            const badge = notifyBtn.querySelector('.badge');
+            badge.textContent = remainingNew;
             
-            <div class="question">
-                <h3>Pick a body type</h3>
-                <p>(So we don't show you shirts made for someone else's torso.)</p>
-                <ul class="options">
-                    <li>Slim build — lean, narrow frame</li>
-                    <li>Average build — not too big, not too small</li>
-                    <li>Broad or built — wider up top, strength included</li>
-                    <li>Fuller body — more shape, more space to cover</li>
-                    <li>Somewhere in between — let's not overthink it</li>
-                </ul>
-            </div>
+            if (remainingNew === 0) {
+              badge.style.display = 'none';
+            }
+          }, 300);
+        });
+      });
+      
+      // Theme toggle
+      themeToggle.addEventListener('click', function() {
+        this.classList.toggle('dark');
+        
+        // Toggle theme class on body
+        document.body.classList.toggle('light-theme');
+        
+        // Change theme variables
+        if (document.body.classList.contains('light-theme')) {
+          document.documentElement.style.setProperty('--dark', '#f8f8f8');
+          document.documentElement.style.setProperty('--light', '#222');
+        } else {
+          document.documentElement.style.setProperty('--dark', '#111');
+          document.documentElement.style.setProperty('--light', '#f8f8f8');
+        }
+      });
+      
+      // Context menu
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        // Position the context menu
+        contextMenu.style.display = 'flex';
+        contextMenu.style.top = `${y}px`;
+        contextMenu.style.left = `${x}px`;
+        
+        // Keep menu in viewport
+        const menuRect = contextMenu.getBoundingClientRect();
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+        
+        if (menuRect.right > screenW) {
+          contextMenu.style.left = `${screenW - menuRect.width - 10}px`;
+        }
+        
+        if (menuRect.bottom > screenH) {
+          contextMenu.style.top = `${screenH - menuRect.height - 10}px`;
+        }
+      });
+      
+      // Close context menu on click outside
+      document.addEventListener('click', function() {
+        contextMenu.style.display = 'none';
+      });
+      
+      // Scroll progress bar
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+      });
+      
+      // Close drawers when clicking outside
+      document.addEventListener('click', function(e) {
+        // Close notification drawer if open and click outside
+        if (isNotificationOpen && !notificationDrawer.contains(e.target) && !notifyBtn.contains(e.target)) {
+          notificationDrawer.classList.remove('active');
+          isNotificationOpen = false;
+        }
+      });
+      
+      // Hovering menu items effect
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('mouseover', function() {
+          // Add pulse effect
+          this.style.transform = 'translateY(-5px) scale(1.05)';
+          this.style.boxShadow = '0 10px 25px rgba(0, 255, 255, 0.3)';
+        });
+        
+        item.addEventListener('mouseout', function() {
+          this.style.transform = '';
+          this.style.boxShadow = '';
+        });
+      });
+      
+      // Nav pills hover effect
+      const navPills = document.querySelectorAll('.nav-pill');
+      
+      navPills.forEach(pill => {
+        pill.addEventListener('mouseover', function() {
+          navPills.forEach(p => {
+            if (p !== this) {
+              p.style.opacity = '0.6';
+            }
+          });
+        });
+        
+        pill.addEventListener('mouseout', function() {
+          navPills.forEach(p => {
+            p.style.opacity = '1';
+          });
+        });
+      });
+      
+      // Add 3D tilt effect to navbar
+      navbar.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const angleY = (x - centerX) / centerX * 2; // -2 to 2 degree
+        const angleX = (y - centerY) / centerY * 1; // -1 to 1 degree
+        
+        this.style.transform = `perspective(1000px) rotateX(${-angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
+      });
+      
+      navbar.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+      });
+      
+      // Add starfield effect to search modal background
+      function createStars() {
+        const stars = 100;
+        const searchModalBg = searchModal;
+        
+        for (let i = 0; i < stars; i++) {
+          const star = document.createElement('span');
+          star.className = 'star';
+          
+          // Random position
+          const x = Math.random() * 100;
+          const y = Math.random() * 100;
+          const size = Math.random() * 2;
+          const duration = 3 + Math.random() * 7;
+          
+          star.style.cssText = `
+            position: absolute;
+            top: ${y}%;
+            left: ${x}%;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(0, 255, 255, ${Math.random() * 0.7 + 0.3});
+            border-radius: 50%;
+            z-index: -1;
+            opacity: ${Math.random()};
+            animation: twinkle ${duration}s infinite alternate;
+          `;
+          
+          searchModalBg.appendChild(star);
+        }
+      }
+      
+      // Add keyframes for star twinkling
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes twinkle {
+          0% { opacity: 0.3; transform: scale(0.7); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      createStars();
+      
+      // Simulate notifications
+      function simulateNewNotification() {
+        const notifications = [
+          'Your project has been updated.',
+          'New message from Team Lead: "Great work!"',
+          'System maintenance scheduled for tomorrow.',
+          'Your analytics report is ready to view.',
+          'New feature has been deployed successfully.'
+        ];
+        
+        const randomIndex = Math.floor(Math.random() * notifications.length);
+        const message = notifications[randomIndex];
+        
+        const notificationItem = document.createElement('div');
+        notificationItem.className = 'notification-item new';
+        notificationItem.innerHTML = `
+          <div class="notification-time">Just now</div>
+          <div class="notification-message">${message}</div>
+          <button class="notification-close">×</button>
+        `;
+        
+        // Add to notification list at the top
+        const notificationList = document.getElementById('notificationList');
+        notificationList.insertBefore(notificationItem, notificationList.firstChild);
+        
+        // Update badge
+        const badge = notifyBtn.querySelector('.badge');
+        const newCount = parseInt(badge.textContent) + 1;
+        badge.textContent = newCount;
+        badge.style.display = 'flex';
+        
+        // Add pulse animation
+        notifyBtn.classList.add('pulse');
+        setTimeout(() => {
+          notifyBtn.classList.remove('pulse');
+        }, 2000);
+        
+        // Setup close functionality
+        const closeBtn = notificationItem.querySelector('.notification-close');
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const item = this.parentNode;
+          
+          item.style.height = `${item.offsetHeight}px`;
+          item.offsetHeight; // Force reflow
+          
+          item.style.height = '0';
+          item.style.opacity = '0';
+          item.style.margin = '0';
+          item.style.padding = '0';
+          
+          setTimeout(() => {
+            item.remove();
             
-            <div class="question">
-                <h3>Pick a size</h3>
-                <p>(Because "shrinks in the wash" isn't a size.)</p>
-                <ul class="options">
-                    <li>XS or S — small frame, big opinions</li>
-                    <li>Medium — classic middle-lane fit</li>
-                    <li>L or XL — roomy, but not lost</li>
-                    <li>XXL or above — more to style, more to love</li>
-                    <li>No clue — shirt sizing is a mystery</li>
-                </ul>
-            </div>
+            // Update badge count
+            const remainingNew = document.querySelectorAll('.notification-item.new').length;
+            badge.textContent = remainingNew;
             
-            <div class="question">
-                <h3>Pick your price vibe</h3>
-                <p>(You know what you want. We're just asking nicely.)</p>
-                <ul class="options">
-                    <li>Classic — good quality, solid price, no drama</li>
-                    <li>Premium — feels nice, lasts long, costs a little more</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <script src="navbar.js"></script>
+            if (remainingNew === 0) {
+              badge.style.display = 'none';
+            }
+          }, 300);
+        });
+      }
+      
+      // Simulate a new notification every 30-60 seconds
+      setInterval(() => {
+        if (Math.random() > 0.5) {
+          simulateNewNotification();
+        }
+      }, 30000 + Math.random() * 30000);
+      
+      // Voice command functionality
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        // Double tap on navbar to activate
+        let lastTap = 0;
+        navbar.addEventListener('click', function() {
+          const currentTime = new Date().getTime();
+          const tapLength = currentTime - lastTap;
+          
+          if (tapLength < 500 && tapLength > 0) {
+            // Double tap detected
+            recognition.start();
+            
+            // Show listening indicator
+            const listeningIndicator = document.createElement('div');
+            listeningIndicator.className = 'listening-indicator';
+            listeningIndicator.innerHTML = 'Listening...';
+            listeningIndicator.style.cssText = `
+              position: fixed;
+              bottom: 20px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: rgba(0, 255, 255, 0.2);
+              color: var(--primary);
+              padding: 10px 20px;
+              border-radius: 20px;
+              font-weight: bold;
+              z-index: 1000;
+            `;
+            document.body.appendChild(listeningIndicator);
+            
+            recognition.onend = function() {
+              document.body.removeChild(listeningIndicator);
+            };
+          }
+          lastTap = currentTime;
+        });
+        
+        // Process voice commands
+        recognition.onresult = function(event) {
+          const command = event.results[0][0].transcript.toLowerCase();
+          
+          if (command.includes('search')) {
+            searchModal.classList.add('active');
+            setTimeout(() => {
+              searchInput.focus();
+            }, 100);
+          } else if (command.includes('notification')) {
+            notificationDrawer.classList.toggle('active');
+            isNotificationOpen = !isNotificationOpen;
+          } else if (command.includes('theme') || command.includes('dark') || command.includes('light')) {
+            themeToggle.click();
+          }
+        };
+      }
+      
+      // Add magnetic effect to buttons
+      const buttons = document.querySelectorAll('.action-btn, .avatar');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const distance = Math.sqrt(
+            Math.pow(x - centerX, 2) + 
+            Math.pow(y - centerY, 2)
+          );
+          
+          // Only apply magnetic effect within certain radius
+          if (distance < 50) {
+            const pull = 1 - distance / 50;
+            const moveX = (x - centerX) * pull * 0.2;
+            const moveY = (y - centerY) * pull * 0.2;
+            
+            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
+          }
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+        });
+      });
+      
+      // Add particle effect on hover for logo
+      const logo = document.querySelector('.logo');
+      const logoIcon = document.querySelector('.logo-icon');
+      
+      logo.addEventListener('mouseenter', function() {
+        for (let i = 0; i < 10; i++) {
+          createParticle();
+        }
+      });
+      
+      function createParticle() {
+        const particle = document.createElement('span');
+        particle.className = 'logo-particle';
+        
+        const rect = logoIcon.getBoundingClientRect();
+        const size = Math.random() * 5 + 2;
+        
+        particle.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${Math.random() > 0.5 ? 'var(--primary)' : 'var(--secondary)'};
+          border-radius: 50%;
+          top: ${rect.top + rect.height/2 + (Math.random() - 0.5) * 20}px;
+          left: ${rect.left + rect.width/2 + (Math.random() - 0.5) * 20}px;
+          pointer-events: none;
+          opacity: ${Math.random() * 0.5 + 0.5};
+          z-index: 1000;
+        `;
+        
+        document.body.appendChild(particle);
+        
+        // Animate particle
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 60 + 40;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        let opacity = 1;
+        
+        function animate() {
+          const x = parseFloat(particle.style.left);
+          const y = parseFloat(particle.style.top);
+          
+          particle.style.left = `${x + vx * 0.05}px`;
+          particle.style.top = `${y + vy * 0.05}px`;
+          
+          opacity -= 0.02;
+          particle.style.opacity = opacity;
+          
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+    });
+  </script>
 </body>
 </html>
