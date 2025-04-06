@@ -22,8 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let isOpen = false;
     let currentSky = null;
     
-    // Create stars
+    // Create stars with more varied appearance
     createStars();
+    
+    // Add subtle page entrance animation
+    animatePageEntrance();
     
     // Toggle menu function
     function toggleMenu() {
@@ -37,26 +40,30 @@ document.addEventListener('DOMContentLoaded', function() {
             starsContainer.classList.add('active');
             navbar.classList.add('expanded');
             
-            // Delay the appearance of each sky option for staggered animation
+            // More refined staggered animation
             skyOptions.forEach((option, index) => {
                 setTimeout(() => {
                     option.style.opacity = '1';
                     option.style.transform = 'translateY(0)';
-                }, 100 + (index * 50));
+                }, 80 + (index * 60)); // Slightly faster, more spread out
             });
         } else {
-            // Close menu
+            // Close menu with smoother transition
             selectorOrb.classList.remove('active');
-            skyPanorama.classList.remove('open');
-            skyBackdrop.classList.remove('active');
-            starsContainer.classList.remove('active');
-            navbar.classList.remove('expanded');
             
-            // Reset sky options
-            skyOptions.forEach(option => {
-                option.style.opacity = '';
-                option.style.transform = '';
+            // Fade out options first
+            skyOptions.forEach((option, index) => {
+                option.style.opacity = '0';
+                option.style.transform = 'translateY(10px)';
             });
+            
+            // Then close the menu after a short delay
+            setTimeout(() => {
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+                starsContainer.classList.remove('active');
+                navbar.classList.remove('expanded');
+            }, 200);
         }
     }
     
@@ -93,15 +100,21 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function(e) {
             e.preventDefault();
             
+            // Add click feedback animation
+            this.style.transform = 'translateY(-4px)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-8px)';
+            }, 150);
+            
             // Get sky data
             const skyType = this.getAttribute('data-sky');
-            const skyIcon = this.querySelector('.sky-icon').textContent;
+            const skyIcon = this.querySelector('.sky-preview img');
             const skyName = this.querySelector('h3').textContent;
             
             // Update selected sky
             currentSky = {
                 type: skyType,
-                icon: skyIcon,
+                icon: skyIcon.src,
                 name: skyName
             };
             
@@ -125,13 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Get sky data
                 const skyType = this.getAttribute('data-sky');
-                const skyIcon = this.querySelector('.sky-icon').textContent;
+                const skyIcon = this.querySelector('.sky-preview img');
                 const skyName = this.querySelector('h3').textContent;
                 
                 // Update selected sky
                 currentSky = {
                     type: skyType,
-                    icon: skyIcon,
+                    icon: skyIcon.src,
                     name: skyName
                 };
                 
@@ -157,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.isScrolling = false;
         });
         
-        // Add hover effect to create dynamic reflections
+        // Add hover effect with more subtle interactions
         option.addEventListener('mouseenter', function() {
             const preview = this.querySelector('.sky-preview');
             const skyType = this.getAttribute('data-sky');
@@ -165,25 +178,25 @@ document.addEventListener('DOMContentLoaded', function() {
             
             switch(skyType) {
                 case 'clear-blue':
-                    glowColor = 'rgba(135, 206, 235, 0.5)';
+                    glowColor = 'rgba(135, 206, 235, 0.3)';
                     break;
                 case 'sunset-glow':
-                    glowColor = 'rgba(255, 111, 0, 0.5)';
+                    glowColor = 'rgba(255, 111, 0, 0.3)';
                     break;
                 case 'storm-brewing':
-                    glowColor = 'rgba(105, 105, 105, 0.5)';
+                    glowColor = 'rgba(105, 105, 105, 0.3)';
                     break;
                 case 'starry-night':
-                    glowColor = 'rgba(25, 25, 112, 0.5)';
+                    glowColor = 'rgba(25, 25, 112, 0.3)';
                     break;
                 case 'rainbow-sky':
-                    glowColor = 'rgba(255, 105, 180, 0.4)';
+                    glowColor = 'rgba(255, 105, 180, 0.3)';
                     break;
                 default:
-                    glowColor = 'rgba(135, 206, 250, 0.3)';
+                    glowColor = 'rgba(135, 206, 250, 0.2)';
             }
             
-            preview.style.boxShadow = `0 5px 20px ${glowColor}`;
+            preview.style.boxShadow = `0 12px 28px ${glowColor}`;
         });
         
         option.addEventListener('mouseleave', function() {
@@ -192,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Create stars in the background
+    // Create stars in the background with more variety
     function createStars() {
         const starsCount = window.innerWidth < 768 ? 50 : 100;
         
@@ -200,19 +213,29 @@ document.addEventListener('DOMContentLoaded', function() {
             const star = document.createElement('div');
             star.className = 'star';
             
-            // Random star properties
-            const size = Math.random() * 3 + 1;
+            // Random star properties with more variety
+            const size = Math.random() * 2.5 + 0.5; // Smaller on average
             const x = Math.random() * 100;
             const y = Math.random() * 100;
-            const delay = Math.random() * 3;
+            const delay = Math.random() * 4;
             const duration = Math.random() * 3 + 2;
+            
+            // Add slight blur variation
+            const blur = Math.random() * 1.5 + 0.2;
             
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
             star.style.left = `${x}%`;
             star.style.top = `${y}%`;
+            star.style.filter = `blur(${blur}px)`;
             star.style.animationDelay = `${delay}s`;
             star.style.setProperty('--twinkle-duration', `${duration}s`);
+            
+            // Add occasional colored stars for more visual interest
+            if (Math.random() > 0.9) {
+                const hue = Math.floor(Math.random() * 360);
+                star.style.background = `hsl(${hue}, 70%, 80%)`;
+            }
             
             starsContainer.appendChild(star);
         }
@@ -222,8 +245,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateOrbWithSelection(sky) {
         if (!sky) return;
         
-        // Update emoji to match selection
-        orbEmoji.textContent = sky.icon;
+        // Update emoji to match selection - now handling image
+        if (orbEmoji.querySelector('img')) {
+            orbEmoji.querySelector('img').src = sky.icon;
+        } else {
+            const img = document.createElement('img');
+            img.src = sky.icon;
+            img.alt = sky.name;
+            orbEmoji.innerHTML = '';
+            orbEmoji.appendChild(img);
+        }
         
         // Keep the emoji visible after selection
         orbEmoji.style.opacity = '1';
@@ -231,9 +262,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hide the text
         orbInner.style.opacity = '0';
+        
+        // Add subtle animation effect
+        const img = orbEmoji.querySelector('img');
+        if (img) {
+            img.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                img.style.transform = 'scale(1)';
+            }, 300);
+        }
     }
     
-    // Apply sky effect to page
+    // Apply sky effect to page with smoother transitions
     function applySkyEffect(skyType) {
         // Reset any previous effects
         document.body.className = '';
@@ -246,52 +286,54 @@ document.addEventListener('DOMContentLoaded', function() {
         
         switch(skyType) {
             case 'clear-blue':
-                bgColor = 'rgba(240, 248, 255, 0.3)';
+                bgColor = 'rgba(240, 248, 255, 0.2)';
                 break;
             case 'sunset-glow':
-                bgColor = 'rgba(255, 222, 173, 0.3)';
+                bgColor = 'rgba(255, 222, 173, 0.2)';
                 break;
             case 'storm-brewing':
-                bgColor = 'rgba(211, 211, 211, 0.3)';
+                bgColor = 'rgba(211, 211, 211, 0.2)';
                 break;
             case 'starry-night':
-                bgColor = 'rgba(25, 25, 112, 0.05)';
+                bgColor = 'rgba(25, 25, 112, 0.03)';
                 break;
             case 'rainbow-sky':
-                bgColor = 'rgba(255, 250, 250, 0.3)';
+                bgColor = 'rgba(255, 250, 250, 0.2)';
                 break;
             default:
-                bgColor = 'rgba(255, 255, 255, 1)';
+                bgColor = 'rgba(250, 249, 247, 1)';
         }
         
         document.body.style.backgroundColor = bgColor;
         
-        // Animation to show the effect was applied
+        // More subtle content animation
         const contentArea = document.querySelector('.content-area');
         if (contentArea) {
-            contentArea.style.transition = 'transform 0.5s ease';
-            contentArea.style.transform = 'translateY(5px)';
+            contentArea.style.transition = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+            contentArea.style.opacity = '0.8';
+            contentArea.style.transform = 'translateY(8px)';
             
             setTimeout(() => {
+                contentArea.style.opacity = '1';
                 contentArea.style.transform = 'translateY(0)';
-            }, 500);
+            }, 100);
         }
     }
     
-    // Handle scroll effects
+    // Handle scroll effects with smoother transitions
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Add shadow and reduce height on scroll
-        if (scrollTop > 10) {
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        // Add shadow and reduce height on scroll with smoother transition
+        if (scrollTop > 20) {
+            navbar.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)';
             if (window.innerWidth > 480) {
                 navbar.style.height = '60px';
             } else {
                 navbar.style.height = '50px';
             }
         } else {
-            navbar.style.boxShadow = 'none';
+            navbar.style.boxShadow = scrollTop > 5 ? '0 4px 16px rgba(0, 0, 0, 0.03)' : 'none';
             if (window.innerWidth > 480) {
                 navbar.style.height = '70px';
             } else {
@@ -309,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mouseY = e.clientY / window.innerHeight;
         
         stars.forEach(star => {
-            const depth = parseFloat(star.style.width) / 3; // Bigger stars move more
+            const depth = parseFloat(star.style.width) / 2.2; // Less movement for more subtle effect
             const moveX = (mouseX - 0.5) * depth;
             const moveY = (mouseY - 0.5) * depth;
             
@@ -325,9 +367,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Adjust navbar height
         if (window.innerWidth <= 480) {
-            navbar.style.height = '60px';
+            navbar.style.height = window.pageYOffset > 20 ? '50px' : '60px';
         } else {
-            navbar.style.height = '70px';
+            navbar.style.height = window.pageYOffset > 20 ? '60px' : '70px';
         }
     });
+    
+    // Add subtle page entrance animation
+    function animatePageEntrance() {
+        // Add subtle fade-in effect to navbar
+        navbar.style.opacity = '0';
+        navbar.style.transform = 'translateY(-10px)';
+        
+        setTimeout(() => {
+            navbar.style.transition = 'opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+            navbar.style.opacity = '1';
+            navbar.style.transform = 'translateY(0)';
+        }, 100);
+    }
 });
