@@ -170,6 +170,13 @@ html, body {
     background-clip: text;
     text-shadow: 0 2px 10px rgba(135, 206, 250, 0.2);
     position: relative;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.brand-name:hover {
+    transform: translateY(-2px) scale(1.02);
+    text-shadow: 0 4px 15px rgba(135, 206, 250, 0.4);
 }
 
 .sky-selector {
@@ -224,6 +231,35 @@ html, body {
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: 0 1px 5px rgba(135, 206, 250, 0.2);
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.orb-inner span:nth-child(1) {
+    transform: translateY(0);
+    transition-delay: 0.05s;
+}
+
+.orb-inner span:nth-child(2) {
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+.orb-inner span:nth-child(3) {
+    transform: translateY(0);
+    transition-delay: 0.15s;
+}
+
+.selector-orb:hover .orb-inner span:nth-child(1) {
+    transform: translateY(-5px);
+}
+
+.selector-orb:hover .orb-inner span:nth-child(2) {
+    transform: translateY(-3px);
+}
+
+.selector-orb:hover .orb-inner span:nth-child(3) {
+    transform: translateY(-1px);
 }
 
 .selector-orb:hover .orb-inner {
