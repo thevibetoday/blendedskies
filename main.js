@@ -1,479 +1,479 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Mark that the script has loaded
-  window.navbarInitialized = true;
-  
-  // Log to help with debugging
-  console.log('Main JS loaded successfully');
-  const navbar = document.getElementById('navbar');
-  const menuToggle = document.getElementById('menuToggle');
-  const searchBtn = document.getElementById('searchBtn');
-  const searchModal = document.getElementById('searchModal');
-  const searchClose = document.getElementById('searchClose');
-  const searchInput = document.getElementById('searchInput');
-  const searchResults = document.getElementById('searchResults');
-  const notifyBtn = document.getElementById('notifyBtn');
-  const notificationDrawer = document.getElementById('notificationDrawer');
-  const notificationItems = document.querySelectorAll('.notification-item');
-  const notificationCloseButtons = document.querySelectorAll('.notification-close');
-  const themeToggle = document.getElementById('themeToggle');
-  const contextMenu = document.getElementById('contextMenu');
-  const progressBar = document.getElementById('progressBar');
-  let isNavExpanded = false;
-  let isNotificationOpen = false;
-  
-  menuToggle.addEventListener('click', function() {
-    this.classList.toggle('active');
-    navbar.classList.toggle('expanded');
-    isNavExpanded = !isNavExpanded;
-  });
-  
-  searchBtn.addEventListener('click', function() {
-    searchModal.classList.add('active');
-    setTimeout(() => {
-      searchInput.focus();
-    }, 100);
-  });
-  
-  searchClose.addEventListener('click', function() {
-    searchModal.classList.remove('active');
-  });
-  
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && searchModal.classList.contains('active')) {
-      searchModal.classList.remove('active');
-    }
-  });
-  
-  searchInput.addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    if (query.length > 1) {
-      const results = [
-        { icon: 'D', title: 'Dashboard', desc: 'Main control panel' },
-        { icon: 'P', title: 'Projects', desc: 'Your active projects' },
-        { icon: 'A', title: 'Analytics', desc: 'Performance metrics' },
-        { icon: 'S', title: 'Settings', desc: 'System preferences' },
-        { icon: 'U', title: 'Users', desc: 'Team members' }
-      ].filter(item => 
-        item.title.toLowerCase().includes(query) || 
-        item.desc.toLowerCase().includes(query)
-      );
-      
-      searchResults.innerHTML = '';
-      
-      results.forEach(result => {
-        const resultCard = document.createElement('div');
-        resultCard.className = 'result-card';
-        resultCard.innerHTML = `
-          <div class="result-icon">${result.icon}</div>
-          <div class="result-title">${result.title}</div>
-          <div class="result-desc">${result.desc}</div>
-        `;
-        searchResults.appendChild(resultCard);
-        resultCard.style.animationDelay = `${searchResults.children.length * 0.05}s`;
-      });
-    } else {
-      searchResults.innerHTML = '';
-    }
-  });
-  
-  notifyBtn.addEventListener('click', function() {
-    notificationDrawer.classList.toggle('active');
-    isNotificationOpen = !isNotificationOpen;
+    // Elements
+    const skySystem = document.querySelector('.sky-system');
+    const questionPanel = document.getElementById('question-panel');
+    const currentQuestion = document.getElementById('current-question');
+    const selectedOption = document.getElementById('selected-option');
+    const optionDescription = document.getElementById('option-description');
+    const continueButton = document.getElementById('continue-button');
+    const journeyStage = document.getElementById('journey-stage');
+    const starsContainer = document.querySelector('.stars-container');
+    const completionScreen = document.getElementById('completion-screen');
+    const restartButton = document.getElementById('restart-button');
     
-    if (isNavExpanded) {
-      menuToggle.classList.remove('active');
-      navbar.classList.remove('expanded');
-      isNavExpanded = false;
-    }
-  });
-  
-  notificationCloseButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const notificationItem = this.parentNode;
-      notificationItem.style.height = `${notificationItem.offsetHeight}px`;
-      
-      notificationItem.offsetHeight;
-      
-      notificationItem.style.height = '0';
-      notificationItem.style.opacity = '0';
-      notificationItem.style.margin = '0';
-      notificationItem.style.padding = '0';
-      
-      setTimeout(() => {
-        notificationItem.remove();
-        
-        const remainingNew = document.querySelectorAll('.notification-item.new').length;
-        const badge = notifyBtn.querySelector('.badge');
-        badge.textContent = remainingNew;
-        
-        if (remainingNew === 0) {
-          badge.style.display = 'none';
+    // State
+    let currentSky = 1;
+    let selectedOptions = {};
+    let skyRotation = { x: 20, y: 0 };
+    let stopAnimations = false;
+    
+    // Questions and options data
+    const questions = [
+        {
+            question: "What type of sky do you find most beautiful?",
+            options: [
+                { label: "Clear Blue", description: "A perfect blue canvas with gentle wisps of clouds" },
+                { label: "Sunset Glow", description: "Rich orange and pink hues painting the evening horizon" },
+                { label: "Storm Clouds", description: "Dramatic dark clouds with thunder potential" },
+                { label: "Starry Night", description: "A clear night with twinkling stars" }
+            ]
+        },
+        {
+            question: "What weather phenomenon do you enjoy most?",
+            options: [
+                { label: "Gentle Rain", description: "Soft rainfall creating a peaceful atmosphere" },
+                { label: "Rainbow", description: "Colorful arc stretching across the sky after rain" },
+                { label: "Morning Fog", description: "Mysterious mist hanging in the valley" },
+                { label: "Snow Flurries", description: "Delicate snowflakes drifting from the sky" }
+            ]
+        },
+        {
+            question: "What time of day has the most beautiful sky?",
+            options: [
+                { label: "Dawn", description: "Fresh beginning with soft pastel colors" },
+                { label: "Midday", description: "Bright blue sky with the sun at its peak" },
+                { label: "Golden Hour", description: "Warm golden light just before sunset" },
+                { label: "Twilight", description: "The magical blue moment between day and night" }
+            ]
+        },
+        {
+            question: "What sky feature would you most like to see?",
+            options: [
+                { label: "Northern Lights", description: "Dancing colors across the northern sky" },
+                { label: "Perfect Sunrise", description: "Sun breaking over a mountain horizon" },
+                { label: "Cloud Formations", description: "Unique and sculptural cloud shapes" },
+                { label: "Lightning Storm", description: "Dramatic flashes illuminating storm clouds" }
+            ]
         }
-      }, 300);
-    });
-  });
-  
-  themeToggle.addEventListener('click', function() {
-    this.classList.toggle('dark');
-    
-    document.body.classList.toggle('light-theme');
-    
-    if (document.body.classList.contains('light-theme')) {
-      document.documentElement.style.setProperty('--dark', '#f8f8f8');
-      document.documentElement.style.setProperty('--light', '#222');
-    } else {
-      document.documentElement.style.setProperty('--dark', '#111');
-      document.documentElement.style.setProperty('--light', '#f8f8f8');
-    }
-  });
-  
-  document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    
-    const x = e.clientX;
-    const y = e.clientY;
-    
-    contextMenu.style.display = 'flex';
-    contextMenu.style.top = `${y}px`;
-    contextMenu.style.left = `${x}px`;
-    
-    const menuRect = contextMenu.getBoundingClientRect();
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
-    
-    if (menuRect.right > screenW) {
-      contextMenu.style.left = `${screenW - menuRect.width - 10}px`;
-    }
-    
-    if (menuRect.bottom > screenH) {
-      contextMenu.style.top = `${screenH - menuRect.height - 10}px`;
-    }
-  });
-  
-  document.addEventListener('click', function() {
-    contextMenu.style.display = 'none';
-  });
-  
-  window.addEventListener('scroll', function() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    progressBar.style.width = scrollPercent + '%';
-  });
-  
-  document.addEventListener('click', function(e) {
-    if (isNotificationOpen && !notificationDrawer.contains(e.target) && !notifyBtn.contains(e.target)) {
-      notificationDrawer.classList.remove('active');
-      isNotificationOpen = false;
-    }
-  });
-  
-  const menuItems = document.querySelectorAll('.menu-item');
-  
-  menuItems.forEach(item => {
-    item.addEventListener('mouseover', function() {
-      this.style.transform = 'translateY(-5px) scale(1.05)';
-      this.style.boxShadow = '0 10px 25px rgba(0, 255, 255, 0.3)';
-    });
-    
-    item.addEventListener('mouseout', function() {
-      this.style.transform = '';
-      this.style.boxShadow = '';
-    });
-  });
-  
-  const navPills = document.querySelectorAll('.nav-pill');
-  
-  navPills.forEach(pill => {
-    pill.addEventListener('mouseover', function() {
-      navPills.forEach(p => {
-        if (p !== this) {
-          p.style.opacity = '0.6';
-        }
-      });
-    });
-    
-    pill.addEventListener('mouseout', function() {
-      navPills.forEach(p => {
-        p.style.opacity = '1';
-      });
-    });
-  });
-  
-  navbar.addEventListener('mousemove', function(e) {
-    const rect = this.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const angleY = (x - centerX) / centerX * 2;
-    const angleX = (y - centerY) / centerY * 1;
-    
-    this.style.transform = `perspective(1000px) rotateX(${-angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
-  });
-  
-  navbar.addEventListener('mouseleave', function() {
-    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-  });
-  
-  function createStars() {
-    const stars = 100;
-    const searchModalBg = searchModal;
-    
-    for (let i = 0; i < stars; i++) {
-      const star = document.createElement('span');
-      star.className = 'star';
-      
-      const x = Math.random() * 100;
-      const y = Math.random() * 100;
-      const size = Math.random() * 2;
-      const duration = 3 + Math.random() * 7;
-      
-      star.style.cssText = `
-        position: absolute;
-        top: ${y}%;
-        left: ${x}%;
-        width: ${size}px;
-        height: ${size}px;
-        background: rgba(0, 255, 255, ${Math.random() * 0.7 + 0.3});
-        border-radius: 50%;
-        z-index: -1;
-        opacity: ${Math.random()};
-        animation: twinkle ${duration}s infinite alternate;
-      `;
-      
-      searchModalBg.appendChild(star);
-    }
-  }
-  
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes twinkle {
-      0% { opacity: 0.3; transform: scale(0.7); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
-  
-  createStars();
-  
-  function simulateNewNotification() {
-    const notifications = [
-      'Your project has been updated.',
-      'New message from Team Lead: "Great work!"',
-      'System maintenance scheduled for tomorrow.',
-      'Your analytics report is ready to view.',
-      'New feature has been deployed successfully.'
     ];
     
-    const randomIndex = Math.floor(Math.random() * notifications.length);
-    const message = notifications[randomIndex];
-    
-    const notificationItem = document.createElement('div');
-    notificationItem.className = 'notification-item new';
-    notificationItem.innerHTML = `
-      <div class="notification-time">Just now</div>
-      <div class="notification-message">${message}</div>
-      <button class="notification-close">×</button>
-    `;
-    
-    const notificationList = document.getElementById('notificationList');
-    notificationList.insertBefore(notificationItem, notificationList.firstChild);
-    
-    const badge = notifyBtn.querySelector('.badge');
-    const newCount = parseInt(badge.textContent) + 1;
-    badge.textContent = newCount;
-    badge.style.display = 'flex';
-    
-    notifyBtn.classList.add('pulse');
+    // Initialize
+    createStars();
     setTimeout(() => {
-      notifyBtn.classList.remove('pulse');
-    }, 2000);
+        questionPanel.classList.add('visible');
+    }, 500);
     
-    const closeBtn = notificationItem.querySelector('.notification-close');
-    closeBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const item = this.parentNode;
-      
-      item.style.height = `${item.offsetHeight}px`;
-      item.offsetHeight;
-      
-      item.style.height = '0';
-      item.style.opacity = '0';
-      item.style.margin = '0';
-      item.style.padding = '0';
-      
-      setTimeout(() => {
-        item.remove();
+    // Adjust the sky perspective based on mouse position
+    document.addEventListener('mousemove', function(e) {
+        if (stopAnimations) return;
         
-        const remainingNew = document.querySelectorAll('.notification-item.new').length;
-        badge.textContent = remainingNew;
+        const xAxis = (e.clientX / window.innerWidth - 0.5) * 40;
+        const yAxis = (e.clientY / window.innerHeight - 0.5) * 20;
         
-        if (remainingNew === 0) {
-          badge.style.display = 'none';
-        }
-      }, 300);
+        skyRotation = {
+            x: 20 + yAxis,
+            y: xAxis
+        };
+        
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg)`;
     });
-  }
-  
-  setInterval(() => {
-    if (Math.random() > 0.5) {
-      simulateNewNotification();
-    }
-  }, 30000 + Math.random() * 30000);
-  
-  // Speech recognition wrapped in a try-catch to prevent errors in unsupported browsers
-  try {
-    if ('webkitSpeechRecognition' in window) {
-      const recognition = new webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      
-      let lastTap = 0;
-      navbar.addEventListener('click', function() {
-        const currentTime = new Date().getTime();
-        const tapLength = currentTime - lastTap;
+    
+    // Create stars in the background
+    function createStars() {
+        const starsCount = window.innerWidth < 768 ? 100 : 200;
         
-        if (tapLength < 500 && tapLength > 0) {
-          try {
-            recognition.start();
+        for (let i = 0; i < starsCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
             
-            const listeningIndicator = document.createElement('div');
-            listeningIndicator.className = 'listening-indicator';
-            listeningIndicator.innerHTML = 'Listening...';
-            listeningIndicator.style.cssText = `
-              position: fixed;
-              bottom: 20px;
-              left: 50%;
-              transform: translateX(-50%);
-              background: rgba(0, 255, 255, 0.2);
-              color: var(--primary);
-              padding: 10px 20px;
-              border-radius: 20px;
-              font-weight: bold;
-              z-index: 1000;
-            `;
-            document.body.appendChild(listeningIndicator);
+            // Random star properties
+            const size = Math.random() * 3 + 1;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const delay = Math.random() * 3;
+            const duration = Math.random() * 3 + 2;
             
-            recognition.onend = function() {
-              if (document.body.contains(listeningIndicator)) {
-                document.body.removeChild(listeningIndicator);
-              }
-            };
-          } catch (e) {
-            console.log('Speech recognition error:', e);
-          }
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.animationDelay = `${delay}s`;
+            star.style.setProperty('--twinkle-duration', `${duration}s`);
+            
+            starsContainer.appendChild(star);
         }
-        lastTap = currentTime;
-      });
-      
-      recognition.onresult = function(event) {
-        const command = event.results[0][0].transcript.toLowerCase();
-        
-        if (command.includes('search')) {
-          searchModal.classList.add('active');
-          setTimeout(() => {
-            searchInput.focus();
-          }, 100);
-        } else if (command.includes('notification')) {
-          notificationDrawer.classList.toggle('active');
-          isNotificationOpen = !isNotificationOpen;
-        } else if (command.includes('theme') || command.includes('dark') || command.includes('light')) {
-          themeToggle.click();
-        }
-      };
     }
-  } catch (e) {
-    console.log('Speech recognition not supported');
-  }
-  
-  const buttons = document.querySelectorAll('.action-btn, .avatar');
-  
-  buttons.forEach(btn => {
-    btn.addEventListener('mousemove', function(e) {
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const distance = Math.sqrt(
-        Math.pow(x - centerX, 2) + 
-        Math.pow(y - centerY, 2)
-      );
-      
-      if (distance < 50) {
-        const pull = 1 - distance / 50;
-        const moveX = (x - centerX) * pull * 0.2;
-        const moveY = (y - centerY) * pull * 0.2;
+    
+    // Handle sky element clicks (option selection)
+    const skyElements = document.querySelectorAll('.sky-element');
+    skyElements.forEach(element => {
+        // Initially hide elements that are not current
+        if (parseInt(element.getAttribute('data-sky')) !== currentSky) {
+            element.style.display = 'none';
+        }
         
-        this.style.transform = `translate(${moveX}px, ${moveY}px)`;
-      }
+        element.addEventListener('click', function() {
+            // Only respond to current sky options
+            const skyNumber = parseInt(this.getAttribute('data-sky'));
+            if (skyNumber !== currentSky) return;
+            
+            // Get option info
+            const optionNumber = parseInt(this.getAttribute('data-option'));
+            const questionData = questions[currentSky - 1];
+            const optionData = questionData.options[optionNumber - 1];
+            
+            // Update UI
+            selectedOption.textContent = optionData.label;
+            optionDescription.textContent = optionData.description;
+            
+            // Store selection
+            selectedOptions[currentSky] = optionNumber;
+            
+            // Highlight selected element
+            skyElements.forEach(el => {
+                if (parseInt(el.getAttribute('data-sky')) === currentSky) {
+                    el.classList.remove('active');
+                }
+            });
+            this.classList.add('active');
+            
+            // Add visual marker
+            addOptionMarker(this);
+            
+            // Show continue button
+            continueButton.classList.add('visible');
+            
+            // Auto-continue after 2 seconds
+            setTimeout(() => {
+                if (currentSky === parseInt(this.getAttribute('data-sky'))) {
+                    goToNextSky();
+                }
+            }, 2000);
+        });
     });
     
-    btn.addEventListener('mouseleave', function() {
-      this.style.transform = '';
+    // Continue button click
+    continueButton.addEventListener('click', function() {
+        goToNextSky();
     });
-  });
-  
-  const logo = document.querySelector('.logo');
-  const logoIcon = document.querySelector('.logo-icon');
-  
-  logo.addEventListener('mouseenter', function() {
-    for (let i = 0; i < 10; i++) {
-      createParticle();
-    }
-  });
-  
-  function createParticle() {
-    const particle = document.createElement('span');
-    particle.className = 'logo-particle';
     
-    const rect = logoIcon.getBoundingClientRect();
-    const size = Math.random() * 5 + 2;
+    // Restart button click
+    restartButton.addEventListener('click', function() {
+        resetJourney();
+    });
     
-    particle.style.cssText = `
-      position: absolute;
-      width: ${size}px;
-      height: ${size}px;
-      background: ${Math.random() > 0.5 ? 'var(--primary)' : 'var(--secondary)'};
-      border-radius: 50%;
-      top: ${rect.top + rect.height/2 + (Math.random() - 0.5) * 20}px;
-      left: ${rect.left + rect.width/2 + (Math.random() - 0.5) * 20}px;
-      pointer-events: none;
-      opacity: ${Math.random() * 0.5 + 0.5};
-      z-index: 1000;
-    `;
-    
-    document.body.appendChild(particle);
-    
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 60 + 40;
-    const vx = Math.cos(angle) * speed;
-    const vy = Math.sin(angle) * speed;
-    let opacity = 1;
-    
-    function animate() {
-      const x = parseFloat(particle.style.left);
-      const y = parseFloat(particle.style.top);
-      
-      particle.style.left = `${x + vx * 0.05}px`;
-      particle.style.top = `${y + vy * 0.05}px`;
-      
-      opacity -= 0.02;
-      particle.style.opacity = opacity;
-      
-      if (opacity > 0) {
-        requestAnimationFrame(animate);
-      } else {
-        particle.remove();
-      }
+    // Add visual marker to selected option
+    function addOptionMarker(skyElement) {
+        // Remove existing markers
+        document.querySelectorAll('.option-marker').forEach(marker => {
+            marker.remove();
+        });
+        
+        // Create new marker
+        const marker = document.createElement('div');
+        marker.className = 'option-marker';
+        
+        // Position at center of element
+        const rect = skyElement.getBoundingClientRect();
+        marker.style.left = `${rect.left + rect.width / 2}px`;
+        marker.style.top = `${rect.top + rect.height / 2}px`;
+        
+        // Add to body and animate
+        document.body.appendChild(marker);
+        
+        // Animate
+        setTimeout(() => {
+            marker.style.opacity = '1';
+            marker.style.transform = 'scale(2)';
+            marker.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        }, 50);
+        
+        setTimeout(() => {
+            marker.style.opacity = '0';
+        }, 1500);
     }
     
-    requestAnimationFrame(animate);
-  }
+    // Go to next sky question
+    function goToNextSky() {
+        if (currentSky >= 4) {
+            completeJourney();
+            return;
+        }
+        
+        // Hide current options
+        skyElements.forEach(element => {
+            if (parseInt(element.getAttribute('data-sky')) === currentSky) {
+                // Animate out
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                element.style.opacity = '0';
+                element.style.transform = 'scale(0.5)';
+                
+                // Hide after animation
+                setTimeout(() => {
+                    element.style.display = 'none';
+                    element.style.opacity = '';
+                    element.style.transform = '';
+                    element.style.transition = '';
+                }, 500);
+            }
+        });
+        
+        // Update current sky
+        currentSky++;
+        
+        // Update question
+        currentQuestion.textContent = questions[currentSky - 1].question;
+        
+        // Update journey stage
+        journeyStage.textContent = `Question ${currentSky} of 4`;
+        
+        // Reset selected option display
+        selectedOption.textContent = 'None';
+        optionDescription.textContent = '';
+        
+        // Hide continue button
+        continueButton.classList.remove('visible');
+        
+        // Create zoom-out/zoom-in effect
+        skySystem.style.transition = 'transform 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg) scale(0.7)`;
+        
+        setTimeout(() => {
+            skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg) scale(1)`;
+        }, 800);
+        
+        // Show new sky options with delay
+        setTimeout(() => {
+            skyElements.forEach(element => {
+                if (parseInt(element.getAttribute('data-sky')) === currentSky) {
+                    element.style.display = 'flex';
+                    element.style.opacity = '0';
+                    element.style.transform = 'scale(0.5)';
+                    
+                    // Animate in
+                    setTimeout(() => {
+                        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        element.style.opacity = '1';
+                        element.style.transform = 'scale(1)';
+                    }, 50);
+                }
+            });
+        }, 1000);
+        
+        // Reset system transition after animation
+        setTimeout(() => {
+            skySystem.style.transition = '';
+        }, 1500);
+    }
+    
+    // Complete the journey
+    function completeJourney() {
+        // Pause animations
+        stopAnimations = true;
+        
+        // Zoom out sky system
+        skySystem.style.transition = 'transform 2s cubic-bezier(0.16, 1, 0.3, 1)';
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg) scale(0.5)`;
+        
+        // Hide question panel
+        questionPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        questionPanel.style.opacity = '0';
+        questionPanel.style.transform = 'translateY(50px)';
+        
+        // Show completion screen
+        setTimeout(() => {
+            completionScreen.classList.add('visible');
+        }, 1000);
+    }
+    
+    // Reset the journey
+    function resetJourney() {
+        // Hide completion screen
+        completionScreen.classList.remove('visible');
+        
+        // Reset state
+        currentSky = 1;
+        selectedOptions = {};
+        stopAnimations = false;
+        
+        // Show first question
+        currentQuestion.textContent = questions[0].question;
+        journeyStage.textContent = 'Question 1 of 4';
+        selectedOption.textContent = 'None';
+        optionDescription.textContent = '';
+        
+        // Reset sky system view
+        skySystem.style.transition = 'transform 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg) scale(1)`;
+        
+        // Hide all elements first
+        skyElements.forEach(element => {
+            element.style.display = 'none';
+            element.classList.remove('active');
+        });
+        
+        // Show only first sky's options
+        setTimeout(() => {
+            skyElements.forEach(element => {
+                if (parseInt(element.getAttribute('data-sky')) === 1) {
+                    element.style.display = 'flex';
+                    element.style.opacity = '0';
+                    element.style.transform = 'scale(0.5)';
+                    
+                    // Animate in
+                    setTimeout(() => {
+                        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        element.style.opacity = '1';
+                        element.style.transform = 'scale(1)';
+                    }, 50);
+                }
+            });
+            
+            // Show question panel again
+            questionPanel.style.opacity = '1';
+            questionPanel.style.transform = 'translateY(0)';
+            
+            // Reset continue button
+            continueButton.classList.remove('visible');
+        }, 500);
+        
+        // Reset system transition after animation
+        setTimeout(() => {
+            skySystem.style.transition = '';
+        }, 1500);
+    }
+    
+    // Initialize sky system rotation
+    skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg)`;
+    
+    // Handle touch events for mobile devices
+    let touchStartX, touchStartY;
+    
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    });
+    
+    document.addEventListener('touchmove', function(e) {
+        if (!touchStartX || !touchStartY || stopAnimations) return;
+        
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        
+        const deltaX = touchX - touchStartX;
+        const deltaY = touchY - touchStartY;
+        
+        skyRotation.y += deltaX * 0.5;
+        skyRotation.x += deltaY * 0.5;
+        
+        // Limit rotation on X axis
+        skyRotation.x = Math.max(0, Math.min(40, skyRotation.x));
+        
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg)`;
+        
+        touchStartX = touchX;
+        touchStartY = touchY;
+    });
+    
+    // Optimize performance by throttling mouse movement
+    let isThrottled = false;
+    
+    document.addEventListener('mousemove', function(e) {
+        if (isThrottled) return;
+        isThrottled = true;
+        
+        setTimeout(() => {
+            isThrottled = false;
+        }, 10);
+        
+        // Move clouds/stars with parallax effect
+        if (!stopAnimations) {
+            const elements = document.querySelectorAll('.cloud, .star, .rain-drop, .snow-flake');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            elements.forEach(element => {
+                const depth = parseFloat(element.style.width) / 4;
+                const moveX = (mouseX - 0.5) * depth * 2;
+                const moveY = (mouseY - 0.5) * depth * 2;
+                
+                element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        }
+    });
+    
+    // Keyboard accessibility
+    document.addEventListener('keydown', function(e) {
+        // Only respond if we're on an active question
+        if (completionScreen.classList.contains('visible')) return;
+        
+        const currentElements = Array.from(skyElements).filter(
+            el => parseInt(el.getAttribute('data-sky')) === currentSky
+        );
+        
+        let selectedIndex = currentElements.findIndex(el => el.classList.contains('active'));
+        
+        switch(e.key) {
+            case 'ArrowRight':
+                selectedIndex = (selectedIndex + 1) % 4;
+                currentElements[selectedIndex].click();
+                break;
+            case 'ArrowLeft':
+                selectedIndex = selectedIndex === -1 ? 3 : (selectedIndex - 1 + 4) % 4;
+                currentElements[selectedIndex].click();
+                break;
+            case 'Enter':
+                if (continueButton.classList.contains('visible')) {
+                    goToNextSky();
+                } else if (selectedIndex !== -1) {
+                    // Force move to next if something is selected
+                    goToNextSky();
+                }
+                break;
+            case ' ': // Space
+                if (continueButton.classList.contains('visible')) {
+                    goToNextSky();
+                }
+                break;
+            case 'Escape':
+                if (completionScreen.classList.contains('visible')) {
+                    resetJourney();
+                }
+                break;
+        }
+    });
+    
+    // Window resize handling
+    window.addEventListener('resize', function() {
+        // Recreate stars for new window size
+        starsContainer.innerHTML = '';
+        createStars();
+        
+        // Update system scale based on screen size
+        const scale = window.innerWidth < 768 ? 0.8 : 1;
+        skySystem.style.transform = `rotateX(${skyRotation.x}deg) rotateY(${skyRotation.y}deg) scale(${scale})`;
+    });
+    
+    // Tab visibility handling
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            // Pause animations when tab is not visible
+            document.body.classList.add('paused');
+        } else {
+            // Resume animations when tab becomes visible again
+            document.body.classList.remove('paused');
+        }
+    });
+    
+    // Add initial animation to first sky elements
+    skyElements.forEach(element => {
+        if (parseInt(element.getAttribute('data-sky')) === 1) {
+            element.style.animation = `pulse 2s ease-in-out 1`;
+            
+            // Remove animation after it completes
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 2000);
+        }
+    });
 });
