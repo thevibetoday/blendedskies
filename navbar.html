@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blend of Skies Navigation</title>
     <link rel="stylesheet" href="navbar.css">
-    <style>
-        .sky-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-    </style>
 </head>
 <body>
-    <div class="sky-backdrop"></div>
+    <div class="atmosphere-layer"></div>
     <div class="stars-container"></div>
+    <div class="weather-particles"></div>
     
     <nav class="cosmic-navbar">
         <div class="brand-container">
@@ -28,87 +22,102 @@
             <h1 class="brand-name">Blend of Skies</h1>
         </div>
         
-        <div class="sky-selector">
-            <div class="selector-orb">
+        <div class="mood-selector">
+            <div class="mood-orb">
+                <div class="orb-waves"></div>
                 <div class="orb-inner">
-                    <span>Choose</span>
                     <span>Your</span>
-                    <span>Sky</span>
+                    <span>Mood</span>
                 </div>
-                <div class="orb-emoji">
-                    <img src="assets/Sun.png" alt="Default sky">
-                </div>
+                <div class="orb-emoji"></div>
             </div>
         </div>
-        
-        <div class="empty-space"></div>
     </nav>
     
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <img src="assets/Sun.png" alt="Clear Blue Sky">
-                    <div class="sky-reflection"></div>
+    <div class="mood-panorama">
+        <div class="mood-display">
+            <div class="active-mood">
+                <div class="mood-image"></div>
+                <div class="mood-title"></div>
+            </div>
+            <div class="mood-slider">
+                <div class="slider-track">
+                    <div class="sky-option" data-sky="clear-blue" data-mood="Tranquil">
+                        <div class="sky-preview">
+                            <img src="Sun.png" alt="Clear Blue Sky">
+                            <div class="sky-reflection"></div>
+                        </div>
+                        <div class="sky-details">
+                            <h3>Clear Blue</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="sky-option" data-sky="sunset-glow" data-mood="Passionate">
+                        <div class="sky-preview">
+                            <img src="Armageddon.png" alt="Sunset Glow">
+                            <div class="sky-reflection"></div>
+                        </div>
+                        <div class="sky-details">
+                            <h3>Sunset Glow</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="sky-option" data-sky="storm-brewing" data-mood="Intense">
+                        <div class="sky-preview">
+                            <img src="Storm.png" alt="Storm Brewing">
+                            <div class="sky-reflection"></div>
+                        </div>
+                        <div class="sky-details">
+                            <h3>Storm Brewing</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="sky-option" data-sky="starry-night" data-mood="Reflective">
+                        <div class="sky-preview">
+                            <img src="Nighttime.png" alt="Starry Night">
+                            <div class="sky-reflection"></div>
+                        </div>
+                        <div class="sky-details">
+                            <h3>Starry Night</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="sky-option" data-sky="rainbow-sky" data-mood="Euphoric">
+                        <div class="sky-preview">
+                            <img src="Snow.png" alt="Rainbow Sky">
+                            <div class="sky-reflection"></div>
+                        </div>
+                        <div class="sky-details">
+                            <h3>Rainbow Sky</h3>
+                        </div>
+                    </div>
                 </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
+                <div class="slider-controls">
+                    <div class="slider-prev"></div>
+                    <div class="slider-next"></div>
                 </div>
             </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <img src="assets/Armageddon.png" alt="Sunset Glow">
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
+            <div class="mood-description">
+                <p>How are you feeling today?</p>
+                <div class="mood-tag"></div>
             </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <img src="assets/Storm.png" alt="Storm Brewing">
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <img src="assets/Nighttime.png" alt="Starry Night">
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <img src="assets/Snow.png" alt="Rainbow Sky">
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
+        </div>
+        <div class="mood-collections">
+            <h3>Collections for your mood</h3>
+            <div class="collection-items">
+                <div class="collection-placeholder"></div>
+                <div class="collection-placeholder"></div>
+                <div class="collection-placeholder"></div>
             </div>
         </div>
     </div>
     
     <div class="content-area">
         <h2>Welcome to Blend of Skies</h2>
-        <p>Scroll down to see the cosmic navigation in action!</p>
+        <p>Discover clothing that matches your mood</p>
         <div style="height: 1500px;"></div>
     </div>
 
-    <script src="navbar.js"></script>
+    <script src="navbar.js" defer></script>
 </body>
 </html>
