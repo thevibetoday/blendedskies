@@ -3,76 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Weather Experience Navigation</title>
+    <title>Blend of Skies Navigation</title>
     <link rel="stylesheet" href="navbar.css">
+    <style>
+        .sky-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
-    <div class="sky-canvas"></div>
-    <div class="weather-layer"></div>
-    <div class="interactive-elements"></div>
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
     
-    <div class="horizon-nav">
-        <div class="sunmoon-system">
-            <div class="sun-element">
-                <div class="sun-core"></div>
-                <div class="sun-rays"></div>
-            </div>
-            <div class="moon-element">
-                <div class="moon-core"></div>
-                <div class="moon-craters"></div>
-            </div>
-        </div>
-        
-        <div class="weather-controller">
-            <div class="cloud-cluster">
-                <div class="cloud cloud-1"></div>
-                <div class="cloud cloud-2"></div>
-                <div class="cloud cloud-3"></div>
-            </div>
-            <div class="interaction-zone"></div>
-        </div>
-        
-        <div class="brand-identity">
-            <div class="lightning-logo">
-                <svg viewBox="0 0 50 50" class="logo-svg">
-                    <path class="logo-path" d="M25,5 L15,30 L23,30 L18,45 L19,45 L35,20 L26,20 L32,5 Z"></path>
-                </svg>
+    <nav class="cosmic-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="orbit-icon">
+                    <div class="planet"></div>
+                    <div class="satellite"></div>
+                </div>
             </div>
             <h1 class="brand-name">Blend of Skies</h1>
         </div>
-    </div>
+        
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">
+                    <img src="Sun.png" alt="Default sky">
+                </div>
+            </div>
+        </div>
+        
+        <div class="empty-space"></div>
+    </nav>
     
-    <div class="weather-selector">
-        <div class="atmosphere-container">
-            <div class="weather-scene" data-weather="clear-day">
-                <div class="scene-icon"></div>
-                <div class="scene-label">Clear Sky</div>
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <img src="Sun.png" alt="Clear Blue Sky">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
             </div>
-            <div class="weather-scene" data-weather="sunset">
-                <div class="scene-icon"></div>
-                <div class="scene-label">Sunset</div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <img src="Armageddon.png" alt="Sunset Glow">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
             </div>
-            <div class="weather-scene" data-weather="storm">
-                <div class="scene-icon"></div>
-                <div class="scene-label">Storm</div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <img src="Storm.png" alt="Storm Brewing">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
             </div>
-            <div class="weather-scene" data-weather="night">
-                <div class="scene-icon"></div>
-                <div class="scene-label">Night</div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <img src="Nighttime.png" alt="Starry Night">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
             </div>
-            <div class="weather-scene" data-weather="snow">
-                <div class="scene-icon"></div>
-                <div class="scene-label">Snow</div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <img src="Snow.png" alt="Rainbow Sky">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
             </div>
         </div>
     </div>
     
     <div class="content-area">
         <h2>Welcome to Blend of Skies</h2>
-        <p>Experience the ever-changing moods of the atmosphere.</p>
+        <p>Scroll down to see the cosmic navigation in action!</p>
         <div style="height: 1500px;"></div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const skySelector = document.querySelector('.sky-selector');
+            const skyPanorama = document.querySelector('.sky-panorama');
+            const skyBackdrop = document.querySelector('.sky-backdrop');
+            const skyOptions = document.querySelectorAll('.sky-option');
+            const orbEmoji = document.querySelector('.orb-emoji');
+            const orbInner = document.querySelector('.orb-inner');
+            const brandName = document.querySelector('.brand-name');
+            
+            skySelector.onclick = function(e) {
+                e.preventDefault();
+                skyPanorama.classList.toggle('open');
+                skyBackdrop.classList.toggle('active');
+            };
+            
+            skyBackdrop.onclick = function() {
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+            };
+            
+            skyOptions.forEach(option => {
+                option.onclick = function(e) {
+                    e.preventDefault();
+                    const skyIcon = this.querySelector('.sky-preview img');
+                    orbEmoji.innerHTML = '';
+                    orbEmoji.appendChild(skyIcon.cloneNode(true));
+                    orbEmoji.style.opacity = '1';
+                    orbInner.style.opacity = '0';
+                    
+                    setTimeout(function() {
+                        skyPanorama.classList.remove('open');
+                        skyBackdrop.classList.remove('active');
+                    }, 300);
+                };
+            });
+            
+            skySelector.onmouseenter = function() {
+                orbEmoji.style.opacity = '1';
+                orbInner.style.opacity = '0';
+            };
+            
+            skySelector.onmouseleave = function() {
+                const currentEmoji = orbEmoji.querySelector('img');
+                if (currentEmoji && currentEmoji.src.includes('Sun.png')) {
+                    orbEmoji.style.opacity = '0';
+                    orbInner.style.opacity = '1';
+                }
+            };
+            
+            brandName.onclick = function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+        });
+    </script>
     <script src="navbar.js" defer></script>
 </body>
 </html>
