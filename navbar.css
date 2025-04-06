@@ -1,606 +1,139 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-:root {
-    --clear-sky: linear-gradient(to bottom, #87CEEB, #E0F7FF);
-    --sunset-sky: linear-gradient(to bottom, #FF7E5F, #FEB47B);
-    --storm-sky: linear-gradient(to bottom, #4B79A1, #283E51);
-    --night-sky: linear-gradient(to bottom, #0F2027, #203A43, #2C5364);
-    --snow-sky: linear-gradient(to bottom, #E0EAFC, #CFDEF3);
-    --cloud-color: #FFFFFF;
-    --lightning-color: #FFD700;
-    --transition-smooth: 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    background-color: #f5f5f5;
-    transition: background-color var(--transition-smooth);
-}
-
-.sky-canvas {
+.sky-panorama {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--clear-sky);
-    transition: background var(--transition-smooth);
-    z-index: -10;
-}
-
-.weather-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -5;
-}
-
-.interactive-elements {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -4;
-}
-
-.horizon-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 100;
-    transition: height 0.4s ease;
-}
-
-.sunmoon-system {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    transition: transform 0.5s ease;
-}
-
-.sun-element {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
-}
-
-.sun-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    background: radial-gradient(circle, #FFF176 0%, #FFEB3B 50%, #FBC02D 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
-}
-
-.sun-rays {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    animation: rotate 20s linear infinite;
-}
-
-.sun-rays::before, 
-.sun-rays::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60px;
-    height: 2px;
-    background: rgba(255, 236, 179, 0.6);
-    transform-origin: center;
-}
-
-.sun-rays::before {
-    transform: translate(-50%, -50%) rotate(0deg);
-}
-
-.sun-rays::after {
-    transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.moon-element {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
-}
-
-.moon-core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 36px;
-    height: 36px;
-    background: radial-gradient(circle at 65% 35%, #ECEFF1 0%, #CFD8DC 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(236, 239, 241, 0.6);
-}
-
-.moon-craters {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.moon-craters::before {
-    content: '';
-    position: absolute;
-    top: 30%;
-    left: 30%;
-    width: 8px;
-    height: 8px;
-    background: rgba(207, 216, 220, 0.8);
-    border-radius: 50%;
-}
-
-.moon-craters::after {
-    content: '';
-    position: absolute;
-    top: 60%;
-    left: 55%;
-    width: 5px;
-    height: 5px;
-    background: rgba(207, 216, 220, 0.6);
-    border-radius: 50%;
-}
-
-.weather-controller {
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cloud-cluster {
-    position: relative;
-    width: 120px;
-    height: 60px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.cloud-cluster:hover {
-    transform: scale(1.05);
-}
-
-.cloud {
-    position: absolute;
-    background: var(--cloud-color);
-    border-radius: 50%;
-    opacity: 0.9;
-    transition: transform 0.3s ease;
-}
-
-.cloud-1 {
-    width: 50px;
-    height: 50px;
-    bottom: 10px;
-    left: 25px;
-}
-
-.cloud-2 {
-    width: 30px;
-    height: 30px;
-    bottom: 15px;
-    left: 10px;
-}
-
-.cloud-3 {
-    width: 40px;
-    height: 40px;
-    bottom: 5px;
-    left: 70px;
-}
-
-.cloud-cluster:hover .cloud-1 {
-    transform: translateY(-5px);
-}
-
-.cloud-cluster:hover .cloud-2 {
-    transform: translateX(-5px);
-}
-
-.cloud-cluster:hover .cloud-3 {
-    transform: translateX(5px);
-}
-
-.interaction-zone {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-.brand-identity {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.lightning-logo {
-    width: 40px;
-    height: 40px;
-    position: relative;
-}
-
-.logo-svg {
-    width: 100%;
-    height: 100%;
-}
-
-.logo-path {
-    fill: var(--lightning-color);
-    filter: drop-shadow(0px 0px 5px rgba(255, 215, 0, 0.5));
-    transition: fill 0.5s ease;
-}
-
-.brand-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: color var(--transition-smooth), text-shadow var(--transition-smooth);
-}
-
-.weather-selector {
-    position: fixed;
-    top: 80px;
+    top: 70px;
     left: 0;
     width: 100%;
     height: 0;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 90;
-    transition: height var(--transition-smooth);
+    z-index: 999;
+    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
-.weather-selector.open {
-    height: 300px;
+.sky-panorama.open {
+    height: 320px !important;
+    display: block;
 }
 
-.atmosphere-container {
+.sky-options {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
+    align-items: flex-start;
+    gap: 30px;
     padding: 40px 20px;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: 0.1s;
 }
 
-.weather-selector.open .atmosphere-container {
+.sky-panorama.open .sky-options {
     opacity: 1;
     transform: translateY(0);
 }
 
-.weather-scene {
+.sky-option {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    width: 150px;
     cursor: pointer;
-    transition: transform 0.4s ease;
+    transition: transform 0.3s ease;
 }
 
-.weather-scene:hover {
-    transform: translateY(-8px);
+.sky-option:hover {
+    transform: translateY(-10px);
 }
 
-.scene-icon {
+.sky-preview {
     position: relative;
     width: 80px;
     height: 80px;
     border-radius: 50%;
     background: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: var(--preview-glow);
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.weather-scene:hover .scene-icon {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+.sky-option:hover .sky-preview {
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(135, 206, 250, 0.3);
 }
 
-.weather-scene[data-weather="clear-day"] .scene-icon {
-    background: #87CEEB;
+.sky-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.weather-scene[data-weather="clear-day"] .scene-icon::before {
-    content: "";
+.sky-option:hover .sky-icon {
+    transform: scale(1.2);
+}
+
+.sky-reflection {
     position: absolute;
-    top: 20%;
-    left: 20%;
-    width: 40px;
-    height: 40px;
-    background: radial-gradient(circle, #FFF176 0%, #FFEB3B 50%, #FBC02D 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8));
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
 }
 
-.weather-scene[data-weather="sunset"] .scene-icon {
-    background: linear-gradient(to top, #FF7E5F, #FEB47B);
+.sky-option:hover .sky-reflection {
+    transform: translateY(0);
 }
 
-.weather-scene[data-weather="sunset"] .scene-icon::before {
-    content: "";
-    position: absolute;
-    bottom: 10%;
-    left: 30%;
-    width: 30px;
-    height: 30px;
-    background: #FF7E5F;
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(255, 126, 95, 0.7);
+.sky-details {
+    text-align: center;
 }
 
-.weather-scene[data-weather="storm"] .scene-icon {
-    background: #4B79A1;
-}
-
-.weather-scene[data-weather="storm"] .scene-icon::before,
-.weather-scene[data-weather="storm"] .scene-icon::after {
-    content: "";
-    position: absolute;
-    background: #FFFFFF;
-    border-radius: 50%;
-}
-
-.weather-scene[data-weather="storm"] .scene-icon::before {
-    width: 40px;
-    height: 40px;
-    top: 20%;
-    left: 20%;
-}
-
-.weather-scene[data-weather="storm"] .scene-icon::after {
-    width: 30px;
-    height: 30px;
-    top: 30%;
-    left: 45%;
-}
-
-.weather-scene[data-weather="night"] .scene-icon {
-    background: #0F2027;
-}
-
-.weather-scene[data-weather="night"] .scene-icon::before {
-    content: "";
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 30px;
-    height: 30px;
-    background: radial-gradient(circle at 65% 35%, #ECEFF1 0%, #CFD8DC 100%);
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(236, 239, 241, 0.6);
-}
-
-.weather-scene[data-weather="snow"] .scene-icon {
-    background: #E0EAFC;
-}
-
-.weather-scene[data-weather="snow"] .scene-icon::before,
-.weather-scene[data-weather="snow"] .scene-icon::after {
-    content: "";
-    position: absolute;
-    background: #FFFFFF;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
-
-.weather-scene[data-weather="snow"] .scene-icon::before {
-    width: 5px;
-    height: 5px;
-    top: 30%;
-    left: 30%;
-}
-
-.weather-scene[data-weather="snow"] .scene-icon::after {
-    width: 5px;
-    height: 5px;
-    top: 50%;
-    left: 60%;
-}
-
-.scene-label {
+.sky-details h3 {
     font-size: 1rem;
-    font-weight: 500;
-    color: #333;
-    transition: color 0.3s ease;
+    margin-bottom: 5px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #1E90FF, #4169E1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
+    transition: transform 0.3s ease;
 }
 
-.weather-scene:hover .scene-label {
-    color: #4B79A1;
+.sky-option:hover .sky-details h3 {
+    transform: scale(1.05);
+}
+
+.sky-details p {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.3;
+    transition: opacity 0.3s ease;
+}
+
+.sky-option:hover .sky-details p {
+    color: #444;
 }
 
 .content-area {
-    margin-top: 100px;
     padding: 40px 20px;
     max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.content-area h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5em;
-    color: #333;
-    transition: color var(--transition-smooth);
-}
-
-.content-area p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    color: #444;
-    transition: color var(--transition-smooth);
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-@keyframes twinkle {
-    0%, 100% {
-        opacity: 0.3;
-    }
-    50% {
-        opacity: 1;
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 0.7;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 1;
-    }
-}
-
-.sky-clear-day {
-    background: var(--clear-sky);
-}
-
-.sky-sunset {
-    background: var(--sunset-sky);
-}
-
-.sky-storm {
-    background: var(--storm-sky);
-}
-
-.sky-night {
-    background: var(--night-sky);
-}
-
-.sky-snow {
-    background: var(--snow-sky);
-}
-
-.raindrop {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.6);
-    width: 1px;
-    height: 15px;
-    top: -20px;
-    animation: fall linear infinite;
-}
-
-.snowflake {
-    position: absolute;
-    background: white;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    top: -10px;
-    animation: snowfall linear infinite;
-}
-
-.star {
-    position: absolute;
-    background: white;
-    width: 2px;
-    height: 2px;
-    border-radius: 50%;
-    animation: twinkle 3s ease-in-out infinite;
-}
-
-.lightning-bolt {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    filter: blur(1px);
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh);
-    }
-}
-
-@keyframes snowfall {
-    to {
-        transform: translateY(100vh) rotate(360deg);
-    }
-}
-
-.cloud-particle {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: float-horizontal linear infinite;
-}
-
-@keyframes float-horizontal {
-    from {
-        transform: translateX(-100px);
-    }
-    to {
-        transform: translateX(calc(100vw + 100px));
-    }
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    .horizon-nav {
-        height: 70px;
+    .cosmic-navbar {
         padding: 0 15px;
     }
     
@@ -608,48 +141,36 @@ html, body {
         font-size: 1.2rem;
     }
     
-    .sunmoon-system {
-        width: 50px;
-        height: 50px;
+    .selector-orb {
+        width: 60px;
+        height: 60px;
     }
     
-    .sun-core {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .cloud-cluster {
-        width: 100px;
-        height: 50px;
-    }
-    
-    .cloud-1 {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .cloud-2 {
-        width: 25px;
-        height: 25px;
-    }
-    
-    .cloud-3 {
-        width: 30px;
-        height: 30px;
-        left: 60px;
-    }
-    
-    .weather-selector.open {
-        height: 400px;
-    }
-    
-    .atmosphere-container {
+    .sky-options {
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 20px;
+        padding: 30px 15px;
     }
     
-    .scene-icon {
+    .sky-panorama.open {
+        height: auto !important;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .sky-option {
+        width: 130px;
+        margin-bottom: 10px;
+    }
+    
+    .sky-preview {
         width: 70px;
         height: 70px;
+    }
+    
+    .sky-icon {
+        font-size: 2.2rem;
     }
     
     .content-area h2 {
@@ -662,90 +183,67 @@ html, body {
 }
 
 @media (max-width: 480px) {
-    .horizon-nav {
-        height: 60px;
+    .cosmic-navbar {
         padding: 0 10px;
+        height: 60px;
+    }
+    
+    .brand-container {
+        gap: 8px;
+    }
+    
+    .brand-icon {
+        width: 30px;
+        height: 30px;
     }
     
     .brand-name {
         font-size: 1rem;
     }
     
-    .lightning-logo {
-        width: 30px;
-        height: 30px;
+    .selector-orb {
+        width: 50px;
+        height: 50px;
     }
     
-    .sunmoon-system {
-        width: 40px;
-        height: 40px;
+    .orb-inner span {
+        font-size: 0.6rem;
     }
     
-    .sun-core {
-        width: 25px;
-        height: 25px;
+    .orb-emoji {
+        font-size: 1.5rem;
     }
     
-    .moon-core {
-        width: 22px;
-        height: 22px;
+    .sky-panorama.open {
+        max-height: 90vh;
     }
     
-    .cloud-cluster {
-        width: 80px;
-        height: 40px;
+    .sky-options {
+        gap: 15px;
+        padding: 20px 10px;
     }
     
-    .cloud-1 {
-        width: 30px;
-        height: 30px;
-        left: 20px;
+    .sky-option {
+        width: 110px;
     }
     
-    .cloud-2 {
-        width: 20px;
-        height: 20px;
-        left: 8px;
-    }
-    
-    .cloud-3 {
-        width: 25px;
-        height: 25px;
-        left: 45px;
-    }
-    
-    .scene-icon {
+    .sky-preview {
         width: 60px;
         height: 60px;
+        margin-bottom: 10px;
     }
     
-    .scene-label {
+    .sky-icon {
+        font-size: 1.8rem;
+    }
+    
+    .sky-details h3 {
         font-size: 0.9rem;
+        margin-bottom: 3px;
     }
     
-    .weather-scene[data-weather="clear-day"] .scene-icon::before {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .weather-scene[data-weather="sunset"] .scene-icon::before {
-        width: 24px;
-        height: 24px;
-    }
-    
-    .weather-scene[data-weather="storm"] .scene-icon::before {
-        width: 30px;
-        height: 30px;
-    }
-    
-    .weather-scene[data-weather="storm"] .scene-icon::after {
-        width: 22px;
-        height: 22px;
-    }
-    
-    .weather-scene[data-weather="night"] .scene-icon::before {
-        width: 24px;
-        height: 24px;
+    .sky-details p {
+        font-size: 0.7rem;
     }
     
     .content-area h2 {
