@@ -3,130 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neural Navigation Interface</title>
+    <title>Blend of Skies - Dynamic Weather Navigation</title>
     <link rel="stylesheet" href="navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Brand floating in the corner -->
-    <div class="brand-float">Blend of Skies</div>
-    
-    <!-- Neural Navigation Interface -->
-    <nav class="cosmic-navbar">
-        <!-- Backdrop that appears when navigation is active -->
-        <div class="neural-backdrop"></div>
+    <!-- Atmospheric Navbar -->
+    <nav class="atmosphere-navbar">
+        <!-- Brand/Logo -->
+        <div class="brand-container">
+            <div class="sky-icon">
+                <div class="sky-shimmer"></div>
+            </div>
+            <div class="brand-name">Blend of Skies</div>
+        </div>
         
-        <!-- Neural Surface - the main floating orb interface -->
-        <div class="nav-neural-surface">
-            <!-- Center core of the neural surface -->
-            <div class="neural-core">
-                <div class="core-icon">☰</div>
+        <!-- Weather System Navigation -->
+        <div class="weather-system">
+            <div class="weather-container">
+                <!-- Clear Blue Sky -->
+                <div class="sky-option sky-clear-blue" data-sky="clear-blue">
+                    <div class="sky-preview">
+                        <div class="weather-element">
+                            <div class="cloud cloud-1"></div>
+                            <div class="cloud cloud-2"></div>
+                        </div>
+                    </div>
+                    <div class="sky-tooltip">Clear Blue</div>
+                </div>
+                
+                <!-- Sunset Glow -->
+                <div class="sky-option sky-sunset-glow" data-sky="sunset-glow">
+                    <div class="sky-preview">
+                        <div class="weather-element">
+                            <div class="sunset-ray"></div>
+                            <div class="sun"></div>
+                        </div>
+                    </div>
+                    <div class="sky-tooltip">Sunset Glow</div>
+                </div>
+                
+                <!-- Storm Brewing -->
+                <div class="sky-option sky-storm-brewing" data-sky="storm-brewing">
+                    <div class="sky-preview">
+                        <div class="weather-element">
+                            <div class="storm-cloud storm-cloud-1"></div>
+                            <div class="storm-cloud storm-cloud-2"></div>
+                            <div class="lightning"></div>
+                        </div>
+                    </div>
+                    <div class="sky-tooltip">Storm Brewing</div>
+                </div>
+                
+                <!-- Starry Night -->
+                <div class="sky-option sky-starry-night" data-sky="starry-night">
+                    <div class="sky-preview">
+                        <div class="weather-element">
+                            <div class="star star-1"></div>
+                            <div class="star star-2"></div>
+                            <div class="star star-3"></div>
+                            <div class="moon"></div>
+                        </div>
+                    </div>
+                    <div class="sky-tooltip">Starry Night</div>
+                </div>
+                
+                <!-- Rainbow Sky -->
+                <div class="sky-option sky-rainbow-sky" data-sky="rainbow-sky">
+                    <div class="sky-preview">
+                        <div class="weather-element">
+                            <div class="rainbow"></div>
+                            <div class="sun-small"></div>
+                        </div>
+                    </div>
+                    <div class="sky-tooltip">Rainbow Sky</div>
+                </div>
+                
+                <!-- Mobile close button -->
+                <div class="mobile-close">×</div>
             </div>
             
-            <!-- Orbital paths with nodes representing navigation options -->
-            <div class="neural-pathways">
-                <!-- Clear Blue Sky Node -->
-                <div class="neural-path">
-                    <div class="neural-node" data-sky="clear-blue">
-                        <div class="node-label">Clear Blue</div>
-                    </div>
-                </div>
-                
-                <!-- Sunset Glow Node -->
-                <div class="neural-path">
-                    <div class="neural-node" data-sky="sunset-glow">
-                        <div class="node-label">Sunset Glow</div>
-                    </div>
-                </div>
-                
-                <!-- Storm Brewing Node -->
-                <div class="neural-path">
-                    <div class="neural-node" data-sky="storm-brewing">
-                        <div class="node-label">Storm Brewing</div>
-                    </div>
-                </div>
-                
-                <!-- Starry Night Node -->
-                <div class="neural-path">
-                    <div class="neural-node" data-sky="starry-night">
-                        <div class="node-label">Starry Night</div>
-                    </div>
-                </div>
-                
-                <!-- Rainbow Sky Node -->
-                <div class="neural-path">
-                    <div class="neural-node" data-sky="rainbow-sky">
-                        <div class="node-label">Rainbow Sky</div>
-                    </div>
+            <!-- Mobile toggle button -->
+            <div class="weather-toggle">
+                <div class="toggle-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
-            
-            <!-- Neural connections between nodes -->
-            <div class="neural-connections">
-                <div class="connection connection-1-2"></div>
-                <div class="connection connection-2-3"></div>
-                <div class="connection connection-3-4"></div>
-                <div class="connection connection-4-5"></div>
-                <div class="connection connection-5-1"></div>
-            </div>
-            
-            <!-- Floating data points -->
-            <div class="data-points"></div>
         </div>
     </nav>
     
-    <!-- Data Visualization Screens - One for each sky option -->
-    <div class="data-visualization" id="visualization-clear-blue">
-        <div class="visualization-content">
-            <h2>Clear Blue Sky</h2>
-            <p>A pristine blue canvas with gentle wisps of clouds stretching across the horizon. The perfect backdrop for a day of infinite possibilities.</p>
-            <!-- Content would go here -->
-        </div>
-        <div class="back-button">×</div>
-    </div>
-    
-    <div class="data-visualization" id="visualization-sunset-glow">
-        <div class="visualization-content">
-            <h2>Sunset Glow</h2>
-            <p>Rich colors painting the evening horizon, transitioning from gold to crimson to deep purple as the day gives way to night.</p>
-            <!-- Content would go here -->
-        </div>
-        <div class="back-button">×</div>
-    </div>
-    
-    <div class="data-visualization" id="visualization-storm-brewing">
-        <div class="visualization-content">
-            <h2>Storm Brewing</h2>
-            <p>Dramatic clouds gathering with the promise of lightning and thunder, creating a powerful atmosphere of anticipation.</p>
-            <!-- Content would go here -->
-        </div>
-        <div class="back-button">×</div>
-    </div>
-    
-    <div class="data-visualization" id="visualization-starry-night">
-        <div class="visualization-content">
-            <h2>Starry Night</h2>
-            <p>Deep space visualization with twinkling stars scattered across the infinite darkness, offering glimpses into the cosmos beyond.</p>
-            <!-- Content would go here -->
-        </div>
-        <div class="back-button">×</div>
-    </div>
-    
-    <div class="data-visualization" id="visualization-rainbow-sky">
-        <div class="visualization-content">
-            <h2>Rainbow Sky</h2>
-            <p>A colorful arc stretching across the atmosphere after rain, showcasing the full spectrum of light in vibrant display.</p>
-            <!-- Content would go here -->
-        </div>
-        <div class="back-button">×</div>
-    </div>
-    
-    <!-- Main Content Area -->
+    <!-- Page Content -->
     <div class="content-area">
         <h1>Welcome to Blend of Skies</h1>
-        <p>Interact with the neural navigation node to explore different sky atmospheres.</p>
+        <p>Select a weather theme from the navigation bar to transform the atmosphere!</p>
         <div style="height: 1500px;"></div>
     </div>
 
