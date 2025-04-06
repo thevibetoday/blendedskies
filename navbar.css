@@ -6,610 +6,601 @@
 }
 
 :root {
-    --main-bg-color: #fff;
-    --main-text-color: #000;
-    --sky-accent: #1E90FF;
-    --sky-light: #87CEEB;
-    --orbit-speed: 15s;
-    --preview-glow: 0 5px 15px rgba(135, 206, 250, 0.2);
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes ripple {
-    0% { transform: scale(0.95); opacity: 1; }
-    100% { transform: scale(1.5); opacity: 0; }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-@keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    --clear-sky: linear-gradient(to bottom, #87CEEB, #E0F7FF);
+    --sunset-sky: linear-gradient(to bottom, #FF7E5F, #FEB47B);
+    --storm-sky: linear-gradient(to bottom, #4B79A1, #283E51);
+    --night-sky: linear-gradient(to bottom, #0F2027, #203A43, #2C5364);
+    --snow-sky: linear-gradient(to bottom, #E0EAFC, #CFDEF3);
+    --cloud-color: #FFFFFF;
+    --lightning-color: #FFD700;
+    --transition-smooth: 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 html, body {
-    background-color: var(--main-bg-color);
-    color: var(--main-text-color);
-    height: 100%;
     width: 100%;
+    height: 100%;
     overflow-x: hidden;
-    transition: background-color 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    background-color: #f5f5f5;
+    transition: background-color var(--transition-smooth);
 }
 
-.sky-backdrop {
+.sky-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
-    opacity: 0;
-    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    pointer-events: none;
-    z-index: 100;
-    display: block;
+    background: var(--clear-sky);
+    transition: background var(--transition-smooth);
+    z-index: -10;
 }
 
-.sky-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
-    display: block;
-}
-
-.stars-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    opacity: 0;
-    transition: opacity 1s ease;
-    pointer-events: none;
-    z-index: 101;
-}
-
-.stars-container.active {
-    opacity: 1;
-}
-
-.star {
-    position: absolute;
-    background: #fff;
-    border-radius: 50%;
-    filter: blur(1px);
-    animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite;
-    will-change: opacity, transform;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
-}
-
-.sky-particles {
+.weather-layer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 102;
-    overflow: hidden;
+    z-index: -5;
 }
 
-.cosmos-overlay {
+.interactive-elements {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
-    opacity: 0;
     pointer-events: none;
-    z-index: 103;
-    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -4;
 }
 
-.cosmos-overlay.active {
-    opacity: 1;
-}
-
-.cosmic-navbar {
-    position: sticky;
+.horizon-nav {
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    height: 70px;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 0 20px;
+    z-index: 100;
+    transition: height 0.4s ease;
 }
 
-.cosmic-navbar.expanded {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+.sunmoon-system {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    transition: transform 0.5s ease;
 }
 
-.brand-container {
+.sun-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.sun-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #FFF176 0%, #FFEB3B 50%, #FBC02D 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
+}
+
+.sun-rays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: rotate 20s linear infinite;
+}
+
+.sun-rays::before, 
+.sun-rays::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 2px;
+    background: rgba(255, 236, 179, 0.6);
+    transform-origin: center;
+}
+
+.sun-rays::before {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.sun-rays::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.moon-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.moon-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle at 65% 35%, #ECEFF1 0%, #CFD8DC 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(236, 239, 241, 0.6);
+}
+
+.moon-craters {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.moon-craters::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 8px;
+    height: 8px;
+    background: rgba(207, 216, 220, 0.8);
+    border-radius: 50%;
+}
+
+.moon-craters::after {
+    content: '';
+    position: absolute;
+    top: 60%;
+    left: 55%;
+    width: 5px;
+    height: 5px;
+    background: rgba(207, 216, 220, 0.6);
+    border-radius: 50%;
+}
+
+.weather-controller {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cloud-cluster {
+    position: relative;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.cloud-cluster:hover {
+    transform: scale(1.05);
+}
+
+.cloud {
+    position: absolute;
+    background: var(--cloud-color);
+    border-radius: 50%;
+    opacity: 0.9;
+    transition: transform 0.3s ease;
+}
+
+.cloud-1 {
+    width: 50px;
+    height: 50px;
+    bottom: 10px;
+    left: 25px;
+}
+
+.cloud-2 {
+    width: 30px;
+    height: 30px;
+    bottom: 15px;
+    left: 10px;
+}
+
+.cloud-3 {
+    width: 40px;
+    height: 40px;
+    bottom: 5px;
+    left: 70px;
+}
+
+.cloud-cluster:hover .cloud-1 {
+    transform: translateY(-5px);
+}
+
+.cloud-cluster:hover .cloud-2 {
+    transform: translateX(-5px);
+}
+
+.cloud-cluster:hover .cloud-3 {
+    transform: translateX(5px);
+}
+
+.interaction-zone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.brand-identity {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.brand-icon {
+.lightning-logo {
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.orbit-icon {
     position: relative;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
-    box-shadow: inset 0 0 10px rgba(135, 206, 250, 0.3);
-    overflow: hidden;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.orbit-icon:hover {
-    transform: scale(1.1);
+.logo-svg {
+    width: 100%;
+    height: 100%;
 }
 
-.planet {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(145deg, #87CEEB, #1E90FF);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
-}
-
-.satellite {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    border-radius: 50%;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    animation: orbit 6s linear infinite;
-}
-
-@keyframes orbit {
-    0% { transform: rotate(0deg) translateX(14px) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(14px) rotate(-360deg); }
+.logo-path {
+    fill: var(--lightning-color);
+    filter: drop-shadow(0px 0px 5px rgba(255, 215, 0, 0.5));
+    transition: fill 0.5s ease;
 }
 
 .brand-name {
     font-size: 1.5rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #1E90FF, #87CEEB);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 2px 10px rgba(135, 206, 250, 0.2);
-    position: relative;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
-    cursor: pointer;
+    color: #333;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: color var(--transition-smooth), text-shadow var(--transition-smooth);
 }
 
-.brand-name:hover {
-    transform: translateY(-2px) scale(1.02);
-    text-shadow: 0 4px 15px rgba(135, 206, 250, 0.4);
-}
-
-.sky-selector {
-    position: relative;
-    cursor: pointer;
-    z-index: 1100;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.sky-selector:hover {
-    transform: scale(1.05);
-}
-
-.selector-orb {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgb(255, 255, 255), rgb(240, 249, 255));
-    box-shadow: 0 0 20px rgba(135, 206, 250, 0.3),
-                inset 0 0 15px rgba(255, 255, 255, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: visible;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.selector-orb:hover {
-    box-shadow: 0 0 25px rgba(135, 206, 250, 0.5),
-                inset 0 0 20px rgba(255, 255, 255, 0.9);
-}
-
-.selector-orb.active {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(135, 206, 250, 0.6),
-                inset 0 0 25px rgba(255, 255, 255, 1);
-}
-
-.orb-aura {
-    position: absolute;
-    top: -15%;
-    left: -15%;
-    width: 130%;
-    height: 130%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(135, 206, 250, 0.3) 0%, rgba(135, 206, 250, 0) 70%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: pulse 3s ease infinite;
-    z-index: -1;
-}
-
-.selector-orb:hover .orb-aura,
-.selector-orb.active .orb-aura {
-    opacity: 1;
-}
-
-.orb-ring {
-    position: absolute;
-    width: 140%;
-    height: 140%;
-    top: -20%;
-    left: -20%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: rotate 15s linear infinite;
-    z-index: -1;
-}
-
-.orb-ring circle {
-    fill: none;
-    stroke: rgba(135, 206, 250, 0.3);
-    stroke-width: 1;
-    stroke-dasharray: 10 4;
-}
-
-.selector-orb:hover .orb-ring,
-.selector-orb.active .orb-ring {
-    opacity: 1;
-}
-
-.orb-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 2;
-}
-
-.orb-inner span {
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1.2;
-    color: transparent;
-    background: linear-gradient(135deg, #1E90FF, #4169E1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: 0 1px 5px rgba(135, 206, 250, 0.2);
-    display: block;
-    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.orb-inner span:nth-child(1) {
-    transform: translateY(0);
-    transition-delay: 0.05s;
-}
-
-.orb-inner span:nth-child(2) {
-    transform: translateY(0);
-    transition-delay: 0.1s;
-}
-
-.orb-inner span:nth-child(3) {
-    transform: translateY(0);
-    transition-delay: 0.15s;
-}
-
-.selector-orb:hover .orb-inner span:nth-child(1) {
-    transform: translateY(-5px);
-}
-
-.selector-orb:hover .orb-inner span:nth-child(2) {
-    transform: translateY(-3px);
-}
-
-.selector-orb:hover .orb-inner span:nth-child(3) {
-    transform: translateY(-1px);
-}
-
-.selector-orb:hover .orb-inner {
-    opacity: 0;
-}
-
-.orb-emoji {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0;
-    transform: scale(0.5) rotate(-10deg);
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 1;
-}
-
-.orb-emoji img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    transform-origin: center;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    animation: float 3s ease-in-out infinite;
-}
-
-.selector-orb:hover .orb-emoji {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-}
-
-.selector-orb.active .orb-inner {
-    opacity: 0;
-}
-
-.selector-orb.active .orb-emoji {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-}
-
-.sky-panorama {
+.weather-selector {
     position: fixed;
-    top: 70px;
+    top: 80px;
     left: 0;
     width: 100%;
     height: 0;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    z-index: 999;
-    transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 90;
+    transition: height var(--transition-smooth);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    display: block;
 }
 
-.sky-panorama.open {
-    height: 320px !important;
-    display: block;
+.weather-selector.open {
+    height: 300px;
 }
 
-.sky-options {
+.atmosphere-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    gap: 30px;
+    flex-wrap: wrap;
+    gap: 40px;
     padding: 40px 20px;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    transition-delay: 0.1s;
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
 }
 
-.sky-panorama.open .sky-options {
+.weather-selector.open .atmosphere-container {
     opacity: 1;
     transform: translateY(0);
 }
 
-.sky-option {
+.weather-scene {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 150px;
+    gap: 15px;
     cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
+    transition: transform 0.4s ease;
 }
 
-.sky-option:hover {
-    transform: translateY(-10px);
+.weather-scene:hover {
+    transform: translateY(-8px);
 }
 
-.sky-option::before {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%) scale(0);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--sky-accent);
-    box-shadow: 0 0 12px rgba(30, 144, 255, 0.5);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.sky-option.active::before {
-    transform: translateX(-50%) scale(1);
-}
-
-.sky-preview {
+.scene-icon {
     position: relative;
     width: 80px;
     height: 80px;
     border-radius: 50%;
     background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-    box-shadow: var(--preview-glow);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: box-shadow 0.3s ease;
 }
 
-.sky-option:hover .sky-preview {
-    transform: scale(1.1);
-    box-shadow: 0 10px 25px rgba(135, 206, 250, 0.3);
+.weather-scene:hover .scene-icon {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.sky-option.active .sky-preview {
-    transform: scale(1.15);
-    box-shadow: 0 15px 30px rgba(135, 206, 250, 0.4);
+.weather-scene[data-weather="clear-day"] .scene-icon {
+    background: #87CEEB;
 }
 
-.sky-icon {
-    font-size: 2.5rem;
-    line-height: 1;
-    transform-origin: center;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.sky-option:hover .sky-icon {
-    transform: scale(1.2);
-}
-
-.sky-preview img {
-    max-width: 65%;
-    max-height: 65%;
-    object-fit: contain;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    animation: float 3s ease-in-out infinite;
-}
-
-.sky-option:hover .sky-preview img {
-    transform: scale(1.1);
-}
-
-.sky-reflection {
+.weather-scene[data-weather="clear-day"] .scene-icon::before {
+    content: "";
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8));
-    transform: translateY(100%);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.sky-option:hover .sky-reflection {
-    transform: translateY(0);
-}
-
-.sky-glow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 20%;
+    left: 20%;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #FFF176 0%, #FFEB3B 50%, #FBC02D 100%);
     border-radius: 50%;
-    top: 0;
-    left: 0;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-    opacity: 0;
-    mix-blend-mode: screen;
-    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 20px rgba(255, 235, 59, 0.7);
 }
 
-.sky-option:hover .sky-glow {
-    opacity: 1;
+.weather-scene[data-weather="sunset"] .scene-icon {
+    background: linear-gradient(to top, #FF7E5F, #FEB47B);
 }
 
-.sky-details {
-    text-align: center;
+.weather-scene[data-weather="sunset"] .scene-icon::before {
+    content: "";
+    position: absolute;
+    bottom: 10%;
+    left: 30%;
+    width: 30px;
+    height: 30px;
+    background: #FF7E5F;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 126, 95, 0.7);
 }
 
-.sky-details h3 {
+.weather-scene[data-weather="storm"] .scene-icon {
+    background: #4B79A1;
+}
+
+.weather-scene[data-weather="storm"] .scene-icon::before,
+.weather-scene[data-weather="storm"] .scene-icon::after {
+    content: "";
+    position: absolute;
+    background: #FFFFFF;
+    border-radius: 50%;
+}
+
+.weather-scene[data-weather="storm"] .scene-icon::before {
+    width: 40px;
+    height: 40px;
+    top: 20%;
+    left: 20%;
+}
+
+.weather-scene[data-weather="storm"] .scene-icon::after {
+    width: 30px;
+    height: 30px;
+    top: 30%;
+    left: 45%;
+}
+
+.weather-scene[data-weather="night"] .scene-icon {
+    background: #0F2027;
+}
+
+.weather-scene[data-weather="night"] .scene-icon::before {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 65% 35%, #ECEFF1 0%, #CFD8DC 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(236, 239, 241, 0.6);
+}
+
+.weather-scene[data-weather="snow"] .scene-icon {
+    background: #E0EAFC;
+}
+
+.weather-scene[data-weather="snow"] .scene-icon::before,
+.weather-scene[data-weather="snow"] .scene-icon::after {
+    content: "";
+    position: absolute;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.weather-scene[data-weather="snow"] .scene-icon::before {
+    width: 5px;
+    height: 5px;
+    top: 30%;
+    left: 30%;
+}
+
+.weather-scene[data-weather="snow"] .scene-icon::after {
+    width: 5px;
+    height: 5px;
+    top: 50%;
+    left: 60%;
+}
+
+.scene-label {
     font-size: 1rem;
-    margin-bottom: 5px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #1E90FF, #4169E1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: 0.5px;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    font-weight: 500;
+    color: #333;
+    transition: color 0.3s ease;
 }
 
-.sky-option:hover .sky-details h3 {
-    transform: scale(1.05);
-}
-
-.sky-details p {
-    font-size: 0.8rem;
-    color: #666;
-    line-height: 1.3;
-    transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    background: linear-gradient(90deg, 
-        rgba(100, 100, 100, 0) 0%, 
-        rgba(100, 100, 100, 0.8) 25%, 
-        rgba(100, 100, 100, 0.8) 75%, 
-        rgba(100, 100, 100, 0) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite linear paused;
-}
-
-.sky-option:hover .sky-details p {
-    color: #444;
-    animation-play-state: running;
+.weather-scene:hover .scene-label {
+    color: #4B79A1;
 }
 
 .content-area {
+    margin-top: 100px;
     padding: 40px 20px;
     max-width: 1200px;
-    margin: 0 auto;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .content-area h2 {
     font-size: 2rem;
     margin-bottom: 0.5em;
-    background: linear-gradient(135deg, #1E90FF, #87CEEB);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 600;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    color: #333;
+    transition: color var(--transition-smooth);
 }
 
 .content-area p {
     font-size: 1.1rem;
     line-height: 1.5;
     color: #444;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: color var(--transition-smooth);
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+.sky-clear-day {
+    background: var(--clear-sky);
+}
+
+.sky-sunset {
+    background: var(--sunset-sky);
+}
+
+.sky-storm {
+    background: var(--storm-sky);
+}
+
+.sky-night {
+    background: var(--night-sky);
+}
+
+.sky-snow {
+    background: var(--snow-sky);
+}
+
+.raindrop {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    width: 1px;
+    height: 15px;
+    top: -20px;
+    animation: fall linear infinite;
+}
+
+.snowflake {
+    position: absolute;
+    background: white;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    top: -10px;
+    animation: snowfall linear infinite;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+.lightning-bolt {
+    position: absolute;
+    background: rgba(255, 255, 255,, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    filter: blur(1px);
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes snowfall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+.cloud-particle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: float-horizontal linear infinite;
+}
+
+@keyframes float-horizontal {
+    from {
+        transform: translateX(-100px);
+    }
+    to {
+        transform: translateX(calc(100vw + 100px));
+    }
 }
 
 @media (max-width: 768px) {
-    .cosmic-navbar {
+    .horizon-nav {
+        height: 70px;
         padding: 0 15px;
     }
     
@@ -617,40 +608,48 @@ html, body {
         font-size: 1.2rem;
     }
     
-    .selector-orb {
-        width: 60px;
-        height: 60px;
+    .sunmoon-system {
+        width: 50px;
+        height: 50px;
     }
     
-    .orb-inner span {
-        font-size: 0.65rem;
+    .sun-core {
+        width: 30px;
+        height: 30px;
     }
     
-    .sky-options {
-        flex-wrap: wrap;
-        justify-content: center;
+    .cloud-cluster {
+        width: 100px;
+        height: 50px;
+    }
+    
+    .cloud-1 {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .cloud-2 {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .cloud-3 {
+        width: 30px;
+        height: 30px;
+        left: 60px;
+    }
+    
+    .weather-selector.open {
+        height: 400px;
+    }
+    
+    .atmosphere-container {
         gap: 20px;
-        padding: 30px 15px;
     }
     
-    .sky-panorama.open {
-        height: auto !important;
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-    
-    .sky-option {
-        width: 130px;
-        margin-bottom: 10px;
-    }
-    
-    .sky-preview {
+    .scene-icon {
         width: 70px;
         height: 70px;
-    }
-    
-    .sky-icon {
-        font-size: 2.2rem;
     }
     
     .content-area h2 {
@@ -663,67 +662,90 @@ html, body {
 }
 
 @media (max-width: 480px) {
-    .cosmic-navbar {
-        padding: 0 10px;
+    .horizon-nav {
         height: 60px;
-    }
-    
-    .brand-container {
-        gap: 8px;
-    }
-    
-    .brand-icon {
-        width: 30px;
-        height: 30px;
+        padding: 0 10px;
     }
     
     .brand-name {
         font-size: 1rem;
     }
     
-    .selector-orb {
-        width: 50px;
-        height: 50px;
+    .lightning-logo {
+        width: 30px;
+        height: 30px;
     }
     
-    .orb-inner span {
-        font-size: 0.6rem;
+    .sunmoon-system {
+        width: 40px;
+        height: 40px;
     }
     
-    .orb-emoji {
-        font-size: 1.5rem;
+    .sun-core {
+        width: 25px;
+        height: 25px;
     }
     
-    .sky-panorama.open {
-        max-height: 90vh;
+    .moon-core {
+        width: 22px;
+        height: 22px;
     }
     
-    .sky-options {
-        gap: 15px;
-        padding: 20px 10px;
+    .cloud-cluster {
+        width: 80px;
+        height: 40px;
     }
     
-    .sky-option {
-        width: 110px;
+    .cloud-1 {
+        width: 30px;
+        height: 30px;
+        left: 20px;
     }
     
-    .sky-preview {
+    .cloud-2 {
+        width: 20px;
+        height: 20px;
+        left: 8px;
+    }
+    
+    .cloud-3 {
+        width: 25px;
+        height: 25px;
+        left: 45px;
+    }
+    
+    .scene-icon {
         width: 60px;
         height: 60px;
-        margin-bottom: 10px;
     }
     
-    .sky-icon {
-        font-size: 1.8rem;
-    }
-    
-    .sky-details h3 {
+    .scene-label {
         font-size: 0.9rem;
-        margin-bottom: 3px;
     }
     
-    .sky-details p {
-        font-size: 0.7rem;
+    .weather-scene[data-weather="clear-day"] .scene-icon::before {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .weather-scene[data-weather="sunset"] .scene-icon::before {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .weather-scene[data-weather="storm"] .scene-icon::before {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .weather-scene[data-weather="storm"] .scene-icon::after {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .weather-scene[data-weather="night"] .scene-icon::before {
+        width: 24px;
+        height: 24px;
     }
     
     .content-area h2 {
