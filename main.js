@@ -9,10 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const continueButton = document.getElementById('continue-button');
     const completionScreen = document.getElementById('completion-screen');
     const restartButton = document.getElementById('restart-button');
-    
-    // Create star and cloud elements
-    createStars();
-    createClouds();
+    const starsContainer = document.querySelector('.stars-container');
+    const cloudsContainer = document.querySelector('.clouds-container');
     
     // State
     let currentStage = 1;
@@ -22,6 +20,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize
     initQuestionnaire();
+    
+    // Create star and cloud elements if containers exist
+    if (starsContainer) {
+        createStars();
+    } else {
+        console.warn('Stars container not found.');
+    }
+    
+    if (cloudsContainer) {
+        createClouds();
+    } else {
+        console.warn('Clouds container not found.');
+    }
     
     function initQuestionnaire() {
         // Update journey stage
@@ -41,10 +52,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Add event listener to continue button
-        continueButton.addEventListener('click', handleContinue);
+        if (continueButton) {
+            continueButton.addEventListener('click', handleContinue);
+        }
         
         // Add event listener to restart button
-        restartButton.addEventListener('click', restartQuestionnaire);
+        if (restartButton) {
+            restartButton.addEventListener('click', restartQuestionnaire);
+        }
     }
     
     function handleSkyElementClick() {
@@ -104,23 +119,27 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         const sky = this.getAttribute('data-sky');
-        if (descriptions[sky] && descriptions[sky][option]) {
+        if (optionDescription && descriptions[sky] && descriptions[sky][option]) {
             optionDescription.textContent = descriptions[sky][option];
         }
     }
     
     function handleSkyElementLeave() {
-        optionDescription.textContent = '';
+        if (optionDescription) {
+            optionDescription.textContent = '';
+        }
     }
     
     function handleContinue() {
         // Check if an option has been selected
         if (!currentSelection) {
             // Animate button to indicate no selection
-            continueButton.style.animation = 'shake 0.5s ease';
-            setTimeout(() => {
-                continueButton.style.animation = '';
-            }, 500);
+            if (continueButton) {
+                continueButton.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    continueButton.style.animation = '';
+                }, 500);
+            }
             return;
         }
         
@@ -136,7 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Reset current selection
             currentSelection = null;
-            selectedOption.textContent = 'None';
+            if (selectedOption) {
+                selectedOption.textContent = 'None';
+            }
         } else {
             // Complete the questionnaire
             completeQuestionnaire();
@@ -163,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateSelectedOption(option) {
+        if (!selectedOption) return;
+        
         const optionNames = {
             '1': {
                 '1': 'Clear Blue Sky',
@@ -191,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         const skyStage = currentStage.toString();
-        if (selectedOption && optionNames[skyStage] && optionNames[skyStage][option]) {
+        if (optionNames[skyStage] && optionNames[skyStage][option]) {
             selectedOption.textContent = optionNames[skyStage][option];
         }
     }
@@ -256,11 +279,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Log the selections
         console.log('Sky Questionnaire Selections:', selections);
-        
-        // Here you could also send the data to a server
     }
     
     function restartQuestionnaire() {
+        if (!selectedOption) return;
+        
         // Reset state
         currentStage = 1;
         selections = {};
@@ -273,11 +296,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showSkyElementsForStage(currentStage);
         
         // Hide completion screen
-        completionScreen.classList.remove('active');
+        if (completionScreen) {
+            completionScreen.classList.remove('active');
+        }
     }
     
     function createStars() {
-        const starsContainer = document.querySelector('.stars-container');
         if (!starsContainer) return;
         
         const starsCount = window.innerWidth < 768 ? 50 : 100;
@@ -302,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function createClouds() {
-        const cloudsContainer = document.querySelector('.clouds-container');
         if (!cloudsContainer) return;
         
         const cloudCount = window.innerWidth < 768 ? 3 : 5;
@@ -348,8 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
             cloud.appendChild(cloudBefore);
             cloudsContainer.appendChild(cloud);
         }
-        
-        // Add keyframes for cloud animation
+    }
+    
+    // Add keyframes for animations
+    function addKeyframes() {
         const style = document.createElement('style');
         style.textContent = `
             @keyframes float-cloud {
@@ -371,4 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.head.appendChild(style);
     }
+    
+    // Add keyframes
+    addKeyframes();
 });
