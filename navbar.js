@@ -1,239 +1,185 @@
-// Neural Navigation Interface
+// Dynamic Weather Navigation System
 document.addEventListener('DOMContentLoaded', function() {
     // Elements
-    const neuralSurface = document.querySelector('.nav-neural-surface');
-    const neuralBackdrop = document.querySelector('.neural-backdrop');
-    const neuralNodes = document.querySelectorAll('.neural-node');
-    const visualizations = document.querySelectorAll('.data-visualization');
-    const backButtons = document.querySelectorAll('.back-button');
-    const dataPoints = document.querySelector('.data-points');
-    const brandFloat = document.querySelector('.brand-float');
+    const navbar = document.querySelector('.atmosphere-navbar');
+    const weatherContainer = document.querySelector('.weather-container');
+    const weatherToggle = document.querySelector('.weather-toggle');
+    const mobileClose = document.querySelector('.mobile-close');
+    const skyOptions = document.querySelectorAll('.sky-option');
+    const brandContainer = document.querySelector('.brand-container');
     
     // Check if elements exist
-    if (!neuralSurface || !neuralBackdrop || !dataPoints) {
+    if (!navbar || !weatherContainer || !skyOptions) {
         console.error('Required elements missing');
         return;
     }
     
     // State
-    let isNavActive = false;
-    let currentVisualization = null;
+    let currentSky = null;
     
     // Initialize
-    createDataPoints();
-    addNodeHoverEffects();
+    initializeNavigation();
     
-    // Toggle neural navigation
-    neuralSurface.addEventListener('click', function(e) {
-        // Prevent click propagation if clicking on a node
-        if (e.target.classList.contains('neural-node') || 
-            e.target.closest('.neural-node')) {
-            return;
-        }
-        
-        toggleNavigation();
-    });
-    
-    // Close navigation when clicking on backdrop
-    neuralBackdrop.addEventListener('click', function() {
-        if (isNavActive) {
-            toggleNavigation();
-        }
-    });
-    
-    // Node click handlers
-    neuralNodes.forEach(node => {
-        node.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent triggering parent click
-            
-            // Get sky type
-            const skyType = this.getAttribute('data-sky');
-            
-            // Show the corresponding visualization
-            showVisualization(skyType);
-            
-            // Close the navigation
-            if (isNavActive) {
-                toggleNavigation();
-            }
-        });
-    });
-    
-    // Back button click handlers
-    backButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            hideAllVisualizations();
-        });
-    });
-    
-    // Brand click handler - reset/home
-    brandFloat.addEventListener('click', function() {
-        hideAllVisualizations();
-        
-        if (isNavActive) {
-            toggleNavigation();
-        }
-        
-        // Scroll to top with smooth animation
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Escape key to close navigation or visualizations
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            if (currentVisualization) {
-                hideAllVisualizations();
-            } else if (isNavActive) {
-                toggleNavigation();
-            }
-        }
-    });
-    
-    // Toggle neural navigation state
-    function toggleNavigation() {
-        isNavActive = !isNavActive;
-        
-        if (isNavActive) {
-            // Activate neural surface
-            neuralSurface.classList.add('active');
-            neuralBackdrop.classList.add('active');
-            
-            // Add subtle page effect
-            document.body.style.overflow = 'hidden';
+    // Scroll event for navbar
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+            navbar.classList.add('scrolled');
         } else {
-            // Deactivate neural surface
-            neuralSurface.classList.remove('active');
-            neuralBackdrop.classList.remove('active');
-            
-            // Remove page effect
-            document.body.style.overflow = '';
+            navbar.classList.remove('scrolled');
         }
-    }
+    });
     
-    // Show a visualization screen
-    function showVisualization(skyType) {
-        // Hide any active visualization first
-        hideAllVisualizations();
-        
-        // Find and show the new visualization
-        const vizElement = document.getElementById(`visualization-${skyType}`);
-        if (vizElement) {
-            vizElement.classList.add('active');
-            currentVisualization = vizElement;
-            
-            // Prevent page scrolling
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    // Hide all visualizations
-    function hideAllVisualizations() {
-        visualizations.forEach(viz => {
-            viz.classList.remove('active');
+    // Mobile menu toggle
+    if (weatherToggle) {
+        weatherToggle.addEventListener('click', function() {
+            weatherContainer.classList.add('active');
         });
-        
-        currentVisualization = null;
-        
-        // Allow page scrolling again (unless nav is active)
-        if (!isNavActive) {
-            document.body.style.overflow = '';
-        }
     }
     
-    // Create floating data points
-    function createDataPoints() {
-        // Number of data points based on screen size
-        const pointCount = window.innerWidth < 768 ? 15 : 30;
-        
-        for (let i = 0; i < pointCount; i++) {
-            const point = document.createElement('div');
-            point.classList.add('data-point');
-            
-            // Random properties for each point
-            const size = Math.random() * 3 + 2;
-            const opacity = Math.random() * 0.5 + 0.3;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 5;
-            
-            // Random start position relative to center
-            const startX = (Math.random() * 60 - 30) + '%';
-            const startY = (Math.random() * 60 - 30) + '%';
-            
-            // Random end position (distance from center)
-            const tx = (Math.random() * 200 - 100);
-            const ty = (Math.random() * 200 - 100);
-            
-            // Random color
-            const hue = Math.random() > 0.7 ? 
-                        Math.floor(Math.random() * 360) : 
-                        Math.floor(Math.random() * 40 + 190); // Mostly blue tones
-            
-            point.style.width = `${size}px`;
-            point.style.height = `${size}px`;
-            point.style.opacity = opacity;
-            point.style.background = `hsla(${hue}, 80%, 70%, 0.8)`;
-            point.style.boxShadow = `0 0 ${size * 2}px hsla(${hue}, 80%, 70%, 0.5)`;
-            point.style.left = `calc(50% + ${startX})`;
-            point.style.top = `calc(50% + ${startY})`;
-            point.style.animationDuration = `${duration}s`;
-            point.style.animationDelay = `${delay}s`;
-            
-            // Set custom properties for the float animation
-            point.style.setProperty('--tx', `${tx}px`);
-            point.style.setProperty('--ty', `${ty}px`);
-            
-            dataPoints.appendChild(point);
-        }
+    // Mobile menu close
+    if (mobileClose) {
+        mobileClose.addEventListener('click', function() {
+            weatherContainer.classList.remove('active');
+        });
     }
     
-    // Add hover effects to nodes
-    function addNodeHoverEffects() {
-        neuralNodes.forEach(node => {
-            // Add subtle pulse on hover
-            node.addEventListener('mouseenter', function() {
-                // Create ripple effect
-                createRippleEffect(this);
+    // Brand/logo click
+    if (brandContainer) {
+        brandContainer.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // Initialize navigation behavior
+    function initializeNavigation() {
+        // Set up initial state - clear blue sky as default
+        if (!currentSky) {
+            const defaultSky = 'clear-blue';
+            const defaultOption = document.querySelector(`.sky-option[data-sky="${defaultSky}"]`);
+            
+            if (defaultOption) {
+                currentSky = defaultSky;
+                document.body.classList.add(`sky-${defaultSky}`);
+                updateNavbarTheme(defaultSky);
+                defaultOption.classList.add('active');
+            }
+        }
+        
+        // Add click handlers to sky options
+        skyOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const skyType = this.getAttribute('data-sky');
+                changeSkyTheme(skyType, this);
                 
-                // Highlight connections related to this node
-                highlightRelatedConnections(this);
-            });
-            
-            node.addEventListener('mouseleave', function() {
-                // Reset connections
-                resetConnections();
+                // Close mobile menu if open
+                weatherContainer.classList.remove('active');
             });
         });
     }
     
-    // Create ripple effect around node
-    function createRippleEffect(node) {
-        const ripple = document.createElement('div');
-        ripple.classList.add('node-ripple');
+    // Change sky theme
+    function changeSkyTheme(skyType, optionElement) {
+        // Skip if already current theme
+        if (currentSky === skyType) return;
         
-        // Style the ripple
+        // Remove current theme class from body
+        if (currentSky) {
+            document.body.classList.remove(`sky-${currentSky}`);
+        }
+        
+        // Remove active class from all options
+        skyOptions.forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // Set new theme
+        currentSky = skyType;
+        document.body.classList.add(`sky-${skyType}`);
+        
+        // Set active class on selected option
+        if (optionElement) {
+            optionElement.classList.add('active');
+        }
+        
+        // Update navbar theme
+        updateNavbarTheme(skyType);
+        
+        // Add visual feedback for the selection
+        addSelectionFeedback(optionElement);
+    }
+    
+    // Update navbar appearance based on theme
+    function updateNavbarTheme(skyType) {
+        // First, reset to default
+        navbar.style.background = 'rgba(255, 255, 255, 0.85)';
+        navbar.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.05)';
+        navbar.style.color = 'rgb(30, 35, 45)';
+        
+        // Then apply theme-specific styles
+        switch(skyType) {
+            case 'clear-blue':
+                // Default is fine
+                break;
+                
+            case 'sunset-glow':
+                navbar.style.background = 'rgba(255, 250, 245, 0.85)';
+                break;
+                
+            case 'storm-brewing':
+                navbar.style.background = 'rgba(235, 235, 240, 0.85)';
+                navbar.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.1)';
+                break;
+                
+            case 'starry-night':
+                navbar.style.background = 'rgba(20, 30, 45, 0.85)';
+                navbar.style.color = 'rgb(250, 250, 255)';
+                navbar.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.2)';
+                break;
+                
+            case 'rainbow-sky':
+                navbar.style.background = 'rgba(245, 245, 255, 0.85)';
+                break;
+        }
+    }
+    
+    // Add visual feedback when selecting a theme
+    function addSelectionFeedback(element) {
+        if (!element) return;
+        
+        // Add pulse animation
+        element.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            element.style.transform = '';
+        }, 300);
+        
+        // Create ripple effect
+        const ripple = document.createElement('div');
         ripple.style.position = 'absolute';
         ripple.style.width = '100%';
         ripple.style.height = '100%';
         ripple.style.borderRadius = '50%';
-        ripple.style.background = 'rgba(var(--primary-color), 0.2)';
+        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
         ripple.style.transform = 'scale(1)';
         ripple.style.opacity = '1';
+        ripple.style.top = '0';
+        ripple.style.left = '0';
+        ripple.style.zIndex = '5';
         ripple.style.pointerEvents = 'none';
         
         // Add animation
-        ripple.style.animation = 'ripple 1s ease-out forwards';
+        ripple.style.animation = 'skyRipple 0.8s forwards';
         
         // Create keyframes for the ripple animation
         if (!document.querySelector('#ripple-keyframes')) {
             const style = document.createElement('style');
             style.id = 'ripple-keyframes';
             style.textContent = `
-                @keyframes ripple {
+                @keyframes skyRipple {
                     to {
-                        transform: scale(3);
+                        transform: scale(2);
                         opacity: 0;
                     }
                 }
@@ -241,114 +187,103 @@ document.addEventListener('DOMContentLoaded', function() {
             document.head.appendChild(style);
         }
         
-        // Add to node and remove after animation
-        node.appendChild(ripple);
+        // Add to option and remove after animation
+        const preview = element.querySelector('.sky-preview');
+        if (preview) {
+            preview.appendChild(ripple);
+            setTimeout(() => {
+                ripple.remove();
+            }, 800);
+        }
+        
+        // Also create page transition effect
+        const pageTransition = document.createElement('div');
+        pageTransition.style.position = 'fixed';
+        pageTransition.style.top = '0';
+        pageTransition.style.left = '0';
+        pageTransition.style.width = '100%';
+        pageTransition.style.height = '100%';
+        pageTransition.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        pageTransition.style.pointerEvents = 'none';
+        pageTransition.style.zIndex = '999';
+        pageTransition.style.opacity = '0';
+        
+        // Add to body and animate
+        document.body.appendChild(pageTransition);
+        
+        // Fade in quickly then fade out
         setTimeout(() => {
-            ripple.remove();
-        }, 1000);
-    }
-    
-    // Highlight connections related to the hovered node
-    function highlightRelatedConnections(node) {
-        const connections = document.querySelectorAll('.connection');
-        const nodeIndex = Array.from(neuralNodes).indexOf(node) + 1;
-        
-        connections.forEach((connection, index) => {
-            // Check if connection is related to this node
-            const connectionClasses = connection.className;
+            pageTransition.style.transition = 'opacity 0.3s ease';
+            pageTransition.style.opacity = '0.15';
             
-            if (connectionClasses.includes(`connection-${nodeIndex}-`) || 
-                connectionClasses.includes(`-${nodeIndex}`)) {
-                // Highlight this connection
-                connection.style.opacity = '1';
-                connection.style.height = '2px';
-                connection.style.boxShadow = '0 0 8px rgba(var(--primary-color), 0.8)';
-            } else {
-                // Fade other connections
-                connection.style.opacity = '0.3';
-            }
-        });
+            setTimeout(() => {
+                pageTransition.style.opacity = '0';
+                
+                // Remove after animation
+                setTimeout(() => {
+                    pageTransition.remove();
+                }, 300);
+            }, 300);
+        }, 10);
     }
     
-    // Reset connections to default state
-    function resetConnections() {
-        const connections = document.querySelectorAll('.connection');
+    // Create animated brand icon based on current sky theme
+    function updateBrandIcon(skyType) {
+        const skyIcon = document.querySelector('.sky-icon');
+        if (!skyIcon) return;
         
-        connections.forEach(connection => {
-            connection.style.opacity = '';
-            connection.style.height = '';
-            connection.style.boxShadow = '';
-        });
-    }
-    
-    // Add parallax effect to the neural surface
-    document.addEventListener('mousemove', function(e) {
-        if (!isNavActive) return;
-        
-        const moveX = (e.clientX - window.innerWidth / 2) / 30;
-        const moveY = (e.clientY - window.innerHeight / 2) / 30;
-        
-        // Apply subtle movement to the neural pathways
-        const paths = document.querySelectorAll('.neural-path');
-        paths.forEach((path, index) => {
-            const depth = 1 - (index * 0.15); // Different depths for 3D effect
-            path.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
-        });
-        
-        // Move data points in opposite direction for parallax
-        dataPoints.style.transform = `translate(${-moveX * 0.5}px, ${-moveY * 0.5}px)`;
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        // Clear and recreate data points
-        dataPoints.innerHTML = '';
-        createDataPoints();
-    });
-    
-    // Add touch support for mobile
-    let touchStartX, touchStartY;
-    
-    neuralSurface.addEventListener('touchstart', function(e) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-    });
-    
-    neuralSurface.addEventListener('touchend', function(e) {
-        // Only process if it's a tap (not a swipe)
-        const touchEndX = e.changedTouches[0].clientX;
-        const touchEndY = e.changedTouches[0].clientY;
-        
-        const deltaX = Math.abs(touchEndX - touchStartX);
-        const deltaY = Math.abs(touchEndY - touchStartY);
-        
-        // If the touch was a tap (not a swipe)
-        if (deltaX < 10 && deltaY < 10) {
-            // Check if we're clicking on a node
-            if (e.target.classList.contains('neural-node') || 
-                e.target.closest('.neural-node')) {
-                return; // Nodes have their own handlers
-            }
-            
-            toggleNavigation();
+        // Update icon appearance based on theme
+        switch(skyType) {
+            case 'clear-blue':
+                skyIcon.style.background = 'linear-gradient(135deg, rgba(120, 170, 255, 0.8), rgba(150, 200, 255, 0.5))';
+                break;
+                
+            case 'sunset-glow':
+                skyIcon.style.background = 'linear-gradient(135deg, rgba(255, 140, 50, 0.8), rgba(255, 180, 70, 0.5))';
+                break;
+                
+            case 'storm-brewing':
+                skyIcon.style.background = 'linear-gradient(135deg, rgba(60, 70, 90, 0.8), rgba(90, 100, 120, 0.5))';
+                break;
+                
+            case 'starry-night':
+                skyIcon.style.background = 'linear-gradient(135deg, rgba(20, 30, 60, 0.8), rgba(30, 50, 90, 0.5))';
+                break;
+                
+            case 'rainbow-sky':
+                skyIcon.style.background = 'linear-gradient(135deg, rgba(100, 180, 255, 0.8), rgba(170, 120, 255, 0.5))';
+                break;
         }
-    });
+    }
     
-    // Prevent scrolling when interacting with the neural surface
-    neuralSurface.addEventListener('touchmove', function(e) {
-        if (isNavActive) {
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        // Escape key to close mobile menu
+        if (e.key === 'Escape' && weatherContainer.classList.contains('active')) {
+            weatherContainer.classList.remove('active');
+        }
+        
+        // Arrow keys to navigate between sky options
+        if (e.key.startsWith('Arrow')) {
             e.preventDefault();
+            
+            const activeIndex = Array.from(skyOptions).findIndex(option => 
+                option.classList.contains('active')
+            );
+            
+            let newIndex = activeIndex;
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                newIndex = (activeIndex + 1) % skyOptions.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                newIndex = (activeIndex - 1 + skyOptions.length) % skyOptions.length;
+            }
+            
+            if (newIndex !== activeIndex) {
+                const newOption = skyOptions[newIndex];
+                const skyType = newOption.getAttribute('data-sky');
+                changeSkyTheme(skyType, newOption);
+            }
         }
-    }, { passive: false });
-    
-    // Initialize with a subtle entrance animation
-    setTimeout(() => {
-        neuralSurface.style.animation = 'none';
-        neuralSurface.style.transform = 'translateY(0)';
-        neuralSurface.style.opacity = '1';
-        
-        brandFloat.style.animation = 'none';
-        brandFloat.style.transform = 'translateY(0)';
-        brandFloat.style.opacity = '0.8';
-    }, 1500);
+    });
 });
