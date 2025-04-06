@@ -2,27 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colored Pencil Sunrise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sky Experience Questionnaire</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="container">
-        <div class="pencil-background">
-            <div class="sky"></div>
-            <div class="sun"></div>
-            <div class="mountains">
-                <div class="mountain mountain-1"></div>
-                <div class="mountain mountain-2"></div>
-                <div class="mountain mountain-3"></div>
+    <div class="stars-container"></div>
+    <div class="clouds-container"></div>
+    
+    <nav class="sky-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="sun-icon">
+                    <div class="sun-core"></div>
+                    <div class="sun-ray"></div>
+                </div>
             </div>
-            <div class="ground"></div>
+            <h1 class="brand-name">Blend of Skies</h1>
         </div>
-        <div class="content">
-            <h1>Welcome to My Colored Pencil World</h1>
-            <p>A handcrafted digital experience</p>
+        
+        <div class="journey-indicator">
+            <span class="journey-text">Question <span id="journey-stage">1 of 4</span></span>
+            <div class="journey-shimmer"></div>
+        </div>
+        
+        <div class="empty-space"></div>
+    </nav>
+    
+    <div class="sky-system">
+        <div class="atmosphere">
+            <div class="sun"></div>
+            <div class="horizon"></div>
+            
+            <div class="sky-layer layer-1"></div>
+            <div class="sky-element sky-1" data-sky="1" data-option="1">
+                <div class="sky-icon clear-sky"></div>
+            </div>
+            <div class="sky-element sky-1" data-sky="1" data-option="2" style="transform: translateX(25vw);">
+                <div class="sky-icon sunset"></div>
+            </div>
+            <div class="sky-element sky-1" data-sky="1" data-option="3" style="transform: translateX(-25vw);">
+                <div class="sky-icon storm-clouds"></div>
+            </div>
+            <div class="sky-element sky-1" data-sky="1" data-option="4" style="transform: translateY(-20vh);">
+                <div class="sky-icon night-sky"></div>
+            </div>
+            
+            <div class="sky-layer layer-2"></div>
+            <div class="sky-element sky-2" data-sky="2" data-option="1">
+                <div class="sky-icon rain"></div>
+            </div>
+            <div class="sky-element sky-2" data-sky="2" data-option="2" style="transform: translateX(25vw);">
+                <div class="sky-icon rainbow"></div>
+            </div>
+            <div class="sky-element sky-2" data-sky="2" data-option="3" style="transform: translateX(-25vw);">
+                <div class="sky-icon fog"></div>
+            </div>
+            <div class="sky-element sky-2" data-sky="2" data-option="4" style="transform: translateY(-20vh);">
+                <div class="sky-icon snow"></div>
+            </div>
+            
+            <div class="sky-layer layer-3"></div>
+            <div class="sky-element sky-3" data-sky="3" data-option="1">
+                <div class="sky-icon dawn"></div>
+            </div>
+            <div class="sky-element sky-3" data-sky="3" data-option="2" style="transform: translateX(25vw);">
+                <div class="sky-icon midday"></div>
+            </div>
+            <div class="sky-element sky-3" data-sky="3" data-option="3" style="transform: translateX(-25vw);">
+                <div class="sky-icon golden-hour"></div>
+            </div>
+            <div class="sky-element sky-3" data-sky="3" data-option="4" style="transform: translateY(-20vh);">
+                <div class="sky-icon twilight"></div>
+            </div>
+            
+            <div class="sky-layer layer-4"></div>
+            <div class="sky-element sky-4" data-sky="4" data-option="1">
+                <div class="sky-icon northern-lights"></div>
+            </div>
+            <div class="sky-element sky-4" data-sky="4" data-option="2" style="transform: translateX(25vw);">
+                <div class="sky-icon sunrise"></div>
+            </div>
+            <div class="sky-element sky-4" data-sky="4" data-option="3" style="transform: translateX(-25vw);">
+                <div class="sky-icon cloud-formations"></div>
+            </div>
+            <div class="sky-element sky-4" data-sky="4" data-option="4" style="transform: translateY(-20vh);">
+                <div class="sky-icon lightning"></div>
+            </div>
+            
+            <div class="mountains"></div>
         </div>
     </div>
+    
+    <div class="sky-interface">
+        <div class="question-panel" id="question-panel">
+            <h2 class="question-title" id="current-question">What type of sky do you find most beautiful?</h2>
+            <div class="sky-description" id="option-description"></div>
+            <div class="option-indicator">Selected: </div>
+            <div class="selected-option" id="selected-option">None</div>
+            <button class="continue-button" id="continue-button">Continue</button>
+        </div>
+    </div>
+    
+    <div class="completion-screen" id="completion-screen">
+        <div class="completion-orb">
+            <div class="completion-symbol">☀️</div>
+        </div>
+        <h2 class="completion-title">Sky Journey Complete</h2>
+        <p class="completion-message">Your preferences have been recorded among the clouds. Thank you for sharing your perspective on the skies above.</p>
+        <button class="restart-button" id="restart-button">Begin New Journey</button>
+    </div>
+
     <script src="main.js"></script>
 </body>
 </html>
