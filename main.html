@@ -3,116 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sky Experience Questionnaire</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Blend of Skies - Emotional Weather Experience</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="stars-container"></div>
-    <div class="clouds-container"></div>
+    <div class="weather-backdrop weather-effect-clear"></div>
     
-    <nav class="sky-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="sun-icon">
-                    <div class="sun-core"></div>
-                    <div class="sun-ray"></div>
-                </div>
-            </div>
-            <h1 class="brand-name">Blend of Skies</h1>
-        </div>
+    <nav class="atmosphere-bar">
+        <div class="atmosphere-backdrop"></div>
+        <div class="brand">Blend of Skies</div>
         
-        <div class="journey-indicator">
-            <span class="journey-text">Question <span id="journey-stage">1 of 4</span></span>
-            <div class="journey-shimmer"></div>
-        </div>
+        <div class="mood-question">How does the sky make you feel today?</div>
         
-        <div class="empty-space"></div>
+        <button class="mood-toggle">
+            <svg class="weather-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.5 17a4.5 4.5 0 1 1 0-9h0a5 5 0 0 1 9.9 1A5.5 5.5 0 1 1 22 18.5h-2"></path>
+                <path d="M14.5 18a3 3 0 1 1-6 0 3.5 3.5 0 0 0-7 0"></path>
+            </svg>
+            <span>Change Mood</span>
+        </button>
     </nav>
     
-    <div class="sky-system">
-        <div class="atmosphere">
-            <div class="sun"></div>
-            <div class="horizon"></div>
+    <div class="weather-emotions">
+        <div class="emotion-selector">
+            <div class="emotion-title">How does the sky make you feel today?</div>
+            <div class="emotion-subtitle">Select the weather that matches your emotional state</div>
             
-            <div class="sky-layer layer-1"></div>
-            <div class="sky-element sky-1" data-sky="1" data-option="1">
-                <div class="sky-icon clear-sky"></div>
-            </div>
-            <div class="sky-element sky-1" data-sky="1" data-option="2" style="transform: translateX(25vw);">
-                <div class="sky-icon sunset"></div>
-            </div>
-            <div class="sky-element sky-1" data-sky="1" data-option="3" style="transform: translateX(-25vw);">
-                <div class="sky-icon storm-clouds"></div>
-            </div>
-            <div class="sky-element sky-1" data-sky="1" data-option="4" style="transform: translateY(-20vh);">
-                <div class="sky-icon night-sky"></div>
-            </div>
-            
-            <div class="sky-layer layer-2"></div>
-            <div class="sky-element sky-2" data-sky="2" data-option="1">
-                <div class="sky-icon rain"></div>
-            </div>
-            <div class="sky-element sky-2" data-sky="2" data-option="2" style="transform: translateX(25vw);">
-                <div class="sky-icon rainbow"></div>
-            </div>
-            <div class="sky-element sky-2" data-sky="2" data-option="3" style="transform: translateX(-25vw);">
-                <div class="sky-icon fog"></div>
-            </div>
-            <div class="sky-element sky-2" data-sky="2" data-option="4" style="transform: translateY(-20vh);">
-                <div class="sky-icon snow"></div>
-            </div>
-            
-            <div class="sky-layer layer-3"></div>
-            <div class="sky-element sky-3" data-sky="3" data-option="1">
-                <div class="sky-icon dawn"></div>
-            </div>
-            <div class="sky-element sky-3" data-sky="3" data-option="2" style="transform: translateX(25vw);">
-                <div class="sky-icon midday"></div>
-            </div>
-            <div class="sky-element sky-3" data-sky="3" data-option="3" style="transform: translateX(-25vw);">
-                <div class="sky-icon golden-hour"></div>
-            </div>
-            <div class="sky-element sky-3" data-sky="3" data-option="4" style="transform: translateY(-20vh);">
-                <div class="sky-icon twilight"></div>
-            </div>
-            
-            <div class="sky-layer layer-4"></div>
-            <div class="sky-element sky-4" data-sky="4" data-option="1">
-                <div class="sky-icon northern-lights"></div>
-            </div>
-            <div class="sky-element sky-4" data-sky="4" data-option="2" style="transform: translateX(25vw);">
-                <div class="sky-icon sunrise"></div>
-            </div>
-            <div class="sky-element sky-4" data-sky="4" data-option="3" style="transform: translateX(-25vw);">
-                <div class="sky-icon cloud-formations"></div>
-            </div>
-            <div class="sky-element sky-4" data-sky="4" data-option="4" style="transform: translateY(-20vh);">
-                <div class="sky-icon lightning"></div>
+            <div class="emotion-options">
+                <div class="emotion-option" data-emotion="clear">
+                    <div class="emotion-backdrop clear"></div>
+                    <div class="emotion-animation clear-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Clear & Optimistic</div>
+                </div>
+                
+                <div class="emotion-option" data-emotion="energetic">
+                    <div class="emotion-backdrop energetic"></div>
+                    <div class="emotion-animation energetic-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Energetic & Warm</div>
+                </div>
+                
+                <div class="emotion-option" data-emotion="tranquil">
+                    <div class="emotion-backdrop tranquil"></div>
+                    <div class="emotion-animation tranquil-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Tranquil & Peaceful</div>
+                </div>
+                
+                <div class="emotion-option" data-emotion="melancholy">
+                    <div class="emotion-backdrop melancholy"></div>
+                    <div class="emotion-animation melancholy-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Pensive & Reflective</div>
+                </div>
+                
+                <div class="emotion-option" data-emotion="awed">
+                    <div class="emotion-backdrop awed"></div>
+                    <div class="emotion-animation awed-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Awed & Inspired</div>
+                </div>
+                
+                <div class="emotion-option" data-emotion="mysterious">
+                    <div class="emotion-backdrop mysterious"></div>
+                    <div class="emotion-animation mysterious-animation"></div>
+                    <div class="emotion-overlay"></div>
+                    <div class="emotion-label">Mysterious & Deep</div>
+                </div>
             </div>
             
-            <div class="mountains"></div>
+            <div class="close-emotions">×</div>
         </div>
     </div>
     
-    <div class="sky-interface">
-        <div class="question-panel" id="question-panel">
-            <h2 class="question-title" id="current-question">What type of sky do you find most beautiful?</h2>
-            <div class="sky-description" id="option-description"></div>
-            <div class="option-indicator">Selected: </div>
-            <div class="selected-option" id="selected-option">None</div>
-            <button class="continue-button" id="continue-button">Continue</button>
-        </div>
-    </div>
-    
-    <div class="completion-screen" id="completion-screen">
-        <div class="completion-orb">
-            <div class="completion-symbol">☀️</div>
-        </div>
-        <h2 class="completion-title">Sky Journey Complete</h2>
-        <p class="completion-message">Your preferences have been recorded among the clouds. Thank you for sharing your perspective on the skies above.</p>
-        <button class="restart-button" id="restart-button">Begin New Journey</button>
-    </div>
+    <main class="content-area">
+        <h1 class="page-heading">Welcome to Your Sky Experience</h1>
+        <p class="page-description">The sky isn't just something we observe; it's something we feel. Select how the sky makes you feel today, and watch as the environment transforms to match your emotional state.</p>
+        
+        <div style="height: 1500px;"></div>
+    </main>
 
-    <script src="main.js"></script>
+    <script src="navbar.js"></script>
 </body>
 </html>
