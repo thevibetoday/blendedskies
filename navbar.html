@@ -3,109 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blend of Skies Navigation</title>
+    <title>Weather Experience Navigation</title>
     <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    <div class="sky-particles"></div>
-    <div class="cosmos-overlay"></div>
+    <div class="sky-canvas"></div>
+    <div class="weather-layer"></div>
+    <div class="interactive-elements"></div>
     
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
-                </div>
+    <div class="horizon-nav">
+        <div class="sunmoon-system">
+            <div class="sun-element">
+                <div class="sun-core"></div>
+                <div class="sun-rays"></div>
+            </div>
+            <div class="moon-element">
+                <div class="moon-core"></div>
+                <div class="moon-craters"></div>
+            </div>
+        </div>
+        
+        <div class="weather-controller">
+            <div class="cloud-cluster">
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+            </div>
+            <div class="interaction-zone"></div>
+        </div>
+        
+        <div class="brand-identity">
+            <div class="lightning-logo">
+                <svg viewBox="0 0 50 50" class="logo-svg">
+                    <path class="logo-path" d="M25,5 L15,30 L23,30 L18,45 L19,45 L35,20 L26,20 L32,5 Z"></path>
+                </svg>
             </div>
             <h1 class="brand-name">Blend of Skies</h1>
         </div>
-        
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
-                </div>
-                <div class="orb-emoji"></div>
-                <div class="orb-aura"></div>
-                <svg class="orb-ring" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" />
-                </svg>
-            </div>
-        </div>
-    </nav>
+    </div>
     
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <img src="Sun.png" alt="Clear Blue Sky">
-                    <div class="sky-reflection"></div>
-                    <div class="sky-glow"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
-                </div>
+    <div class="weather-selector">
+        <div class="atmosphere-container">
+            <div class="weather-scene" data-weather="clear-day">
+                <div class="scene-icon"></div>
+                <div class="scene-label">Clear Sky</div>
             </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <img src="Armageddon.png" alt="Sunset Glow">
-                    <div class="sky-reflection"></div>
-                    <div class="sky-glow"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
+            <div class="weather-scene" data-weather="sunset">
+                <div class="scene-icon"></div>
+                <div class="scene-label">Sunset</div>
             </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <img src="Storm.png" alt="Storm Brewing">
-                    <div class="sky-reflection"></div>
-                    <div class="sky-glow"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
+            <div class="weather-scene" data-weather="storm">
+                <div class="scene-icon"></div>
+                <div class="scene-label">Storm</div>
             </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <img src="Nighttime.png" alt="Starry Night">
-                    <div class="sky-reflection"></div>
-                    <div class="sky-glow"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
+            <div class="weather-scene" data-weather="night">
+                <div class="scene-icon"></div>
+                <div class="scene-label">Night</div>
             </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <img src="Snow.png" alt="Rainbow Sky">
-                    <div class="sky-reflection"></div>
-                    <div class="sky-glow"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
+            <div class="weather-scene" data-weather="snow">
+                <div class="scene-icon"></div>
+                <div class="scene-label">Snow</div>
             </div>
         </div>
     </div>
     
     <div class="content-area">
         <h2>Welcome to Blend of Skies</h2>
-        <p>Scroll down to see the cosmic navigation in action!</p>
+        <p>Experience the ever-changing moods of the atmosphere.</p>
         <div style="height: 1500px;"></div>
     </div>
 
