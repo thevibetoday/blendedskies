@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory - Blend of Skies</title>
+  <title>Blend of Skies - Immersive Product Inventory</title>
   <link rel="stylesheet" href="inventory.css">
 </head>
 <body class="inventory-body sky-clear-blue">
@@ -15,7 +15,6 @@
     <section class="canvas-controls">
       <div class="control-panel">
         <div class="floating-filters">
-          <!-- Sky Filter -->
           <div class="filter-cluster">
             <div class="filter-circle active" data-filter="sky" data-value="clear-blue">
               <div class="sky-dot">☀️</div>
@@ -41,7 +40,6 @@
 
           <div class="divider"></div>
 
-          <!-- Type Filter -->
           <div class="filter-group">
             <div class="filter-chip active" data-filter="type" data-value="all">All</div>
             <div class="filter-chip" data-filter="type" data-value="tee">Tees</div>
@@ -126,8 +124,7 @@
       <p class="product-count"><span class="count-number">0</span> styles found</p>
 
       <div class="product-grid">
-        <!-- Example Product Card -->
-        <div class="product-item" data-sky="clear-blue" data-type="tee" data-size="M,L" data-colors="blue,white" data-style="minimalist" data-fit="true-to-size" data-tier="casual">
+        <div class="product-item" data-sky="clear-blue" data-type="tee" data-size="M,L" data-color="blue,white" data-style="minimalist" data-fit="true-to-size" data-tier="casual">
           <div class="product-media">
             <img src="shirt1.jpg" alt="Sky Tee">
           </div>
@@ -142,7 +139,66 @@
             </div>
           </div>
         </div>
-        <!-- Add more product cards here -->
+
+        <div class="product-item" data-sky="sunset-glow" data-type="longsleeve" data-size="S,M,L" data-color="red" data-style="graphic" data-fit="relaxed" data-tier="premium">
+          <div class="product-media">
+            <img src="shirt2.jpg" alt="Sunset Horizon Longsleeve">
+          </div>
+          <div class="product-details">
+            <h3><a href="#" class="product-link">Sunset Horizon Longsleeve</a></h3>
+            <div class="product-meta">
+              <div class="product-price">$58</div>
+              <div class="color-dots">
+                <div class="color-dot" style="background: red"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-item" data-sky="storm-brewing" data-type="hoodie" data-size="M,XL" data-color="black" data-style="bold" data-fit="oversized" data-tier="casual">
+          <div class="product-media">
+            <img src="shirt3.jpg" alt="Storm Fusion Hoodie">
+          </div>
+          <div class="product-details">
+            <h3><a href="#" class="product-link">Storm Fusion Hoodie</a></h3>
+            <div class="product-meta">
+              <div class="product-price">$72</div>
+              <div class="color-dots">
+                <div class="color-dot" style="background: black"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-item" data-sky="starry-night" data-type="tee" data-size="S,M" data-color="green" data-style="earthy" data-fit="snug" data-tier="premium">
+          <div class="product-media">
+            <img src="shirt4.jpg" alt="Cosmic Earth Tee">
+          </div>
+          <div class="product-details">
+            <h3><a href="#" class="product-link">Cosmic Earth Tee</a></h3>
+            <div class="product-meta">
+              <div class="product-price">$45</div>
+              <div class="color-dots">
+                <div class="color-dot" style="background: green"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-item" data-sky="rainbow-sky" data-type="hoodie" data-size="L,XL" data-color="blue" data-style="graphic" data-fit="true-to-size" data-tier="casual">
+          <div class="product-media">
+            <img src="shirt5.jpg" alt="Spectrum Blend Hoodie">
+          </div>
+          <div class="product-details">
+            <h3><a href="#" class="product-link">Spectrum Blend Hoodie</a></h3>
+            <div class="product-meta">
+              <div class="product-price">$65</div>
+              <div class="color-dots">
+                <div class="color-dot" style="background: blue"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
