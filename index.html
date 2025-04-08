@@ -3,702 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sky Preferences - Blend of Skies</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        :root {
-            --main-bg-color: #fff;
-            --main-text-color: #333;
-            --sky-accent: #1E90FF;
-            --sky-light: #87CEEB;
-            --sky-dark: #0C5DA5;
-            --cloud-color: #f9f9f9;
-            --glow: 0 0 15px rgba(135, 206, 250, 0.4);
-        }
-
-        body {
-            background-color: var(--main-bg-color);
-            color: var(--main-text-color);
-            min-height: 100vh;
-            width: 100%;
-            overflow-x: hidden;
-            background-image: linear-gradient(to bottom, #e6f2ff, #ffffff);
-        }
-
-        /* Navbar styles (minimal version) */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #87CEEB, #1E90FF);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            box-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
-        }
-
-        .brand-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Sky quiz styles */
-        .sky-quiz-container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 60px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 1s ease;
-        }
-
-        .question-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            transform: translateY(30px);
-            padding: 0 20px;
-        }
-
-        .question-container.active {
-            opacity: 1;
-            pointer-events: all;
-            transform: translateY(0);
-        }
-
-        .question-text {
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 600;
-            max-width: 600px;
-            margin-bottom: 30px;
-            color: #333;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
-        }
-
-        .answers-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .answer-card {
-            position: relative;
-            padding: 20px 15px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 2px solid transparent;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            min-height: 130px;
-        }
-
-        .answer-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--glow);
-            border-color: rgba(135, 206, 250, 0.5);
-        }
-
-        .answer-card.selected {
-            transform: scale(1.05);
-            border-color: var(--sky-accent);
-            box-shadow: 0 0 20px rgba(135, 206, 250, 0.7);
-        }
-
-        .answer-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .answer-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #444;
-        }
-
-        /* Floating clouds */
-        .cloud {
-            position: absolute;
-            background-color: var(--cloud-color);
-            border-radius: 50%;
-            opacity: 0.8;
-            filter: blur(10px);
-            z-index: -1;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            from { transform: translateX(100vw); }
-            to { transform: translateX(-100px); }
-        }
-
-        /* Weather animations */
-        .rain-drop {
-            position: absolute;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, rgba(135, 206, 250, 0.7));
-            border-radius: 50%;
-            z-index: -1;
-            top: -50px;
-            opacity: 0;
-            animation: rain linear infinite;
-        }
-
-        @keyframes rain {
-            0% { 
-                transform: translateY(0) translateX(0); 
-                opacity: 0.7;
-            }
-            80% {
-                opacity: 0.7;
-            }
-            100% { 
-                transform: translateY(120vh) translateX(20px); 
-                opacity: 0;
-            }
-        }
-
-        .snowflake {
-            position: absolute;
-            color: white;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-            z-index: -1;
-            top: -50px;
-            opacity: 0;
-            animation: snow linear infinite;
-        }
-
-        @keyframes snow {
-            0% { 
-                transform: translateY(0) rotate(0deg); 
-                opacity: 0.8;
-            }
-            100% { 
-                transform: translateY(100vh) rotate(360deg); 
-                opacity: 0;
-            }
-        }
-
-        .lightning {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: -1;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .sunshine {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 235, 59, 0.8), rgba(255, 167, 38, 0.2) 70%, transparent);
-            filter: blur(5px);
-            z-index: -1;
-            animation: pulse 4s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 0.9; }
-        }
-
-        @media (max-width: 640px) {
-            .question-text {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-
-            .answers-container {
-                gap: 10px;
-            }
-
-            .answer-card {
-                padding: 15px 10px;
-                min-height: 110px;
-            }
-
-            .answer-icon {
-                font-size: 2rem;
-                margin-bottom: 8px;
-            }
-
-            .answer-text {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-height: 700px) {
-            .question-text {
-                font-size: 1.3rem;
-                margin-bottom: 15px;
-            }
-
-            .answer-card {
-                min-height: 100px;
-                padding: 12px 8px;
-            }
-
-            .answer-icon {
-                font-size: 1.8rem;
-                margin-bottom: 5px;
-            }
-        }
-    </style>
+    <title>Blend of Skies</title>
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="layout.css">
+    
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="navbar-base.css">
+    <link rel="stylesheet" href="navbar-responsive.css">
+    <link rel="stylesheet" href="navbar-sky.css">
+    <link rel="stylesheet" href="navbar-ui.css">
+    
+    <!-- Sky Components CSS -->
+    <link rel="stylesheet" href="sky-options.css">
+    <link rel="stylesheet" href="stars.css">
+    <link rel="stylesheet" href="content.css">
+    
+    <!-- Quiz CSS -->
+    <link rel="stylesheet" href="quiz-layout.css">
+    <link rel="stylesheet" href="quiz-effects.css">
+    <link rel="stylesheet" href="quiz-responsiveness.css">
+    <link rel="stylesheet" href="questionnaire.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="brand">
-            <div class="brand-icon">☁️</div>
-            <div class="brand-name">Blend of Skies</div>
-        </div>
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
+    <!-- Include the navbar -->
+    <div id="navbar-container"></div>
+    
+    <!-- Include the sky panorama -->
+    <div id="sky-panorama-container"></div>
+    
+    <!-- Main content area -->
+    <div class="content-area">
+        <h2>Welcome to Blend of Skies</h2>
+        <p>Experience the beauty and wonder of different skies, all at your fingertips.</p>
     </div>
     
-    <!-- Sky Quiz -->
-    <div class="sky-quiz-container" id="skyQuiz">
-        <!-- Question 1 -->
-        <div class="question-container active" data-question="1" data-bg="#e6f2ff">
-            <h2 class="question-text">What's your ideal sky condition?</h2>
-            <div class="answers-container">
-                <div class="answer-card" data-weather="clear">
-                    <div class="answer-icon">☀️</div>
-                    <div class="answer-text">Clear blue skies with bright sunshine</div>
-                </div>
-                <div class="answer-card" data-weather="partly-cloudy">
-                    <div class="answer-icon">⛅</div>
-                    <div class="answer-text">Partly cloudy with a gentle breeze</div>
-                </div>
-                <div class="answer-card" data-weather="rainy">
-                    <div class="answer-icon">🌧️</div>
-                    <div class="answer-text">Light rain with the scent of petrichor</div>
-                </div>
-                <div class="answer-card" data-weather="sunset">
-                    <div class="answer-icon">🌇</div>
-                    <div class="answer-text">Vibrant sunset with cotton candy clouds</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Question 2 -->
-        <div class="question-container" data-question="2" data-bg="#ffe8d6">
-            <h2 class="question-text">What's your favorite time to look at the sky?</h2>
-            <div class="answers-container">
-                <div class="answer-card">
-                    <div class="answer-icon">🌄</div>
-                    <div class="answer-text">Dawn, when the world is still quiet</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🌞</div>
-                    <div class="answer-text">Midday, with the sun directly overhead</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🌆</div>
-                    <div class="answer-text">Golden hour, just before sunset</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🌃</div>
-                    <div class="answer-text">Night time, under a blanket of stars</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Question 3 -->
-        <div class="question-container" data-question="3" data-bg="#d6e5fa">
-            <h2 class="question-text">Which sky phenomenon would you like to see more often?</h2>
-            <div class="answers-container">
-                <div class="answer-card">
-                    <div class="answer-icon">🌈</div>
-                    <div class="answer-text">Double rainbows stretching across the horizon</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">⚡</div>
-                    <div class="answer-text">Dramatic lightning storms from a safe distance</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">❄️</div>
-                    <div class="answer-text">Gentle snowfall with large, fluffy flakes</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">☁️</div>
-                    <div class="answer-text">Unusual cloud formations with vivid colors</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Question 4 -->
-        <div class="question-container" data-question="4" data-bg="#e0f7fa">
-            <h2 class="question-text">What does the sky make you feel?</h2>
-            <div class="answers-container">
-                <div class="answer-card">
-                    <div class="answer-icon">😌</div>
-                    <div class="answer-text">Peaceful and calm</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🤩</div>
-                    <div class="answer-text">Inspired and in awe</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🧘</div>
-                    <div class="answer-text">Reflective and contemplative</div>
-                </div>
-                <div class="answer-card">
-                    <div class="answer-icon">🤗</div>
-                    <div class="answer-text">Connected to something larger</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Quiz Component Container -->
+    <div id="quiz-container"></div>
 
+    <!-- Include footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Utility JavaScript -->
+    <script src="utilities.js"></script>
+    <script src="utils.js"></script>
+    <script src="init.js"></script>
+    
+    <!-- Component Loaders -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const questionContainers = document.querySelectorAll('.question-container');
-            const answerCards = document.querySelectorAll('.answer-card');
-            const skyQuizContainer = document.getElementById('skyQuiz');
-            
-            let currentQuestion = 1;
-            let weatherEffects = [];
-            
-            // Initialize clouds
-            createClouds();
-            
-            // Handle answer selection
-            answerCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // Add selected class with animation
-                    this.classList.add('selected');
-                    
-                    // Get all siblings (other answers in same question)
-                    const siblings = Array.from(this.parentNode.children).filter(child => child !== this);
-                    siblings.forEach(sibling => {
-                        sibling.style.opacity = '0.5';
-                        sibling.style.transform = 'scale(0.95)';
-                        sibling.style.pointerEvents = 'none';
-                    });
-                    
-                    // Apply weather effect if it's the first question
-                    if (currentQuestion === 1) {
-                        const weatherType = this.getAttribute('data-weather');
-                        if (weatherType) {
-                            applyWeatherEffect(weatherType);
-                        }
-                    }
-                    
-                    // Create ripple effect
-                    createRipple(this);
-                    
-                    // Wait and move to next question
-                    setTimeout(() => {
-                        const currentContainer = document.querySelector(`.question-container[data-question="${currentQuestion}"]`);
-                        currentContainer.classList.remove('active');
-                        
-                        currentQuestion++;
-                        
-                        if (currentQuestion <= questionContainers.length) {
-                            const nextContainer = document.querySelector(`.question-container[data-question="${currentQuestion}"]`);
-                            const bgColor = nextContainer.getAttribute('data-bg');
-                            
-                            // Change background color smoothly
-                            skyQuizContainer.style.backgroundColor = bgColor;
-                            
-                            // Show next question
-                            setTimeout(() => {
-                                nextContainer.classList.add('active');
-                                
-                                // Reset all answer cards in the new question
-                                const newAnswers = nextContainer.querySelectorAll('.answer-card');
-                                newAnswers.forEach(answer => {
-                                    answer.style.opacity = '1';
-                                    answer.style.transform = 'translateY(0)';
-                                    answer.style.pointerEvents = 'auto';
-                                });
-                            }, 300);
-                        }
-                    }, 600);
-                });
+        // Load navbar component
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+        
+        // Load sky panorama component
+        fetch('sky-panorama.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sky-panorama-container').innerHTML = data;
             });
             
-            // Create floating clouds
-            function createClouds() {
-                const container = document.querySelector('.sky-quiz-container');
+        // Load quiz component
+        fetch('sky-quiz.html')
+            .then(response => response.text())
+            .then(data => {
+                // Extract only the quiz portion (not the head, navbar, etc.)
+                const parser = new DOMParser();
+                const htmlDoc = parser.parseFromString(data, 'text/html');
+                const quizContent = htmlDoc.querySelector('.sky-quiz-container');
                 
-                for (let i = 0; i < 8; i++) {
-                    const cloud = document.createElement('div');
-                    cloud.className = 'cloud';
-                    
-                    // Random cloud properties
-                    const size = Math.random() * 100 + 50;
-                    const top = Math.random() * 100;
-                    const opacity = Math.random() * 0.5 + 0.3;
-                    const duration = Math.random() * 60 + 60;
-                    const delay = Math.random() * 60;
-                    
-                    cloud.style.width = `${size}px`;
-                    cloud.style.height = `${size * 0.6}px`;
-                    cloud.style.top = `${top}%`;
-                    cloud.style.opacity = opacity;
-                    cloud.style.animationDuration = `${duration}s`;
-                    cloud.style.animationDelay = `-${delay}s`;
-                    
-                    container.appendChild(cloud);
+                if (quizContent) {
+                    document.getElementById('quiz-container').innerHTML = quizContent.outerHTML;
                 }
-            }
-            
-            // Create ripple effect
-            function createRipple(element) {
-                const ripple = document.createElement('div');
-                ripple.style.position = 'absolute';
-                ripple.style.width = '100%';
-                ripple.style.height = '100%';
-                ripple.style.top = '0';
-                ripple.style.left = '0';
-                ripple.style.borderRadius = 'inherit';
-                ripple.style.backgroundColor = 'rgba(135, 206, 235, 0.3)';
-                ripple.style.transform = 'scale(0)';
-                ripple.style.opacity = '1';
-                ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
-                
-                element.appendChild(ripple);
-                
-                // Trigger animation
-                setTimeout(() => {
-                    ripple.style.transform = 'scale(2)';
-                    ripple.style.opacity = '0';
-                }, 10);
-                
-                // Remove after animation
-                setTimeout(() => {
-                    element.removeChild(ripple);
-                }, 700);
-            }
-            
-            // Apply weather effects based on selection
-            function applyWeatherEffect(weatherType) {
-                const container = document.querySelector('.sky-quiz-container');
-                
-                // Clear previous effects
-                weatherEffects.forEach(effect => {
-                    if (effect && effect.parentNode) {
-                        effect.parentNode.removeChild(effect);
-                    }
-                });
-                weatherEffects = [];
-                
-                switch(weatherType) {
-                    case 'clear':
-                        // Create sunshine effect
-                        const sun = document.createElement('div');
-                        sun.className = 'sunshine';
-                        sun.style.top = '15%';
-                        sun.style.right = '15%';
-                        container.appendChild(sun);
-                        weatherEffects.push(sun);
-                        
-                        // Change background
-                        container.style.backgroundColor = '#e6f7ff';
-                        break;
-                        
-                    case 'partly-cloudy':
-                        // Add more pronounced clouds
-                        for (let i = 0; i < 4; i++) {
-                            const cloud = document.createElement('div');
-                            cloud.className = 'cloud';
-                            
-                            const size = Math.random() * 150 + 100;
-                            const top = Math.random() * 70;
-                            const left = Math.random() * 70;
-                            const opacity = Math.random() * 0.3 + 0.5;
-                            
-                            cloud.style.width = `${size}px`;
-                            cloud.style.height = `${size * 0.6}px`;
-                            cloud.style.top = `${top}%`;
-                            cloud.style.left = `${left}%`;
-                            cloud.style.opacity = opacity;
-                            cloud.style.animation = 'none';
-                            cloud.style.transform = 'translateX(0)';
-                            
-                            container.appendChild(cloud);
-                            weatherEffects.push(cloud);
-                        }
-                        
-                        // Change background
-                        container.style.backgroundColor = '#f0f6fa';
-                        break;
-                        
-                    case 'rainy':
-                        // Create rain drops
-                        for (let i = 0; i < 80; i++) {
-                            const drop = document.createElement('div');
-                            drop.className = 'rain-drop';
-                            
-                            const height = Math.random() * 15 + 10;
-                            const left = Math.random() * 100;
-                            const delay = Math.random() * 5;
-                            const duration = Math.random() * 1 + 1;
-                            
-                            drop.style.height = `${height}px`;
-                            drop.style.left = `${left}%`;
-                            drop.style.animationDelay = `${delay}s`;
-                            drop.style.animationDuration = `${duration}s`;
-                            
-                            container.appendChild(drop);
-                            weatherEffects.push(drop);
-                            
-                            // Fade in the drop
-                            setTimeout(() => {
-                                drop.style.opacity = '0.7';
-                            }, delay * 1000);
-                        }
-                        
-                        // Change background
-                        container.style.backgroundColor = '#d4e2f9';
-                        break;
-                        
-                    case 'sunset':
-                        // Create sunset gradient
-                        container.style.background = 'linear-gradient(to bottom, #ff9e7a, #ffb88c, #ffd8be, #ffeddf)';
-                        
-                        // Add colored clouds
-                        for (let i = 0; i < 5; i++) {
-                            const cloud = document.createElement('div');
-                            cloud.className = 'cloud';
-                            
-                            const size = Math.random() * 200 + 100;
-                            const top = Math.random() * 50 + 10;
-                            const left = Math.random() * 80;
-                            const colors = ['#ffb88c', '#ff9e7a', '#ffb28c', '#ffa77a'];
-                            const colorIndex = Math.floor(Math.random() * colors.length);
-                            
-                            cloud.style.width = `${size}px`;
-                            cloud.style.height = `${size * 0.5}px`;
-                            cloud.style.top = `${top}%`;
-                            cloud.style.left = `${left}%`;
-                            cloud.style.backgroundColor = colors[colorIndex];
-                            cloud.style.opacity = '0.7';
-                            cloud.style.animation = 'none';
-                            cloud.style.transform = 'translateX(0)';
-                            
-                            container.appendChild(cloud);
-                            weatherEffects.push(cloud);
-                        }
-                        break;
-                }
-            }
-            
-            // Special effect for lightning
-            function createLightning() {
-                const lightning = document.createElement('div');
-                lightning.className = 'lightning';
-                document.body.appendChild(lightning);
-                
-                // Flash effect
-                setTimeout(() => { lightning.style.opacity = '1'; }, 100);
-                setTimeout(() => { lightning.style.opacity = '0'; }, 200);
-                setTimeout(() => { lightning.style.opacity = '0.8'; }, 300);
-                setTimeout(() => { lightning.style.opacity = '0'; }, 400);
-                
-                // Cleanup
-                setTimeout(() => {
-                    document.body.removeChild(lightning);
-                }, 1000);
-            }
-            
-            // Special effect for snow
-            function createSnowflakes() {
-                const container = document.querySelector('.sky-quiz-container');
-                
-                for (let i = 0; i < 40; i++) {
-                    const snowflake = document.createElement('div');
-                    snowflake.className = 'snowflake';
-                    snowflake.textContent = '❄';
-                    
-                    const size = Math.random() * 15 + 8;
-                    const left = Math.random() * 100;
-                    const delay = Math.random() * 10;
-                    const duration = Math.random() * 5 + 8;
-                    
-                    snowflake.style.fontSize = `${size}px`;
-                    snowflake.style.left = `${left}%`;
-                    snowflake.style.animationDelay = `${delay}s`;
-                    snowflake.style.animationDuration = `${duration}s`;
-                    
-                    container.appendChild(snowflake);
-                    
-                    // Fade in the snowflake
-                    setTimeout(() => {
-                        snowflake.style.opacity = '0.8';
-                    }, delay * 1000);
-                    
-                    // Clean up after animation
-                    setTimeout(() => {
-                        if (snowflake.parentNode) {
-                            container.removeChild(snowflake);
-                        }
-                    }, (delay + duration) * 1000);
-                }
-            }
-        });
+            });
+        
+        // Load footer component
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
     </script>
+    
+    <!-- Core JavaScript -->
+    <script src="navbar.js"></script>
+    <script src="sky-options.js"></script>
+    <script src="skySelector.js"></script>
+    <script src="stars.js"></script>
+    <script src="effects.js"></script>
+    
+    <!-- Quiz JavaScript -->
+    <script src="quiz.js"></script>
+    <script src="questionnaire.js"></script>
+    
+    <!-- Additional Scripts -->
+    <script src="themeFromURL.js"></script>
+    <script src="interactions.js"></script>
 </body>
 </html>
