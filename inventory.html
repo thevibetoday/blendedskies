@@ -1,584 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="theme-color" content="#1E90FF">
-    <meta name="description" content="Shop our Blend of Skies collection - unique apparel inspired by nature's most beautiful skies">
-    <link rel="preload" href="navbar.css" as="style">
-    <link rel="preload" href="inventory.css" as="style">
-    <link rel="preload" href="inventory.js" as="script">
-    <title>Collection | Blend of Skies</title>
-    <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="inventory.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory - Blend of Skies</title>
+  <link rel="stylesheet" href="inventory.css">
 </head>
-<body class="inventory-body sky-blended">
-    <a href="#main-content" class="skip-link">Skip to content</a>
-    
-    <div class="sky-backdrop" aria-hidden="true"></div>
-    <div class="stars-container" aria-hidden="true"></div>
-    
-    <nav class="cosmic-navbar" aria-label="Main Navigation">
-        <div class="brand-container">
-            <div class="brand-icon" aria-hidden="true">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
-                </div>
-            </div>
-            <h1 class="brand-name">Blend of Skies</h1>
-        </div>
-        
-        <div class="sky-selector" role="button" tabindex="0" aria-expanded="false" aria-controls="sky-panorama">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
-                </div>
-                <div class="orb-emoji" aria-hidden="true">🌤️</div>
-            </div>
-        </div>
-        
-        <div class="empty-space"></div>
-    </nav>
-    
-    <div id="sky-panorama" class="sky-panorama" aria-label="Sky Selection">
-        <div class="sky-options" role="listbox">
-            <div class="sky-option" role="option" data-sky="blended" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">🌥️</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Blended Sky</h3>
-                    <p>Our signature blend of atmospheric elements</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" role="option" data-sky="clear-blue" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">🌤️</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" role="option" data-sky="sunset-glow" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">🌅</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" role="option" data-sky="storm-brewing" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">⛈️</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" role="option" data-sky="starry-night" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">🌌</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" role="option" data-sky="rainbow-sky" tabindex="0">
-                <div class="sky-preview">
-                    <div class="sky-icon" aria-hidden="true">🌈</div>
-                    <div class="sky-reflection" aria-hidden="true"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="inventory-body sky-clear-blue">
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loader"></div>
+  </div>
 
-    <main id="main-content" class="immersive-explorer">
-        <div class="canvas-controls">
-            <div class="control-panel">
-                <div class="floating-filters">
-                    <div class="filter-cluster">
-                        <div class="filter-group sky-filter" role="radiogroup" aria-label="Filter by Sky">
-                            <div class="filter-circle active" role="radio" aria-checked="true" data-filter="sky" data-value="blended" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">🌥️</span>
-                                <span class="filter-label">Blended</span>
-                            </div>
-                            <div class="filter-circle" role="radio" aria-checked="false" data-filter="sky" data-value="clear-blue" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">🌤️</span>
-                                <span class="filter-label">Clear</span>
-                            </div>
-                            <div class="filter-circle" role="radio" aria-checked="false" data-filter="sky" data-value="sunset-glow" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">🌅</span>
-                                <span class="filter-label">Sunset</span>
-                            </div>
-                            <div class="filter-circle" role="radio" aria-checked="false" data-filter="sky" data-value="storm-brewing" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">⛈️</span>
-                                <span class="filter-label">Storm</span>
-                            </div>
-                            <div class="filter-circle" role="radio" aria-checked="false" data-filter="sky" data-value="starry-night" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">🌌</span>
-                                <span class="filter-label">Starry</span>
-                            </div>
-                            <div class="filter-circle" role="radio" aria-checked="false" data-filter="sky" data-value="rainbow-sky" tabindex="0">
-                                <span class="sky-dot" aria-hidden="true">🌈</span>
-                                <span class="filter-label">Rainbow</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-cluster">
-                        <span class="divider" aria-hidden="true"></span>
-                        <div class="filter-group type-filter" role="radiogroup" aria-label="Filter by Type">
-                            <div class="filter-chip active" role="radio" aria-checked="true" data-filter="type" data-value="all" tabindex="0">All</div>
-                            <div class="filter-chip" role="radio" aria-checked="false" data-filter="type" data-value="tee" tabindex="0">Tees</div>
-                            <div class="filter-chip" role="radio" aria-checked="false" data-filter="type" data-value="long-sleeve" tabindex="0">Long Sleeves</div>
-                            <div class="filter-chip" role="radio" aria-checked="false" data-filter="type" data-value="hoodie" tabindex="0">Hoodies</div>
-                            <div class="filter-chip" role="radio" aria-checked="false" data-filter="type" data-value="sweater" tabindex="0">Sweaters</div>
-                            <div class="filter-chip" role="radio" aria-checked="false" data-filter="type" data-value="tank" tabindex="0">Tanks</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="right-controls">
-                    <div class="view-toggle" role="group" aria-label="Change View">
-                        <button class="view-btn active" data-view="grid" aria-pressed="true" aria-label="Grid View">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </button>
-                        <button class="view-btn" data-view="flow" aria-pressed="false" aria-label="List View">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <div class="sort-control">
-                        <label for="sort-select" class="visually-hidden">Sort By</label>
-                        <select id="sort-select" class="sort-select" aria-label="Sort products">
-                            <option value="newest">Newest</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="bestsellers">Bestsellers</option>
-                        </select>
-                    </div>
-                </div>
+  <main class="immersive-explorer">
+    <section class="canvas-controls">
+      <div class="control-panel">
+        <div class="floating-filters">
+          <!-- Sky Filter -->
+          <div class="filter-cluster">
+            <div class="filter-circle active" data-filter="sky" data-value="clear-blue">
+              <div class="sky-dot">☀️</div>
+              <div class="filter-label">Clear</div>
             </div>
-            
-            <div class="advanced-filters">
-                <div class="advanced-group">
-                    <h3 id="size-heading">Size</h3>
-                    <div class="size-options" role="group" aria-labelledby="size-heading">
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="xs">
-                            <span>XS</span>
-                        </label>
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="s">
-                            <span>S</span>
-                        </label>
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="m" checked>
-                            <span>M</span>
-                        </label>
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="l">
-                            <span>L</span>
-                        </label>
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="xl">
-                            <span>XL</span>
-                        </label>
-                        <label class="size-option">
-                            <input type="checkbox" name="size" value="xxl">
-                            <span>2XL</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="advanced-group">
-                    <h3 id="color-heading">Color</h3>
-                    <div class="color-options" role="group" aria-labelledby="color-heading">
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="white">
-                            <span class="color-circle" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="black">
-                            <span class="color-circle" style="background-color: #000000;" aria-label="Black"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="gray">
-                            <span class="color-circle" style="background-color: #808080;" aria-label="Gray"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="blue" checked>
-                            <span class="color-circle" style="background-color: #1E90FF;" aria-label="Blue"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="navy">
-                            <span class="color-circle" style="background-color: #000080;" aria-label="Navy"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="orange">
-                            <span class="color-circle" style="background-color: #FF6B6B;" aria-label="Orange"></span>
-                        </label>
-                        <label class="color-option">
-                            <input type="checkbox" name="color" value="purple">
-                            <span class="color-circle" style="background-color: #9370DB;" aria-label="Purple"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <button class="advanced-toggle" aria-expanded="false" aria-controls="advanced-filters-content">
-                    <span class="toggle-text">More Filters</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+            <div class="filter-circle" data-filter="sky" data-value="sunset-glow">
+              <div class="sky-dot">🌇</div>
+              <div class="filter-label">Sunset</div>
             </div>
-        </div>
-    
-        <div class="product-canvas">
-            <div class="product-count" aria-live="polite">
-                <span class="count-number">24</span> items
+            <div class="filter-circle" data-filter="sky" data-value="storm-brewing">
+              <div class="sky-dot">🌩</div>
+              <div class="filter-label">Storm</div>
             </div>
-            
-            <div class="product-grid" role="list">
-                <div class="product-item" role="listitem" data-sky="clear-blue" data-type="tee" data-sizes="xs,s,m,l,xl" data-colors="blue,white">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%235D8CAE' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EBlend Signature Tee%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Blend Signature Tee - Gray t-shirt with blended sky theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Blend Signature Tee">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Blend Signature Tee to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="blended" aria-hidden="true">🌥️</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-blend-signature-tee" class="product-link">Blend Signature Tee</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 42 dollars">$42</span>
-                            <div class="color-dots" aria-label="Available in gray, white, and black">
-                                <span class="color-dot" style="background-color: #808080;" aria-label="Gray"></span>
-                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                                <span class="color-dot" style="background-color: #000000;" aria-label="Black"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="sunset-glow" data-type="sweater" data-sizes="s,m,l,xl" data-colors="orange,gray">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23FF6B6B' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ESunset Sweater%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Sunset Sweater - Orange sweater with sunset theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Sunset Sweater">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Sunset Sweater to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="sunset-glow" aria-hidden="true">🌅</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-sunset-sweater" class="product-link">Sunset Sweater</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 58 dollars">$58</span>
-                            <div class="color-dots" aria-label="Available in orange and gray">
-                                <span class="color-dot" style="background-color: #FF6B6B;" aria-label="Orange"></span>
-                                <span class="color-dot" style="background-color: #808080;" aria-label="Gray"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="filter-circle" data-filter="sky" data-value="starry-night">
+              <div class="sky-dot">🌌</div>
+              <div class="filter-label">Starry</div>
             </div>
-            
-            <nav class="pagination" aria-label="Pagination">
-                <button class="pagination-arrow prev" disabled aria-label="Previous page">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <button class="pagination-number active" aria-current="page" aria-label="Page 1">1</button>
-                <button class="pagination-number" aria-label="Page 2">2</button>
-                <button class="pagination-number" aria-label="Page 3">3</button>
-                <span class="pagination-dots" aria-hidden="true">...</span>
-                <button class="pagination-number" aria-label="Page 8">8</button>
-                <button class="pagination-arrow next" aria-label="Next page">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </nav>
-        </div>
-    </main>
-
-    <div id="loading-overlay" class="loading-overlay" aria-live="polite" aria-busy="true">
-        <div class="loader">Loading...</div>
-    </div>
-
-    <noscript>
-        <div class="noscript-message">
-            <p>For the best experience, please enable JavaScript in your browser.</p>
-        </div>
-    </noscript>
-
-    <script src="inventory.js" defer></script>
-</body>
-</html>charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%231E90FF' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EClarity Tee%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Clarity Tee - Blue t-shirt with sky theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Clarity Tee">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Clarity Tee to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="clear-blue" aria-hidden="true">🌤️</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-clarity-tee" class="product-link">Clarity Tee</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 45 dollars">$45</span>
-                            <div class="color-dots" aria-label="Available in blue and white">
-                                <span class="color-dot" style="background-color: #1E90FF;" aria-label="Blue"></span>
-                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="sunset-glow" data-type="tee" data-sizes="s,m,l,xl" data-colors="orange,white">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23FF6B6B' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EHorizon Crew%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Horizon Crew - Orange t-shirt with sunset theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Horizon Crew">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Horizon Crew to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="sunset-glow" aria-hidden="true">🌅</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-horizon-crew" class="product-link">Horizon Crew</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 48 dollars">$48</span>
-                            <div class="color-dots" aria-label="Available in orange and white">
-                                <span class="color-dot" style="background-color: #FF6B6B;" aria-label="Orange"></span>
-                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="storm-brewing" data-type="hoodie" data-sizes="s,m,l,xl,xxl" data-colors="gray,black">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23708090' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ETempest Hoodie%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Tempest Hoodie - Gray hoodie with storm theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Tempest Hoodie">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Tempest Hoodie to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="storm-brewing" aria-hidden="true">⛈️</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-tempest-hoodie" class="product-link">Tempest Hoodie</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 65 dollars">$65</span>
-                            <div class="color-dots" aria-label="Available in gray and black">
-                                <span class="color-dot" style="background-color: #808080;" aria-label="Gray"></span>
-                                <span class="color-dot" style="background-color: #000000;" aria-label="Black"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="starry-night" data-type="long-sleeve" data-sizes="s,m,l,xl" data-colors="navy,black">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23191970' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ECosmos Long Sleeve%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Cosmos Long Sleeve - Navy long sleeve with starry night theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Cosmos Long Sleeve">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Cosmos Long Sleeve to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="starry-night" aria-hidden="true">🌌</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-cosmos-long-sleeve" class="product-link">Cosmos Long Sleeve</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 52 dollars">$52</span>
-                            <div class="color-dots" aria-label="Available in navy and black">
-                                <span class="color-dot" style="background-color: #000080;" aria-label="Navy"></span>
-                                <span class="color-dot" style="background-color: #000000;" aria-label="Black"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="rainbow-sky" data-type="tee" data-sizes="xs,s,m,l" data-colors="white,purple">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%239370DB' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EPrism Tee%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Prism Tee - Purple t-shirt with rainbow theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Prism Tee">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Prism Tee to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="rainbow-sky" aria-hidden="true">🌈</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-prism-tee" class="product-link">Prism Tee</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 45 dollars">$45</span>
-                            <div class="color-dots" aria-label="Available in white and purple">
-                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                                <span class="color-dot" style="background-color: #9370DB;" aria-label="Purple"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-item" role="listitem" data-sky="clear-blue" data-type="tank" data-sizes="xs,s,m,l" data-colors="blue,white">
-                    <div class="product-media">
-                        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%231E90FF' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EAzure Tank%3C/text%3E%3C/svg%3E" 
-                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                             alt="Azure Tank - Blue tank top with clear sky theme design"
-                             loading="lazy">
-                        <div class="product-actions">
-                            <button class="action-btn view-btn" aria-label="View Azure Tank">View</button>
-                            <button class="action-btn add-btn" aria-label="Add Azure Tank to Bag">Add to Bag</button>
-                        </div>
-                        <div class="sky-badge" data-sky="clear-blue" aria-hidden="true">🌤️</div>
-                    </div>
-                    <div class="product-details">
-                        <h3><a href="#product-azure-tank" class="product-link">Azure Tank</a></h3>
-                        <div class="product-meta">
-                            <span class="product-price" aria-label="Price: 38 dollars">$38</span>
-                            <div class="color-dots" aria-label="Available in blue and white">
-                                <span class="color-dot" style="background-color: #1E90FF;" aria-label="Blue"></span>
-                                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-               <div class="product-item" role="listitem" data-sky="blended" data-type="tee" data-sizes="xs,s,m,l,xl,xxl" data-colors="gray,white,black">
-    <div class="product-media">
-        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%235D8CAE' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3EBlend Signature Tee%3C/text%3E%3C/svg%3E" 
-             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-             alt="Blend Signature Tee - Gray t-shirt with blended sky theme design"
-             loading="lazy">
-        <div class="product-actions">
-            <button class="action-btn view-btn" aria-label="View Blend Signature Tee">View</button>
-            <button class="action-btn add-btn" aria-label="Add Blend Signature Tee to Bag">Add to Bag</button>
-        </div>
-        <div class="sky-badge" data-sky="blended" aria-hidden="true">🌥️</div>
-    </div>
-    <div class="product-details">
-        <h3><a href="#product-blend-signature-tee" class="product-link">Blend Signature Tee</a></h3>
-        <div class="product-meta">
-            <span class="product-price" aria-label="Price: 42 dollars">$42</span>
-            <div class="color-dots" aria-label="Available in gray, white, and black">
-                <span class="color-dot" style="background-color: #808080;" aria-label="Gray"></span>
-                <span class="color-dot" style="background-color: #ffffff; border: 1px solid #e0e0e0;" aria-label="White"></span>
-                <span class="color-dot" style="background-color: #000000;" aria-label="Black"></span>
+            <div class="filter-circle" data-filter="sky" data-value="rainbow-sky">
+              <div class="sky-dot">🌈</div>
+              <div class="filter-label">Rainbow</div>
             </div>
-        </div>
-    </div>
-</div>
+          </div>
 
-<div class="product-item" role="listitem" data-sky="sunset-glow" data-type="sweater" data-sizes="s,m,l,xl" data-colors="orange,gray">
-    <div class="product-media">
-        <img data-src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='350' viewBox='0 0 300 350'%3E%3Crect fill='%23FF6B6B' width='300' height='350'/%3E%3Ctext fill='rgba(255,255,255,0.5)' font-family='sans-serif' font-size='30' dy='10.5' font-weight='bold' x='50%' y='50%' text-anchor='middle'%3ESunset Sweater%3C/text%3E%3C/svg%3E" 
-             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-             alt="Sunset Sweater - Orange sweater with sunset theme design"
-             loading="lazy">
-        <div class="product-actions">
-            <button class="action-btn view-btn" aria-label="View Sunset Sweater">View</button>
-            <button class="action-btn add-btn" aria-label="Add Sunset Sweater to Bag">Add to Bag</button>
+          <div class="divider"></div>
+
+          <!-- Type Filter -->
+          <div class="filter-group">
+            <div class="filter-chip active" data-filter="type" data-value="all">All</div>
+            <div class="filter-chip" data-filter="type" data-value="tee">Tees</div>
+            <div class="filter-chip" data-filter="type" data-value="longsleeve">Long Sleeves</div>
+            <div class="filter-chip" data-filter="type" data-value="hoodie">Hoodies</div>
+          </div>
         </div>
-        <div class="sky-badge" data-sky="sunset-glow" aria-hidden="true">🌅</div>
-    </div>
-    <div class="product-details">
-        <h3><a href="#product-sunset-sweater" class="product-link">Sunset Sweater</a></h3>
-        <div class="product-meta">
-            <span class="product-price" aria-label="Price: 58 dollars">$58</span>
-            <div class="color-dots" aria-label="Available in orange and gray">
-                <span class="color-dot" style="background-color: #FF6B6B;" aria-label="Orange"></span>
-                <span class="color-dot" style="background-color: #808080;" aria-label="Gray"></span>
+
+        <div class="right-controls">
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid">🔳</button>
+            <button class="view-btn" data-view="flow">📃</button>
+          </div>
+
+          <select id="sort-select" class="sort-select">
+            <option value="bestsellers">Bestsellers</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="advanced-toggle" aria-expanded="false">
+        <span class="toggle-text">More Filters</span>
+        <svg width="16" height="16"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+
+      <div class="advanced-filters">
+        <div class="advanced-group">
+          <h3>Sizes</h3>
+          <div class="size-options">
+            <label class="size-option"><input type="checkbox" name="size" value="XS"><span>XS</span></label>
+            <label class="size-option"><input type="checkbox" name="size" value="S"><span>S</span></label>
+            <label class="size-option"><input type="checkbox" name="size" value="M"><span>M</span></label>
+            <label class="size-option"><input type="checkbox" name="size" value="L"><span>L</span></label>
+            <label class="size-option"><input type="checkbox" name="size" value="XL"><span>XL</span></label>
+          </div>
+        </div>
+
+        <div class="advanced-group">
+          <h3>Colors</h3>
+          <div class="color-options">
+            <label class="color-option"><input type="checkbox" name="color" value="blue"><span class="color-circle" style="background: blue"></span></label>
+            <label class="color-option"><input type="checkbox" name="color" value="black"><span class="color-circle" style="background: black"></span></label>
+            <label class="color-option"><input type="checkbox" name="color" value="white"><span class="color-circle" style="background: white; border: 1px solid #ccc;"></span></label>
+            <label class="color-option"><input type="checkbox" name="color" value="red"><span class="color-circle" style="background: red"></span></label>
+            <label class="color-option"><input type="checkbox" name="color" value="green"><span class="color-circle" style="background: green"></span></label>
+          </div>
+        </div>
+
+        <div class="advanced-group">
+          <h3>Style</h3>
+          <div class="filter-group">
+            <div class="filter-chip" data-filter="style" data-value="minimalist">Minimalist</div>
+            <div class="filter-chip" data-filter="style" data-value="graphic">Graphic</div>
+            <div class="filter-chip" data-filter="style" data-value="earthy">Earthy</div>
+            <div class="filter-chip" data-filter="style" data-value="bold">Bold</div>
+          </div>
+        </div>
+
+        <div class="advanced-group">
+          <h3>Fit</h3>
+          <div class="filter-group">
+            <div class="filter-chip" data-filter="fit" data-value="snug">Snug</div>
+            <div class="filter-chip" data-filter="fit" data-value="true-to-size">True to Size</div>
+            <div class="filter-chip" data-filter="fit" data-value="relaxed">Relaxed</div>
+            <div class="filter-chip" data-filter="fit" data-value="oversized">Oversized</div>
+          </div>
+        </div>
+
+        <div class="advanced-group">
+          <h3>Tier</h3>
+          <div class="filter-group">
+            <div class="filter-chip" data-filter="tier" data-value="casual">Casual</div>
+            <div class="filter-chip" data-filter="tier" data-value="premium">Premium</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-canvas">
+      <p class="product-count"><span class="count-number">0</span> styles found</p>
+
+      <div class="product-grid">
+        <!-- Example Product Card -->
+        <div class="product-item" data-sky="clear-blue" data-type="tee" data-size="M,L" data-colors="blue,white" data-style="minimalist" data-fit="true-to-size" data-tier="casual">
+          <div class="product-media">
+            <img src="shirt1.jpg" alt="Sky Tee">
+          </div>
+          <div class="product-details">
+            <h3><a href="#" class="product-link">Sky Tee</a></h3>
+            <div class="product-meta">
+              <div class="product-price">$42</div>
+              <div class="color-dots">
+                <div class="color-dot" style="background: blue"></div>
+                <div class="color-dot" style="background: white"></div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
-</div>
+        <!-- Add more product cards here -->
+      </div>
+    </section>
+  </main>
 
-<nav class="pagination" aria-label="Pagination">
-    <button class="pagination-arrow prev" disabled aria-label="Previous page">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-    <button class="pagination-number active" aria-current="page" aria-label="Page 1">1</button>
-    <button class="pagination-number" aria-label="Page 2">2</button>
-    <button class="pagination-number" aria-label="Page 3">3</button>
-    <span class="pagination-dots" aria-hidden="true">...</span>
-    <button class="pagination-number" aria-label="Page 8">8</button>
-    <button class="pagination-arrow next" aria-label="Next page">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-</nav>
-</div>
-</main>
-
-<div id="loading-overlay" class="loading-overlay" aria-live="polite" aria-busy="true">
-    <div class="loader">Loading...</div>
-</div>
-
-<noscript>
-    <div class="noscript-message">
-        <p>For the best experience, please enable JavaScript in your browser.</p>
-    </div>
-</noscript>
-
-<script src="inventory.js" defer></script>
+  <script src="inventory.js"></script>
 </body>
 </html>
