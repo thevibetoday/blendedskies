@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let isOpen = false;
     let currentSky = null;
     
+    // Initialize sky options - make them visible as soon as menu opens
+    skyOptions.forEach(option => {
+        // Initially hide the options for animation
+        option.style.opacity = '0';
+        option.style.transform = 'translateY(20px)';
+    });
+    
     // Toggle menu function
     function toggleMenu() {
         isOpen = !isOpen;
@@ -79,10 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle sky selection
     skyOptions.forEach(option => {
-        // Initially hide the options for animation
-        option.style.opacity = '0';
-        option.style.transform = 'translateY(20px)';
-        
         option.addEventListener('click', function(e) {
             e.preventDefault();
             
