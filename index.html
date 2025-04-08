@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Blend of Skies Navigation</title>
+  <title>Blend of Skies</title>
 
-  <!-- Modular CSS -->
-  <link rel="stylesheet" href="css/navbar-base.css" />
-  <link rel="stylesheet" href="css/navbar-ui.css" />
-  <link rel="stylesheet" href="css/navbar-sky.css" />
-  <link rel="stylesheet" href="css/navbar-responsive.css" />
+  <!-- CSS Files (root-level) -->
+  <link rel="stylesheet" href="navbar-base.css" />
+  <link rel="stylesheet" href="navbar-ui.css" />
+  <link rel="stylesheet" href="navbar-sky.css" />
+  <link rel="stylesheet" href="navbar-responsive.css" />
 
-  <!-- Inline image utility -->
+  <!-- Optional inline fix -->
   <style>
     .sky-icon img {
       max-width: 100%;
@@ -21,30 +21,16 @@
   </style>
 </head>
 <body>
-  <!-- Static Backdrop -->
-  <div class="sky-backdrop"></div>
-  <div class="stars-container"></div>
+  <!-- Same HTML content goes here: navbar, sky-panorama, etc. -->
 
-  <!-- Navbar -->
-  <!--#include file="navbar.html" -->
-
-  <!-- Sky Selection Menu -->
-  <!--#include file="sky-panorama.html" -->
-
-  <!-- Main Content -->
-  <!--#include file="content.html" -->
-
-  <!-- Footer, if applicable -->
-  <!--#include file="footer.html" -->
-
-  <!-- Modular JS -->
-  <script src="js/utils.js" defer></script>
-  <script src="js/skySelector.js" defer></script>
-  <script src="js/filters.js" defer></script>
-  <script src="js/sort.js" defer></script>
-  <script src="js/pagination.js" defer></script>
-  <script src="js/interactions.js" defer></script>
-  <script src="js/themeFromURL.js" defer></script>
-  <script src="js/init.js" defer></script>
+  <!-- JS Files (root-level) -->
+  <script src="utils.js" defer></script>
+  <script src="skySelector.js" defer></script>
+  <script src="filters.js" defer></script>
+  <script src="sort.js" defer></script>
+  <script src="pagination.js" defer></script>
+  <script src="interactions.js" defer></script>
+  <script src="themeFromURL.js" defer></script>
+  <script src="init.js" defer></script>
 </body>
 </html>
