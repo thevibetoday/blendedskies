@@ -45,57 +45,140 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('navbar.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar-container').innerHTML = data;
-                    const navbarScript = document.createElement('script');
-                    navbarScript.src = 'navbar.js';
-                    document.body.appendChild(navbarScript);
-                });
-            
-            fetch('sky-panorama.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('sky-panorama-container').innerHTML = data;
-                    const skyOptionsScript = document.createElement('script');
-                    skyOptionsScript.src = 'sky-options.js';
-                    document.body.appendChild(skyOptionsScript);
-                });
+    console.log('DOM fully loaded and parsed');
+
+    function loadContent(url, containerId, scriptSrc) {
+        console.log(`Attempting to load content from: ${url}`);
+        console.log(`Target container: ${containerId}`);
+        console.log(`Associated script: ${scriptSrc}`);
+
+        fetch(url)
+            .then(response => {
+                console.log(`Fetch response for ${url}:`, response);
+                if (!response.ok) {
+                    console.error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log(`Fetched data from ${url}:`, data.slice(0, 200) + '...');
+                const container = document.getElementById(containerId);
                 
-            fetch('sky-quiz.html')
-                .then(response => response.text())
-                .then(data => {
-                    const parser = new DOMParser();
-                    const htmlDoc = parser.parseFromString(data, 'text/html');
-                    const quizContent = htmlDoc.querySelector('.sky-quiz-container');
+                if (container) {
+                    container.innerHTML = data;
+                    console.log(`Successfully loaded content into ${containerId}`);
                     
-                    if (quizContent) {
-                        document.getElementById('quiz-container').innerHTML = quizContent.outerHTML;
-                        const quizScript = document.createElement('script');
-                        quizScript.src = 'quiz.js';
-                        document.body.appendChild(quizScript);
+                    if (scriptSrc) {
+                        const script = document.createElement('script');
+                        script.src = scriptSrc;
+                        script.onload = () => {
+                            console.log(`Successfully loaded script: ${scriptSrc}`);
+                        };
+                        script.onerror = () => {
+                            console.error(`Failed to load script: ${scriptSrc}`);
+                        };
+                        document.body.appendChild(script);
                     }
-                });
-            
-            fetch('footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('footer-container').innerHTML = data;
-                });
-                
-            const starsScript = document.createElement('script');
-            starsScript.src = 'stars.js';
-            document.body.appendChild(starsScript);
-            
-            const effectsScript = document.createElement('script');
-            effectsScript.src = 'effects.js';
-            document.body.appendChild(effectsScript);
-            
-            if (typeof updateProductFilters === 'function') {
-                updateProductFilters();
+                } else {
+                    console.error(`Container not found: ${containerId}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Complete error loading ${url}:`, error);
+            });
+    }
+
+    // Logging global variables and functions
+    console.log('Global objects:', {
+        'updateProductFilters': typeof updateProductFilters,
+        'skySelector': typeof skySelector,
+        'questionnaire': typeof questionnaire
+    });
+
+    // Detailed script loading with logging
+    loadContent('navbar.html', 'navbar-container', 'navbar.js');
+    loadContent('sky-panorama.html', 'sky-panorama-container', 'sky-options.js');
+    loadContent('footer.html', 'footer-container');
+
+    fetch('sky-quiz.html')
+        .then(response => {
+            console.log('Sky quiz fetch response:', response);
+            if (!response.ok) {
+                console.error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Sky quiz HTML content:', data.slice(0, 200) + '...');
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(data, 'text/html');
+            const quizContent = htmlDoc.querySelector('.sky-quiz-container');
+            
+            console.log('Quiz content found:', !!quizContent);
+            
+            if (quizContent) {
+                const quizContainer = document.getElementById('quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = quizContent.outerHTML;
+                    console.log('Loaded quiz content into quiz-container');
+                    
+                    const quizScript = document.createElement('script');
+                    quizScript.src = 'quiz.js';
+                    quizScript.onload = () => {
+                        console.log('Successfully loaded quiz.js');
+                    };
+                    quizScript.onerror = () => {
+                        console.error('Failed to load quiz.js');
+                    };
+                    document.body.appendChild(quizScript);
+                } else {
+                    console.error('Quiz container not found');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Complete error loading sky-quiz.html:', error);
         });
+
+    // Additional script loading with logging
+    const starsScript = document.createElement('script');
+    starsScript.src = 'stars.js';
+    starsScript.onload = () => console.log('Successfully loaded stars.js');
+    starsScript.onerror = () => console.error('Failed to load stars.js');
+    document.body.appendChild(starsScript);
+    
+    const effectsScript = document.createElement('script');
+    effectsScript.src = 'effects.js';
+    effectsScript.onload = () => console.log('Successfully loaded effects.js');
+    effectsScript.onerror = () => console.error('Failed to load effects.js');
+    document.body.appendChild(effectsScript);
+    
+    // Checking and logging updateProductFilters
+    if (typeof updateProductFilters === 'function') {
+        console.log('updateProductFilters is a function, calling it');
+        updateProductFilters();
+    } else {
+        console.log('updateProductFilters is not a function');
+    }
+
+    // Logging final set of scripts
+    const scriptsLoaded = [
+        'skySelector.js',
+        'questionnaire.js', 
+        'themeFromURL.js', 
+        'interactions.js'
+    ];
+
+    scriptsLoaded.forEach(scriptName => {
+        const script = document.createElement('script');
+        script.src = scriptName;
+        script.onload = () => console.log(`Successfully loaded ${scriptName}`);
+        script.onerror = () => console.error(`Failed to load ${scriptName}`);
+        document.body.appendChild(script);
+    });
+});
     </script>
     
     <script src="skySelector.js"></script>
