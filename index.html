@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Blend of Skies Navigation</title>
-  <link rel="stylesheet" href="navbar-base.css" />
-  <link rel="stylesheet" href="navbar-ui.css" />
-  <link rel="stylesheet" href="navbar-sky.css" />
-  <link rel="stylesheet" href="navbar-responsive.css" />
+
+  <!-- Modular CSS -->
+  <link rel="stylesheet" href="css/navbar-base.css" />
+  <link rel="stylesheet" href="css/navbar-ui.css" />
+  <link rel="stylesheet" href="css/navbar-sky.css" />
+  <link rel="stylesheet" href="css/navbar-responsive.css" />
+
+  <!-- Inline image utility -->
   <style>
     .sky-icon img {
       max-width: 100%;
@@ -17,22 +21,30 @@
   </style>
 </head>
 <body>
-  <!-- Backdrop & Stars -->
+  <!-- Static Backdrop -->
   <div class="sky-backdrop"></div>
   <div class="stars-container"></div>
 
-  <!-- Navbar Component -->
+  <!-- Navbar -->
   <!--#include file="navbar.html" -->
 
-  <!-- Panorama Selection -->
+  <!-- Sky Selection Menu -->
   <!--#include file="sky-panorama.html" -->
 
   <!-- Main Content -->
   <!--#include file="content.html" -->
 
-  <!-- Footer or script area -->
+  <!-- Footer, if applicable -->
   <!--#include file="footer.html" -->
 
-  <script src="navbar.js" defer></script>
+  <!-- Modular JS -->
+  <script src="js/utils.js" defer></script>
+  <script src="js/skySelector.js" defer></script>
+  <script src="js/filters.js" defer></script>
+  <script src="js/sort.js" defer></script>
+  <script src="js/pagination.js" defer></script>
+  <script src="js/interactions.js" defer></script>
+  <script src="js/themeFromURL.js" defer></script>
+  <script src="js/init.js" defer></script>
 </body>
 </html>
