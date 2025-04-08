@@ -1,27 +1,28 @@
-/* Cosmic About Section Styles */
-.cosmic-about-container {
+/* Blend of Skies About Section Styles */
+.brand-about-container {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #0a192f, #20232a);
-    perspective: 1000px;
+    background-color: #f4f7f6;
+    padding: 60px 0;
 }
 
-.about-parallax-backdrop {
+.about-backdrop {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(
-        ellipse at center, 
-        rgba(10, 25, 47, 0.6) 0%, 
-        rgba(32, 35, 42, 0.9) 100%
+    background: linear-gradient(
+        135deg, 
+        rgba(230, 240, 245, 0.9) 0%, 
+        rgba(240, 248, 255, 0.6) 100%
     );
+    opacity: 0.7;
     z-index: 1;
 }
 
@@ -33,92 +34,97 @@
     width: 90%;
     max-width: 1200px;
     z-index: 2;
-    padding: 60px 0;
-}
-
-.about-galaxy-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
-.galaxy-sphere {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(
-        circle, 
-        rgba(135, 206, 250, 0.1) 0%, 
-        rgba(65, 105, 225, 0.05) 50%, 
-        transparent 70%
-    );
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    animation: galaxy-rotate 120s linear infinite;
-    mix-blend-mode: screen;
+.about-visual-container {
+    position: relative;
+    width: 50%;
+    height: 500px;
+    overflow: hidden;
 }
 
-@keyframes galaxy-rotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.galaxy-particles {
+.weather-pattern-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    background: 
+        linear-gradient(45deg, rgba(135, 206, 250, 0.1), transparent),
+        linear-gradient(135deg, rgba(255, 99, 71, 0.1), transparent);
+    background-size: 100px 100px;
+    opacity: 0.5;
+    z-index: 2;
 }
 
-.galaxy-particles::before {
-    content: '';
+.clothing-display {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background-image: 
-        radial-gradient(#ffffff 1px, transparent 1px),
-        radial-gradient(#ffffff 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-position: 0 0, 25px 25px;
-    opacity: 0.05;
-    animation: particle-drift 60s linear infinite;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@keyframes particle-drift {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-25%, -25%) rotate(360deg); }
+.clothing-item {
+    position: absolute;
+    transition: all 0.6s ease;
+    opacity: 0;
+    transform: scale(0.8) rotate(10deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.clothing-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.clothing-item.clear-sky-piece {
+    width: 250px;
+    height: 350px;
+    top: 20%;
+    left: 10%;
+    transform: rotate(-5deg);
+}
+
+.clothing-item.sunset-piece {
+    width: 300px;
+    height: 400px;
+    top: 30%;
+    right: 20%;
+    transform: rotate(7deg);
+}
+
+.clothing-item.storm-piece {
+    width: 200px;
+    height: 300px;
+    bottom: 10%;
+    left: 30%;
+    transform: rotate(-3deg);
 }
 
 .about-text-panel {
     position: relative;
-    width: 60%;
-    color: #e6e6e6;
-    z-index: 3;
-    backdrop-filter: blur(10px);
-    background: rgba(32, 35, 42, 0.7);
+    width: 50%;
     padding: 40px;
-    border-radius: 15px;
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.2),
-        0 5px 15px rgba(0, 0, 0, 0.1);
-    transform: translateZ(50px);
+    color: #2c3e50;
+    z-index: 3;
 }
 
 .about-title {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #4169E1, #87CEEB);
+    background: linear-gradient(135deg, #3498db, #2980b9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -127,10 +133,10 @@
 .about-description p {
     margin-bottom: 15px;
     line-height: 1.6;
-    color: #a8b2d1;
+    color: #34495e;
 }
 
-.about-features {
+.brand-features {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
@@ -141,14 +147,14 @@
     text-align: center;
     padding: 20px;
     margin: 0 10px;
-    background: rgba(65, 105, 225, 0.1);
+    background: rgba(52, 152, 219, 0.05);
     border-radius: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 25px rgba(65, 105, 225, 0.2);
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.1);
 }
 
 .feature-icon {
@@ -160,11 +166,11 @@
 .feature-card h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
-    color: #4169E1;
+    color: #3498db;
 }
 
 .feature-card p {
-    color: #a8b2d1;
+    color: #7f8c8d;
     font-size: 0.9rem;
 }
 
@@ -175,11 +181,12 @@
         text-align: center;
     }
     
+    .about-visual-container,
     .about-text-panel {
-        width: 90%;
+        width: 100%;
     }
     
-    .about-features {
+    .brand-features {
         flex-direction: column;
     }
     
