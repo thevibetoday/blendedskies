@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blend of Skies Navigation</title>
+    <title>Blend of Skies Navigayion</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
-        .sky-preview img {
+        .sky-icon img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -48,7 +48,9 @@
         <div class="sky-options">
             <div class="sky-option" data-sky="clear-blue">
                 <div class="sky-preview">
-                    <img src="Sun.png" alt="Clear Blue Sky">
+                    <div class="sky-icon">
+                        <img src="Sun.png" alt="Clear Blue Sky">
+                    </div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
@@ -59,7 +61,9 @@
             
             <div class="sky-option" data-sky="sunset-glow">
                 <div class="sky-preview">
-                    <img src="Armageddon.png" alt="Sunset Glow">
+                    <div class="sky-icon">
+                        <img src="Armageddon.png" alt="Sunset Glow">
+                    </div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
@@ -70,7 +74,9 @@
             
             <div class="sky-option" data-sky="storm-brewing">
                 <div class="sky-preview">
-                    <img src="Storm.png" alt="Storm Brewing">
+                    <div class="sky-icon">
+                        <img src="Storm.png" alt="Storm Brewing">
+                    </div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
@@ -81,7 +87,9 @@
             
             <div class="sky-option" data-sky="starry-night">
                 <div class="sky-preview">
-                    <img src="Nighttime.png" alt="Starry Night">
+                    <div class="sky-icon">
+                        <img src="Nighttime.png" alt="Starry Night">
+                    </div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
@@ -92,7 +100,9 @@
             
             <div class="sky-option" data-sky="rainbow-sky">
                 <div class="sky-preview">
-                    <img src="Snow.png" alt="Rainbow Sky">
+                    <div class="sky-icon">
+                        <img src="Snow.png" alt="Rainbow Sky">
+                    </div>
                     <div class="sky-reflection"></div>
                 </div>
                 <div class="sky-details">
@@ -133,7 +143,7 @@
             skyOptions.forEach(option => {
                 option.onclick = function(e) {
                     e.preventDefault();
-                    const skyIcon = this.querySelector('.sky-preview img');
+                    const skyIcon = this.querySelector('.sky-icon img');
                     orbEmoji.innerHTML = '';
                     orbEmoji.appendChild(skyIcon.cloneNode(true));
                     orbEmoji.style.opacity = '1';
