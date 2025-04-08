@@ -1,9 +1,12 @@
-// inventory.js (Immersive Experience)
-
 document.addEventListener('DOMContentLoaded', function () {
   const inventoryBody = document.querySelector('.inventory-body');
   const productItems = document.querySelectorAll('.product-item');
   const productCount = document.querySelector('.count-number');
+  const advancedFiltersContainer = document.querySelector('.advanced-filters');
+  const advancedToggle = document.querySelector('.advanced-toggle');
+  const filterSummaryContainer = document.createElement('div');
+  filterSummaryContainer.classList.add('filter-summary');
+  document.querySelector('.canvas-controls').insertBefore(filterSummaryContainer, document.querySelector('.control-panel').nextSibling);
 
   const filterGroups = {
     sky: document.querySelectorAll('.filter-circle[data-filter="sky"]'),
@@ -29,6 +32,44 @@ document.addEventListener('DOMContentLoaded', function () {
     tier: []
   };
 
+  function createFilterSummary() {
+    filterSummaryContainer.innerHTML = '';
+    Object.entries(activeFilters).forEach(([filterKey, values]) => {
+      values.forEach(value => {
+        const filterChip = document.createElement('div');
+        filterChip.classList.add('filter-summary-chip');
+        filterChip.textContent = value;
+        filterChip.innerHTML += ' ✕';
+        filterChip.addEventListener('click', () => {
+          handleFilterChange(filterKey, value, true);
+        });
+        filterSummaryContainer.appendChild(filterChip);
+      });
+    });
+
+    const clearAllButton = document.createElement('button');
+    clearAllButton.textContent = 'Clear All Filters';
+    clearAllButton.classList.add('clear-filters-btn');
+    clearAllButton.addEventListener('click', clearAllFilters);
+    filterSummaryContainer.appendChild(clearAllButton);
+
+    filterSummaryContainer.style.display = Object.values(activeFilters).some(arr => arr.length > 0) ? 'flex' : 'none';
+  }
+
+  function clearAllFilters() {
+    Object.keys(activeFilters).forEach(key => {
+      activeFilters[key] = [];
+      const elements = filterGroups[key];
+      elements.forEach(el => {
+        el.classList.remove('active');
+        if (el.tagName === 'INPUT') {
+          el.checked = false;
+        }
+      });
+    });
+    applyFilters();
+  }
+
   function applyFilters() {
     let visibleCount = 0;
 
@@ -46,17 +87,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     if (productCount) productCount.textContent = visibleCount;
+    createFilterSummary();
   }
 
   function handleFilterChange(groupKey, value, multi = true) {
+    const elements = Array.from(filterGroups[groupKey]);
+    const elementToToggle = elements.find(el => 
+      (el.getAttribute('data-value') === value) || (el.value === value)
+    );
+
     if (!multi) {
+      elements.forEach(el => el.classList.remove('active'));
+      if (elementToToggle) elementToToggle.classList.add('active');
       activeFilters[groupKey] = [value];
     } else {
       const index = activeFilters[groupKey].indexOf(value);
       if (index > -1) {
         activeFilters[groupKey].splice(index, 1);
+        if (elementToToggle) {
+          elementToToggle.classList.remove('active');
+          if (elementToToggle.tagName === 'INPUT') {
+            elementToToggle.checked = false;
+          }
+        }
       } else {
         activeFilters[groupKey].push(value);
+        if (elementToToggle) {
+          elementToToggle.classList.add('active');
+          if (elementToToggle.tagName === 'INPUT') {
+            elementToToggle.checked = true;
+          }
+        }
       }
     }
     applyFilters();
@@ -116,6 +177,47 @@ document.addEventListener('DOMContentLoaded', function () {
         applyFilters();
       });
     }
+
+    if (advancedToggle) {
+      advancedToggle.addEventListener('click', () => {
+        advancedFiltersContainer.classList.toggle('expanded');
+        advancedToggle.classList.toggle('expanded');
+        advancedToggle.setAttribute('aria-expanded', 
+          advancedToggle.classList.contains('expanded').toString()
+        );
+      });
+    }
+  }
+
+  function initQuickView() {
+    productItems.forEach(item => {
+      const quickViewButton = document.createElement('button');
+      quickViewButton.classList.add('quick-view-btn');
+      quickViewButton.textContent = 'Quick View';
+      
+      quickViewButton.addEventListener('click', () => {
+        const quickViewModal = document.createElement('div');
+        quickViewModal.classList.add('quick-view-modal');
+        
+        const productDetails = item.cloneNode(true);
+        productDetails.classList.add('modal-product-details');
+        
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('modal-close');
+        closeButton.innerHTML = '&times;';
+        
+        closeButton.addEventListener('click', () => {
+          document.body.removeChild(quickViewModal);
+        });
+        
+        quickViewModal.appendChild(closeButton);
+        quickViewModal.appendChild(productDetails);
+        
+        document.body.appendChild(quickViewModal);
+      });
+      
+      item.appendChild(quickViewButton);
+    });
   }
 
   function initThemeFromSky() {
@@ -128,12 +230,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Init
   attachListeners();
   initThemeFromSky();
+  initQuickView();
   applyFilters();
 });
-
 
 window.addEventListener('DOMContentLoaded', () => {
   const loadingOverlay = document.getElementById('loading-overlay');
@@ -143,4 +244,24 @@ window.addEventListener('DOMContentLoaded', () => {
       loadingOverlay.style.display = 'none';
     }, 300);
   }
+
+  const searchInput = document.createElement('input');
+  searchInput.setAttribute('type', 'text');
+  searchInput.setAttribute('placeholder', 'Search products...');
+  searchInput.classList.add('product-search');
+  
+  const searchContainer = document.querySelector('.right-controls');
+  searchContainer.insertBefore(searchInput, searchContainer.firstChild);
+
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const productItems = document.querySelectorAll('.product-item');
+    
+    productItems.forEach(item => {
+      const productName = item.querySelector('.product-link').textContent.toLowerCase();
+      const isVisible = productName.includes(searchTerm);
+      
+      item.style.display = isVisible ? '' : 'none';
+    });
+  });
 });
