@@ -1,0 +1,40 @@
+@media (max-width: 768px) {
+  .cosmic-navbar {
+    padding: 0 15px;
+  }
+
+  .selector-orb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .sky-options {
+    flex-wrap: wrap;
+    padding: 30px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cosmic-navbar {
+    height: 60px;
+  }
+
+  .brand-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .selector-orb {
+    width: 50px;
+    height: 50px;
+  }
+
+  .sky-option {
+    width: 110px;
+  }
+
+  .sky-preview {
+    width: 60px;
+    height: 60px;
+  }
+}
