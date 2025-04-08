@@ -14,104 +14,100 @@
     </style>
 </head>
 <body>
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
-    
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
+  <div class="sky-panorama">
+    <div class="sky-options">
+        <div class="sky-option" data-sky="clear-blue">
+            <div class="sky-preview">
+                <div class="sky-icon">
+                    <img src="Sun.png" alt="Clear Blue Sky">
                 </div>
+                <div class="sky-reflection"></div>
             </div>
-            <h1 class="brand-name">Blend of Skies</h1>
-        </div>
-        
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
-                </div>
-                <div class="orb-emoji">
-                    <img src="Sun.png" alt="Default sky">
-                </div>
+            <div class="sky-details">
+                <h3>Clear Blue</h3>
+                <p>A pristine blue canvas with gentle wisps</p>
+            </div>
+            <div class="sky-submenu">
+                <div class="submenu-option" data-variant="morning-blue">Morning Blue</div>
+                <div class="submenu-option" data-variant="afternoon-haze">Afternoon Haze</div>
+                <div class="submenu-option" data-variant="crystal-sky">Crystal Sky</div>
             </div>
         </div>
-        
-        <div class="empty-space"></div>
-    </nav>
-    
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="Sun.png" alt="Clear Blue Sky">
-                    </div>
-                    <div class="sky-reflection"></div>
+
+        <div class="sky-option" data-sky="sunset-glow">
+            <div class="sky-preview">
+                <div class="sky-icon">
+                    <img src="Armageddon.png" alt="Sunset Glow">
                 </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
-                </div>
+                <div class="sky-reflection"></div>
             </div>
-            
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="Armageddon.png" alt="Sunset Glow">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
+            <div class="sky-details">
+                <h3>Sunset Glow</h3>
+                <p>Rich colors painting the evening horizon</p>
             </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="Storm.png" alt="Storm Brewing">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
+            <div class="sky-submenu">
+                <div class="submenu-option" data-variant="burning-orange">Burning Orange</div>
+                <div class="submenu-option" data-variant="twilight-fade">Twilight Fade</div>
+                <div class="submenu-option" data-variant="dusk-wave">Dusk Wave</div>
             </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="Nighttime.png" alt="Starry Night">
-                    </div>
-                    <div class="sky-reflection"></div>
+        </div>
+
+        <div class="sky-option" data-sky="storm-brewing">
+            <div class="sky-preview">
+                <div class="sky-icon">
+                    <img src="Storm.png" alt="Storm Brewing">
                 </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
+                <div class="sky-reflection"></div>
             </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="Snow.png" alt="Rainbow Sky">
-                    </div>
-                    <div class="sky-reflection"></div>
+            <div class="sky-details">
+                <h3>Storm Brewing</h3>
+                <p>Dramatic clouds with lightning potential</p>
+            </div>
+            <div class="sky-submenu">
+                <div class="submenu-option" data-variant="rolling-thunder">Rolling Thunder</div>
+                <div class="submenu-option" data-variant="electric-surge">Electric Surge</div>
+                <div class="submenu-option" data-variant="dark-tempest">Dark Tempest</div>
+            </div>
+        </div>
+
+        <div class="sky-option" data-sky="starry-night">
+            <div class="sky-preview">
+                <div class="sky-icon">
+                    <img src="Nighttime.png" alt="Starry Night">
                 </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
+                <div class="sky-reflection"></div>
+            </div>
+            <div class="sky-details">
+                <h3>Starry Night</h3>
+                <p>Deep space visualization with twinkling stars</p>
+            </div>
+            <div class="sky-submenu">
+                <div class="submenu-option" data-variant="galactic-drift">Galactic Drift</div>
+                <div class="submenu-option" data-variant="lunar-peace">Lunar Peace</div>
+                <div class="submenu-option" data-variant="cosmic-veil">Cosmic Veil</div>
+            </div>
+        </div>
+
+        <div class="sky-option" data-sky="rainbow-sky">
+            <div class="sky-preview">
+                <div class="sky-icon">
+                    <img src="Snow.png" alt="Rainbow Sky">
                 </div>
+                <div class="sky-reflection"></div>
+            </div>
+            <div class="sky-details">
+                <h3>Rainbow Sky</h3>
+                <p>Colorful arc stretching across after rain</p>
+            </div>
+            <div class="sky-submenu">
+                <div class="submenu-option" data-variant="pastel-arc">Pastel Arc</div>
+                <div class="submenu-option" data-variant="vibrant-rain">Vibrant Rain</div>
+                <div class="submenu-option" data-variant="full-spectrum">Full Spectrum</div>
             </div>
         </div>
     </div>
+</div>
+
     
     <div class="content-area">
         <h2>Welcome to Blend of Skies</h2>
