@@ -23,16 +23,6 @@
         
         body {
             background-image: linear-gradient(to bottom, #e6f2ff, #ffffff);
-            margin: 0;
-            padding: 0;
-        }
-        
-        .cosmic-navbar {
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            position: relative;
-            z-index: 100;
         }
         
         .about-us-nav {
@@ -41,31 +31,96 @@
             position: relative;
         }
         
-        .about-us-button {
+        .cloud-button {
+            position: relative;
+            width: 120px;
+            height: 50px;
+            background: rgb(255, 255, 255);
+            border-radius: 25px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 16px;
-            border-radius: 30px;
-            color: var(--sky-dark);
-            font-weight: 600;
-            cursor: pointer;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .about-us-button:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: var(--glow);
+        .cloud-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.4);
         }
         
-        .about-us-icon {
+        .cloud-button::before,
+        .cloud-button::after,
+        .cloud-bump-1,
+        .cloud-bump-2,
+        .cloud-bump-3 {
+            content: "";
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .cloud-button::before {
+            width: 35px;
+            height: 35px;
+            top: -15px;
+            left: 25px;
+        }
+        
+        .cloud-button::after {
+            width: 30px;
+            height: 30px;
+            top: -10px;
+            right: 30px;
+        }
+        
+        .cloud-bump-1 {
+            width: 25px;
+            height: 25px;
+            top: -8px;
+            left: 45%;
+        }
+        
+        .cloud-bump-2 {
+            width: 20px;
+            height: 20px;
+            top: -5px;
+            left: 60%;
+        }
+        
+        .cloud-bump-3 {
+            width: 22px;
+            height: 22px;
+            top: -7px;
+            left: 10px;
+        }
+        
+        .cloud-text {
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--sky-dark);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #1E90FF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.3s ease;
+            margin-top: 4px;
+        }
+        
+        .cloud-button:hover .cloud-text {
+            transform: scale(1.08);
+        }
+        
+        .cloud-icon {
             font-size: 1.2rem;
-            margin-right: 8px;
         }
         
         .about-us-dropdown {
@@ -281,33 +336,128 @@
             color: #444;
         }
         
+        /* Selector Orb Customization for Sun-like style */
+        .selector-orb {
+            background: radial-gradient(circle, rgba(255,170,0,1) 0%, rgba(255,238,0,1) 100%);
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+            animation: pulse 3s infinite ease-in-out;
+            overflow: visible;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 165, 0, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.4); }
+        }
+        
+        @keyframes ray-glow {
+            0% { opacity: 0.7; height: 12px; }
+            50% { opacity: 1; height: 15px; }
+            100% { opacity: 0.7; height: 12px; }
+        }
+        
+        .selector-orb:hover {
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.7);
+        }
+        
+        .orb-inner span {
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(255, 80, 0, 0.5);
+        }
+        
+        /* Ray beams for sun effect */
+        .sun-ray {
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background: rgba(255, 165, 0, 0.8);
+            border-radius: 1px;
+            box-shadow: 0 0 5px rgba(255, 165, 0, 0.8);
+            animation: ray-glow 2s infinite ease-in-out;
+        }
+        
+        .ray-1, .ray-2, .ray-3, .ray-4, .ray-5, .ray-6, .ray-7, .ray-8 {
+            animation-delay: calc(var(--ray-delay) * 0.25s);
+        }
+        
+        .ray-1 {
+            --ray-delay: 0;
+            top: 50%;
+            left: -8px;
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        .ray-2 {
+            --ray-delay: 1;
+            top: 50%;
+            right: -8px;
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        .ray-3 {
+            --ray-delay: 2;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .ray-4 {
+            --ray-delay: 3;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .ray-5 {
+            --ray-delay: 4;
+            top: 15%;
+            left: 15%;
+            transform: rotate(45deg);
+        }
+        
+        .ray-6 {
+            --ray-delay: 5;
+            top: 15%;
+            right: 15%;
+            transform: rotate(-45deg);
+        }
+        
+        .ray-7 {
+            --ray-delay: 6;
+            bottom: 15%;
+            left: 15%;
+            transform: rotate(-45deg);
+        }
+        
+        .ray-8 {
+            --ray-delay: 7;
+            bottom: 15%;
+            right: 15%;
+            transform: rotate(45deg);
+        }
+        
         @media (max-width: 768px) {
-            .sky-quiz-container {
-                padding: 15px;
-                margin: 30px 15px;
+            .cloud-button {
+                width: 100px;
+                height: 40px;
             }
             
-            .question-text {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
+            .cloud-button::before {
+                width: 30px;
+                height: 30px;
+                top: -12px;
+                left: 20px;
             }
             
-            .answers-container {
-                gap: 10px;
+            .cloud-button::after {
+                width: 25px;
+                height: 25px;
+                top: -8px;
+                right: 25px;
             }
             
-            .answer-card {
-                padding: 15px 10px;
-                min-height: 110px;
-            }
-            
-            .answer-icon {
-                font-size: 2rem;
-                margin-bottom: 8px;
-            }
-            
-            .answer-text {
-                font-size: 0.85rem;
+            .cloud-text {
+                font-size: 0.8rem;
             }
             
             .about-us-dropdown {
@@ -316,28 +466,35 @@
         }
         
         @media (max-width: 480px) {
-            .sky-quiz-container {
-                padding: 12px;
-                margin: 20px 10px;
+            .cloud-button {
+                width: 90px;
+                height: 36px;
             }
             
-            .question-text {
-                font-size: 1.2rem;
-                margin-bottom: 15px;
+            .cloud-button::before {
+                width: 25px;
+                height: 25px;
+                top: -10px;
+                left: 15px;
             }
             
-            .answer-card {
-                min-height: auto;
-                padding: 12px 8px;
+            .cloud-button::after {
+                width: 20px;
+                height: 20px;
+                top: -6px;
+                right: 20px;
             }
             
-            .answer-icon {
-                font-size: 1.8rem;
-                margin-bottom: 5px;
+            .cloud-text {
+                font-size: 0.75rem;
             }
             
-            .answer-text {
-                font-size: 0.8rem;
+            .cloud-icon {
+                font-size: 1rem;
+            }
+            
+            .about-us-dropdown {
+                width: 220px;
             }
         }
     </style>
@@ -367,13 +524,26 @@
                 <div class="orb-emoji">
                     <img src="Sun.png" alt="Default sky">
                 </div>
+                <div class="sun-ray ray-1"></div>
+                <div class="sun-ray ray-2"></div>
+                <div class="sun-ray ray-3"></div>
+                <div class="sun-ray ray-4"></div>
+                <div class="sun-ray ray-5"></div>
+                <div class="sun-ray ray-6"></div>
+                <div class="sun-ray ray-7"></div>
+                <div class="sun-ray ray-8"></div>
             </div>
         </div>
         
         <div class="about-us-nav">
-            <div class="about-us-button">
-                <span class="about-us-icon">✨</span>
-                <span>About Us</span>
+            <div class="cloud-button">
+                <div class="cloud-bump-1"></div>
+                <div class="cloud-bump-2"></div>
+                <div class="cloud-bump-3"></div>
+                <div class="cloud-text">
+                    <span class="cloud-icon">☁️</span>
+                    <span>About Us</span>
+                </div>
             </div>
             
             <div class="about-us-dropdown">
@@ -676,16 +846,16 @@
                 });
             });
             
-            const aboutUsButton = document.querySelector('.about-us-button');
+            const cloudButton = document.querySelector('.cloud-button');
             const aboutUsDropdown = document.querySelector('.about-us-dropdown');
             
-            aboutUsButton.addEventListener('click', function(e) {
+            cloudButton.addEventListener('click', function(e) {
                 e.stopPropagation();
                 aboutUsDropdown.classList.toggle('active');
             });
             
             document.addEventListener('click', function(e) {
-                if (!aboutUsDropdown.contains(e.target) && !aboutUsButton.contains(e.target)) {
+                if (!aboutUsDropdown.contains(e.target) && !cloudButton.contains(e.target)) {
                     aboutUsDropdown.classList.remove('active');
                 }
             });
