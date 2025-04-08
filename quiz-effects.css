@@ -1,0 +1,89 @@
+/* Quiz Weather Effects Styles */
+.cloud {
+    position: absolute;
+    background-color: var(--cloud-color);
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: blur(10px);
+    z-index: -1;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-100px); }
+}
+
+.rain-drop {
+    position: absolute;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, rgba(135, 206, 250, 0.7));
+    border-radius: 50%;
+    z-index: -1;
+    top: -50px;
+    opacity: 0;
+    animation: rain linear infinite;
+}
+
+@keyframes rain {
+    0% { 
+        transform: translateY(0) translateX(0); 
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.7;
+    }
+    100% { 
+        transform: translateY(120vh) translateX(20px); 
+        opacity: 0;
+    }
+}
+
+.snowflake {
+    position: absolute;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    z-index: -1;
+    top: -50px;
+    opacity: 0;
+    animation: snow linear infinite;
+}
+
+@keyframes snow {
+    0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0.8;
+    }
+    100% { 
+        transform: translateY(100vh) rotate(360deg); 
+        opacity: 0;
+    }
+}
+
+.lightning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sunshine {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 235, 59, 0.8), rgba(255, 167, 38, 0.2) 70%, transparent);
+    filter: blur(5px);
+    z-index: -1;
+    animation: pulse 4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 0.9; }
+}
