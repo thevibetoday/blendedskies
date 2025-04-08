@@ -1,14 +1,11 @@
-// Navbar functionality
 document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.cosmic-navbar');
     const starsContainer = document.querySelector('.stars-container');
     const brandName = document.querySelector('.brand-name');
     
-    // Handle scroll effects
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Add shadow and reduce height on scroll
         if (scrollTop > 10) {
             navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
             navbar.style.height = '60px';
@@ -18,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Brand name click - scroll to top
     if (brandName) {
         brandName.addEventListener('click', function() {
             window.scrollTo({
@@ -28,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Create ripple effect - used by multiple components
     window.createRipple = function(element, color) {
         const ripple = document.createElement('div');
         ripple.style.position = 'absolute';
@@ -42,14 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         element.appendChild(ripple);
         
-        // Trigger the animation
         setTimeout(() => {
             ripple.style.transform = 'scale(3)';
             ripple.style.opacity = '0';
         }, 10);
         
-        // Remove the ripple element after animation
         setTimeout(() => {
             element.removeChild(ripple);
         }, 700);
     };
+});
