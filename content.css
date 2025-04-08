@@ -1,0 +1,16 @@
+/* Content Area Styles */
+.content-area h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5em;
+    background: linear-gradient(135deg, #1E90FF, #87CEEB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+}
+
+.content-area p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #444;
+}
