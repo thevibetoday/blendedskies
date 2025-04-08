@@ -1,0 +1,72 @@
+/* Quiz Responsive Styles */
+@media (max-width: 768px) {
+    .question-text {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .answers-container {
+        gap: 10px;
+    }
+
+    .answer-card {
+        padding: 15px 10px;
+        min-height: 110px;
+    }
+
+    .answer-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .answer-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sky-quiz-container {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+
+    .question-text {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .answer-card {
+        min-height: 100px;
+        padding: 12px 8px;
+    }
+
+    .answer-icon {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+
+    .answer-text {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-height: 700px) {
+    .question-text {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .answer-card {
+        min-height: 100px;
+        padding: 12px 8px;
+    }
+
+    .answer-icon {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+    
+    .answer-text {
+        font-size: 0.8rem;
+    }
+}
