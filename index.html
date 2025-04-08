@@ -5,24 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Blend of Skies</title>
     
-    <!-- Base CSS -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="layout.css">
     
-    <!-- Navbar CSS -->
     <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="navbar-base.css">
     <link rel="stylesheet" href="navbar-responsive.css">
     <link rel="stylesheet" href="navbar-sky.css">
     <link rel="stylesheet" href="navbar-ui.css">
     
-    <!-- Sky Components CSS -->
     <link rel="stylesheet" href="sky-options.css">
     <link rel="stylesheet" href="stars.css">
     <link rel="stylesheet" href="content.css">
     
-    <!-- Quiz CSS -->
     <link rel="stylesheet" href="quiz-layout.css">
     <link rel="stylesheet" href="quiz-effects.css">
     <link rel="stylesheet" href="quiz-responsiveness.css">
@@ -32,79 +28,78 @@
     <div class="sky-backdrop"></div>
     <div class="stars-container"></div>
     
-    <!-- Include the navbar -->
     <div id="navbar-container"></div>
     
-    <!-- Include the sky panorama -->
     <div id="sky-panorama-container"></div>
     
-    <!-- Main content area -->
     <div class="content-area">
         <h2>Welcome to Blend of Skies</h2>
         <p>Experience the beauty and wonder of different skies, all at your fingertips.</p>
     </div>
     
-    <!-- Quiz Component Container -->
     <div id="quiz-container"></div>
 
-    <!-- Include footer -->
     <div id="footer-container"></div>
     
-    <!-- Utility JavaScript -->
     <script src="utilities.js"></script>
-    <script src="utils.js"></script>
-    <script src="init.js"></script>
     
-    <!-- Component Loaders -->
     <script>
-        // Load navbar component
-        fetch('navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-container').innerHTML = data;
-            });
-        
-        // Load sky panorama component
-        fetch('sky-panorama.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sky-panorama-container').innerHTML = data;
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar-container').innerHTML = data;
+                    const navbarScript = document.createElement('script');
+                    navbarScript.src = 'navbar.js';
+                    document.body.appendChild(navbarScript);
+                });
             
-        // Load quiz component
-        fetch('sky-quiz.html')
-            .then(response => response.text())
-            .then(data => {
-                // Extract only the quiz portion (not the head, navbar, etc.)
-                const parser = new DOMParser();
-                const htmlDoc = parser.parseFromString(data, 'text/html');
-                const quizContent = htmlDoc.querySelector('.sky-quiz-container');
+            fetch('sky-panorama.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('sky-panorama-container').innerHTML = data;
+                    const skyOptionsScript = document.createElement('script');
+                    skyOptionsScript.src = 'sky-options.js';
+                    document.body.appendChild(skyOptionsScript);
+                });
                 
-                if (quizContent) {
-                    document.getElementById('quiz-container').innerHTML = quizContent.outerHTML;
-                }
-            });
-        
-        // Load footer component
-        fetch('footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-container').innerHTML = data;
-            });
+            fetch('sky-quiz.html')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                    const quizContent = htmlDoc.querySelector('.sky-quiz-container');
+                    
+                    if (quizContent) {
+                        document.getElementById('quiz-container').innerHTML = quizContent.outerHTML;
+                        const quizScript = document.createElement('script');
+                        quizScript.src = 'quiz.js';
+                        document.body.appendChild(quizScript);
+                    }
+                });
+            
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer-container').innerHTML = data;
+                });
+                
+            const starsScript = document.createElement('script');
+            starsScript.src = 'stars.js';
+            document.body.appendChild(starsScript);
+            
+            const effectsScript = document.createElement('script');
+            effectsScript.src = 'effects.js';
+            document.body.appendChild(effectsScript);
+            
+            if (typeof updateProductFilters === 'function') {
+                updateProductFilters();
+            }
+        });
     </script>
     
-    <!-- Core JavaScript -->
-    <script src="navbar.js"></script>
-    <script src="sky-options.js"></script>
     <script src="skySelector.js"></script>
-    <script src="stars.js"></script>
-    <script src="effects.js"></script>
-    
-    <!-- Quiz JavaScript -->
-    <script src="quiz.js"></script>
     <script src="questionnaire.js"></script>
-    
-    <!-- Additional Scripts -->
     <script src="themeFromURL.js"></script>
     <script src="interactions.js"></script>
 </body>
