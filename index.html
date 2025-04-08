@@ -3,126 +3,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blend of Skies Navigation</title>
-    
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="layout.css">
-    <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="sky-options.css">
-    <link rel="stylesheet" href="stars.css">
-    <link rel="stylesheet" href="content.css">
+    <title>Cosmic Quiz - Blend of Skies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --main-bg-color: #fff;
+            --main-text-color: #000;
+            --accent-color: #1E90FF;
+            --accent-light: #87CEEB;
+            --accent-dark: #0C5DA5;
+            --highlight: #FF6B6B;
+            --glow: 0 0 20px rgba(135, 206, 250, 0.5);
+        }
+
+        body {
+            background-color: var(--main-bg-color);
+            color: var(--main-text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(135, 206, 250, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(30, 144, 255, 0.03) 0%, transparent 40%);
+        }
+
+        .cosmic-quiz-container {
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            margin: 50px auto;
+            perspective: 2000px;
+            z-index: 10;
+        }
+
+        .quiz-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .quiz-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--accent-light), transparent);
+        }
+
+        .cosmic-question-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            transform: translateY(30px) rotateX(10deg);
+            opacity: 0;
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 450px;
+        }
+
+        .cosmic-question-card.active {
+            transform: translateY(0) rotateX(0);
+            opacity: 1;
+            pointer-events: all;
+            z-index: 5;
+        }
+
+        .cosmic-question-card.completed {
+            transform: translateY(-30px) rotateX(-10deg) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .question-number {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: auto;
+        }
+
+        .answer-option {
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .answer-option:hover {
+            border-color: var(--accent-light);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+        }
+
+        .answer-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-light), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .answer-option:hover::before {
+            opacity: 0.1;
+        }
+
+        .answer-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .answer-text {
+            font-weight: 500;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: #444;
+        }
+
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.7;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-indicator {
+            height: 100%;
+            width: 25%;
+            background: linear-gradient(to right, var(--accent-light), var(--accent-color));
+            border-radius: 3px;
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .quiz-complete {
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .quiz-complete.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .complete-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .complete-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent-color), var(--highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .complete-message {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .restart-button {
+            background: linear-gradient(to right, var(--accent-color), var(--accent-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .restart-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(30, 144, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .cosmic-question-card {
+                padding: 30px;
+                min-height: 400px;
+            }
+            
+            .quiz-title {
+                font-size: 2rem;
+            }
+            
+            .question-text {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+            }
+            
+            .answer-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .answer-option {
+                padding: 15px;
+            }
+
+            .complete-title {
+                font-size: 1.8rem;
+            }
+            
+            .complete-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="sky-backdrop"></div>
-    <div class="stars-container"></div>
+    <div class="cosmic-stars"></div>
     
-    <nav class="cosmic-navbar">
-        <div class="brand-container">
-            <div class="brand-icon">
-                <div class="orbit-icon">
-                    <div class="planet"></div>
-                    <div class="satellite"></div>
+    <h1 class="quiz-title">Cosmic Journey Quiz</h1>
+    
+    <div class="cosmic-quiz-container">
+        <!-- Question 1 -->
+        <div class="cosmic-question-card active" data-question="1">
+            <div class="question-header">
+                <div class="question-number">QUESTION 1/4</div>
+                <h2 class="question-text">If you could travel anywhere in the universe, where would you go?</h2>
+            </div>
+            
+            <div class="answer-grid">
+                <div class="answer-option" data-index="1">
+                    <div class="answer-icon">🪐</div>
+                    <div class="answer-text">Saturn's rings for a cosmic roller coaster ride</div>
+                </div>
+                <div class="answer-option" data-index="2">
+                    <div class="answer-icon">✨</div>
+                    <div class="answer-text">A distant galaxy to witness new star formations</div>
+                </div>
+                <div class="answer-option" data-index="3">
+                    <div class="answer-icon">🌌</div>
+                    <div class="answer-text">The center of our Milky Way to see the supermassive black hole</div>
+                </div>
+                <div class="answer-option" data-index="4">
+                    <div class="answer-icon">🌊</div>
+                    <div class="answer-text">An ocean planet with mile-high waves and endless seas</div>
                 </div>
             </div>
-            <h1 class="brand-name">Blend of Skies</h1>
+            
+            <div class="progress-bar">
+                <div class="progress-indicator" style="width: 25%"></div>
+            </div>
         </div>
         
-        <div class="sky-selector">
-            <div class="selector-orb">
-                <div class="orb-inner">
-                    <span>Choose</span>
-                    <span>Your</span>
-                    <span>Sky</span>
+        <!-- Question 2 -->
+        <div class="cosmic-question-card" data-question="2">
+            <div class="question-header">
+                <div class="question-number">QUESTION 2/4</div>
+                <h2 class="question-text">What cosmic power would you most want to possess?</h2>
+            </div>
+            
+            <div class="answer-grid">
+                <div class="answer-option" data-index="1">
+                    <div class="answer-icon">⚡</div>
+                    <div class="answer-text">Energy manipulation - create and control all forms of energy</div>
                 </div>
-                <div class="orb-emoji">
-                    <img src="images/Sun.png" alt="Default sky">
+                <div class="answer-option" data-index="2">
+                    <div class="answer-icon">🌀</div>
+                    <div class="answer-text">Gravity control - bend space and time at will</div>
                 </div>
+                <div class="answer-option" data-index="3">
+                    <div class="answer-icon">👁️</div>
+                    <div class="answer-text">Cosmic awareness - perceive everything happening across the universe</div>
+                </div>
+                <div class="answer-option" data-index="4">
+                    <div class="answer-icon">✨</div>
+                    <div class="answer-text">Matter transformation - transform any element into another</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-indicator" style="width: 50%"></div>
             </div>
         </div>
         
-        <div class="empty-space"></div>
-    </nav>
-    
-    <div class="sky-panorama">
-        <div class="sky-options">
-            <div class="sky-option" data-sky="clear-blue">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="images/Sun.png" alt="Clear Blue Sky">
-                    </div>
-                    <div class="sky-reflection"></div>
+        <!-- Question 3 -->
+        <div class="cosmic-question-card" data-question="3">
+            <div class="question-header">
+                <div class="question-number">QUESTION 3/4</div>
+                <h2 class="question-text">Which celestial event would you most like to witness?</h2>
+            </div>
+            
+            <div class="answer-grid">
+                <div class="answer-option" data-index="1">
+                    <div class="answer-icon">💥</div>
+                    <div class="answer-text">A supernova explosion from a safe distance</div>
                 </div>
-                <div class="sky-details">
-                    <h3>Clear Blue</h3>
-                    <p>A pristine blue canvas with gentle wisps</p>
+                <div class="answer-option" data-index="2">
+                    <div class="answer-icon">🌌</div>
+                    <div class="answer-text">Two galaxies colliding and merging</div>
+                </div>
+                <div class="answer-option" data-index="3">
+                    <div class="answer-icon">🕳️</div>
+                    <div class="answer-text">Matter being pulled into a black hole</div>
+                </div>
+                <div class="answer-option" data-index="4">
+                    <div class="answer-icon">🌟</div>
+                    <div class="answer-text">The birth of a new solar system</div>
                 </div>
             </div>
             
-            <div class="sky-option" data-sky="sunset-glow">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="images/Armageddon.png" alt="Sunset Glow">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Sunset Glow</h3>
-                    <p>Rich colors painting the evening horizon</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="storm-brewing">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="images/Storm.png" alt="Storm Brewing">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Storm Brewing</h3>
-                    <p>Dramatic clouds with lightning potential</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="starry-night">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="images/Nighttime.png" alt="Starry Night">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Starry Night</h3>
-                    <p>Deep space visualization with twinkling stars</p>
-                </div>
-            </div>
-            
-            <div class="sky-option" data-sky="rainbow-sky">
-                <div class="sky-preview">
-                    <div class="sky-icon">
-                        <img src="images/Snow.png" alt="Rainbow Sky">
-                    </div>
-                    <div class="sky-reflection"></div>
-                </div>
-                <div class="sky-details">
-                    <h3>Rainbow Sky</h3>
-                    <p>Colorful arc stretching across after rain</p>
-                </div>
+            <div class="progress-bar">
+                <div class="progress-indicator" style="width: 75%"></div>
             </div>
         </div>
-    </div>
-    
-    <div class="content-area">
-        <h2>Welcome to Blend of Skies</h2>
-        <p>Scroll down to see the cosmic navigation in action!</p>
-        <div style="height: 1500px;"></div>
+        
+        <!-- Question 4 -->
+        <div class="cosmic-question-card" data-question="4">
+            <div class="question-header">
+                <div class="question-number">QUESTION 4/4</div>
+                <h2 class="question-text">If you discovered a new planet, what would be its most unique feature?</h2>
+            </div>
+            
+            <div class="answer-grid">
+                <div class="answer-option" data-index="1">
+                    <div class="answer-icon">🌈</div>
+                    <div class="answer-text">Floating crystal mountains that change color with the mood of visitors</div>
+                </div>
+                <div class="answer-option" data-index="2">
+                    <div class="answer-icon">🌪️</div>
+                    <div class="answer-text">Reverse gravity storms that temporarily lift everything into the sky</div>
+                </div>
+                <div class="answer-option" data-index="3">
+                    <div class="answer-icon">🔥</div>
+                    <div class="answer-text">Oceans of luminescent liquid fire that don't burn</div>
+                </div>
+                <div class="answer-option" data-index="4">
+                    <div class="answer-icon">🌱</div>
+                    <div class="answer-text">Sentient plant life that can communicate telepathically</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-indicator" style="width: 100%"></div>
+            </div>
+        </div>
+        
+        <!-- Quiz Complete Screen -->
+        <div class="quiz-complete">
+            <div class="complete-icon">🌠</div>
+            <h2 class="complete-title">Cosmic Journey Complete!</h2>
+            <p class="complete-message">Your choices have been recorded among the stars. Each decision has shaped your unique path through the cosmos.</p>
+            <button class="restart-button">Embark Again</button>
+        </div>
     </div>
 
-    <!-- JavaScript Files -->
-    <script src="stars.js"></script>
-    <script src="navbar.js"></script>
-    <script src="sky-options.js"></script>
-    <script src="effects.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stars
+            createStars();
+            
+            // Get all elements
+            const questionCards = document.querySelectorAll('.cosmic-question-card');
+            const answerOptions = document.querySelectorAll('.answer-option');
+            const progressIndicator = document.querySelectorAll('.progress-indicator');
+            const quizComplete = document.querySelector('.quiz-complete');
+            const restartButton = document.querySelector('.restart-button');
+            
+            // Current question index
+            let currentQuestion = 1;
+            const totalQuestions = questionCards.length;
+            
+            // Create stars function
+            function createStars() {
+                const starsContainer = document.querySelector('.cosmic-stars');
+                const starsCount = window.innerWidth < 768 ? 50 : 100;
+                
+                for (let i = 0; i < starsCount; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'cosmic-star';
+                    
+                    // Random star properties
+                    const size = Math.random() * 3 + 1;
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const delay = Math.random() * 3;
+                    const duration = Math.random() * 3 + 2;
+                    
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.left = `${x}%`;
+                    star.style.top = `${y}%`;
+                    star.style.animationDelay = `${delay}s`;
+                    star.style.animationDuration = `${duration}s`;
+                    
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // Add ripple effect
+            function createRipple(element, color = 'rgba(135, 206, 250, 0.3)') {
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '100%';
+                ripple.style.height = '100%';
+                ripple.style.borderRadius = 'inherit';
+                ripple.style.backgroundColor = color;
+                ripple.style.transform = 'scale(0)';
+                ripple.style.opacity = '1';
+                ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+                
+                element.appendChild(ripple);
+                
+                // Trigger the animation
+                setTimeout(() => {
+                    ripple.style.transform = 'scale(3)';
+                    ripple.style.opacity = '0';
+                }, 10);
+                
+                // Remove the ripple element after animation
+                setTimeout(() => {
+                    element.removeChild(ripple);
+                }, 700);
+            }
+            
+            // Go to next question
+            function goToNextQuestion() {
+                // Mark current question as completed
+                const currentCard = document.querySelector(`.cosmic-question-card[data-question="${currentQuestion}"]`);
+                currentCard.classList.remove('active');
+                currentCard.classList.add('completed');
+                
+                // Move to next question or complete quiz
+                currentQuestion++;
+                
+                if (currentQuestion <= totalQuestions) {
+                    // Show next question
+                    const nextCard = document.querySelector(`.cosmic-question-card[data-question="${currentQuestion}"]`);
+                    setTimeout(() => {
+                        nextCard.classList.add('active');
+                    }, 300);
+                } else {
+                    // Quiz complete
+                    setTimeout(() => {
+                        quizComplete.classList.add('show');
+                    }, 500);
+                }
+            }
+            
+            // Add click events to answer options
+            answerOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Add active class to selected option
+                    this.classList.add('selected');
+                    
+                    // Create ripple effect
+                    createRipple(this);
+                    
+                    // Disable all options in current question
+                    const currentOptions = document.querySelectorAll(`.cosmic-question-card[data-question="${currentQuestion}"] .answer-option`);
+                    currentOptions.forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    // Go to next question after delay
+                    setTimeout(() => {
+                        goToNextQuestion();
+                    }, 600);
+                });
+            });
+            
+            // Restart quiz
+            restartButton.addEventListener('click', function() {
+                // Create ripple effect
+                createRipple(this);
+                
+                // Hide complete screen
+                quizComplete.classList.remove('show');
+                
+                // Reset questions
+                questionCards.forEach(card => {
+                    card.classList.remove('active', 'completed');
+                });
+                
+                // Reset selected answers
+                answerOptions.forEach(option => {
+                    option.classList.remove('selected');
+                    option.style.pointerEvents = 'auto';
+                });
+                
+                // Reset current question
+                currentQuestion = 1;
+                const firstCard = document.querySelector('.cosmic-question-card[data-question="1"]');
+                
+                setTimeout(() => {
+                    firstCard.classList.add('active');
+                }, 300);
+            });
+            
+            // Add hover sound effect (uncomment if you want to add sounds)
+            /*
+            answerOptions.forEach(option => {
+                option.addEventListener('mouseenter', function() {
+                    // Play hover sound
+                    const hoverSound = new Audio('hover.mp3');
+                    hoverSound.volume = 0.2;
+                    hoverSound.play();
+                });
+            });
+            */
+            
+            // Add parallax effect to stars
+            document.addEventListener('mousemove', function(e) {
+                const stars = document.querySelectorAll('.cosmic-star');
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                stars.forEach(star => {
+                    const size = parseFloat(star.style.width);
+                    const depth = size / 3; // Bigger stars move more
+                    const moveX = (mouseX - 0.5) * depth * 20;
+                    const moveY = (mouseY - 0.5) * depth * 20;
+                    
+                    star.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                // Adjust stars for window size
+                document.querySelector('.cosmic-stars').innerHTML = '';
+                createStars();
+            });
+        });
+    </script>
 </body>
 </html>
