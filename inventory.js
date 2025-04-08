@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Navbar elements
     const skySelector = document.querySelector('.sky-selector');
     const skyPanorama = document.querySelector('.sky-panorama');
     const skyBackdrop = document.querySelector('.sky-backdrop');
-    const skyOptions = document.querySelectorAll('.sky-option');
+    const skyOptions = document.querySelector('.sky-options');
     const orbEmoji = document.querySelector('.orb-emoji');
     const orbInner = document.querySelector('.orb-inner');
     const inventoryBody = document.querySelector('.inventory-body');
     
-    // Filtering elements
     const skyFilters = document.querySelectorAll('.filter-circle[data-filter="sky"]');
     const typeFilters = document.querySelectorAll('.filter-chip[data-filter="type"]');
     const sizeCheckboxes = document.querySelectorAll('input[name="size"]');
@@ -18,16 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const productItems = document.querySelectorAll('.product-item');
     const productCount = document.querySelector('.count-number');
     
-    // View and Sort elements
     const viewButtons = document.querySelectorAll('.view-btn');
     const productGrid = document.querySelector('.product-grid');
     const sortSelect = document.getElementById('sort-select');
     
-    // Action buttons
-    const actionButtons = document.querySelectorAll('.action-btn');
-    const paginationButtons = document.querySelectorAll('.pagination button');
+    const loadingOverlay = document.getElementById('loading-overlay');
     
-    // Initialize state
     let activeFilters = {
         sky: ['blended'],
         type: ['all'],
@@ -35,10 +29,126 @@ document.addEventListener('DOMContentLoaded', function() {
         colors: ['blue']
     };
     
-    // Navbar Functionality
+    function initializeImagesObserver() {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const src = img.getAttribute('data-src');
+                        if (src) {
+                            img.src = src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        } else {
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                img.src = img.getAttribute('data-src');
+            });
+        }
+    }
+    
+    function hideLoadingOverlay() {
+        if (loadingOverlay) {
+            loadingOverlay.classList.add('hidden');
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 300);
+        }
+    }
+    
+    function changeSkyTheme(skyType, skyIcon) {
+        if (orbEmoji && orbInner) {
+            orbEmoji.textContent = skyIcon;
+            orbEmoji.style.opacity = '1';
+            orbInner.style.opacity = '0';
+        }
+        
+        if (inventoryBody) {
+            inventoryBody.className = 'inventory-body';
+            inventoryBody.classList.add(`sky-${skyType}`);
+        }
+        
+        skyFilters.forEach(filter => {
+            filter.setAttribute('aria-checked', filter.getAttribute('data-value') === skyType);
+            filter.classList.toggle('active', filter.getAttribute('data-value') === skyType);
+        });
+        
+        activeFilters.sky = [skyType];
+        
+        applyFilters();
+        
+        if (skyPanorama && skyBackdrop) {
+            skyPanorama.classList.remove('open');
+            skyBackdrop.classList.remove('active');
+            skySelector.setAttribute('aria-expanded', 'false');
+        }
+    }
+    
+    function showNotification(message) {
+        let notification = document.querySelector('.add-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.className = 'add-notification';
+            document.body.appendChild(notification);
+        }
+        
+        notification.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+    
+    function applyFilters() {
+        let visibleCount = 0;
+        
+        productItems.forEach(item => {
+            const sky = item.getAttribute('data-sky');
+            const type = item.getAttribute('data-type');
+            const sizes = item.getAttribute('data-sizes').split(',');
+            const colors = item.getAttribute('data-colors').split(',');
+            
+            const matchesSky = activeFilters.sky.includes('all') || activeFilters.sky.includes(sky);
+            const matchesType = activeFilters.type.includes('all') || activeFilters.type.includes(type);
+            const matchesSize = activeFilters.sizes.length === 0 || 
+                             sizes.some(size => activeFilters.sizes.includes(size));
+            const matchesColor = activeFilters.colors.length === 0 || 
+                              colors.some(color => activeFilters.colors.includes(color));
+            
+            const isVisible = matchesSky && matchesType && matchesSize && matchesColor;
+            
+            item.style.display = isVisible ? '' : 'none';
+            
+            if (isVisible) {
+                visibleCount++;
+            }
+        });
+        
+        if (productCount) {
+            productCount.textContent = visibleCount;
+        }
+        
+        return visibleCount;
+    }
+    
+    function updateProductFilters() {
+        applyFilters();
+    }
+    
     if (skySelector && skyPanorama && skyBackdrop) {
         skySelector.addEventListener('click', function(e) {
             e.preventDefault();
+            const isExpanded = skySelector.getAttribute('aria-expanded') === 'true';
+            skySelector.setAttribute('aria-expanded', !isExpanded);
             skyPanorama.classList.toggle('open');
             skyBackdrop.classList.toggle('active');
         });
@@ -46,43 +156,31 @@ document.addEventListener('DOMContentLoaded', function() {
         skyBackdrop.addEventListener('click', function() {
             skyPanorama.classList.remove('open');
             skyBackdrop.classList.remove('active');
+            skySelector.setAttribute('aria-expanded', 'false');
         });
         
-        skyOptions.forEach(option => {
-            option.addEventListener('click', function(e) {
-                e.preventDefault();
-                const skyType = this.getAttribute('data-sky');
-                const skyIcon = this.querySelector('.sky-icon').textContent;
-                
-                orbEmoji.textContent = skyIcon;
-                orbEmoji.style.opacity = '1';
-                orbInner.style.opacity = '0';
-                
-                if (inventoryBody) {
-                    inventoryBody.className = 'inventory-body';
-                    inventoryBody.classList.add(`sky-${skyType}`);
-                    
-                    // Update sky filter circles
-                    skyFilters.forEach(filter => {
-                        filter.classList.remove('active');
-                        if (filter.getAttribute('data-value') === skyType) {
-                            filter.classList.add('active');
-                        }
-                    });
-                    
-                    // Update active filters
-                    activeFilters.sky = [skyType];
-                    
-                    // Apply filters
-                    applyFilters();
+        if (skyOptions) {
+            skyOptions.addEventListener('click', function(e) {
+                const option = e.target.closest('.sky-option');
+                if (option) {
+                    const skyType = option.getAttribute('data-sky');
+                    const skyIcon = option.querySelector('.sky-icon').textContent;
+                    changeSkyTheme(skyType, skyIcon);
                 }
-                
-                setTimeout(function() {
-                    skyPanorama.classList.remove('open');
-                    skyBackdrop.classList.remove('active');
-                }, 300);
             });
-        });
+            
+            skyOptions.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const option = e.target.closest('.sky-option');
+                    if (option) {
+                        e.preventDefault();
+                        const skyType = option.getAttribute('data-sky');
+                        const skyIcon = option.querySelector('.sky-icon').textContent;
+                        changeSkyTheme(skyType, skyIcon);
+                    }
+                }
+            });
+        }
         
         if (skySelector && orbEmoji && orbInner) {
             skySelector.addEventListener('mouseenter', function() {
@@ -99,9 +197,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Advanced filters toggle
     if (advancedToggle && advancedFilters) {
         advancedToggle.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isExpanded);
             this.classList.toggle('expanded');
             advancedFilters.classList.toggle('expanded');
             this.querySelector('.toggle-text').textContent = 
@@ -109,19 +208,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // View toggle functionality
     if (viewButtons.length > 0 && productGrid) {
         viewButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const viewType = this.getAttribute('data-view');
                 
-                // Remove active class from all view buttons
-                viewButtons.forEach(btn => btn.classList.remove('active'));
+                viewButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-pressed', 'false');
+                });
                 
-                // Add active class to clicked button
                 this.classList.add('active');
+                this.setAttribute('aria-pressed', 'true');
                 
-                // Update grid view
                 if (viewType === 'grid') {
                     productGrid.classList.remove('flow-view');
                 } else if (viewType === 'flow') {
@@ -131,134 +230,99 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Filter functionality
-    function applyFilters() {
-        let visibleCount = 0;
-        
-        productItems.forEach(item => {
-            const sky = item.getAttribute('data-sky');
-            const type = item.getAttribute('data-type');
-            const sizes = item.getAttribute('data-sizes').split(',');
-            const colors = item.getAttribute('data-colors').split(',');
-            
-            // Check if the item matches all active filters
-            const matchesSky = activeFilters.sky.includes('all') || activeFilters.sky.includes(sky);
-            const matchesType = activeFilters.type.includes('all') || activeFilters.type.includes(type);
-            const matchesSize = activeFilters.sizes.length === 0 || 
-                             sizes.some(size => activeFilters.sizes.includes(size));
-            const matchesColor = activeFilters.colors.length === 0 || 
-                              colors.some(color => activeFilters.colors.includes(color));
-            
-            const isVisible = matchesSky && matchesType && matchesSize && matchesColor;
-            
-            // Show or hide the item
-            item.style.display = isVisible ? '' : 'none';
-            
-            if (isVisible) {
-                visibleCount++;
-            }
-        });
-        
-        // Update product count
-        if (productCount) {
-            productCount.textContent = visibleCount;
-        }
-        
-        return visibleCount;
-    }
-    
-    // Sky filter
     if (skyFilters.length > 0) {
         skyFilters.forEach(filter => {
             filter.addEventListener('click', function() {
                 const filterValue = this.getAttribute('data-value');
                 
-                // Remove active class from all sky filters
-                skyFilters.forEach(f => f.classList.remove('active'));
+                skyFilters.forEach(f => {
+                    f.classList.remove('active');
+                    f.setAttribute('aria-checked', 'false');
+                });
                 
-                // Add active class to clicked filter
                 this.classList.add('active');
+                this.setAttribute('aria-checked', 'true');
                 
-                // Update active filters
                 activeFilters.sky = [filterValue];
                 
-                // Apply filters
                 applyFilters();
                 
-                // Update the navbar and body class to match selected sky
                 if (orbEmoji && inventoryBody) {
-                    // Find the matching sky icon
                     const skyIcon = this.querySelector('.sky-dot').textContent;
                     orbEmoji.textContent = skyIcon;
                     orbEmoji.style.opacity = '1';
                     if (orbInner) orbInner.style.opacity = '0';
                     
-                    // Update body class
                     inventoryBody.className = 'inventory-body';
                     inventoryBody.classList.add(`sky-${filterValue}`);
+                }
+            });
+            
+            filter.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
                 }
             });
         });
     }
     
-    // Type filter
     if (typeFilters.length > 0) {
         typeFilters.forEach(filter => {
             filter.addEventListener('click', function() {
                 const filterValue = this.getAttribute('data-value');
                 
-                // Remove active class from all type filters
-                typeFilters.forEach(f => f.classList.remove('active'));
+                typeFilters.forEach(f => {
+                    f.classList.remove('active');
+                    f.setAttribute('aria-checked', 'false');
+                });
                 
-                // Add active class to clicked filter
                 this.classList.add('active');
+                this.setAttribute('aria-checked', 'true');
                 
-                // Update active filters
                 activeFilters.type = [filterValue];
                 
-                // Apply filters
                 applyFilters();
+            });
+            
+            filter.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
             });
         });
     }
     
-    // Size filter
     if (sizeCheckboxes.length > 0) {
         sizeCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
-                // Update active filters
                 activeFilters.sizes = Array.from(sizeCheckboxes)
                     .filter(cb => cb.checked)
                     .map(cb => cb.value);
                 
-                // Apply filters
                 applyFilters();
             });
         });
     }
     
-    // Color filter
     if (colorCheckboxes.length > 0) {
         colorCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
-                // Update active filters
                 activeFilters.colors = Array.from(colorCheckboxes)
                     .filter(cb => cb.checked)
                     .map(cb => cb.value);
                 
-                // Apply filters
                 applyFilters();
             });
         });
     }
     
-    // Sort functionality
     if (sortSelect && productGrid) {
         sortSelect.addEventListener('change', function() {
             const sortValue = this.value;
             const items = Array.from(productItems);
             
-            // Sort items based on selected option
             items.sort((a, b) => {
                 const priceA = parseFloat(a.querySelector('.product-price').textContent.replace('$', ''));
                 const priceB = parseFloat(b.querySelector('.product-price').textContent.replace('$', ''));
@@ -269,51 +333,69 @@ document.addEventListener('DOMContentLoaded', function() {
                     case 'price-high':
                         return priceB - priceA;
                     case 'bestsellers':
-                        // Simulate bestsellers with a random sort for demo
                         return 0.5 - Math.random();
-                    default: // newest
-                        // For demo, newest is the original order
+                    default:
                         return 0;
                 }
             });
             
-            // Reorder items in the DOM
-            items.forEach(item => {
-                productGrid.appendChild(item);
+            requestAnimationFrame(() => {
+                items.forEach(item => {
+                    productGrid.appendChild(item);
+                });
+                updateProductFilters();
             });
-            
-            
-            // Reapply filters after sorting
-            updateProductFilters();
         });
     }
     
-    // Pagination (demo functionality)
+    const paginationButtons = document.querySelectorAll('.pagination button');
     if (paginationButtons.length > 0) {
         paginationButtons.forEach(button => {
-            if (button.classList.contains('page-number') || button.classList.contains('page-arrow')) {
+            if (button.classList.contains('pagination-number')) {
                 button.addEventListener('click', function() {
-                    // Clear active class from all page numbers
-                    document.querySelectorAll('.page-number').forEach(btn => {
+                    document.querySelectorAll('.pagination-number').forEach(btn => {
                         btn.classList.remove('active');
+                        btn.removeAttribute('aria-current');
                     });
                     
-                    // If it's a page number (not arrow), set it as active
-                    if (this.classList.contains('page-number')) {
-                        this.classList.add('active');
-                    }
+                    this.classList.add('active');
+                    this.setAttribute('aria-current', 'page');
                     
-                    // Scroll to top of results
-                    document.querySelector('.results-container').scrollIntoView({ behavior: 'smooth' });
+                    document.querySelector('.product-canvas').scrollIntoView({ behavior: 'smooth' });
+                });
+            } else if (button.classList.contains('pagination-arrow')) {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('next')) {
+                        const currentPage = document.querySelector('.pagination-number.active');
+                        const nextPage = currentPage.nextElementSibling;
+                        if (nextPage && nextPage.classList.contains('pagination-number')) {
+                            nextPage.click();
+                        }
+                    } else if (this.classList.contains('prev')) {
+                        const currentPage = document.querySelector('.pagination-number.active');
+                        const prevPage = currentPage.previousElementSibling;
+                        if (prevPage && prevPage.classList.contains('pagination-number')) {
+                            prevPage.click();
+                        }
+                    }
                 });
             }
         });
     }
     
-    // Initialize filters on page load
-    updateProductFilters();
+    document.querySelectorAll('.action-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const product = this.closest('.product-item');
+            const productName = product.querySelector('h3').textContent;
+            
+            if (this.classList.contains('add-btn')) {
+                showNotification(`${productName} added to bag`);
+            } else if (this.classList.contains('view-btn')) {
+                console.log(`Viewing ${productName}`);
+            }
+        });
+    });
     
-    // Set the theme based on URL parameter if present
     const urlParams = new URLSearchParams(window.location.search);
     const skyParam = urlParams.get('sky');
     
@@ -324,12 +406,12 @@ document.addEventListener('DOMContentLoaded', function() {
             inventoryBody.className = 'inventory-body';
             inventoryBody.classList.add(`sky-${skyParam}`);
             
-            // Update the filter checkbox
-            filterSkyOptions.forEach(option => {
-                option.checked = option.value === skyParam;
+            skyFilters.forEach(filter => {
+                const isActive = filter.getAttribute('data-value') === skyParam;
+                filter.classList.toggle('active', isActive);
+                filter.setAttribute('aria-checked', isActive);
             });
             
-            // Update the navbar emoji
             if (orbEmoji && orbInner) {
                 const skyOption = document.querySelector(`.sky-option[data-sky="${skyParam}"]`);
                 if (skyOption) {
@@ -340,43 +422,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Apply filters
+            activeFilters.sky = [skyParam];
             updateProductFilters();
         }
     }
     
-    // Add notification styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .add-notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: var(--theme-primary, #1E90FF);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
+    function handleScrolling() {
+        const canvasControls = document.querySelector('.canvas-controls');
+        const scrollY = window.scrollY;
         
-        .add-notification.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+        if (canvasControls) {
+            if (scrollY > 100) {
+                canvasControls.classList.add('scrolled');
+            } else {
+                canvasControls.classList.remove('scrolled');
+            }
         }
-        
-        .apply-filters.highlight {
-            animation: pulse 1.5s ease infinite;
+    }
+    
+    window.addEventListener('scroll', handleScrolling);
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (skyPanorama && skyPanorama.classList.contains('open')) {
+                skyPanorama.classList.remove('open');
+                skyBackdrop.classList.remove('active');
+                skySelector.setAttribute('aria-expanded', 'false');
+            }
         }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); }
-        }
-    `;
-    document.head.appendChild(style);
+    });
+    
+    initializeImagesObserver();
+    updateProductFilters();
+    hideLoadingOverlay();
 });
