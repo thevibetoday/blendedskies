@@ -1,26 +1,27 @@
-<nav class="cosmic-navbar">
-  <div class="brand-container">
-    <div class="brand-icon">
-      <div class="orbit-icon">
-        <div class="planet"></div>
-        <div class="satellite"></div>
-      </div>
-    </div>
-    <h1 class="brand-name">Blend of Skies</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Blend of Skies</title>
+  <link rel="stylesheet" href="navbar.css" />
+  <style>
+    .sky-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="content-area">
+    <h2>Welcome to Blend of Skies</h2>
+    <p>Scroll down to see the cosmic navigation in action!</p>
+    <div style="height: 1500px;"></div>
   </div>
 
-  <div class="sky-selector">
-    <div class="selector-orb">
-      <div class="orb-inner">
-        <span>Choose</span>
-        <span>Your</span>
-        <span>Sky</span>
-      </div>
-      <div class="orb-emoji">
-        <img src="Sun.png" alt="Default sky">
-      </div>
-    </div>
-  </div>
-
-  <div class="empty-space"></div>
-</nav>
+  <script src="navbar.js" defer></script>
+</body>
+</html>
