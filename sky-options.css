@@ -46,15 +46,9 @@
     align-items: flex-start;
     gap: 30px;
     padding: 40px 20px;
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 1;
     transition: opacity 0.5s ease, transform 0.5s ease;
     transition-delay: 0.1s;
-}
-
-.sky-panorama.open .sky-options {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .sky-option {
