@@ -109,62 +109,6 @@
             color: #444;
         }
         
-        .quiz-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        
-        .nav-button {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .nav-button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .submit-button {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #4CAF50, #8BC34A);
-            display: none;
-        }
-        
-        .submit-button.active {
-            display: inline-block;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(to right, #1E90FF, #87CEEB);
-            width: 25%;
-            transition: width 0.3s ease;
-        }
-        
         .quiz-results {
             display: none;
             padding: 20px;
@@ -241,11 +185,6 @@
             
             .answer-text {
                 font-size: 0.8rem;
-            }
-            
-            .nav-button {
-                padding: 8px 15px;
-                font-size: 0.9rem;
             }
         }
     </style>
@@ -345,10 +284,6 @@
         <p>Explore our celestial quiz below!</p>
         
         <div class="sky-quiz-container">
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            
             <div class="question-container active" data-question="1">
                 <h2 class="question-text">Which celestial phenomenon would you most like to witness?</h2>
                 <div class="answers-container">
@@ -437,12 +372,6 @@
                 </div>
             </div>
             
-            <div class="quiz-navigation">
-                <button class="nav-button prev-button" disabled>Previous</button>
-                <button class="nav-button next-button">Next</button>
-                <button class="nav-button submit-button">Submit Answers</button>
-            </div>
-            
             <div class="quiz-results">
                 <h3>Your Celestial Preferences</h3>
                 <div class="results-content"></div>
@@ -512,10 +441,6 @@
             
             // Quiz functionality
             const questionContainers = document.querySelectorAll('.question-container');
-            const prevButton = document.querySelector('.prev-button');
-            const nextButton = document.querySelector('.next-button');
-            const submitButton = document.querySelector('.submit-button');
-            const progressBar = document.querySelector('.progress');
             const quizResults = document.querySelector('.quiz-results');
             const resultsContent = document.querySelector('.results-content');
             
@@ -523,75 +448,20 @@
             const totalQuestions = questionContainers.length;
             const userAnswers = {};
             
-            function updateProgressBar() {
-                const progress = (currentQuestion / totalQuestions) * 100;
-                progressBar.style.width = `${progress}%`;
-            }
-            
             function showQuestion(questionNumber) {
                 questionContainers.forEach(container => {
                     container.classList.remove('active');
                 });
                 
-                const questionToShow = document.querySelector(`.question-container[data-question="${questionNumber}"]`);
-                if (questionToShow) {
-                    questionToShow.classList.add('active');
-                }
-                
-                prevButton.disabled = questionNumber === 1;
-                
-                if (questionNumber === totalQuestions) {
-                    nextButton.style.display = 'none';
-                    submitButton.classList.add('active');
-                } else {
-                    nextButton.style.display = 'inline-block';
-                    submitButton.classList.remove('active');
-                }
-                
-                updateProgressBar();
-            }
-            
-            prevButton.addEventListener('click', function() {
-                if (currentQuestion > 1) {
-                    currentQuestion--;
-                    showQuestion(currentQuestion);
-                }
-            });
-            
-            nextButton.addEventListener('click', function() {
-                const currentQuestionElem = document.querySelector(`.question-container[data-question="${currentQuestion}"]`);
-                const selectedAnswer = currentQuestionElem.querySelector('.answer-card.selected');
-                
-                if (selectedAnswer) {
-                    userAnswers[currentQuestion] = {
-                        question: currentQuestionElem.querySelector('.question-text').textContent,
-                        answer: selectedAnswer.getAttribute('data-value')
-                    };
-                    
-                    if (currentQuestion < totalQuestions) {
-                        currentQuestion++;
-                        showQuestion(currentQuestion);
+                if (questionNumber <= totalQuestions) {
+                    const questionToShow = document.querySelector(`.question-container[data-question="${questionNumber}"]`);
+                    if (questionToShow) {
+                        questionToShow.classList.add('active');
                     }
                 } else {
-                    alert('Please select an answer before proceeding.');
-                }
-            });
-            
-            submitButton.addEventListener('click', function() {
-                const currentQuestionElem = document.querySelector(`.question-container[data-question="${currentQuestion}"]`);
-                const selectedAnswer = currentQuestionElem.querySelector('.answer-card.selected');
-                
-                if (selectedAnswer) {
-                    userAnswers[currentQuestion] = {
-                        question: currentQuestionElem.querySelector('.question-text').textContent,
-                        answer: selectedAnswer.getAttribute('data-value')
-                    };
-                    
                     displayResults();
-                } else {
-                    alert('Please select an answer before submitting.');
                 }
-            });
+            }
             
             function displayResults() {
                 let resultsHTML = '';
@@ -609,20 +479,31 @@
                 questionContainers.forEach(container => {
                     container.style.display = 'none';
                 });
-                
-                prevButton.style.display = 'none';
-                nextButton.style.display = 'none';
-                submitButton.style.display = 'none';
             }
             
             const answerCards = document.querySelectorAll('.answer-card');
             answerCards.forEach(card => {
                 card.addEventListener('click', function() {
+                    // Get the question container and determine which question this is
                     const questionContainer = this.closest('.question-container');
-                    const allCards = questionContainer.querySelectorAll('.answer-card');
+                    const questionNumber = parseInt(questionContainer.getAttribute('data-question'));
                     
+                    // Highlight the selected answer
+                    const allCards = questionContainer.querySelectorAll('.answer-card');
                     allCards.forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
+                    
+                    // Store the answer
+                    userAnswers[questionNumber] = {
+                        question: questionContainer.querySelector('.question-text').textContent,
+                        answer: this.getAttribute('data-value')
+                    };
+                    
+                    // Add a slight delay to show the selection before moving to next question
+                    setTimeout(() => {
+                        // Move to the next question or show results if all questions answered
+                        showQuestion(questionNumber + 1);
+                    }, 300);
                 });
             });
             
