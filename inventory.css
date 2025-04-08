@@ -957,3 +957,61 @@ html {
             rgba(50, 50, 50, 0) 100%);
     }
 }
+.sky-clear-blue {
+  --theme-primary: #1E90FF;
+  --theme-light: #AEDCFF;
+  --theme-dark: #1559A5;
+  --theme-bg: #eaf6ff;
+}
+
+.sky-sunset-glow {
+  --theme-primary: #FF6B6B;
+  --theme-light: #FFD6C9;
+  --theme-dark: #C64545;
+  --theme-bg: #fff4f1;
+}
+
+.sky-storm-brewing {
+  --theme-primary: #4A4A58;
+  --theme-light: #A5A5B5;
+  --theme-dark: #2B2B3A;
+  --theme-bg: #f1f1f5;
+}
+
+.sky-starry-night {
+  --theme-primary: #5A48A5;
+  --theme-light: #B5A7FF;
+  --theme-dark: #2D1D63;
+  --theme-bg: #f3f0ff;
+}
+
+.sky-rainbow-sky {
+  --theme-primary: #9370DB;
+  --theme-light: #E0CFFF;
+  --theme-dark: #6A42C1;
+  --theme-bg: #faf5ff;
+}
+
+.inventory-body {
+  background-color: var(--theme-bg);
+  transition: background-color 0.5s ease;
+}
+
+.inventory-body .filter-circle.active,
+.inventory-body .filter-chip.active,
+.inventory-body .view-btn.active,
+.inventory-body .size-option input:checked + span,
+.inventory-body .action-btn.add-btn,
+.inventory-body .pagination-number.active {
+  background-color: var(--theme-primary);
+  background-image: linear-gradient(135deg, var(--theme-primary), var(--theme-light));
+}
+
+.inventory-body .color-option input:checked + .color-circle {
+  box-shadow: 0 0 0 2px var(--theme-primary);
+}
+
+.inventory-body .advanced-toggle,
+.inventory-body .product-item:hover .product-details h3 {
+  color: var(--theme-primary);
+}
