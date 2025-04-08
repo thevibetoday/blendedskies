@@ -1,0 +1,133 @@
+/* Layout and Responsive Design */
+
+/* Main Layout */
+.content-area {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive Styles - Tablets */
+@media (max-width: 768px) {
+    .cosmic-navbar {
+        padding: 0 15px;
+    }
+    
+    .brand-name {
+        font-size: 1.2rem;
+    }
+    
+    .selector-orb {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .sky-options {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px 15px;
+    }
+    
+    .sky-panorama.open {
+        height: auto !important;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .sky-option {
+        width: 130px;
+        margin-bottom: 10px;
+    }
+    
+    .sky-preview {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .sky-icon {
+        font-size: 2.2rem;
+    }
+    
+    .content-area h2 {
+        font-size: 1.7rem;
+    }
+    
+    .content-area p {
+        font-size: 1rem;
+    }
+}
+
+/* Responsive Styles - Mobile */
+@media (max-width: 480px) {
+    .cosmic-navbar {
+        padding: 0 10px;
+        height: 60px;
+    }
+    
+    .brand-container {
+        gap: 8px;
+    }
+    
+    .brand-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .brand-name {
+        font-size: 1rem;
+    }
+    
+    .selector-orb {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .orb-inner span {
+        font-size: 0.6rem;
+    }
+    
+    .orb-emoji {
+        font-size: 1.5rem;
+    }
+    
+    .sky-panorama.open {
+        max-height: 90vh;
+    }
+    
+    .sky-options {
+        gap: 15px;
+        padding: 20px 10px;
+    }
+    
+    .sky-option {
+        width: 110px;
+    }
+    
+    .sky-preview {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+    
+    .sky-icon {
+        font-size: 1.8rem;
+    }
+    
+    .sky-details h3 {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    
+    .sky-details p {
+        font-size: 0.7rem;
+    }
+    
+    .content-area h2 {
+        font-size: 1.5rem;
+    }
+    
+    .content-area p {
+        font-size: 0.9rem;
+    }
+}
