@@ -1,4 +1,4 @@
-/ Wait for the DOM to be fully loaded before executing
+// Wait for the DOM to be fully loaded before executing
 document.addEventListener('DOMContentLoaded', function() {
     // Elements
     const skySelector = document.querySelector('.sky-selector');
