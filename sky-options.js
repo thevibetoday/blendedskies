@@ -34,19 +34,18 @@ document.addEventListener('DOMContentLoaded', function() {
             starsContainer.classList.add('active');
             navbar.classList.add('expanded');
             
+            // Ensure sky options are visible immediately
+            skyOptions.forEach((option, index) => {
+                option.style.opacity = '1';
+                option.style.transform = 'translateY(0)';
+            });
+            
             // Create a ripple effect on the orb
             window.createRipple(selectorOrb, 'rgba(0, 0, 0, 0.05)');
             
             // Rotate orb text
             orbInner.style.transform = 'rotateX(180deg)';
             
-            // Delay the appearance of each sky option for staggered animation
-            skyOptions.forEach((option, index) => {
-                setTimeout(() => {
-                    option.style.opacity = '1';
-                    option.style.transform = 'translateY(0)';
-                }, 100 + (index * 50));
-            });
         } else {
             // Close menu
             selectorOrb.classList.remove('active');
@@ -60,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Reset sky options
             skyOptions.forEach(option => {
-                option.style.opacity = '';
-                option.style.transform = '';
+                option.style.opacity = '0';
+                option.style.transform = 'translateY(20px)';
             });
         }
     }
