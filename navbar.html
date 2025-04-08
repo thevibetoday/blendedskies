@@ -366,17 +366,14 @@ console.log(`Navigating to: ${targetId}`);
             });
             
             const aboutUsMenuLinks = document.querySelectorAll('.about-us-menu a');
-            aboutUsMenuLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    aboutUsDropdown.classList.remove('active');
-                    
-                     const targetId = this.getAttribute('href');
-   console.log(`Navigating to: ${targetId}`);
+aboutUsMenuLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        aboutUsDropdown.classList.remove('active');
+    });
 });
-           });
-           
-           showQuestion(currentQuestion);
+
+showQuestion(currentQuestion);
        });
    </script>
    <script src="navbar.js" defer></script>
