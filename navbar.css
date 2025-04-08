@@ -1,165 +1,66 @@
-/* Navbar Styles */
-.cosmic-navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 1000;
-    transition: height 0.3s ease, box-shadow 0.3s ease;
-}
+// navbar.js
 
-.cosmic-navbar.expanded {
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-}
+// Load the navbar HTML from navbar.html
+fetch('navbar.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('navbar-container').innerHTML = data;
+    initNavbar(); // Wait for content to load before initializing
+  });
 
-.brand-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+function initNavbar() {
+  const skySelector = document.querySelector('.sky-selector');
+  const skyPanorama = document.querySelector('.sky-panorama');
+  const skyBackdrop = document.querySelector('.sky-backdrop');
+  const skyOptions = document.querySelectorAll('.sky-option');
+  const orbEmoji = document.querySelector('.orb-emoji');
+  const orbInner = document.querySelector('.orb-inner');
+  const brandName = document.querySelector('.brand-name');
 
-.brand-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+  skySelector.onclick = function (e) {
+    e.preventDefault();
+    skyPanorama.classList.toggle('open');
+    skyBackdrop.classList.toggle('active');
+  };
 
-.orbit-icon {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #f0f9ff, #e6f7ff);
-    box-shadow: inset 0 0 10px rgba(135, 206, 250, 0.3);
-    overflow: hidden;
-}
+  skyBackdrop.onclick = function () {
+    skyPanorama.classList.remove('open');
+    skyBackdrop.classList.remove('active');
+  };
 
-.planet {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(145deg, #87CEEB, #1E90FF);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px rgba(135, 206, 250, 0.5);
-}
+  skyOptions.forEach(option => {
+    option.onclick = function (e) {
+      e.preventDefault();
+      const skyIcon = this.querySelector('.sky-icon img');
+      orbEmoji.innerHTML = '';
+      orbEmoji.appendChild(skyIcon.cloneNode(true));
+      orbEmoji.style.opacity = '1';
+      orbInner.style.opacity = '0';
 
-.satellite {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    border-radius: 50%;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    animation: float 4s ease-in-out infinite;
-}
+      setTimeout(() => {
+        skyPanorama.classList.remove('open');
+        skyBackdrop.classList.remove('active');
+      }, 300);
+    };
+  });
 
-@keyframes float {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, -10px); }
-}
+  skySelector.onmouseenter = function () {
+    orbEmoji.style.opacity = '1';
+    orbInner.style.opacity = '0';
+  };
 
-.brand-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #1E90FF, #87CEEB);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 2px 10px rgba(135, 206, 250, 0.2);
-    position: relative;
-}
+  skySelector.onmouseleave = function () {
+    const currentEmoji = orbEmoji.querySelector('img');
+    if (currentEmoji && currentEmoji.src.includes('Sun.png')) {
+      orbEmoji.style.opacity = '0';
+      orbInner.style.opacity = '1';
+    }
+  };
 
-/* Sky Selector Styles */
-.sky-selector {
-    position: relative;
-    cursor: pointer;
-    z-index: 1100;
-    transition: transform 0.3s ease;
-}
-
-.sky-selector:hover {
-    transform: scale(1.05);
-}
-
-.selector-orb {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #f5f5f5, #ffffff);
-    box-shadow: 0 0 20px rgba(135, 206, 250, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.selector-orb:hover {
-    box-shadow: 0 0 25px rgba(135, 206, 250, 0.5);
-}
-
-.selector-orb.active {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(135, 206, 250, 0.6);
-}
-
-.orb-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.orb-inner span {
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1.2;
-    color: transparent;
-    background: linear-gradient(135deg, #1E90FF, #4169E1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: 0 1px 5px rgba(135, 206, 250, 0.2);
-}
-
-.selector-orb:hover .orb-inner {
-    opacity: 0;
-}
-
-.orb-emoji {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.selector-orb:hover .orb-emoji {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Image Styling */
-.sky-icon img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+  brandName.onclick = function () {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 }
