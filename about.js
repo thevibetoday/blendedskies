@@ -1,59 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const aboutContainer = document.getElementById('cosmicAbout');
-    const galaxyParticles = document.querySelector('.galaxy-particles');
+    const aboutContainer = document.getElementById('blendOfSkiesAbout');
+    const clothingItems = document.querySelectorAll('.clothing-item');
 
-    // Parallax and Particle Generation
-    function generateParticles() {
-        const particleCount = 150;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('cosmic-particle');
-            
-            // Random positioning
-            particle.style.position = 'absolute';
-            particle.style.width = `${Math.random() * 3}px`;
-            particle.style.height = particle.style.width;
-            particle.style.backgroundColor = 'rgba(255,255,255,0.6)';
-            particle.style.borderRadius = '50%';
-            
-            // Randomize position
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            
-            // Add subtle animations
-            particle.style.animation = `particle-drift ${5 + Math.random() * 10}s linear infinite`;
-            particle.style.opacity = `${0.2 + Math.random() * 0.6}`;
-            
-            galaxyParticles.appendChild(particle);
-        }
+    // Clothing Item Reveal Animation
+    function revealClothingItems() {
+        clothingItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1) rotate(0deg)';
+            }, 300 * (index + 1));
+        });
     }
 
     // Parallax Effect
     function handleParallax(e) {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
+        if (!aboutContainer) return;
+
+        const containerRect = aboutContainer.getBoundingClientRect();
+        const centerX = containerRect.left + containerRect.width / 2;
+        const centerY = containerRect.top + containerRect.height / 2;
         
         const moveX = (e.clientX - centerX) / 50;
         const moveY = (e.clientY - centerY) / 50;
         
-        aboutContainer.style.transform = `
-            perspective(1000px) 
-            rotateX(${-moveY}deg) 
-            rotateY(${moveX}deg)
-        `;
+        clothingItems.forEach((item, index) => {
+            const multiplier = index + 1;
+            item.style.transform = `
+                translateX(${moveX * multiplier}px) 
+                translateY(${moveY * multiplier}px)
+                rotate(${(index - 1) * 3}deg)
+            `;
+        });
     }
 
     // Intersection Observer for Scroll-Based Animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                generateParticles();
+                revealClothingItems();
                 document.addEventListener('mousemove', handleParallax);
             } else {
-                entry.target.classList.remove('visible');
                 document.removeEventListener('mousemove', handleParallax);
+                clothingItems.forEach(item => {
+                    item.style.transform = 'scale(0.8) rotate(10deg)';
+                });
             }
         });
     }, {
@@ -70,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     featureCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'scale(1.05) translateY(-15px)';
-            card.style.boxShadow = '0 15px 30px rgba(65, 105, 225, 0.3)';
+            card.style.boxShadow = '0 15px 30px rgba(52, 152, 219, 0.2)';
         });
         
         card.addEventListener('mouseleave', () => {
