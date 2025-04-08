@@ -154,94 +154,87 @@
         <h2>Welcome to Blend of Skies</h2>
         <p>Explore our celestial quiz below!</p>
         
-        <div class="sky-quiz-container">
-            <div class="question-container active" data-question="1">
-                <h2 class="question-text">Which celestial phenomenon would you most like to witness?</h2>
-                <div class="answers-container">
-                    <div class="answer-card" data-value="Northern Lights">
-                        <div class="answer-icon">🌌</div>
-                        <div class="answer-text">Northern Lights</div>
-                    </div>
-                    <div class="answer-card" data-value="Meteor Shower">
-                        <div class="answer-icon">☄️</div>
-                        <div class="answer-text">Meteor Shower</div>
-                    </div>
-                    <div class="answer-card" data-value="Solar Eclipse">
-                        <div class="answer-icon">🌑</div>
-                        <div class="answer-text">Solar Eclipse</div>
-                    </div>
-                    <div class="answer-card" data-value="Planet Alignment">
-                        <div class="answer-icon">🪐</div>
-                        <div class="answer-text">Planet Alignment</div>
-                    </div>
-                </div>
+       <div class="sky-quiz-container">
+    <!-- Q1: Intent -->
+    <div class="question-container active" data-question="1">
+        <h2 class="question-text">Hey there 👋 What brings you here today?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="Browsing">Just browsing for now</div>
+            <div class="answer-card" data-value="Experience">Take me through the experience</div>
+        </div>
+    </div>
+
+    <!-- Q2: Sky Mood -->
+    <div class="question-container" data-question="2">
+        <h2 class="question-text">Pick your sky — what’s your vibe today?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="Clear Blue">
+                <img src="Sun.png" alt="Clear Blue Sky">
+                <div class="answer-text">☀️ Clear Blue</div>
             </div>
-            
-            <div class="question-container" data-question="2">
-                <h2 class="question-text">If you could travel to any celestial body, which would you choose?</h2>
-                <div class="answers-container">
-                    <div class="answer-card" data-value="Moon">
-                        <div class="answer-icon">🌙</div>
-                        <div class="answer-text">Moon</div>
-                    </div>
-                    <div class="answer-card" data-value="Mars">
-                        <div class="answer-icon">🔴</div>
-                        <div class="answer-text">Mars</div>
-                    </div>
-                    <div class="answer-card" data-value="Europa">
-                        <div class="answer-icon">🌊</div>
-                        <div class="answer-text">Europa</div>
-                    </div>
-                    <div class="answer-card" data-value="Distant Star">
-                        <div class="answer-icon">⭐</div>
-                        <div class="answer-text">Distant Star</div>
-                    </div>
-                </div>
+            <div class="answer-card" data-value="Sunset Glow">
+                <img src="Armageddon.png" alt="Sunset Glow">
+                <div class="answer-text">🌇 Sunset Glow</div>
             </div>
-            
-            <div class="question-container" data-question="3">
-                <h2 class="question-text">Which sky event would you wake up at 3am to see?</h2>
-                <div class="answers-container">
-                    <div class="answer-card" data-value="Supermoon">
-                        <div class="answer-icon">🌕</div>
-                        <div class="answer-text">Supermoon</div>
-                    </div>
-                    <div class="answer-card" data-value="Comet Passage">
-                        <div class="answer-icon">💫</div>
-                        <div class="answer-text">Comet Passage</div>
-                    </div>
-                    <div class="answer-card" data-value="Lunar Eclipse">
-                        <div class="answer-icon">🌗</div>
-                        <div class="answer-text">Lunar Eclipse</div>
-                    </div>
-                    <div class="answer-card" data-value="Space Station Flyby">
-                        <div class="answer-icon">🛰️</div>
-                        <div class="answer-text">Space Station Flyby</div>
-                    </div>
-                </div>
+            <div class="answer-card" data-value="Storm Brewing">
+                <img src="Storm.png" alt="Storm Brewing">
+                <div class="answer-text">🌩 Storm Brewing</div>
             </div>
-            
-            <div class="question-container" data-question="4">
-                <h2 class="question-text">What celestial sight would you most like to photograph?</h2>
-                <div class="answers-container">
-                    <div class="answer-card" data-value="Milky Way">
-                        <div class="answer-icon">🌌</div>
-                        <div class="answer-text">Milky Way</div>
-                    </div>
-                    <div class="answer-card" data-value="Blood Moon">
-                        <div class="answer-icon">🔴</div>
-                        <div class="answer-text">Blood Moon</div>
-                    </div>
-                    <div class="answer-card" data-value="Star Clusters">
-                        <div class="answer-icon">✨</div>
-                        <div class="answer-text">Star Clusters</div>
-                    </div>
-                    <div class="answer-card" data-value="Planets in Detail">
-                        <div class="answer-icon">🔭</div>
-                        <div class="answer-text">Planets in Detail</div>
-                    </div>
-                </div>
+            <div class="answer-card" data-value="Starry Night">
+                <img src="Nighttime.png" alt="Starry Night">
+                <div class="answer-text">🌌 Starry Night</div>
             </div>
+            <div class="answer-card" data-value="Rainbow Sky">
+                <img src="Snow.png" alt="Rainbow Sky">
+                <div class="answer-text">🌈 Rainbow Sky</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q3: Style -->
+    <div class="question-container" data-question="3">
+        <h2 class="question-text">What kind of style are you drawn to most?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="Minimalist">⚪ Minimalist</div>
+            <div class="answer-card" data-value="Graphic Heavy">🎨 Graphic Heavy</div>
+            <div class="answer-card" data-value="Earthy & Natural">🌿 Earthy & Natural</div>
+            <div class="answer-card" data-value="Bold & Eclectic">🔥 Bold & Eclectic</div>
+        </div>
+    </div>
+
+    <!-- Q4: Fit -->
+    <div class="question-container" data-question="4">
+        <h2 class="question-text">How do you like your clothes to fit?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="Snug">Snug</div>
+            <div class="answer-card" data-value="True to Size">True to Size</div>
+            <div class="answer-card" data-value="Relaxed">Relaxed</div>
+            <div class="answer-card" data-value="Oversized">Oversized</div>
+        </div>
+    </div>
+
+    <!-- Q5: Size -->
+    <div class="question-container" data-question="5">
+        <h2 class="question-text">What size do you usually wear?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="XS">XS</div>
+            <div class="answer-card" data-value="S">S</div>
+            <div class="answer-card" data-value="M">M</div>
+            <div class="answer-card" data-value="L">L</div>
+            <div class="answer-card" data-value="XL">XL</div>
+        </div>
+    </div>
+
+    <!-- Q6: Price Tier -->
+    <div class="question-container" data-question="6">
+        <h2 class="question-text">Are you looking for everyday fits or something more premium?</h2>
+        <div class="answers-container">
+            <div class="answer-card" data-value="Casual">🧢 Casual / Everyday</div>
+            <div class="answer-card" data-value="Premium">💎 Premium / Elevated</div>
+        </div>
+    </div>
+</div>
+
         </div>
         
         <div style="height: 100px;"></div>
