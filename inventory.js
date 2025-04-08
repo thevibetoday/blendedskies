@@ -133,3 +133,14 @@ document.addEventListener('DOMContentLoaded', function () {
   initThemeFromSky();
   applyFilters();
 });
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const loadingOverlay = document.getElementById('loading-overlay');
+  if (loadingOverlay) {
+    loadingOverlay.classList.add('hidden');
+    setTimeout(() => {
+      loadingOverlay.style.display = 'none';
+    }, 300);
+  }
+});
