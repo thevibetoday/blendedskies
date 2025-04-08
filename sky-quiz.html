@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sky Preferences - Blend of Skies</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/sky-options.css">
+    <link rel="stylesheet" href="css/stars.css">
+    <link rel="stylesheet" href="css/quiz-layout.css">
+    <link rel="stylesheet" href="css/quiz-effects.css">
+    <link rel="stylesheet" href="css/quiz-responsive.css">
+</head>
+<body>
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
+    <!-- Navbar -->
+    <nav class="cosmic-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="orbit-icon">
+                    <div class="planet"></div>
+                    <div class="satellite"></div>
+                </div>
+            </div>
+            <h1 class="brand-name">Blend of Skies</h1>
+        </div>
+        
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">
+                    <img src="images/Sun.png" alt="Default sky">
+                </div>
+            </div>
+        </div>
+        
+        <div class="empty-space"></div>
+    </nav>
+    
+    <!-- Sky Panorama (dropdown menu) -->
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Sun.png" alt="Clear Blue Sky">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Armageddon.png" alt="Sunset Glow">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Storm.png" alt="Storm Brewing">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Nighttime.png" alt="Starry Night">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Snow.png" alt="Rainbow Sky">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quiz Container -->
+    <div class="sky-quiz-container" id="skyQuiz">
+        <!-- Question 1 -->
+        <div class="question-container active" data-question="1" data-bg="#e6f2ff">
+            <h2 class="question-text">What's your ideal sky condition?</h2>
+            <div class="answers-container">
+                <div class="answer-card" data-weather="clear">
+                    <div class="answer-icon">☀️</div>
+                    <div class="answer-text">Clear blue skies with bright sunshine</div>
+                </div>
+                <div class="answer-card" data-weather="partly-cloudy">
+                    <div class="answer-icon">⛅</div>
+                    <div class="answer-text">Partly cloudy with a gentle breeze</div>
+                </div>
+                <div class="answer-card" data-weather="rainy">
+                    <div class="answer-icon">🌧️</div>
+                    <div class="answer-text">Light rain with the scent of petrichor</div>
+                </div>
+                <div class="answer-card" data-weather="sunset">
+                    <div class="answer-icon">🌇</div>
+                    <div class="answer-text">Vibrant sunset with cotton candy clouds</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question 2 -->
+        <div class="question-container" data-question="2" data-bg="#ffe8d6">
+            <h2 class="question-text">What's your favorite time to look at the sky?</h2>
+            <div class="answers-container">
+                <div class="answer-card">
+                    <div class="answer-icon">🌄</div>
+                    <div class="answer-text">Dawn, when the world is still quiet</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🌞</div>
+                    <div class="answer-text">Midday, with the sun directly overhead</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🌆</div>
+                    <div class="answer-text">Golden hour, just before sunset</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🌃</div>
+                    <div class="answer-text">Night time, under a blanket of stars</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question 3 -->
+        <div class="question-container" data-question="3" data-bg="#d6e5fa">
+            <h2 class="question-text">Which sky phenomenon would you like to see more often?</h2>
+            <div class="answers-container">
+                <div class="answer-card">
+                    <div class="answer-icon">🌈</div>
+                    <div class="answer-text">Double rainbows stretching across the horizon</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">⚡</div>
+                    <div class="answer-text">Dramatic lightning storms from a safe distance</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">❄️</div>
+                    <div class="answer-text">Gentle snowfall with large, fluffy flakes</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">☁️</div>
+                    <div class="answer-text">Unusual cloud formations with vivid colors</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question 4 -->
+        <div class="question-container" data-question="4" data-bg="#e0f7fa">
+            <h2 class="question-text">What does the sky make you feel?</h2>
+            <div class="answers-container">
+                <div class="answer-card">
+                    <div class="answer-icon">😌</div>
+                    <div class="answer-text">Peaceful and calm</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🤩</div>
+                    <div class="answer-text">Inspired and in awe</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🧘</div>
+                    <div class="answer-text">Reflective and contemplative</div>
+                </div>
+                <div class="answer-card">
+                    <div class="answer-icon">🤗</div>
+                    <div class="answer-text">Connected to something larger</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/utilities.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/sky-options.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
