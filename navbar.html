@@ -6,19 +6,31 @@
     <title>Blend of Skies</title>
     <link rel="stylesheet" href="navbar.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
         :root {
-            --main-text-color: #333;
+            --main-bg-color: #fff;
+            --main-text-color: #000;
             --sky-accent: #1E90FF;
             --sky-light: #87CEEB;
             --sky-dark: #0C5DA5;
+            --orbit-speed: 15s;
+            --preview-glow: 0 5px 15px rgba(135, 206, 250, 0.2);
             --cloud-color: #f9f9f9;
             --glow: 0 0 15px rgba(135, 206, 250, 0.4);
         }
         
-        body {
+        html, body {
             background-image: linear-gradient(to bottom, #e6f2ff, #ffffff);
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
         }
         
         .sky-preview img {
@@ -28,17 +40,20 @@
         }
         
         .cosmic-navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 70px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            height: 80px;
             padding: 0 30px;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(135, 206, 250, 0.15);
-            position: sticky;
-            top: 0;
             z-index: 1000;
+            transition: height 0.3s ease, box-shadow 0.3s ease;
         }
         
         .brand-container {
@@ -126,147 +141,23 @@
             cursor: pointer;
             z-index: 1100;
             transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
         }
         
         .sky-selector:hover {
             transform: scale(1.05);
         }
         
-        .selector-orb {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,170,0,1) 0%, rgba(255,238,0,1) 100%);
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: visible;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            animation: pulse 3s infinite ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(255, 165, 0, 0.6); }
-            100% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.4); }
-        }
-        
-        .selector-orb:hover {
-            box-shadow: 0 0 30px rgba(255, 165, 0, 0.7);
-        }
-        
-        .orb-inner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            transition: opacity 0.3s ease;
-        }
-        
-        .orb-inner span {
-            font-size: 0.7rem;
+        .sky-label {
+            margin-right: 10px;
             font-weight: 600;
-            line-height: 1.2;
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(255, 80, 0, 0.5);
-            display: block;
-            transition: transform 0.2s ease;
+            color: var(--sky-accent);
         }
         
-        .orb-emoji {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .selector-orb:hover .orb-inner {
-            opacity: 0;
-        }
-        
-        .selector-orb:hover .orb-emoji {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .sun-ray {
-            position: absolute;
-            width: 2px;
-            height: 12px;
-            background: rgba(255, 165, 0, 0.8);
-            border-radius: 1px;
-            box-shadow: 0 0 5px rgba(255, 165, 0, 0.8);
-            animation: ray-glow 2s infinite ease-in-out;
-        }
-        
-        @keyframes ray-glow {
-            0% { opacity: 0.7; height: 12px; }
-            50% { opacity: 1; height: 15px; }
-            100% { opacity: 0.7; height: 12px; }
-        }
-        
-        .ray-1, .ray-2, .ray-3, .ray-4, .ray-5, .ray-6, .ray-7, .ray-8 {
-            animation-delay: calc(var(--ray-delay) * 0.25s);
-        }
-        
-        .ray-1 {
-            --ray-delay: 0;
-            top: 50%;
-            left: -8px;
-            transform: translateY(-50%) rotate(90deg);
-        }
-        
-        .ray-2 {
-            --ray-delay: 1;
-            top: 50%;
-            right: -8px;
-            transform: translateY(-50%) rotate(90deg);
-        }
-        
-        .ray-3 {
-            --ray-delay: 2;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .ray-4 {
-            --ray-delay: 3;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .ray-5 {
-            --ray-delay: 4;
-            top: 15%;
-            left: 15%;
-            transform: rotate(45deg);
-        }
-        
-        .ray-6 {
-            --ray-delay: 5;
-            top: 15%;
-            right: 15%;
-            transform: rotate(-45deg);
-        }
-        
-        .ray-7 {
-            --ray-delay: 6;
-            bottom: 15%;
-            left: 15%;
-            transform: rotate(-45deg);
-        }
-        
-        .ray-8 {
-            --ray-delay: 7;
-            bottom: 15%;
-            right: 15%;
-            transform: rotate(45deg);
+        .sky-icon {
+            width: 24px;
+            height: 24px;
         }
         
         .about-us-nav {
@@ -274,82 +165,21 @@
             margin-left: 20px;
         }
         
-        .cloud-button {
-            position: relative;
-            width: 140px;
-            height: 60px;
-            background: white;
-            border-radius: 50px;
+        .about-button {
+            padding: 8px 16px;
+            background: var(--sky-accent);
+            color: white;
+            border-radius: 8px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(135, 206, 250, 0.3);
             transition: all 0.3s ease;
         }
         
-        .cloud-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(135, 206, 250, 0.4);
-        }
-        
-        .cloud-top-1, .cloud-top-2, .cloud-top-3, .cloud-top-4, .cloud-top-5 {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            top: -20px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
-        }
-        
-        .cloud-top-1 {
-            width: 40px;
-            height: 40px;
-            left: 25px;
-        }
-        
-        .cloud-top-2 {
-            width: 35px;
-            height: 35px;
-            left: 55px;
-            top: -15px;
-        }
-        
-        .cloud-top-3 {
-            width: 30px;
-            height: 30px;
-            right: 30px;
-            top: -10px;
-        }
-        
-        .cloud-top-4 {
-            width: 25px;
-            height: 25px;
-            left: 10px;
-            top: -5px;
-        }
-        
-        .cloud-top-5 {
-            width: 28px;
-            height: 28px;
-            right: 15px;
-            top: -8px;
-        }
-        
-        .cloud-text {
-            position: relative;
-            z-index: 2;
-            font-weight: 600;
-            font-size: 1.1rem;
-            background: linear-gradient(135deg, #1E90FF, #87CEEB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transition: transform 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        .cloud-button:hover .cloud-text {
-            transform: scale(1.08);
+        .about-button:hover {
+            background: var(--sky-dark);
+            box-shadow: 0 4px 12px rgba(135, 206, 250, 0.5);
         }
         
         .about-us-dropdown {
@@ -493,16 +323,18 @@
             transition: opacity 0.6s ease;
             pointer-events: none;
             z-index: 100;
+            display: block;
         }
         
         .sky-backdrop.active {
             opacity: 1;
             pointer-events: auto;
+            display: block;
         }
         
         .sky-panorama {
             position: fixed;
-            top: 80px;
+            top: 70px;
             left: 0;
             width: 100%;
             height: 0;
@@ -513,10 +345,12 @@
             z-index: 999;
             transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: block;
         }
         
         .sky-panorama.open {
-            height: 320px;
+            height: 320px !important;
+            display: block;
         }
         
         .sky-options {
@@ -559,7 +393,7 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(135, 206, 250, 0.2);
+            box-shadow: var(--preview-glow);
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -724,45 +558,16 @@
         @media (max-width: 768px) {
             .cosmic-navbar {
                 padding: 0 15px;
+                height: 60px;
             }
             
             .brand-name {
                 font-size: 1.2rem;
             }
             
-            .selector-orb {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .cloud-button {
-                width: 120px;
-                height: 50px;
-            }
-            
-            .cloud-top-1 {
-                width: 35px;
-                height: 35px;
-                left: 20px;
-                top: -15px;
-            }
-            
-            .cloud-top-2 {
-                width: 30px;
-                height: 30px;
-                left: 45px;
-                top: -12px;
-            }
-            
-            .cloud-top-3 {
-                width: 25px;
-                height: 25px;
-                right: 25px;
-                top: -8px;
-            }
-            
-            .cloud-text {
-                font-size: 0.9rem;
+            .about-button {
+                padding: 6px 12px;
+                font-size: 0.85rem;
             }
             
             .sky-options {
@@ -773,7 +578,7 @@
             }
             
             .sky-panorama.open {
-                height: auto;
+                height: auto !important;
                 max-height: 80vh;
                 overflow-y: auto;
             }
@@ -781,12 +586,30 @@
             .about-us-dropdown {
                 width: 250px;
             }
+            
+            .sky-option {
+                width: 130px;
+                margin-bottom: 10px;
+            }
+            
+            .sky-preview {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .content-area h2 {
+                font-size: 1.7rem;
+            }
+            
+            .content-area p {
+                font-size: 1rem;
+            }
         }
         
         @media (max-width: 480px) {
             .cosmic-navbar {
                 padding: 0 10px;
-                height: 70px;
+                height: 60px;
             }
             
             .brand-container {
@@ -802,52 +625,50 @@
                 font-size: 1rem;
             }
             
-            .selector-orb {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .cloud-button {
-                width: 100px;
-                height: 40px;
-            }
-            
-            .cloud-top-1 {
-                width: 25px;
-                height: 25px;
-                left: 15px;
-                top: -12px;
-            }
-            
-            .cloud-top-2 {
-                width: 22px;
-                height: 22px;
-                left: 40px;
-                top: -10px;
-            }
-            
-            .cloud-top-3 {
-                width: 18px;
-                height: 18px;
-                right: 20px;
-                top: -6px;
-            }
-            
-            .cloud-top-4, .cloud-top-5 {
-                display: none;
-            }
-            
-            .cloud-text {
+            .about-button {
+                padding: 5px 10px;
                 font-size: 0.8rem;
-            }
-            
-            .ray-5, .ray-6, .ray-7, .ray-8 {
-                display: none;
             }
             
             .about-us-dropdown {
                 width: 220px;
                 right: -10px;
+            }
+            
+            .sky-panorama.open {
+                max-height: 90vh;
+            }
+            
+            .sky-options {
+                gap: 15px;
+                padding: 20px 10px;
+            }
+            
+            .sky-option {
+                width: 110px;
+            }
+            
+            .sky-preview {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+            
+            .sky-details h3 {
+                font-size: 0.9rem;
+                margin-bottom: 3px;
+            }
+            
+            .sky-details p {
+                font-size: 0.7rem;
+            }
+            
+            .content-area h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content-area p {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -868,35 +689,14 @@
         
         <div class="nav-middle">
             <div class="sky-selector">
-                <div class="selector-orb">
-                    <div class="orb-inner">
-                        <span>Choose</span>
-                        <span>Your</span>
-                        <span>Sky</span>
-                    </div>
-                    <div class="orb-emoji">
-                        <img src="Sun.png" alt="Default sky">
-                    </div>
-                    <div class="sun-ray ray-1"></div>
-                    <div class="sun-ray ray-2"></div>
-                    <div class="sun-ray ray-3"></div>
-                    <div class="sun-ray ray-4"></div>
-                    <div class="sun-ray ray-5"></div>
-                    <div class="sun-ray ray-6"></div>
-                    <div class="sun-ray ray-7"></div>
-                    <div class="sun-ray ray-8"></div>
-                </div>
+                <span class="sky-label">Choose Your Sky</span>
+                <img src="Sun.png" alt="Choose your sky" class="sky-icon">
             </div>
         </div>
         
         <div class="about-us-nav">
-            <div class="cloud-button">
-                <div class="cloud-top-1"></div>
-                <div class="cloud-top-2"></div>
-                <div class="cloud-top-3"></div>
-                <div class="cloud-top-4"></div>
-                <div class="cloud-top-5"></div>
-                <div class="cloud-text">About Us</div>
+            <div class="about-button">
+                About Us
             </div>
             
             <div class="about-us-dropdown">
@@ -1105,8 +905,7 @@
             const skyPanorama = document.querySelector('.sky-panorama');
             const skyBackdrop = document.querySelector('.sky-backdrop');
             const skyOptions = document.querySelectorAll('.sky-option');
-            const orbEmoji = document.querySelector('.orb-emoji');
-            const orbInner = document.querySelector('.orb-inner');
+            const skyIcon = document.querySelector('.sky-icon');
             const brandName = document.querySelector('.brand-name');
             
             skySelector.onclick = function(e) {
@@ -1123,11 +922,8 @@
             skyOptions.forEach(option => {
                 option.onclick = function(e) {
                     e.preventDefault();
-                    const skyIcon = this.querySelector('.sky-preview img');
-                    orbEmoji.innerHTML = '';
-                    orbEmoji.appendChild(skyIcon.cloneNode(true));
-                    orbEmoji.style.opacity = '1';
-                    orbInner.style.opacity = '0';
+                    const optionImg = this.querySelector('.sky-preview img');
+                    skyIcon.src = optionImg.src;
                     
                     setTimeout(function() {
                         skyPanorama.classList.remove('open');
@@ -1135,19 +931,6 @@
                     }, 300);
                 };
             });
-            
-            skySelector.onmouseenter = function() {
-                orbEmoji.style.opacity = '1';
-                orbInner.style.opacity = '0';
-            };
-            
-            skySelector.onmouseleave = function() {
-                const currentEmoji = orbEmoji.querySelector('img');
-                if (currentEmoji && currentEmoji.src.includes('Sun.png')) {
-                    orbEmoji.style.opacity = '0';
-                    orbInner.style.opacity = '1';
-                }
-            };
             
             brandName.onclick = function() {
                 window.scrollTo({
@@ -1195,16 +978,16 @@
                 });
             });
             
-            const cloudButton = document.querySelector('.cloud-button');
+            const aboutButton = document.querySelector('.about-button');
             const aboutUsDropdown = document.querySelector('.about-us-dropdown');
             
-            cloudButton.addEventListener('click', function(e) {
+            aboutButton.addEventListener('click', function(e) {
                 e.stopPropagation();
                 aboutUsDropdown.classList.toggle('active');
             });
             
             document.addEventListener('click', function(e) {
-                if (!aboutUsDropdown.contains(e.target) && !cloudButton.contains(e.target)) {
+                if (!aboutUsDropdown.contains(e.target) && !aboutButton.contains(e.target)) {
                     aboutUsDropdown.classList.remove('active');
                 }
             });
