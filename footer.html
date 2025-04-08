@@ -1,0 +1,58 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const skySelector = document.querySelector('.sky-selector');
+    const skyPanorama = document.querySelector('.sky-panorama');
+    const skyBackdrop = document.querySelector('.sky-backdrop');
+    const skyOptions = document.querySelectorAll('.sky-option');
+    const orbEmoji = document.querySelector('.orb-emoji');
+    const orbInner = document.querySelector('.orb-inner');
+    const brandName = document.querySelector('.brand-name');
+
+    skySelector.onclick = function (e) {
+      e.preventDefault();
+      skyPanorama.classList.toggle('open');
+      skyBackdrop.classList.toggle('active');
+    };
+
+    skyBackdrop.onclick = function () {
+      skyPanorama.classList.remove('open');
+      skyBackdrop.classList.remove('active');
+    };
+
+    skyOptions.forEach(option => {
+      option.onclick = function (e) {
+        e.preventDefault();
+        const skyIcon = this.querySelector('.sky-icon img');
+        orbEmoji.innerHTML = '';
+        orbEmoji.appendChild(skyIcon.cloneNode(true));
+        orbEmoji.style.opacity = '1';
+        orbInner.style.opacity = '0';
+
+        setTimeout(function () {
+          skyPanorama.classList.remove('open');
+          skyBackdrop.classList.remove('active');
+        }, 300);
+      };
+    });
+
+    skySelector.onmouseenter = function () {
+      orbEmoji.style.opacity = '1';
+      orbInner.style.opacity = '0';
+    };
+
+    skySelector.onmouseleave = function () {
+      const currentEmoji = orbEmoji.querySelector('img');
+      if (currentEmoji && currentEmoji.src.includes('Sun.png')) {
+        orbEmoji.style.opacity = '0';
+        orbInner.style.opacity = '1';
+      }
+    };
+
+    brandName.onclick = function () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
+  });
+</script>
