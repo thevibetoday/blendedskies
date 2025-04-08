@@ -1,37 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Blend of Skies</title>
-
-  <!-- CSS Files (root-level) -->
-  <link rel="stylesheet" href="navbar-base.css" />
-  <link rel="stylesheet" href="navbar-ui.css" />
-  <link rel="stylesheet" href="navbar-sky.css" />
-  <link rel="stylesheet" href="navbar-responsive.css" />
-
-  <!-- Optional inline fix -->
-  <style>
-    .sky-icon img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blend of Skies Navigation</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/sky-options.css">
+    <link rel="stylesheet" href="css/stars.css">
+    <link rel="stylesheet" href="css/content.css">
 </head>
 <body>
-  <!-- Same HTML content goes here: navbar, sky-panorama, etc. -->
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
+    <nav class="cosmic-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="orbit-icon">
+                    <div class="planet"></div>
+                    <div class="satellite"></div>
+                </div>
+            </div>
+            <h1 class="brand-name">Blend of Skies</h1>
+        </div>
+        
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">
+                    <img src="images/Sun.png" alt="Default sky">
+                </div>
+            </div>
+        </div>
+        
+        <div class="empty-space"></div>
+    </nav>
+    
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Sun.png" alt="Clear Blue Sky">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Armageddon.png" alt="Sunset Glow">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Storm.png" alt="Storm Brewing">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Nighttime.png" alt="Starry Night">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
+            </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <div class="sky-icon">
+                        <img src="images/Snow.png" alt="Rainbow Sky">
+                    </div>
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-area">
+        <h2>Welcome to Blend of Skies</h2>
+        <p>Scroll down to see the cosmic navigation in action!</p>
+        <div style="height: 1500px;"></div>
+    </div>
 
-  <!-- JS Files (root-level) -->
-  
-  <script src="utils.js" defer></script>
-  <script src="filters.js" defer></script>
-    <script src="skySelector.js" defer></script>
-  <script src="sort.js" defer></script>
-  <script src="pagination.js" defer></script>
-  <script src="interactions.js" defer></script>
-  <script src="themeFromURL.js" defer></script>
-  <script src="init.js" defer></script>
+    <!-- JavaScript Files -->
+    <script src="js/stars.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/sky-options.js"></script>
+    <script src="js/effects.js"></script>
 </body>
 </html>
