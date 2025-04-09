@@ -7,45 +7,25 @@ class ShopifyClient {
         this.checkoutUrl = null;
     }
 
-    /**
-     * Fetch products from Shopify using the Storefront API
+      /**
+     * Fetch products from Shopify using our proxy server
      */
     async fetchProducts(limit = 12) {
-        const query = `
-            {
-                products(first: ${limit}) {
-                    edges {
-                        node {
-                            id
-                            title
-                            handle
-                            description
-                            images(first: 1) {
-                                edges {
-                                    node {
-                                        originalSrc
-                                        altText
-                                    }
-                                }
-                            }
-                            variants(first: 1) {
-                                edges {
-                                    node {
-                                        id
-                                        price
-                                        availableForSale
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        `;
-
         try {
-            const response = await this._callStorefrontApi(query);
-            return this._formatProducts(response.data.products);
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ limit })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            return this._formatProducts(result.data.products);
         } catch (error) {
             console.error('Error fetching products:', error);
             return [];
@@ -157,7 +137,7 @@ class ShopifyClient {
     }
 
     /**
-     * Create checkout URL - redirects to Shopify's checkout
+     * Create checkout URL - redirects to Shopify's checkout using our proxy server
      */
     async createCheckout() {
         if (this.cart.length === 0) {
@@ -171,31 +151,21 @@ class ShopifyClient {
             };
         });
 
-        const query = `
-            mutation createCheckout($input: CheckoutCreateInput!) {
-                checkoutCreate(input: $input) {
-                    checkout {
-                        id
-                        webUrl
-                    }
-                    checkoutUserErrors {
-                        code
-                        field
-                        message
-                    }
-                }
-            }
-        `;
-
-        const variables = {
-            input: {
-                lineItems
-            }
-        };
-
         try {
-            const response = await this._callStorefrontApi(query, variables);
-            this.checkoutUrl = response.data.checkoutCreate.checkout.webUrl;
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ lineItems })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            this.checkoutUrl = result.data.checkoutCreate.checkout.webUrl;
             return this.checkoutUrl;
         } catch (error) {
             console.error('Error creating checkout:', error);
