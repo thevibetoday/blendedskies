@@ -5,7 +5,7 @@ const app = express();
 const SHOPIFY_DOMAIN = process.env.sq8wck-y0.myshopify.com;
 const ACCESS_TOKEN = process.env.1593bc8a72a930510d7570d437eb3fb2;
 
-app.use(express.static('public')); // serve your HTML files
+app.use(express.static('public'));
 
 app.get('/products', async (req, res) => {
   const query = `
@@ -42,20 +42,20 @@ app.get('/products', async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN,
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
       },
       body: JSON.stringify({ query }),
     });
 
     const data = await response.json();
     res.json(data.data.products.edges);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Something went wrong' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
