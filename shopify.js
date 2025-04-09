@@ -1,50 +1,54 @@
+/**
+ * Shopify API Integration
+ * This file handles all Shopify API interactions
+ */
+
 class ShopifyClient {
     constructor(config) {
-        this.domain = "sq8wck-y0.myshopify.com"; // Fixed with quotes
-        this.storefrontAccessToken = "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"; // Fixed with quotes
-        this.apiVersion = config.apiVersion || '2023-07'; // Use latest version available
+        this.domain = "sq8wck-y0.myshopify.com"; // Fixed with string literal
+        this.storefrontAccessToken = "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"; // Fixed with string literal
+        this.apiVersion = "2023-07"; // Use latest version available
         this.cart = [];
         this.checkoutUrl = null;
     }
 
     /**
-     * Fetch products from Shopify using our proxy server
+     * Fetch products from Shopify using the Storefront API
      */
     async fetchProducts(limit = 12) {
-        try {
-            // For direct testing without the proxy, let's use the Storefront API directly
-            const query = `
-                {
-                    products(first: ${limit}) {
-                        edges {
-                            node {
-                                id
-                                title
-                                handle
-                                description
-                                images(first: 1) {
-                                    edges {
-                                        node {
-                                            originalSrc
-                                            altText
-                                        }
+        const query = `
+            {
+                products(first: ${limit}) {
+                    edges {
+                        node {
+                            id
+                            title
+                            handle
+                            description
+                            images(first: 1) {
+                                edges {
+                                    node {
+                                        originalSrc
+                                        altText
                                     }
                                 }
-                                variants(first: 1) {
-                                    edges {
-                                        node {
-                                            id
-                                            price
-                                            availableForSale
-                                        }
+                            }
+                            variants(first: 1) {
+                                edges {
+                                    node {
+                                        id
+                                        price
+                                        availableForSale
                                     }
                                 }
                             }
                         }
                     }
                 }
-            `;
+            }
+        `;
 
+        try {
             const response = await this._callStorefrontApi(query);
             return this._formatProducts(response.data.products);
         } catch (error) {
