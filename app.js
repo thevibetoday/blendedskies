@@ -3,13 +3,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Shopify client
-    // Replace with your Shopify store details
-    const shopify = new ShopifyClient({
-        domain: 'your-store.myshopify.com',
-        storefrontAccessToken: 'your-storefront-access-token',
-        apiVersion: '2023-07' // Use latest available version
-    });
+    // Initialize Shopify client with empty object since we've hardcoded values in the class
+    const shopify = new ShopifyClient({});
 
     // DOM elements
     const productsContainer = document.getElementById('products-container');
