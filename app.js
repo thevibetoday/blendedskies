@@ -1,4 +1,3 @@
- with your store information
 const SHOP_DOMAIN = 'sq8wck-y0.myshopify.com';
 const ACCESS_TOKEN = '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';
 const COLLECTION_HANDLE = 'my-inventory'; // e.g., 'summer-collection'
