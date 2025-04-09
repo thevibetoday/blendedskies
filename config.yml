@@ -1,0 +1,7 @@
+development:
+  password: 1593bc8a72a930510d7570d437eb3fb2
+  theme_id: "your-theme-id"
+  store: sq8wck-y0.myshopify.com
+  ignore_files:
+    - config.yml
+    - README.md
