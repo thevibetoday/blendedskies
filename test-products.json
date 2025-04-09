@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "classic-tee-black",
+    "name": "Classic Tee",
+    "price": 30,
+    "image": "/images/classic-tee-black.jpg",
+    "category": "tshirts",
+    "sizes": ["S", "M", "L", "XL"],
+    "description": "A classic black t-shirt made for comfort."
+  },
+  {
+    "slug": "hoodie-blue",
+    "name": "Blue Hoodie",
+    "price": 45,
+    "image": "/images/hoodie-blue.jpg",
+    "category": "hoodies",
+    "sizes": ["M", "L"],
+    "description": "Cozy hoodie in deep blue for cool days."
+  },
+  {
+    "slug": "snapback-hat",
+    "name": "Snapback Hat",
+    "price": 20,
+    "image": "/images/snapback-hat.jpg",
+    "category": "accessories",
+    "sizes": ["One Size"],
+    "description": "Adjustable snapback hat for everyday wear."
+  }
+]
