@@ -1,61 +1,65 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Custom Shopify Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>My Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <span id="cart-count">0</span>
+                <a href="#" id="view-cart">Cart</a>
+            </div>
+        </div>
+    </header>
 
-const SHOPIFY_DOMAIN = process.env.sq8wck-y0.myshopify.com;
-const ACCESS_TOKEN = process.env.1593bc8a72a930510d7570d437eb3fb2;
+    <main>
+        <div class="container">
+            <h2>Welcome to My Store</h2>
+            <p>Browse our collection of high-quality products.</p>
+            
+            <div class="featured-products">
+                <h3>Featured Products</h3>
+                <div id="products-container" class="products-grid">
+                    <!-- Products will be loaded here via JavaScript -->
+                    <div class="loading">Loading products...</div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-app.use(express.static('public'));
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 My Store. All rights reserved.</p>
+        </div>
+    </footer>
 
-app.get('/products', async (req, res) => {
-  const query = `
-    {
-      products(first: 10) {
-        edges {
-          node {
-            title
-            description
-            images(first: 1) {
-              edges {
-                node {
-                  originalSrc
-                }
-              }
-            }
-            variants(first: 1) {
-              edges {
-                node {
-                  price {
-                    amount
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+    <!-- Cart modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+                <button id="checkout-button">Checkout</button>
+            </div>
+        </div>
+    </div>
 
-  try {
-    const response = await fetch(`https://${SHOPIFY_DOMAIN}/api/2023-10/graphql.json`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': SHOPIFY_TOKEN,
-      },
-      body: JSON.stringify({ query }),
-    });
-
-    const data = await response.json();
-    res.json(data.data.products.edges);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch products' });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+    <script src="shopify.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
