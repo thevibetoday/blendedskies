@@ -1,208 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blend of Skies - Immersive Product Inventory</title>
-  <link rel="stylesheet" href="inventory.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blend of Skies - Inventory</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="inventory.css">
 </head>
-<body class="inventory-body sky-clear-blue">
-  <div id="loading-overlay" class="loading-overlay">
-    <div class="loader"></div>
-  </div>
-
-  <main class="immersive-explorer">
-    <section class="canvas-controls">
-      <div class="control-panel">
-        <div class="floating-filters">
-          <div class="filter-cluster">
-            <div class="filter-circle active" data-filter="sky" data-value="clear-blue">
-              <div class="sky-dot">☀️</div>
-              <div class="filter-label">Clear</div>
+<body>
+    <div class="sky-backdrop"></div>
+    <div class="stars-container"></div>
+    
+    <nav class="cosmic-navbar">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <div class="orbit-icon">
+                    <div class="planet"></div>
+                    <div class="satellite"></div>
+                </div>
             </div>
-            <div class="filter-circle" data-filter="sky" data-value="sunset-glow">
-              <div class="sky-dot">🌇</div>
-              <div class="filter-label">Sunset</div>
+            <h1 class="brand-name">Blend of Skies</h1>
+        </div>
+        
+        <div class="sky-selector">
+            <div class="selector-orb">
+                <div class="orb-inner">
+                    <span>Choose</span>
+                    <span>Your</span>
+                    <span>Sky</span>
+                </div>
+                <div class="orb-emoji">
+                    <img src="Sun.png" alt="Default sky">
+                </div>
             </div>
-            <div class="filter-circle" data-filter="sky" data-value="storm-brewing">
-              <div class="sky-dot">🌩</div>
-              <div class="filter-label">Storm</div>
+        </div>
+        
+        <div class="about-us-nav">
+            <div class="about-us-button">
+                <span class="about-us-icon">✨</span>
+                <span>About Us</span>
             </div>
-            <div class="filter-circle" data-filter="sky" data-value="starry-night">
-              <div class="sky-dot">🌌</div>
-              <div class="filter-label">Starry</div>
+            
+            <div class="about-us-dropdown">
+                <div class="about-us-header">
+                    <h3 class="about-us-title">Blend of Skies</h3>
+                    <p class="about-us-subtitle">Explore the wonders above</p>
+                </div>
+                
+                <ul class="about-us-menu">
+                    <li>
+                        <a href="#our-story">
+                            <span class="about-us-menu-icon">📖</span>
+                            <span>Our Story</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#services">
+                            <span class="about-us-menu-icon">🔭</span>
+                            <span>Sky Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#gallery">
+                            <span class="about-us-menu-icon">🖼️</span>
+                            <span>Sky Gallery</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#team">
+                            <span class="about-us-menu-icon">👥</span>
+                            <span>Meet Our Team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact">
+                            <span class="about-us-menu-icon">📱</span>
+                            <span>Contact Us</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="about-us-footer">
+                    Bringing the cosmos closer since 2023
+                </div>
             </div>
-            <div class="filter-circle" data-filter="sky" data-value="rainbow-sky">
-              <div class="sky-dot">🌈</div>
-              <div class="filter-label">Rainbow</div>
+        </div>
+    </nav>
+    
+    <div class="sky-panorama">
+        <div class="sky-options">
+            <div class="sky-option" data-sky="clear-blue">
+                <div class="sky-preview">
+                    <img src="Sun.png" alt="Clear Blue Sky">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Clear Blue</h3>
+                    <p>A pristine blue canvas with gentle wisps</p>
+                </div>
             </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="filter-group">
-            <div class="filter-chip active" data-filter="type" data-value="all">All</div>
-            <div class="filter-chip" data-filter="type" data-value="tee">Tees</div>
-            <div class="filter-chip" data-filter="type" data-value="longsleeve">Long Sleeves</div>
-            <div class="filter-chip" data-filter="type" data-value="hoodie">Hoodies</div>
-          </div>
-        </div>
-
-        <div class="right-controls">
-          <div class="view-toggle">
-            <button class="view-btn active" data-view="grid">🔳</button>
-            <button class="view-btn" data-view="flow">📃</button>
-          </div>
-
-          <select id="sort-select" class="sort-select">
-            <option value="bestsellers">Bestsellers</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
-
-      <button class="advanced-toggle" aria-expanded="false">
-        <span class="toggle-text">More Filters</span>
-        <svg width="16" height="16"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-      </button>
-
-      <div class="advanced-filters">
-        <div class="advanced-group">
-          <h3>Sizes</h3>
-          <div class="size-options">
-            <label class="size-option"><input type="checkbox" name="size" value="XS"><span>XS</span></label>
-            <label class="size-option"><input type="checkbox" name="size" value="S"><span>S</span></label>
-            <label class="size-option"><input type="checkbox" name="size" value="M"><span>M</span></label>
-            <label class="size-option"><input type="checkbox" name="size" value="L"><span>L</span></label>
-            <label class="size-option"><input type="checkbox" name="size" value="XL"><span>XL</span></label>
-          </div>
-        </div>
-
-        <div class="advanced-group">
-          <h3>Colors</h3>
-          <div class="color-options">
-            <label class="color-option"><input type="checkbox" name="color" value="blue"><span class="color-circle" style="background: blue"></span></label>
-            <label class="color-option"><input type="checkbox" name="color" value="black"><span class="color-circle" style="background: black"></span></label>
-            <label class="color-option"><input type="checkbox" name="color" value="white"><span class="color-circle" style="background: white; border: 1px solid #ccc;"></span></label>
-            <label class="color-option"><input type="checkbox" name="color" value="red"><span class="color-circle" style="background: red"></span></label>
-            <label class="color-option"><input type="checkbox" name="color" value="green"><span class="color-circle" style="background: green"></span></label>
-          </div>
-        </div>
-
-        <div class="advanced-group">
-          <h3>Style</h3>
-          <div class="filter-group">
-            <div class="filter-chip" data-filter="style" data-value="minimalist">Minimalist</div>
-            <div class="filter-chip" data-filter="style" data-value="graphic">Graphic</div>
-            <div class="filter-chip" data-filter="style" data-value="earthy">Earthy</div>
-            <div class="filter-chip" data-filter="style" data-value="bold">Bold</div>
-          </div>
-        </div>
-
-        <div class="advanced-group">
-          <h3>Fit</h3>
-          <div class="filter-group">
-            <div class="filter-chip" data-filter="fit" data-value="snug">Snug</div>
-            <div class="filter-chip" data-filter="fit" data-value="true-to-size">True to Size</div>
-            <div class="filter-chip" data-filter="fit" data-value="relaxed">Relaxed</div>
-            <div class="filter-chip" data-filter="fit" data-value="oversized">Oversized</div>
-          </div>
-        </div>
-
-        <div class="advanced-group">
-          <h3>Tier</h3>
-          <div class="filter-group">
-            <div class="filter-chip" data-filter="tier" data-value="casual">Casual</div>
-            <div class="filter-chip" data-filter="tier" data-value="premium">Premium</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="product-canvas">
-      <p class="product-count"><span class="count-number">0</span> styles found</p>
-
-      <div class="product-grid">
-        <div class="product-item" data-sky="clear-blue" data-type="tee" data-size="M,L" data-color="blue,white" data-style="minimalist" data-fit="true-to-size" data-tier="casual">
-          <div class="product-media">
-            <img src="shirt1.jpg" alt="Sky Tee">
-          </div>
-          <div class="product-details">
-            <h3><a href="#" class="product-link">Sky Tee</a></h3>
-            <div class="product-meta">
-              <div class="product-price">$42</div>
-              <div class="color-dots">
-                <div class="color-dot" style="background: blue"></div>
-                <div class="color-dot" style="background: white"></div>
-              </div>
+            
+            <div class="sky-option" data-sky="sunset-glow">
+                <div class="sky-preview">
+                    <img src="Armageddon.png" alt="Sunset Glow">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Sunset Glow</h3>
+                    <p>Rich colors painting the evening horizon</p>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="product-item" data-sky="sunset-glow" data-type="longsleeve" data-size="S,M,L" data-color="red" data-style="graphic" data-fit="relaxed" data-tier="premium">
-          <div class="product-media">
-            <img src="shirt2.jpg" alt="Sunset Horizon Longsleeve">
-          </div>
-          <div class="product-details">
-            <h3><a href="#" class="product-link">Sunset Horizon Longsleeve</a></h3>
-            <div class="product-meta">
-              <div class="product-price">$58</div>
-              <div class="color-dots">
-                <div class="color-dot" style="background: red"></div>
-              </div>
+            
+            <div class="sky-option" data-sky="storm-brewing">
+                <div class="sky-preview">
+                    <img src="Storm.png" alt="Storm Brewing">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Storm Brewing</h3>
+                    <p>Dramatic clouds with lightning potential</p>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="product-item" data-sky="storm-brewing" data-type="hoodie" data-size="M,XL" data-color="black" data-style="bold" data-fit="oversized" data-tier="casual">
-          <div class="product-media">
-            <img src="shirt3.jpg" alt="Storm Fusion Hoodie">
-          </div>
-          <div class="product-details">
-            <h3><a href="#" class="product-link">Storm Fusion Hoodie</a></h3>
-            <div class="product-meta">
-              <div class="product-price">$72</div>
-              <div class="color-dots">
-                <div class="color-dot" style="background: black"></div>
-              </div>
+            
+            <div class="sky-option" data-sky="starry-night">
+                <div class="sky-preview">
+                    <img src="Nighttime.png" alt="Starry Night">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Starry Night</h3>
+                    <p>Deep space visualization with twinkling stars</p>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="product-item" data-sky="starry-night" data-type="tee" data-size="S,M" data-color="green" data-style="earthy" data-fit="snug" data-tier="premium">
-          <div class="product-media">
-            <img src="shirt4.jpg" alt="Cosmic Earth Tee">
-          </div>
-          <div class="product-details">
-            <h3><a href="#" class="product-link">Cosmic Earth Tee</a></h3>
-            <div class="product-meta">
-              <div class="product-price">$45</div>
-              <div class="color-dots">
-                <div class="color-dot" style="background: green"></div>
-              </div>
+            
+            <div class="sky-option" data-sky="rainbow-sky">
+                <div class="sky-preview">
+                    <img src="Snow.png" alt="Rainbow Sky">
+                    <div class="sky-reflection"></div>
+                </div>
+                <div class="sky-details">
+                    <h3>Rainbow Sky</h3>
+                    <p>Colorful arc stretching across after rain</p>
+                </div>
             </div>
-          </div>
         </div>
-
-        <div class="product-item" data-sky="rainbow-sky" data-type="hoodie" data-size="L,XL" data-color="blue" data-style="graphic" data-fit="true-to-size" data-tier="casual">
-          <div class="product-media">
-            <img src="shirt5.jpg" alt="Spectrum Blend Hoodie">
-          </div>
-          <div class="product-details">
-            <h3><a href="#" class="product-link">Spectrum Blend Hoodie</a></h3>
-            <div class="product-meta">
-              <div class="product-price">$65</div>
-              <div class="color-dots">
-                <div class="color-dot" style="background: blue"></div>
-              </div>
+    </div>
+    
+    <div class="content-area inventory-page">
+        <div class="inventory-header">
+            <h2>Our Collection</h2>
+            <p class="inventory-subtitle">Discover clothing inspired by the skies above</p>
+        </div>
+        
+        <div class="inventory-container">
+            <!-- Filter section -->
+            <div class="filter-panel">
+                <div class="filter-header">
+                    <h3>Filters</h3>
+                    <button class="clear-filters">Clear All</button>
+                </div>
+                
+                <!-- Style filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="style-filters">
+                        <span>Style</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="style-filters">
+                        <label class="filter-option">
+                            <input type="checkbox" name="style" value="Minimalist">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Minimalist</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="style" value="Graphic Heavy">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Graphic Heavy</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="style" value="Earthy & Natural">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Earthy & Natural</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="style" value="Bold & Eclectic">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Bold & Eclectic</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Size filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="size-filters">
+                        <span>Size</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="size-filters">
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="XS">
+                            <span class="checkmark"></span>
+                            <span class="option-text">XS</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="S">
+                            <span class="checkmark"></span>
+                            <span class="option-text">S</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="M">
+                            <span class="checkmark"></span>
+                            <span class="option-text">M</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="L">
+                            <span class="checkmark"></span>
+                            <span class="option-text">L</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="XL">
+                            <span class="checkmark"></span>
+                            <span class="option-text">XL</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Fit filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="fit-filters">
+                        <span>Fit</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="fit-filters">
+                        <label class="filter-option">
+                            <input type="checkbox" name="fit" value="Snug">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Snug</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fit" value="True to Size">
+                            <span class="checkmark"></span>
+                            <span class="option-text">True to Size</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fit" value="Relaxed">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Relaxed</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fit" value="Oversized">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Oversized</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Color filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="color-filters">
+                        <span>Color</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="color-filters">
+                        <div class="color-filters-grid">
+                            <label class="color-option" title="Clear Blue">
+                                <input type="checkbox" name="color" value="Clear Blue">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #87CEEB, #1E90FF);"></span>
+                            </label>
+                            <label class="color-option" title="Sunset Glow">
+                                <input type="checkbox" name="color" value="Sunset Glow">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #FF7F50, #FF4500);"></span>
+                            </label>
+                            <label class="color-option" title="Storm Brewing">
+                                <input type="checkbox" name="color" value="Storm Brewing">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #708090, #4682B4);"></span>
+                            </label>
+                            <label class="color-option" title="Starry Night">
+                                <input type="checkbox" name="color" value="Starry Night">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #191970, #000033);"></span>
+                            </label>
+                            <label class="color-option" title="Rainbow Sky">
+                                <input type="checkbox" name="color" value="Rainbow Sky">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #FF69B4, #FF1493);"></span>
+                            </label>
+                            <label class="color-option" title="White">
+                                <input type="checkbox" name="color" value="White">
+                                <span class="color-swatch" style="background: white; border: 1px solid #ddd;"></span>
+                            </label>
+                            <label class="color-option" title="Black">
+                                <input type="checkbox" name="color" value="Black">
+                                <span class="color-swatch" style="background: black;"></span>
+                            </label>
+                            <label class="color-option" title="Gray">
+                                <input type="checkbox" name="color" value="Gray">
+                                <span class="color-swatch" style="background: gray;"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Price Range filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="price-filter">
+                        <span>Price Range</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="price-filter">
+                        <div class="price-range-container">
+                            <div class="price-inputs">
+                                <div class="price-input">
+                                    <span>$</span>
+                                    <input type="number" id="min-price" placeholder="Min">
+                                </div>
+                                <span class="price-separator">-</span>
+                                <div class="price-input">
+                                    <span>$</span>
+                                    <input type="number" id="max-price" placeholder="Max">
+                                </div>
+                            </div>
+                            <button class="apply-price">Apply</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Collection filter -->
+                <div class="filter-group">
+                    <div class="filter-title" data-toggle="collection-filters">
+                        <span>Collection</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="filter-options" id="collection-filters">
+                        <label class="filter-option">
+                            <input type="checkbox" name="collection" value="Clear Blue">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Clear Blue</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="collection" value="Sunset Glow">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Sunset Glow</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="collection" value="Storm Brewing">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Storm Brewing</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="collection" value="Starry Night">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Starry Night</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="collection" value="Rainbow Sky">
+                            <span class="checkmark"></span>
+                            <span class="option-text">Rainbow Sky</span>
+                        </label>
+                    </div>
+                </div>
             </div>
-          </div>
+            
+            <!-- Products section -->
+            <div class="products-container">
+                <div class="products-header">
+                    <div class="products-count">
+                        <span id="product-count">24</span> products
+                    </div>
+                    <div class="mobile-filter-toggle">
+                        <span class="filter-icon">☰</span>
+                        <span>Filters</span>
+                    </div>
+                    <div class="sort-container">
+                        <label for="sort-select">Sort by:</label>
+                        <select id="sort-select">
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="active-filters">
+                    <!-- Active filters will be dynamically added here -->
+                </div>
+                
+                <div class="products-grid">
+                    <!-- Product items will be dynamically added here -->
+                </div>
+                
+                <div class="pagination">
+                    <button class="pagination-btn prev-page" disabled>&lt;</button>
+                    <div class="page-numbers">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                    </div>
+                    <button class="pagination-btn next-page">&gt;</button>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-  </main>
+    </div>
 
-  <script src="inventory.js"></script>
+    <!-- Product Templates (Hidden) -->
+    <template id="product-template">
+        <div class="product-card" data-id="">
+            <div class="product-image">
+                <div class="product-badges">
+                    <span class="new-badge">New</span>
+                    <span class="sale-badge">Sale</span>
+                </div>
+                <img src="" alt="">
+                <div class="quick-actions">
+                    <button class="quick-view" title="Quick View">👁️</button>
+                    <button class="add-to-wishlist" title="Add to Wishlist">❤️</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title"></h3>
+                <div class="product-meta">
+                    <span class="product-collection"></span>
+                    <span class="product-style"></span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price"></span>
+                    <span class="original-price"></span>
+                </div>
+                <div class="product-colors">
+                    <!-- Colors will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <template id="filter-tag-template">
+        <div class="filter-tag" data-type="" data-value="">
+            <span class="tag-text"></span>
+            <span class="remove-tag">×</span>
+        </div>
+    </template>
+    
+    <script src="navbar.js" defer></script>
+    <script src="inventory.js" defer></script>
 </body>
 </html>
