@@ -1101,6 +1101,22 @@ if (aboutUsButton && aboutUsDropdown) {
         }
     });
     
+   // Setup About Us dropdown functionality
+const aboutUsButton = document.querySelector('.about-us-button');
+const aboutUsDropdown = document.querySelector('.about-us-dropdown');
+
+if (aboutUsButton && aboutUsDropdown) {
+    aboutUsButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        aboutUsDropdown.classList.toggle('active');
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!aboutUsDropdown.contains(e.target) && !aboutUsButton.contains(e.target)) {
+            aboutUsDropdown.classList.remove('active');
+        }
+    });
+    
     const aboutUsMenuLinks = document.querySelectorAll('.about-us-menu a');
     if (aboutUsMenuLinks.length > 0) {
         aboutUsMenuLinks.forEach(link => {
@@ -1112,3 +1128,4 @@ if (aboutUsButton && aboutUsDropdown) {
         });
     }
 }
+}); // <-- This closes the DOMContentLoaded event listener
