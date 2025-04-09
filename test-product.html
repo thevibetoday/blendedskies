@@ -1,12 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Product Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-title {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        .product-price {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
 </head>
 <body>
-  <div id="product-detail"></div>
+    <h1>Our Products</h1>
+    <div id="products-container" class="products-grid">
+        <!-- Products will be dynamically added here -->
+    </div>
 
-  <script src="test-product.js"></script>
+    <script>
+        // Dynamically get the current host
+        const BACKEND_URL = `${window.location.origin}/products`;
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(BACKEND_URL);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                
+                const products = await response.json();
+                const container = document.getElementById('products-container');
+                
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card');
+                    
+                    productCard.innerHTML = `
+                        <img src="${product.images[0] || 'placeholder.jpg'}" 
+                             alt="${product.title}" 
+                             class="product-image">
+                        <div class="product-info">
+                            <h2 class="product-title">${product.title}</h2>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                        </div>
+                    `;
+                    
+                    container.appendChild(productCard);
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                document.getElementById('products-container').innerHTML = 
+                    `<p>Error loading products: ${error.message}</p>`;
+            }
+        }
+
+        // Fetch products when page loads
+        fetchProducts();
+    </script>
 </body>
 </html>
