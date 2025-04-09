@@ -1,12 +1,12 @@
 class ShopifyClient {
     constructor(config) {
-        this.domain = config.sq8wck-y0.myshopify.com; // e.g. 'your-store.myshopify.com'
-        this.storefrontAccessToken = config.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;
+        this.domain = "sq8wck-y0.myshopify.com"; // Add quotes around the string
+        this.storefrontAccessToken = "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"; // Add quotes around the string
         this.apiVersion = config.apiVersion || '2023-07'; // Use latest version available
         this.cart = [];
         this.checkoutUrl = null;
     }
-
+    
       /**
      * Fetch products from Shopify using our proxy server
      */
