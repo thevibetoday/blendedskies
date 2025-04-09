@@ -1,41 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blended Skies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shopify Collection</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-  <!-- Welcome Form Overlay -->
-  <div id="welcomeOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffffee; z-index:9999; display:flex; justify-content:center; align-items:center;">
-    <div style="padding:2rem; background:white; border-radius:1rem; box-shadow:0 0 10px rgba(0,0,0,0.1); max-width:400px; width:100%;">
-      <h2>🌅 Welcome to Blended Skies</h2>
-      <p>Let’s personalize your vibe</p>
-      <input type="text" id="userName" placeholder="Your Name" style="width:100%; margin-bottom:10px;" />
-      <input type="email" id="userEmail" placeholder="Your Email" style="width:100%; margin-bottom:10px;" />
-      
-      <select id="userMood" style="width:100%; margin-bottom:10px;">
-        <option disabled selected>Choose your current mood</option>
-        <option value="chill">Chill</option>
-        <option value="energized">Energized</option>
-        <option value="reflective">Reflective</option>
-      </select>
-      
-      <select id="userVibe" style="width:100%; margin-bottom:10px;">
-        <option disabled selected>Choose your vibe</option>
-        <option value="sunset">Sunset</option>
-        <option value="storm">Storm</option>
-        <option value="blue-sky">Blue Sky</option>
-      </select>
-
-      <button onclick="submitUserInfo()">✨ Enter</button>
+    <div class="container">
+        <h1>My Collection</h1>
+        <div id="products-container" class="products-grid"></div>
     </div>
-  </div>
-
-  <!-- Your regular site content goes here -->
-
-  <!-- Link to main JavaScript -->
-  <script src="main.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
