@@ -3,242 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopify API Test (Updated)</title>
+    <title>Minimal Storefront API Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
             line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
         }
-        #results {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            white-space: pre-wrap;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
         }
         button {
             background-color: #4CAF50;
-            border: none;
             color: white;
-            padding: 10px 20px;
-            text-align: center;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .info-box {
-            background-color: #f8f9fa;
-            border-left: 4px solid #007bff;
             padding: 10px 15px;
-            margin: 20px 0;
+            border: none;
+            cursor: pointer;
         }
-        select {
-            padding: 8px;
-            margin: 5px 0;
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+        .instructions {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Shopify API Test (Updated)</h1>
-    
-    <div class="info-box">
-        <h3>Troubleshooting the 401 Error</h3>
-        <p>If you're seeing a 401 error, please make sure:</p>
-        <ol>
-            <li>You're using a <strong>Storefront API access token</strong> (not an Admin API token)</li>
-            <li>The app has proper Storefront API scopes enabled</li>
-            <li>Your shop domain is entered correctly</li>
-        </ol>
-    </div>
-    
-    <div>
-        <div>
-            <label for="shop-domain">Shop Domain:</label>
-            <input type="text" id="shop-domain" value="sq8wck-y0.myshopify.com" style="width: 250px;">
+    <div class="container">
+        <h1>Minimal Storefront API Test</h1>
+        
+        <div class="instructions">
+            <h3>Getting a valid Storefront API token:</h3>
+            <ol>
+                <li>Go to your Shopify admin</li>
+                <li>Go to Settings → Apps and sales channels</li>
+                <li>Click "Develop apps" (or enable Developer Preview first if needed)</li>
+                <li>Create a new app or select your existing one</li>
+                <li>Go to "Storefront API integration"</li>
+                <li>Make sure these scopes are enabled:
+                    <ul>
+                        <li>unauthenticated_read_product_listings</li>
+                        <li>unauthenticated_read_product_inventory</li>
+                        <li>unauthenticated_read_product_prices</li>
+                    </ul>
+                </li>
+                <li>Copy the Storefront API access token (should start with "shpat_")</li>
+            </ol>
         </div>
-        <div style="margin-top: 10px;">
+        
+        <div class="form-group">
+            <label for="domain">Shop Domain:</label>
+            <input type="text" id="domain" value="sq8wck-y0.myshopify.com">
+        </div>
+        
+        <div class="form-group">
             <label for="api-version">API Version:</label>
             <select id="api-version">
                 <option value="2024-04">2024-04 (Latest)</option>
                 <option value="2024-01">2024-01</option>
                 <option value="2023-10">2023-10</option>
                 <option value="2023-07">2023-07</option>
-                <option value="2023-04">2023-04</option>
             </select>
         </div>
-        <div style="margin-top: 10px;">
-            <label for="access-token">Storefront API Access Token:</label>
-            <input type="text" id="access-token" placeholder="your Storefront API access token" style="width: 350px;">
+        
+        <div class="form-group">
+            <label for="token">Storefront API Token:</label>
+            <input type="text" id="token" placeholder="shpat_...">
         </div>
-        <div style="margin-top: 20px;">
-            <button id="test-button">Test API Connection</button>
-        </div>
+        
+        <button id="test-btn">Test Connection</button>
+        
+        <div id="result">Results will appear here...</div>
     </div>
     
-    <h3>Connection Status:</h3>
-    <div id="status"></div>
-    
-    <h3>API Response:</h3>
-    <div id="results">Results will appear here...</div>
-
     <script>
-        document.getElementById('test-button').addEventListener('click', function() {
-            const shopDomain = document.getElementById('shop-domain').value.trim();
-            const apiVersion = document.getElementById('api-version').value;
-            const accessToken = document.getElementById('access-token').value.trim();
+        document.getElementById('test-btn').addEventListener('click', async function() {
+            const domain = document.getElementById('domain').value.trim();
+            const apiVersion = document.getElementById('api-version').value.trim();
+            const token = document.getElementById('token').value.trim();
+            const resultEl = document.getElementById('result');
             
-            if (!shopDomain || !accessToken) {
-                alert('Please enter both shop domain and access token');
+            if (!domain || !token) {
+                resultEl.textContent = 'Please enter both domain and token';
                 return;
             }
             
-            // Clear previous results
-            const statusEl = document.getElementById('status');
-            const resultsEl = document.getElementById('results');
+            resultEl.textContent = 'Testing connection...';
             
-            statusEl.innerHTML = '<p>Testing connection...</p>';
-            resultsEl.textContent = 'Fetching data...';
-            
-            // Simple query to check if the API is working
-            const query = `{
-                shop {
-                    name
-                    primaryDomain {
-                        url
+            // Very simple query that should work with minimal permissions
+            const query = `
+                {
+                    shop {
+                        name
                     }
                 }
-            }`;
+            `;
             
-            // Log the request details for debugging
-            console.log(`Making request to: https://${shopDomain}/api/${apiVersion}/graphql.json`);
-            console.log(`Using token: ${accessToken.substring(0, 5)}...${accessToken.substring(accessToken.length - 5)}`);
-            
-            // Make the API request
-            fetch(`https://${shopDomain}/api/${apiVersion}/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': accessToken
-                },
-                body: JSON.stringify({ query })
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', [...response.headers.entries()]);
+            try {
+                // Log request details for debugging
+                console.log(`Sending request to: https://${domain}/api/${apiVersion}/graphql.json`);
+                console.log(`Token (first/last 4 chars): ${token.substring(0, 4)}...${token.substring(token.length - 4)}`);
                 
-                if (!response.ok) {
-                    statusEl.innerHTML = `<p style="color: red">❌ Connection Failed: HTTP ${response.status} - ${response.statusText}</p>`;
+                const response = await fetch(`https://${domain}/api/${apiVersion}/graphql.json`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Shopify-Storefront-Access-Token': token
+                    },
+                    body: JSON.stringify({ query })
+                });
+                
+                const responseText = await response.text();
+                let data;
+                
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    resultEl.textContent = `Error parsing response: ${e.message}\n\nRaw response:\n${responseText}`;
+                    return;
+                }
+                
+                if (response.ok) {
+                    if (data.data && data.data.shop && data.data.shop.name) {
+                        resultEl.textContent = `✅ SUCCESS! Connected to shop: ${data.data.shop.name}\n\nFull response:\n${JSON.stringify(data, null, 2)}`;
+                        
+                        // If successful, try a simple product query
+                        testProducts(domain, apiVersion, token);
+                    } else {
+                        resultEl.textContent = `⚠️ Connected, but couldn't get shop name.\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                    }
+                } else {
+                    resultEl.textContent = `❌ Error ${response.status}: ${response.statusText}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
                     
                     if (response.status === 401) {
-                        statusEl.innerHTML += `
-                            <p style="color: red">Authentication Error: Your access token appears to be invalid or has insufficient permissions.</p>
-                            <p>Please check:</p>
-                            <ul>
-                                <li>You're using a <strong>Storefront API</strong> token (not an Admin API token)</li>
-                                <li>The token has been copied correctly without extra spaces</li>
-                                <li>The token hasn't expired or been revoked</li>
-                            </ul>
-                            <p>How to get a Storefront API token:</p>
-                            <ol>
-                                <li>Go to your Shopify admin</li>
-                                <li>Click on "Apps" in the left sidebar</li>
-                                <li>Click on "App and sales channel settings" at the bottom</li>
-                                <li>Click "Develop apps" at the top right</li>
-                                <li>Create a new app or select an existing one</li>
-                                <li>Go to "API credentials"</li>
-                                <li>Under "Storefront API", click "Install"</li>
-                                <li>Select the required scopes (at minimum "unauthenticated_read_product_listings")</li>
-                                <li>Copy the generated Storefront access token</li>
-                            </ol>
-                        `;
+                        resultEl.textContent += `\n\nThis is an authentication error. Make sure:
+1. You're using a Storefront API token (starts with "shpat_")
+2. The token is copied correctly
+3. Your app has the proper scopes enabled`;
                     }
                 }
-                
-                return response.json().catch(e => {
-                    throw new Error(`Failed to parse JSON: ${e.message}`);
-                });
-            })
-            .then(data => {
-                // If we reach here, the connection was successful
-                if (data.data && data.data.shop) {
-                    statusEl.innerHTML = `<p style="color: green">✅ Connection Successful! Shop name: ${data.data.shop.name}</p>`;
-                    
-                    // Now try to fetch products
-                    fetchProducts(shopDomain, apiVersion, accessToken);
-                } else {
-                    statusEl.innerHTML = `<p style="color: orange">⚠️ Partial Success: Connected but couldn't get shop data</p>`;
-                    resultsEl.textContent = JSON.stringify(data, null, 2);
-                }
-            })
-            .catch(error => {
-                statusEl.innerHTML = `<p style="color: red">❌ Error: ${error.message}</p>`;
-                console.error('API Error:', error);
-            });
+            } catch (error) {
+                resultEl.textContent = `❌ Error: ${error.message}`;
+            }
         });
         
-        function fetchProducts(shopDomain, apiVersion, accessToken) {
-            const resultsEl = document.getElementById('results');
-            resultsEl.textContent = 'Fetching products...';
-            
-            // GraphQL query to get first 5 products
-            const query = `{
-                products(first: 5) {
-                    edges {
-                        node {
-                            id
-                            title
-                            handle
-                            description
-                            variants(first: 3) {
-                                edges {
-                                    node {
-                                        id
-                                        title
-                                        price {
-                                            amount
-                                            currencyCode
-                                        }
-                                    }
-                                }
+        async function testProducts(domain, apiVersion, token) {
+            const query = `
+                {
+                    products(first: 1) {
+                        edges {
+                            node {
+                                id
+                                title
                             }
                         }
                     }
                 }
-            }`;
+            `;
             
-            // Make the API request
-            fetch(`https://${shopDomain}/api/${apiVersion}/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': accessToken
-                },
-                body: JSON.stringify({ query })
-            })
-            .then(response => response.json())
-            .then(data => {
-                resultsEl.textContent = JSON.stringify(data, null, 2);
+            try {
+                const response = await fetch(`https://${domain}/api/${apiVersion}/graphql.json`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Shopify-Storefront-Access-Token': token
+                    },
+                    body: JSON.stringify({ query })
+                });
                 
-                // Check if products were successfully fetched
-                if (data.data && data.data.products && data.data.products.edges.length > 0) {
-                    document.getElementById('status').innerHTML += `
-                        <p style="color: green">✅ Successfully fetched ${data.data.products.edges.length} products!</p>
-                    `;
+                const data = await response.json();
+                
+                if (response.ok && data.data && data.data.products) {
+                    const productsCount = data.data.products.edges.length;
+                    
+                    if (productsCount > 0) {
+                        const product = data.data.products.edges[0].node;
+                        document.getElementById('result').textContent += `\n\n✅ Successfully fetched product: ${product.title}`;
+                    } else {
+                        document.getElementById('result').textContent += `\n\n⚠️ No products found in your store`;
+                    }
                 } else {
-                    document.getElementById('status').innerHTML += `
-                        <p style="color: orange">⚠️ Connected to API but no products were found</p>
-                    `;
+                    document.getElementById('result').textContent += `\n\n❌ Error fetching products: ${JSON.stringify(data, null, 2)}`;
                 }
-            })
-            .catch(error => {
-                resultsEl.textContent = `Error fetching products: ${error.message}`;
-            });
+            } catch (error) {
+                document.getElementById('result').textContent += `\n\n❌ Error testing products: ${error.message}`;
+            }
         }
     </script>
 </body>
