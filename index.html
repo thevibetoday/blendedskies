@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postmodern Collaborative Oil Painting</title>
+    <title>Collaborative Oil Painting</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
 
@@ -115,8 +115,8 @@
 
         #sections-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
             max-width: 80vw;
             max-height: 70vh;
             overflow-y: auto;
@@ -125,13 +125,13 @@
 
         @media (max-width: 768px) {
             #sections-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(5, 1fr);
             }
         }
 
         .section-cell {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -152,17 +152,8 @@
         }
 
         .section-cell-number {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
-        }
-
-        .section-cell-occupancy {
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .section-cell.occupied {
-            border-color: var(--neon-pink);
         }
 
         .section-cell.occupied::before {
@@ -173,6 +164,13 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(45deg, rgba(255, 0, 255, 0.3), transparent);
+        }
+
+        .section-cell-queue {
+            position: absolute;
+            bottom: 2px;
+            font-size: 0.6rem;
+            color: var(--neon-green);
         }
 
         #controls {
@@ -194,8 +192,8 @@
         }
 
         .color-picker {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 2px solid white;
             border-radius: 50%;
             cursor: pointer;
@@ -208,8 +206,8 @@
         }
 
         .brush-size {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -384,6 +382,7 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
             z-index: 100;
             min-width: 200px;
+            display: none;
         }
 
         .queue-info h3 {
@@ -400,13 +399,8 @@
             margin-bottom: 10px;
         }
 
-        .queue-stats {
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
-
         .loading-indicator {
-            width: 200px;
+            width: 100%;
             height: 6px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
@@ -419,7 +413,7 @@
             width: 0%;
             background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
             border-radius: 3px;
-            transition: width 0.5s ease;
+            transition: width 0.3s ease;
         }
 
         @keyframes glow {
@@ -468,6 +462,41 @@
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.7);
         }
+
+        #zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .zoom-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(16, 16, 32, 0.8);
+            border: 2px solid var(--neon-blue);
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .zoom-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+        }
+
+        #reset-view-btn {
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -475,7 +504,7 @@
     
     <div id="intro-screen">
         <h1>Collective Canvas</h1>
-        <p>Welcome to the postmodern collaborative oil painting experience. Join artists from around the world as we create a shared masterpiece, one section at a time. Choose your colors, select your brushes, and let your creativity flow.</p>
+        <p>Welcome to the collaborative oil painting experience. Join artists from around the world as we create a shared masterpiece, one section at a time. Choose your colors, select your brushes, and let your creativity flow.</p>
         <button id="select-section-btn">Begin Painting</button>
     </div>
     
@@ -549,12 +578,17 @@
         <div class="loading-indicator">
             <div class="loading-bar" id="queueProgressBar"></div>
         </div>
-        <div class="queue-stats" id="queueStats">Total painters: 0</div>
     </div>
     
     <div id="section-info">
         <h3>Section <span id="sectionNumber">0</span></h3>
         <div id="sectionPainters">Active painters: 0</div>
+    </div>
+    
+    <div id="zoom-controls">
+        <div class="zoom-btn" id="zoom-in">+</div>
+        <div class="zoom-btn" id="zoom-out">-</div>
+        <div class="zoom-btn" id="reset-view-btn">Reset</div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -573,6 +607,10 @@
         let inQueue = false;
         let queuePosition = 0;
         let userId = 'user-' + Math.floor(Math.random() * 10000);
+        let zoomLevel = 1;
+        let targetZoom = 1;
+        let cameraTarget = new THREE.Vector3(0, 0, 0);
+        let isZooming = false;
         
         // Oil paint colors
         const oilColors = [
@@ -599,8 +637,8 @@
         const sections = [];
         const paintStrokes = [];
         
-        // Section occupancy (simulated)
-        const sectionOccupancy = Array(100).fill(0).map(() => Math.floor(Math.random() * 5));
+        // Real queue data (no fake numbers)
+        const sectionQueues = Array(100).fill(0);
 
         // Initialize the scene
         function init() {
@@ -632,6 +670,14 @@
             renderer.domElement.addEventListener('touchstart', onTouchStart, false);
             renderer.domElement.addEventListener('touchend', onTouchEnd, false);
             renderer.domElement.addEventListener('touchmove', onTouchMove, false);
+            
+            // Setup zoom controls
+            document.getElementById('zoom-in').addEventListener('click', zoomIn);
+            document.getElementById('zoom-out').addEventListener('click', zoomOut);
+            document.getElementById('reset-view-btn').addEventListener('click', resetView);
+            
+            // Add wheel event for zooming
+            renderer.domElement.addEventListener('wheel', onWheel);
 
             // Setup brush size selectors
             document.querySelectorAll('.brush-size').forEach(brush => {
@@ -686,8 +732,8 @@
             // Create color palette
             createColorPalette();
 
-            // Setup mock socket connection (to be replaced with real Socket.io logic)
-            setupMockSocketConnection();
+            // Setup socket connection (to be implemented with real Socket.io)
+            setupSocketConnection();
 
             // Start animation loop
             animate();
@@ -744,7 +790,8 @@
                         y: y,
                         width: 10 / gridSize,
                         height: 10 / gridSize,
-                        index: i * gridSize + j
+                        index: i * gridSize + j,
+                        painters: 0
                     });
                 }
             }
@@ -756,10 +803,12 @@
             
             for (let i = 0; i < 100; i++) {
                 const cell = document.createElement('div');
-                cell.className = 'section-cell' + (sectionOccupancy[i] > 0 ? ' occupied' : '');
+                cell.className = 'section-cell' + (sections[i].painters > 0 ? ' occupied' : '');
+                
+                // Display real queue data
                 cell.innerHTML = `
                     <div class="section-cell-number">${i + 1}</div>
-                    <div class="section-cell-occupancy">${sectionOccupancy[i]} artists</div>
+                    <div class="section-cell-queue">${sectionQueues[i] > 0 ? sectionQueues[i] + ' in queue' : ''}</div>
                 `;
                 cell.setAttribute('data-index', i);
                 
@@ -775,47 +824,105 @@
         function selectSection(index) {
             document.getElementById('section-selector').style.display = 'none';
             
-            // Simulate queue position based on section occupancy
+            // Add user to queue
+            sectionQueues[index]++;
             inQueue = true;
-            queuePosition = sectionOccupancy[index] + 1;
+            queuePosition = sectionQueues[index];
             
             document.getElementById('queueInfo').style.display = 'block';
             updateQueuePosition();
             
-            // Simulate queue progression
-            simulateQueueProgression(index);
+            // Zoom to selected section
+            zoomToSection(index);
             
             // Update section info
             document.getElementById('sectionNumber').textContent = index + 1;
-            document.getElementById('sectionPainters').textContent = `Active painters: ${sectionOccupancy[index]}`;
+            document.getElementById('sectionPainters').textContent = `Active painters: ${sections[index].painters}`;
             document.getElementById('section-info').style.display = 'block';
+            
+            // Process queue
+            processQueue(index);
         }
         
-        function simulateQueueProgression(sectionIndex) {
+        function zoomToSection(index) {
+            const section = sections[index];
+            cameraTarget.set(section.x, section.y, 0);
+            targetZoom = 5;  // Zoomed in level
+            isZooming = true;
+        }
+        
+        function zoomIn() {
+            targetZoom = Math.min(targetZoom * 1.2, 10);
+            isZooming = true;
+        }
+        
+        function zoomOut() {
+            targetZoom = Math.max(targetZoom / 1.2, 1);
+            isZooming = true;
+        }
+        
+        function resetView() {
+            cameraTarget.set(0, 0, 0);
+            targetZoom = 1;
+            isZooming = true;
+        }
+        
+        function onWheel(event) {
+            event.preventDefault();
+            
+            if (event.deltaY < 0) {
+                targetZoom = Math.min(targetZoom * 1.1, 10);
+            } else {
+                targetZoom = Math.max(targetZoom / 1.1, 1);
+            }
+            
+            isZooming = true;
+        }
+        
+        function updateCamera() {
+            if (isZooming) {
+                // Smooth transition to target zoom
+                zoomLevel = zoomLevel + (targetZoom - zoomLevel) * 0.1;
+                
+                // Smooth transition to target position
+                camera.position.x += (cameraTarget.x - camera.position.x) * 0.1;
+                camera.position.y += (cameraTarget.y - camera.position.y) * 0.1;
+                camera.position.z = 15 / zoomLevel;
+                
+                // Stop zooming when close enough to target
+                if (Math.abs(zoomLevel - targetZoom) < 0.01 && 
+                    Math.abs(camera.position.x - cameraTarget.x) < 0.01 && 
+                    Math.abs(camera.position.y - cameraTarget.y) < 0.01) {
+                    isZooming = false;
+                }
+            }
+        }
+        
+        function processQueue(sectionIndex) {
             let progress = 0;
             const progressBar = document.getElementById('queueProgressBar');
             const interval = setInterval(() => {
-                progress += 2;
+                progress += 1;
                 progressBar.style.width = `${progress}%`;
                 
+                // Simulate realistic queue progress
                 if (progress >= 100) {
                     clearInterval(interval);
                     inQueue = false;
+                    
+                    // Remove user from queue and add to painters
+                    sectionQueues[sectionIndex]--;
+                    sections[sectionIndex].painters++;
+                    
                     document.getElementById('queueInfo').style.display = 'none';
                     
                     // Start painting in the selected section
-                    const section = sections[sectionIndex];
-                    currentSection = section;
+                    currentSection = sections[sectionIndex];
                     
-                    // Simulate adding user to the section
-                    sectionOccupancy[sectionIndex]++;
-                    document.getElementById('sectionPainters').textContent = `Active painters: ${sectionOccupancy[sectionIndex]}`;
-                    
-                    // Update total painters count
-                    let totalPainters = sectionOccupancy.reduce((a, b) => a + b, 0);
-                    document.getElementById('queueStats').textContent = `Total painters: ${totalPainters}`;
+                    // Update section info
+                    document.getElementById('sectionPainters').textContent = `Active painters: ${sections[sectionIndex].painters}`;
                 }
-            }, 100);
+            }, 50); // Faster queue time for demo
         }
         
         function updateQueuePosition() {
@@ -825,10 +932,6 @@
             } else {
                 positionElement.textContent = `Queue position: ${queuePosition}`;
             }
-            
-            // Update total painters count
-            let totalPainters = sectionOccupancy.reduce((a, b) => a + b, 0);
-            document.getElementById('queueStats').textContent = `Total painters: ${totalPainters}`;
         }
         
         function createColorPalette() {
@@ -1040,7 +1143,7 @@
             
             paintStrokes.push(stroke);
             
-            // Send stroke data to server (mock)
+            // Send stroke data to server
             sendStrokeToServer({
                 x: xPos,
                 y: yPos,
@@ -1054,6 +1157,7 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            updateCamera();
             renderer.render(scene, camera);
         }
 
@@ -1087,10 +1191,10 @@
             colorPreview.style.opacity = opacity;
         }
 
-        // Mock socket connection (to be replaced with real Socket.io implementation)
-        function setupMockSocketConnection() {
-            // This is a placeholder for real Socket.io implementation
-            // In a real app, you would connect to the Socket.io server and handle events
+        // Socket connection (to be implemented with real Socket.io)
+        function setupSocketConnection() {
+            // This is a placeholder for a real Socket.io implementation
+            // For now, we'll create a simulation of other users' brush strokes
             
             window.receiveStrokeFromServer = function(strokeData) {
                 // Only process if it's from another user
@@ -1110,17 +1214,45 @@
                     paintStrokes.push(stroke);
                 }
             };
+            
+            // Simulate other users joining sections occasionally
+            setInterval(() => {
+                const randomSectionIndex = Math.floor(Math.random() * 100);
+                if (Math.random() > 0.7) {
+                    // Random user joins queue
+                    sectionQueues[randomSectionIndex]++;
+                    
+                    // Update grid if visible
+                    if (document.getElementById('section-selector').style.display === 'flex') {
+                        createSectionsGrid();
+                    }
+                    
+                    // After some time, they start painting
+                    setTimeout(() => {
+                        if (sectionQueues[randomSectionIndex] > 0) {
+                            sectionQueues[randomSectionIndex]--;
+                            sections[randomSectionIndex].painters++;
+                            
+                            // If this is our current section, update the info
+                            if (currentSection && currentSection.index === randomSectionIndex) {
+                                document.getElementById('sectionPainters').textContent = 
+                                    `Active painters: ${sections[randomSectionIndex].painters}`;
+                            }
+                            
+                            // Update grid if visible
+                            if (document.getElementById('section-selector').style.display === 'flex') {
+                                createSectionsGrid();
+                            }
+                        }
+                    }, Math.random() * 5000 + 2000);
+                }
+            }, 3000);
         }
 
         function sendStrokeToServer(strokeData) {
-            // This is a placeholder for real Socket.io emission
-            // In a real app, you would emit the stroke data to the server
-            
-            // For demo purposes, we'll just simulate receiving strokes back
-            // as if they came from other users
+            // This would send stroke data to a real server
+            // For now, simulate occasional strokes from other users
             setTimeout(() => {
-                // In a real app, this would come from the server
-                // This is just for testing the rendering of strokes from other users
                 if (Math.random() > 0.5) {
                     const mockStrokeFromOtherUser = {
                         ...strokeData,
