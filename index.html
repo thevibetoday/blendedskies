@@ -142,23 +142,23 @@
 
         #sections-grid {
             display: grid;
-            grid-template-columns: repeat(10, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 5px;
-            max-width: 80vw;
+            max-width: 90vw;
             max-height: 70vh;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             #sections-grid {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(10, 1fr);
             }
         }
 
         .section-cell {
-            width: 60px;
-            height: 60px;
+            width: 100%;
+            aspect-ratio: 1/1;
             background-color: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -170,6 +170,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-size: 0.9rem;
         }
 
         .section-cell:hover {
@@ -215,7 +216,9 @@
             z-index: 100;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 90vw;
+            max-width: 95vw;
+            width: 100%;
+            max-width: 600px;
         }
 
         .color-picker {
@@ -296,8 +299,8 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            width: 350px;
-            max-width: 90vw;
+            width: 90%;
+            max-width: 350px;
         }
 
         .color-mixer h3 {
@@ -492,7 +495,7 @@
 
         #zoom-controls {
             position: absolute;
-            bottom: 20px;
+            bottom: 85px;
             right: 20px;
             display: flex;
             flex-direction: column;
@@ -524,6 +527,50 @@
         #reset-view-btn {
             font-size: 1rem;
         }
+        
+        @media (max-width: 767px) {
+            #intro-screen h1 {
+                font-size: 2rem;
+            }
+            
+            #intro-screen p {
+                font-size: 1rem;
+            }
+            
+            #select-section-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            
+            .color-picker {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .brush-size {
+                width: 30px;
+                height: 30px;
+            }
+            
+            #controls {
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            #zoom-controls {
+                bottom: 100px;
+            }
+            
+            .zoom-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            #reset-view-btn {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -542,13 +589,11 @@
     <div id="section-selector">
         <h2>Select Your Section</h2>
         <div id="sections-grid">
-            <!-- Grid cells will be generated dynamically -->
         </div>
     </div>
     
     <div id="controls">
         <div id="color-palette">
-            <!-- Color palette will be generated dynamically -->
         </div>
         <div id="mix-label">Mix Colors</div>
         <button class="btn btn-apply" id="mixColorBtn">Mix</button>
@@ -637,23 +682,20 @@
         let timeLeft = 5;
         let inQueue = false;
         let queuePosition = 0;
-        // Generate a persistent userId using localStorage
-let userId;
-if (localStorage.getItem('paintUserId')) {
-    userId = localStorage.getItem('paintUserId');
-} else {
-    userId = 'user-' + Math.floor(Math.random() * 10000);
-    localStorage.setItem('paintUserId', userId);
-}
-
-// Track which sections the user has painted in
-let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]');
         let zoomLevel = 1;
         let targetZoom = 1;
         let cameraTarget = new THREE.Vector3(0, 0, 0);
         let isZooming = false;
         
-        // Oil paint colors
+        if (localStorage.getItem('paintUserId')) {
+            userId = localStorage.getItem('paintUserId');
+        } else {
+            userId = 'user-' + Math.floor(Math.random() * 10000);
+            localStorage.setItem('paintUserId', userId);
+        }
+
+        let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]');
+        
         const oilColors = [
             { name: 'Cadmium Red', hex: '#E30022' },
             { name: 'Alizarin Crimson', hex: '#E34234' },
@@ -678,49 +720,38 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
         const sections = [];
         const paintStrokes = [];
         
-        // Real queue data (no fake numbers)
         const sectionQueues = Array(100).fill(0);
 
-        // Initialize the scene
         function init() {
-            // Create scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x101020);
 
-            // Create camera
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 15;
 
-            // Create renderer
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-            // Create raycaster for mouse interaction
             raycaster = new THREE.Raycaster();
             mouse = new THREE.Vector2();
 
-            // Create canvas grid
             createCanvasGrid();
 
-            // Add event listeners
             window.addEventListener('resize', onWindowResize);
             renderer.domElement.addEventListener('mousedown', onMouseDown);
             renderer.domElement.addEventListener('mouseup', onMouseUp);
             renderer.domElement.addEventListener('mousemove', onMouseMove);
-            renderer.domElement.addEventListener('touchstart', onTouchStart, false);
-            renderer.domElement.addEventListener('touchend', onTouchEnd, false);
-            renderer.domElement.addEventListener('touchmove', onTouchMove, false);
+            renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: false });
+            renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
+            renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
             
-            // Setup zoom controls
             document.getElementById('zoom-in').addEventListener('click', zoomIn);
             document.getElementById('zoom-out').addEventListener('click', zoomOut);
             document.getElementById('reset-view-btn').addEventListener('click', resetView);
             
-            // Add wheel event for zooming
             renderer.domElement.addEventListener('wheel', onWheel);
 
-            // Setup brush size selectors
             document.querySelectorAll('.brush-size').forEach(brush => {
                 brush.addEventListener('click', function() {
                     currentBrushSize = parseFloat(this.getAttribute('data-size'));
@@ -732,7 +763,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             });
             document.querySelector('.brush-size').style.border = '2px solid white';
 
-            // Setup color mixer
             document.getElementById('mixColorBtn').addEventListener('click', function() {
                 document.getElementById('colorMixer').style.display = 'flex';
                 updateColorPreview();
@@ -753,7 +783,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 currentTexture = document.getElementById('textureSlider').value / 100;
                 document.getElementById('colorMixer').style.display = 'none';
                 
-                // Update active color in palette
                 document.querySelectorAll('.color-picker').forEach(picker => {
                     picker.style.boxShadow = 'none';
                 });
@@ -763,14 +792,12 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 document.getElementById('colorMixer').style.display = 'none';
             });
             
-            // Setup intro screen and section selector
             document.getElementById('select-section-btn').addEventListener('click', function() {
                 document.getElementById('intro-screen').style.display = 'none';
                 document.getElementById('section-selector').style.display = 'flex';
                 createSectionsGrid();
             });
             
-            // Setup reset data button (for testing)
             document.getElementById('reset-data-btn').addEventListener('click', function() {
                 if (confirm('This will reset all your data and allow you to paint in all sections again. Continue?')) {
                     localStorage.removeItem('paintedSections');
@@ -780,17 +807,11 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 }
             });
             
-            // Update user info display
             document.getElementById('user-id-display').textContent = userId.substring(0, 8);
             document.getElementById('completed-sections').textContent = paintedSections.length;
             
-            // Create color palette
             createColorPalette();
-
-            // Setup socket connection (to be implemented with real Socket.io)
             setupSocketConnection();
-
-            // Start animation loop
             animate();
         }
 
@@ -803,14 +824,12 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             canvas = new THREE.Mesh(gridGeometry, gridMaterial);
             scene.add(canvas);
 
-            // Create section grid lines
             const lineMaterial = new THREE.LineBasicMaterial({ 
                 color: 0x00FFFF,
                 transparent: true,
                 opacity: 0.3
             });
             
-            // Horizontal lines
             for (let i = 0; i <= gridSize; i++) {
                 const y = (i / gridSize * 10) - 5;
                 const points = [
@@ -822,7 +841,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 scene.add(line);
             }
             
-            // Vertical lines
             for (let i = 0; i <= gridSize; i++) {
                 const x = (i / gridSize * 10) - 5;
                 const points = [
@@ -834,7 +852,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 scene.add(line);
             }
 
-            // Create logical sections for painting
             for (let i = 0; i < gridSize; i++) {
                 for (let j = 0; j < gridSize; j++) {
                     const x = (j / gridSize * 10) - 5 + (0.5 / gridSize * 10);
@@ -859,18 +876,16 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             for (let i = 0; i < 100; i++) {
                 const cell = document.createElement('div');
                 
-                // Apply different classes based on status
                 let className = 'section-cell';
                 if (paintedSections.includes(i)) {
                     className += ' painted';
-                    cell.style.backgroundColor = 'rgba(255, 0, 255, 0.2)'; // Visual indicator of previously painted sections
+                    cell.style.backgroundColor = 'rgba(255, 0, 255, 0.2)';
                 } else if (sections[i].painters > 0) {
                     className += ' occupied';
                 }
                 
                 cell.className = className;
                 
-                // Display real queue data
                 cell.innerHTML = `
                     <div class="section-cell-number">${i + 1}</div>
                     <div class="section-cell-queue">${sectionQueues[i] > 0 ? sectionQueues[i] + ' in queue' : ''}</div>
@@ -888,7 +903,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
         }
         
         function selectSection(index) {
-            // Check if user has already painted in this section
             if (paintedSections.includes(index)) {
                 alert("You've already contributed to this section. Please choose another section.");
                 return;
@@ -896,7 +910,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             
             document.getElementById('section-selector').style.display = 'none';
             
-            // Add user to queue
             sectionQueues[index]++;
             inQueue = true;
             queuePosition = sectionQueues[index];
@@ -904,22 +917,19 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             document.getElementById('queueInfo').style.display = 'block';
             updateQueuePosition();
             
-            // Zoom to selected section
             zoomToSection(index);
             
-            // Update section info
             document.getElementById('sectionNumber').textContent = index + 1;
             document.getElementById('sectionPainters').textContent = `Active painters: ${sections[index].painters}`;
             document.getElementById('section-info').style.display = 'block';
             
-            // Process queue
             processQueue(index);
         }
         
         function zoomToSection(index) {
             const section = sections[index];
             cameraTarget.set(section.x, section.y, 0);
-            targetZoom = 5;  // Zoomed in level
+            targetZoom = 5;
             isZooming = true;
         }
         
@@ -953,15 +963,12 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
         
         function updateCamera() {
             if (isZooming) {
-                // Smooth transition to target zoom
                 zoomLevel = zoomLevel + (targetZoom - zoomLevel) * 0.1;
                 
-                // Smooth transition to target position
                 camera.position.x += (cameraTarget.x - camera.position.x) * 0.1;
                 camera.position.y += (cameraTarget.y - camera.position.y) * 0.1;
                 camera.position.z = 15 / zoomLevel;
                 
-                // Stop zooming when close enough to target
                 if (Math.abs(zoomLevel - targetZoom) < 0.01 && 
                     Math.abs(camera.position.x - cameraTarget.x) < 0.01 && 
                     Math.abs(camera.position.y - cameraTarget.y) < 0.01) {
@@ -977,24 +984,20 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 progress += 1;
                 progressBar.style.width = `${progress}%`;
                 
-                // Simulate realistic queue progress
                 if (progress >= 100) {
                     clearInterval(interval);
                     inQueue = false;
                     
-                    // Remove user from queue and add to painters
                     sectionQueues[sectionIndex]--;
                     sections[sectionIndex].painters++;
                     
                     document.getElementById('queueInfo').style.display = 'none';
                     
-                    // Start painting in the selected section
                     currentSection = sections[sectionIndex];
                     
-                    // Update section info
                     document.getElementById('sectionPainters').textContent = `Active painters: ${sections[sectionIndex].painters}`;
                 }
-            }, 50); // Faster queue time for demo
+            }, 50);
         }
         
         function updateQueuePosition() {
@@ -1019,13 +1022,11 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 colorPicker.addEventListener('click', function() {
                     currentColor = this.getAttribute('data-color');
                     
-                    // Set sliders to match this color
                     const rgb = hexToRgb(currentColor);
                     document.getElementById('redSlider').value = rgb.r;
                     document.getElementById('greenSlider').value = rgb.g;
                     document.getElementById('blueSlider').value = rgb.b;
                     
-                    // Visual indicator for selected color
                     document.querySelectorAll('.color-picker').forEach(picker => {
                         picker.style.boxShadow = 'none';
                     });
@@ -1035,7 +1036,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 palette.appendChild(colorPicker);
             });
             
-            // Select the first color by default
             document.querySelector('.color-picker').style.boxShadow = '0 0 0 3px white, 0 0 15px rgba(255, 255, 255, 0.8)';
         }
 
@@ -1059,7 +1059,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             if (intersects.length > 0) {
                 const point = intersects[0].point;
                 
-                // Check if within current section
                 if (
                     point.x >= currentSection.x - currentSection.width/2 && 
                     point.x <= currentSection.x + currentSection.width/2 &&
@@ -1090,7 +1089,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             if (intersects.length > 0) {
                 const point = intersects[0].point;
                 
-                // Check if still within the same section
                 if (
                     point.x >= currentSection.x - currentSection.width/2 && 
                     point.x <= currentSection.x + currentSection.width/2 &&
@@ -1117,7 +1115,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             if (intersects.length > 0) {
                 const point = intersects[0].point;
                 
-                // Check if within current section
                 if (
                     point.x >= currentSection.x - currentSection.width/2 && 
                     point.x <= currentSection.x + currentSection.width/2 &&
@@ -1131,6 +1128,7 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
         }
 
         function onTouchEnd(event) {
+            event.preventDefault();
             isDrawing = false;
             clearTimeout(timerInterval);
             document.getElementById('sectionTimer').style.display = 'none';
@@ -1138,6 +1136,8 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
 
         function onTouchMove(event) {
             if (!isDrawing || !currentSection || inQueue) return;
+            
+            event.preventDefault();
             
             const touch = event.touches[0];
             mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
@@ -1149,7 +1149,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             if (intersects.length > 0) {
                 const point = intersects[0].point;
                 
-                // Check if still within the same section
                 if (
                     point.x >= currentSection.x - currentSection.width/2 && 
                     point.x <= currentSection.x + currentSection.width/2 &&
@@ -1164,7 +1163,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
         function startPainting(point) {
             timeLeft = 5;
             
-            // Show and start the timer
             const timerElement = document.getElementById('sectionTimer');
             timerElement.textContent = timeLeft;
             timerElement.style.display = 'block';
@@ -1181,24 +1179,20 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 }
             }, 1000);
             
-            // Add initial paint stroke
             addPaintStroke(point);
         }
 
         function addPaintStroke(point) {
-            // Apply the texture and brush randomness to simulate oil paint
             const jitter = currentTexture * 0.02;
             const sizeVariation = 1 + (Math.random() * 0.2 - 0.1) * currentTexture;
             const size = currentBrushSize * sizeVariation;
             
-            // Create slight variations in color to simulate oil paint texture
             const colorObj = hexToRgb(currentColor);
             const r = Math.min(255, Math.max(0, colorObj.r + Math.random() * 20 - 10));
             const g = Math.min(255, Math.max(0, colorObj.g + Math.random() * 20 - 10));
             const b = Math.min(255, Math.max(0, colorObj.b + Math.random() * 20 - 10));
             const strokeColor = new THREE.Color(rgbToHex(r, g, b));
             
-            // Create a paint stroke (oil paint blob) with slight position randomness
             const strokeGeometry = new THREE.CircleGeometry(size, 32);
             const strokeMaterial = new THREE.MeshBasicMaterial({
                 color: strokeColor,
@@ -1215,7 +1209,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             
             paintStrokes.push(stroke);
             
-            // Send stroke data to server
             sendStrokeToServer({
                 x: xPos,
                 y: yPos,
@@ -1233,7 +1226,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             renderer.render(scene, camera);
         }
 
-        // Color conversion utilities
         function rgbToHex(r, g, b) {
             return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
         }
@@ -1263,13 +1255,10 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             colorPreview.style.opacity = opacity;
         }
 
-        // Socket connection and data persistence
         function setupSocketConnection() {
-            // Load existing strokes from server (using localStorage as a placeholder)
             loadExistingStrokes();
             
             window.receiveStrokeFromServer = function(strokeData) {
-                // Only process if it's from another user
                 if (strokeData.userId !== userId) {
                     const strokeGeometry = new THREE.CircleGeometry(strokeData.size, 32);
                     const strokeMaterial = new THREE.MeshBasicMaterial({
@@ -1285,12 +1274,10 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                     
                     paintStrokes.push(stroke);
                     
-                    // Save the stroke to localStorage (in a real app, this would be sent to the server)
                     saveStrokeToStorage(strokeData);
                 }
             };
             
-            // Function to load existing strokes when the page loads
             function loadExistingStrokes() {
                 const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
                 
@@ -1311,61 +1298,24 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
                 });
             }
             
-            // Function to save a stroke to localStorage
             function saveStrokeToStorage(strokeData) {
                 const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
                 savedStrokes.push(strokeData);
                 localStorage.setItem('canvasStrokes', JSON.stringify(savedStrokes));
             }
-            
-            // Simulate other users joining sections occasionally
-            setInterval(() => {
-                const randomSectionIndex = Math.floor(Math.random() * 100);
-                if (Math.random() > 0.7) {
-                    // Random user joins queue
-                    sectionQueues[randomSectionIndex]++;
-                    
-                    // Update grid if visible
-                    if (document.getElementById('section-selector').style.display === 'flex') {
-                        createSectionsGrid();
-                    }
-                    
-                    // After some time, they start painting
-                    setTimeout(() => {
-                        if (sectionQueues[randomSectionIndex] > 0) {
-                            sectionQueues[randomSectionIndex]--;
-                            sections[randomSectionIndex].painters++;
-                            
-                            // If this is our current section, update the info
-                            if (currentSection && currentSection.index === randomSectionIndex) {
-                                document.getElementById('sectionPainters').textContent = 
-                                    `Active painters: ${sections[randomSectionIndex].painters}`;
-                            }
-                            
-                            // Update grid if visible
-                            if (document.getElementById('section-selector').style.display === 'flex') {
-                                createSectionsGrid();
-                            }
-                        }
-                    }, Math.random() * 5000 + 2000);
-                }
-            }, 3000);
         }
 
         function sendStrokeToServer(strokeData) {
-            // Save stroke data to localStorage (in a real app, this would be sent to the server)
             const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
             savedStrokes.push(strokeData);
             localStorage.setItem('canvasStrokes', JSON.stringify(savedStrokes));
             
-            // Mark this section as painted by the user
             if (!paintedSections.includes(strokeData.sectionIndex)) {
                 paintedSections.push(strokeData.sectionIndex);
                 localStorage.setItem('paintedSections', JSON.stringify(paintedSections));
+                document.getElementById('completed-sections').textContent = paintedSections.length;
             }
             
-            // In a real app, this would send data to the server
-            // For now, simulate occasional strokes from other users
             setTimeout(() => {
                 if (Math.random() > 0.5) {
                     const mockStrokeFromOtherUser = {
@@ -1380,7 +1330,6 @@ let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]'
             }, 300);
         }
 
-        // Initialize when the page loads
         window.onload = init;
     </script>
 </body>
