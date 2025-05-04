@@ -1,598 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collaborative Oil Painting</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        #canvas-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-        }
-        .color-picker {
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .brush-size {
-            width: 50px;
-            height: 50px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .brush-size div {
-            background-color: black;
-            border-radius: 50%;
-        }
-        .section-timer {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 24px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            display: none;
-        }
-        .color-mixer {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 101;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            width: 300px;
-        }
-        .color-sliders {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .color-slider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .color-slider span {
-            width: 50px;
-        }
-        .color-slider input {
-            flex: 1;
-        }
-        .color-preview {
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-        .mixer-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-        .btn-cancel {
-            background-color: #f44336;
-        }
-    </style>
+<meta charset="utf-8">
+<title>Oil Painting Grid</title>
+<style>
+body,html{margin:0;height:100%;overflow:hidden;font-family:sans-serif;background:#222;color:#fff;display:flex;flex-direction:column}
+#ui{display:flex;gap:8px;padding:8px;background:#333}
+#ui input[type=range]{width:100px}
+#renderArea{flex:1}
+button{padding:6px 12px;background:#555;border:none;color:#fff;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+label{display:flex;flex-direction:column;font-size:12px}
+</style>
 </head>
 <body>
-    <div id="canvas-container"></div>
-    
-    <div id="controls">
-        <input type="color" class="color-picker" id="colorPicker" value="#FF0000">
-        <button class="btn" id="mixColorBtn">Mix Colors</button>
-        <div class="brush-size" data-size="0.05">
-            <div style="width: 10px; height: 10px;"></div>
-        </div>
-        <div class="brush-size" data-size="0.1">
-            <div style="width: 20px; height: 20px;"></div>
-        </div>
-        <div class="brush-size" data-size="0.2">
-            <div style="width: 30px; height: 30px;"></div>
-        </div>
-    </div>
-
-    <div class="section-timer" id="sectionTimer">5</div>
-
-    <div class="color-mixer" id="colorMixer">
-        <h3>Oil Paint Mixer</h3>
-        <div class="color-preview" id="colorPreview"></div>
-        <div class="color-sliders">
-            <div class="color-slider">
-                <span>Red</span>
-                <input type="range" min="0" max="255" value="255" id="redSlider">
-            </div>
-            <div class="color-slider">
-                <span>Green</span>
-                <input type="range" min="0" max="255" value="0" id="greenSlider">
-            </div>
-            <div class="color-slider">
-                <span>Blue</span>
-                <input type="range" min="0" max="255" value="0" id="blueSlider">
-            </div>
-            <div class="color-slider">
-                <span>Opacity</span>
-                <input type="range" min="0" max="100" value="100" id="opacitySlider">
-            </div>
-        </div>
-        <div class="mixer-buttons">
-            <button class="btn" id="applyColorBtn">Apply</button>
-            <button class="btn btn-cancel" id="cancelMixBtn">Cancel</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
-    <script>
-        let scene, camera, renderer, raycaster, mouse;
-        let canvas, gridSize = 10;
-        let currentColor = '#FF0000';
-        let currentOpacity = 1.0;
-        let currentBrushSize = 0.1;
-        let isDrawing = false;
-        let currentSection = null;
-        let timerInterval = null;
-        let timeLeft = 5;
-
-        const sections = [];
-        const paintStrokes = [];
-
-        // Initialize the scene
-        function init() {
-            // Create scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xEEEEEE);
-
-            // Create camera
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 15;
-
-            // Create renderer
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-            // Create raycaster for mouse interaction
-            raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2();
-
-            // Create canvas grid
-            createCanvasGrid();
-
-            // Add event listeners
-            window.addEventListener('resize', onWindowResize);
-            renderer.domElement.addEventListener('mousedown', onMouseDown);
-            renderer.domElement.addEventListener('mouseup', onMouseUp);
-            renderer.domElement.addEventListener('mousemove', onMouseMove);
-            renderer.domElement.addEventListener('touchstart', onTouchStart, false);
-            renderer.domElement.addEventListener('touchend', onTouchEnd, false);
-            renderer.domElement.addEventListener('touchmove', onTouchMove, false);
-
-            // Setup brush size selectors
-            document.querySelectorAll('.brush-size').forEach(brush => {
-                brush.addEventListener('click', function() {
-                    currentBrushSize = parseFloat(this.getAttribute('data-size'));
-                    document.querySelectorAll('.brush-size').forEach(b => {
-                        b.style.border = '1px solid #ccc';
-                    });
-                    this.style.border = '2px solid #333';
-                });
-            });
-            document.querySelector('.brush-size').style.border = '2px solid #333';
-
-            // Setup color picker
-            document.getElementById('colorPicker').addEventListener('change', function() {
-                currentColor = this.value;
-            });
-
-            // Setup color mixer
-            document.getElementById('mixColorBtn').addEventListener('click', function() {
-                document.getElementById('colorMixer').style.display = 'flex';
-                updateColorPreview();
-            });
-
-            document.getElementById('redSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('greenSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('blueSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('opacitySlider').addEventListener('input', updateColorPreview);
-
-            document.getElementById('applyColorBtn').addEventListener('click', function() {
-                const r = document.getElementById('redSlider').value;
-                const g = document.getElementById('greenSlider').value;
-                const b = document.getElementById('blueSlider').value;
-                currentColor = rgbToHex(r, g, b);
-                document.getElementById('colorPicker').value = currentColor;
-                currentOpacity = document.getElementById('opacitySlider').value / 100;
-                document.getElementById('colorMixer').style.display = 'none';
-            });
-
-            document.getElementById('cancelMixBtn').addEventListener('click', function() {
-                document.getElementById('colorMixer').style.display = 'none';
-            });
-
-            // Setup mock socket connection (to be replaced with real Socket.io logic)
-            setupMockSocketConnection();
-
-            // Start animation loop
-            animate();
-        }
-
-        function createCanvasGrid() {
-            const gridGeometry = new THREE.PlaneGeometry(10, 10);
-            const gridMaterial = new THREE.MeshBasicMaterial({ 
-                color: 0xFFFFFF, 
-                side: THREE.DoubleSide 
-            });
-            canvas = new THREE.Mesh(gridGeometry, gridMaterial);
-            scene.add(canvas);
-
-            // Create section grid lines
-            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
-            
-            // Horizontal lines
-            for (let i = 0; i <= gridSize; i++) {
-                const y = (i / gridSize * 10) - 5;
-                const points = [
-                    new THREE.Vector3(-5, y, 0.01),
-                    new THREE.Vector3(5, y, 0.01)
-                ];
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                const line = new THREE.Line(geometry, lineMaterial);
-                scene.add(line);
-            }
-            
-            // Vertical lines
-            for (let i = 0; i <= gridSize; i++) {
-                const x = (i / gridSize * 10) - 5;
-                const points = [
-                    new THREE.Vector3(x, -5, 0.01),
-                    new THREE.Vector3(x, 5, 0.01)
-                ];
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                const line = new THREE.Line(geometry, lineMaterial);
-                scene.add(line);
-            }
-
-            // Create logical sections for painting
-            for (let i = 0; i < gridSize; i++) {
-                for (let j = 0; j < gridSize; j++) {
-                    const x = (j / gridSize * 10) - 5 + (0.5 / gridSize * 10);
-                    const y = (i / gridSize * 10) - 5 + (0.5 / gridSize * 10);
-                    
-                    sections.push({
-                        x: x,
-                        y: y,
-                        width: 10 / gridSize,
-                        height: 10 / gridSize,
-                        index: i * gridSize + j
-                    });
-                }
-            }
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onMouseDown(event) {
-            event.preventDefault();
-            
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                isDrawing = true;
-                const point = intersects[0].point;
-                
-                // Find which section was clicked
-                let selectedSection = null;
-                for (const section of sections) {
-                    if (
-                        point.x >= section.x - section.width/2 && 
-                        point.x <= section.x + section.width/2 &&
-                        point.y >= section.y - section.height/2 && 
-                        point.y <= section.y + section.height/2
-                    ) {
-                        selectedSection = section;
-                        break;
-                    }
-                }
-                
-                if (selectedSection) {
-                    startPainting(selectedSection, point);
-                }
-            }
-        }
-
-        function onMouseUp(event) {
-            isDrawing = false;
-            currentSection = null;
-            clearTimeout(timerInterval);
-            document.getElementById('sectionTimer').style.display = 'none';
-        }
-
-        function onMouseMove(event) {
-            if (!isDrawing || !currentSection) return;
-            
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                // Check if still within the same section
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    addPaintStroke(point);
-                }
-            }
-        }
-
-        function onTouchStart(event) {
-            event.preventDefault();
-            
-            const touch = event.touches[0];
-            mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                isDrawing = true;
-                const point = intersects[0].point;
-                
-                // Find which section was touched
-                let selectedSection = null;
-                for (const section of sections) {
-                    if (
-                        point.x >= section.x - section.width/2 && 
-                        point.x <= section.x + section.width/2 &&
-                        point.y >= section.y - section.height/2 && 
-                        point.y <= section.y + section.height/2
-                    ) {
-                        selectedSection = section;
-                        break;
-                    }
-                }
-                
-                if (selectedSection) {
-                    startPainting(selectedSection, point);
-                }
-            }
-        }
-
-        function onTouchEnd(event) {
-            isDrawing = false;
-            currentSection = null;
-            clearTimeout(timerInterval);
-            document.getElementById('sectionTimer').style.display = 'none';
-        }
-
-        function onTouchMove(event) {
-            if (!isDrawing || !currentSection) return;
-            
-            const touch = event.touches[0];
-            mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                // Check if still within the same section
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    addPaintStroke(point);
-                }
-            }
-        }
-
-        function startPainting(section, point) {
-            currentSection = section;
-            timeLeft = 5;
-            
-            // Show and start the timer
-            const timerElement = document.getElementById('sectionTimer');
-            timerElement.textContent = timeLeft;
-            timerElement.style.display = 'block';
-            
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    isDrawing = false;
-                    currentSection = null;
-                    timerElement.style.display = 'none';
-                }
-            }, 1000);
-            
-            // Add initial paint stroke
-            addPaintStroke(point);
-        }
-
-        function addPaintStroke(point) {
-            // Create a paint stroke (oil paint blob)
-            const strokeGeometry = new THREE.CircleGeometry(currentBrushSize, 32);
-            const strokeMaterial = new THREE.MeshBasicMaterial({
-                color: new THREE.Color(currentColor),
-                transparent: true,
-                opacity: currentOpacity,
-                side: THREE.DoubleSide
-            });
-            
-            const stroke = new THREE.Mesh(strokeGeometry, strokeMaterial);
-            stroke.position.set(point.x, point.y, 0.02);
-            scene.add(stroke);
-            
-            paintStrokes.push(stroke);
-            
-            // Send stroke data to server (mock)
-            sendStrokeToServer({
-                x: point.x,
-                y: point.y,
-                color: currentColor,
-                opacity: currentOpacity,
-                size: currentBrushSize,
-                sectionIndex: currentSection.index
-            });
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-
-        // Color conversion utilities
-        function rgbToHex(r, g, b) {
-            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-        }
-
-        function componentToHex(c) {
-            const hex = parseInt(c).toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
-        }
-
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function updateColorPreview() {
-            const r = document.getElementById('redSlider').value;
-            const g = document.getElementById('greenSlider').value;
-            const b = document.getElementById('blueSlider').value;
-            const opacity = document.getElementById('opacitySlider').value / 100;
-            
-            const colorPreview = document.getElementById('colorPreview');
-            colorPreview.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-            colorPreview.style.opacity = opacity;
-        }
-
-        // Mock socket connection (to be replaced with real Socket.io implementation)
-        function setupMockSocketConnection() {
-            // This is a placeholder for real Socket.io implementation
-            // In a real app, you would connect to the Socket.io server and handle events
-            
-            window.receiveStrokeFromServer = function(strokeData) {
-                // Only process if it's from another user
-                if (strokeData.userId !== 'current-user-id') {
-                    const strokeGeometry = new THREE.CircleGeometry(strokeData.size, 32);
-                    const strokeMaterial = new THREE.MeshBasicMaterial({
-                        color: new THREE.Color(strokeData.color),
-                        transparent: true,
-                        opacity: strokeData.opacity,
-                        side: THREE.DoubleSide
-                    });
-                    
-                    const stroke = new THREE.Mesh(strokeGeometry, strokeMaterial);
-                    stroke.position.set(strokeData.x, strokeData.y, 0.02);
-                    scene.add(stroke);
-                    
-                    paintStrokes.push(stroke);
-                }
-            };
-        }
-
-        function sendStrokeToServer(strokeData) {
-            // This is a placeholder for real Socket.io emission
-            // In a real app, you would emit the stroke data to the server
-            
-            // For demo purposes, we'll just simulate receiving the stroke back
-            // as if it came from another user
-            setTimeout(() => {
-                // In a real app, this would come from the server
-                // This is just for testing the rendering of strokes from other users
-                if (Math.random() > 0.7) {
-                    const mockStrokeFromOtherUser = {
-                        ...strokeData,
-                        x: strokeData.x + (Math.random() - 0.5) * 0.2,
-                        y: strokeData.y + (Math.random() - 0.5) * 0.2,
-                        userId: 'other-user-' + Math.floor(Math.random() * 100)
-                    };
-                    
-                    window.receiveStrokeFromServer(mockStrokeFromOtherUser);
-                }
-            }, 500);
-        }
-
-        // Initialize when the page loads
-        window.onload = init;
-    </script>
+<div id="ui">
+<label>Color A<input type="color" id="colorA" value="#ff0000"></label>
+<label>Color B<input type="color" id="colorB" value="#0000ff"></label>
+<label>Mix<input type="range" id="mix" min="0" max="100" value="50"></label>
+<label>Brush<input type="range" id="brush" min="1" max="50" value="10"></label>
+<button id="selectBtn">Select Section</button>
+<span id="time">0</span>
+</div>
+<div id="renderArea"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158/build/three.min.js"></script>
+<script>
+const size=600,sections=10;
+const scene=new THREE.Scene();
+const camera=new THREE.OrthographicCamera(-size/2,size/2,size/2,-size/2,1,1000);
+camera.position.z=10;
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(size,size);
+document.getElementById('renderArea').appendChild(renderer.domElement);
+const paintCanvas=document.createElement('canvas');
+paintCanvas.width=size;
+paintCanvas.height=size;
+const ctx=paintCanvas.getContext('2d');
+ctx.fillStyle='#ffffff';
+ctx.fillRect(0,0,size,size);
+ctx.strokeStyle='#cccccc';
+for(let i=0;i<=sections;i++){
+ctx.beginPath();
+ctx.moveTo(0,i*size/sections);
+ctx.lineTo(size,i*size/sections);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(i*size/sections,0);
+ctx.lineTo(i*size/sections,size);
+ctx.stroke();}
+const texture=new THREE.CanvasTexture(paintCanvas);
+const plane=new THREE.Mesh(new THREE.PlaneGeometry(size,size),new THREE.MeshBasicMaterial({map:texture}));
+scene.add(plane);
+let painting=false;
+let activeCell=null;
+let timer=0;
+let brush=10;
+let interval=null;
+function mixColor(c1,c2,ratio){
+const r=parseInt(c1.substr(1,2),16)*(1-ratio)+parseInt(c2.substr(1,2),16)*ratio;
+const g=parseInt(c1.substr(3,2),16)*(1-ratio)+parseInt(c2.substr(3,2),16)*ratio;
+const b=parseInt(c1.substr(5,2),16)*(1-ratio)+parseInt(c2.substr(5,2),16)*ratio;
+return`rgb(${r},${g},${b})`;}
+function uvToXY(uv){return[(uv.x+0.5)*size,(0.5-uv.y)*size];}
+renderer.domElement.addEventListener('pointerdown',e=>{if(!activeCell)return;painting=true;draw(e);});
+renderer.domElement.addEventListener('pointermove',e=>{if(painting)draw(e);});
+window.addEventListener('pointerup',()=>painting=false);
+function draw(e){
+const rect=renderer.domElement.getBoundingClientRect();
+const x=(e.clientX-rect.left)/rect.width*2-1;
+const y=-(e.clientY-rect.top)/rect.height*2+1;
+const vector=new THREE.Vector3(x,y,0).unproject(camera);
+const uv=plane.worldToLocal(vector);
+const[cx,cy]=uvToXY(uv);
+const cellX=Math.floor(cx/(size/sections));
+const cellY=Math.floor(cy/(size/sections));
+if(cellX!==activeCell.x||cellY!==activeCell.y)return;
+ctx.fillStyle=mixColor(colorA.value,colorB.value,mix.value/100);
+ctx.beginPath();
+ctx.arc(cx,cy,brush,0,Math.PI*2);
+ctx.fill();
+texture.needsUpdate=true;}
+function animate(){requestAnimationFrame(animate);renderer.render(scene,camera);}
+animate();
+selectBtn.onclick=()=>{
+selectBtn.disabled=true;
+renderer.domElement.style.cursor='crosshair';
+renderer.domElement.addEventListener('click',pickSection,{once:true});};
+function pickSection(e){
+const rect=renderer.domElement.getBoundingClientRect();
+const x=(e.clientX-rect.left)/rect.width*2-1;
+const y=-(e.clientY-rect.top)/rect.height*2+1;
+const vector=new THREE.Vector3(x,y,0).unproject(camera);
+const uv=plane.worldToLocal(vector);
+const[cx,cy]=uvToXY(uv);
+const cellX=Math.floor(cx/(size/sections));
+const cellY=Math.floor(cy/(size/sections));
+activeCell={x:cellX,y:cellY};
+timer=5;
+time.textContent=timer;
+interval=setInterval(()=>{timer--;time.textContent=timer;if(timer<=0){activeCell=null;clearInterval(interval);selectBtn.disabled=false;renderer.domElement.style.cursor='default';}},1000);}
+mix.oninput=()=>{};
+brush.oninput=()=>{brush=brush.value};
+</script>
 </body>
 </html>
