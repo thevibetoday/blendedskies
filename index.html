@@ -3,1334 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collaborative Oil Painting</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-
-        :root {
-            --neon-pink: #ff00ff;
-            --neon-blue: #00ffff;
-            --neon-green: #00ff00;
-            --dark-bg: #101020;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Space Mono', monospace;
-            background-color: var(--dark-bg);
-            color: white;
-        }
-
-        #canvas-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(16, 16, 32, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .painted {
-            position: relative;
-        }
-        
-        .painted::after {
-            content: "✓";
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 1rem;
-            color: var(--neon-pink);
-            font-weight: bold;
-        }
-        
-        #user-info {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(16, 16, 32, 0.8);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: white;
-            z-index: 90;
-        }
-
-        #intro-screen h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: white;
-            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue);
-            animation: glow 2s infinite alternate;
-        }
-
-        #intro-screen p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        #select-section-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-family: 'Space Mono', monospace;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
-            border: none;
-            border-radius: 50px;
-            color: white;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        }
-
-        #select-section-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
-        }
-
-        #section-selector {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(16, 16, 32, 0.9);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-        #section-selector h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            color: white;
-            text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        #sections-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            max-width: 90vw;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 15px;
-        }
-
-        @media (min-width: 768px) {
-            #sections-grid {
-                grid-template-columns: repeat(10, 1fr);
-            }
-        }
-
-        .section-cell {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-size: 0.9rem;
-        }
-
-        .section-cell:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--neon-blue);
-        }
-
-        .section-cell-number {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        .section-cell.occupied::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255, 0, 255, 0.3), transparent);
-        }
-
-        .section-cell-queue {
-            position: absolute;
-            bottom: 2px;
-            font-size: 0.6rem;
-            color: var(--neon-green);
-        }
-
-        #controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            padding: 20px;
-            background-color: rgba(16, 16, 32, 0.8);
-            border: 2px solid var(--neon-blue);
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            z-index: 100;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 95vw;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .color-picker {
-            width: 40px;
-            height: 40px;
-            border: 2px solid white;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .color-picker:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        }
-
-        .brush-size {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .brush-size:hover {
-            transform: scale(1.1);
-        }
-
-        .brush-size div {
-            background-color: white;
-            border-radius: 50%;
-        }
-
-        #color-palette {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        .section-timer {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(16, 16, 32, 0.8);
-            padding: 10px 30px;
-            border-radius: 50px;
-            font-size: 2rem;
-            font-weight: bold;
-            border: 2px solid var(--neon-pink);
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-            z-index: 100;
-            display: none;
-            text-align: center;
-        }
-
-        .color-mixer {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(16, 16, 32, 0.9);
-            padding: 25px;
-            border-radius: 20px;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            z-index: 101;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            width: 90%;
-            max-width: 350px;
-        }
-
-        .color-mixer h3 {
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        .color-sliders {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .color-slider {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .color-slider span {
-            width: 80px;
-            text-align: right;
-            color: white;
-            font-weight: bold;
-        }
-
-        .color-slider input {
-            flex: 1;
-            height: 8px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            outline: none;
-        }
-
-        .color-slider input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: white;
-            cursor: pointer;
-        }
-
-        .color-preview {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .mixer-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Space Mono', monospace;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-apply {
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
-            color: white;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-        }
-
-        .btn-apply:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
-            transform: scale(1.05);
-        }
-
-        .btn-cancel {
-            background: linear-gradient(45deg, #ff3366, var(--neon-pink));
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .btn-cancel:hover {
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
-            transform: scale(1.05);
-        }
-
-        .queue-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(16, 16, 32, 0.8);
-            padding: 15px;
-            border-radius: 15px;
-            border: 2px solid var(--neon-blue);
-            color: white;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            z-index: 100;
-            min-width: 200px;
-            display: none;
-        }
-
-        .queue-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 5px var(--neon-blue);
-        }
-
-        .queue-position {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .loading-indicator {
-            width: 100%;
-            height: 6px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-
-        .loading-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue);
-            }
-            100% {
-                text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-blue), 0 0 45px var(--neon-green);
-            }
-        }
-
-        #section-info {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: rgba(16, 16, 32, 0.8);
-            padding: 15px;
-            border-radius: 15px;
-            border: 2px solid var(--neon-green);
-            color: white;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            z-index: 100;
-            display: none;
-        }
-
-        #section-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            text-shadow: 0 0 5px var(--neon-green);
-        }
-
-        #brush-tools {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-        }
-
-        #brush-label, #mix-label {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 5px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        #zoom-controls {
-            position: absolute;
-            bottom: 85px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 100;
-        }
-
-        .zoom-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: rgba(16, 16, 32, 0.8);
-            border: 2px solid var(--neon-blue);
-            color: white;
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-        }
-
-        .zoom-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
-        }
-
-        #reset-view-btn {
-            font-size: 1rem;
-        }
-        
-        @media (max-width: 767px) {
-            #intro-screen h1 {
-                font-size: 2rem;
-            }
-            
-            #intro-screen p {
-                font-size: 1rem;
-            }
-            
-            #select-section-btn {
-                padding: 12px 24px;
-                font-size: 1rem;
-            }
-            
-            .color-picker {
-                width: 30px;
-                height: 30px;
-            }
-            
-            .brush-size {
-                width: 30px;
-                height: 30px;
-            }
-            
-            #controls {
-                gap: 8px;
-                padding: 12px;
-            }
-            
-            #zoom-controls {
-                bottom: 100px;
-            }
-            
-            .zoom-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            #reset-view-btn {
-                font-size: 0.8rem;
-            }
-        }
-    </style>
+    <title>Zeno - A Post-Modern Social Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="canvas-container"></div>
-    
-    <div id="user-info">Your ID: <span id="user-id-display"></span> • Sections completed: <span id="completed-sections">0</span></div>
-    
-    <div id="intro-screen">
-        <h1>Collective Canvas</h1>
-        <p>Welcome to the collaborative oil painting experience. Join artists from around the world as we create a shared masterpiece, one section at a time. Choose your colors, select your brushes, and let your creativity flow.</p>
-        <p style="color: #ff00ff; margin-top: 10px;">Remember: You can only contribute to each section once!</p>
-        <button id="select-section-btn">Begin Painting</button>
-        <button id="reset-data-btn" style="margin-top: 15px; font-size: 0.8rem; padding: 8px 15px; background: rgba(255,0,0,0.5);">Reset My Data (For Testing)</button>
-    </div>
-    
-    <div id="section-selector">
-        <h2>Select Your Section</h2>
-        <div id="sections-grid">
+<body class="light-mode">
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-logo">
+                    <h1>Zeno</h1>
+                </div>
+                <div class="header-search">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search Zeno...">
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-menu" id="user-menu">
+                        <button class="login-button" id="login-button">Login</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="container main-container">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <nav class="main-nav">
+                        <ul>
+                            <li class="active"><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                            <li><a href="#"><i class="fas fa-compass"></i> Explore</a></li>
+                            <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+                            <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+                        </ul>
+                    </nav>
+                    
+                    <div class="trending-topics sidebar-section">
+                        <h3>Trending Topics</h3>
+                        <ul class="topic-list">
+                            <li class="topic-item">
+                                <a href="#">
+                                    <span class="topic-name">#digital_minimalism</span>
+                                    <span class="topic-count">1,204 posts</span>
+                                </a>
+                            </li>
+                            <li class="topic-item">
+                                <a href="#">
+                                    <span class="topic-name">#futuredrift</span>
+                                    <span class="topic-count">987 posts</span>
+                                </a>
+                            </li>
+                            <li class="topic-item">
+                                <a href="#">
+                                    <span class="topic-name">#designthinking</span>
+                                    <span class="topic-count">856 posts</span>
+                                </a>
+                            </li>
+                            <li class="topic-item">
+                                <a href="#">
+                                    <span class="topic-name">#philosophy</span>
+                                    <span class="topic-count">723 posts</span>
+                                </a>
+                            </li>
+                            <li class="topic-item">
+                                <a href="#">
+                                    <span class="topic-name">#creativity</span>
+                                    <span class="topic-count">691 posts</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Feed -->
+                <section class="feed">
+                    <!-- Create Post (visible when logged in) -->
+                    <div id="create-post-area" class="create-post hidden">
+                        <div class="post-input-container">
+                            <div class="user-avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Your avatar">
+                            </div>
+                            <div class="post-input">
+                                <button id="open-post-modal">What's on your mind?</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div class="posts-container" id="posts-container">
+                        <!-- Posts will be loaded here by JavaScript -->
+                    </div>
+                </section>
+                
+                <!-- Right Sidebar - Suggested Content -->
+                <aside class="right-sidebar">
+                    <div class="sidebar-section suggested-users">
+                        <h3>Suggested Users</h3>
+                        <ul class="user-suggestions">
+                            <li class="user-suggestion">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="mindful_tech">
+                                </div>
+                                <div class="user-info">
+                                    <span class="username">@mindful_tech</span>
+                                </div>
+                                <button class="follow-button">Follow</button>
+                            </li>
+                            <li class="user-suggestion">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ethical_coder" alt="ethical_coder">
+                                </div>
+                                <div class="user-info">
+                                    <span class="username">@ethical_coder</span>
+                                </div>
+                                <button class="follow-button">Follow</button>
+                            </li>
+                            <li class="user-suggestion">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=deep_thinker" alt="deep_thinker">
+                                </div>
+                                <div class="user-info">
+                                    <span class="username">@deep_thinker</span>
+                                </div>
+                                <button class="follow-button">Follow</button>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <button class="nav-item active">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="nav-item">
+                <i class="fas fa-compass"></i>
+            </button>
+            <button class="nav-item new-post-button">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button class="nav-item">
+                <i class="fas fa-bell"></i>
+            </button>
+            <button class="nav-item">
+                <i class="fas fa-user"></i>
+            </button>
+        </nav>
+
+        <!-- Modals -->
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Sign in to your account</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="login-form">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control">
+                        </div>
+                        <button id="login-submit" class="button-primary">Sign in</button>
+                    </div>
+                    <div class="form-footer">
+                        <p>Don't have an account? <button id="switch-to-signup" class="link-button">Sign up</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="create-post-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create a Post</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="post-form">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <img id="create-post-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Your avatar">
+                            </div>
+                            <div class="user-details">
+                                <span id="create-post-username" class="username">username</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="post-content" placeholder="What's on your mind?" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="post-tags">Tags (comma separated)</label>
+                            <input type="text" id="post-tags" placeholder="philosophy, thoughts, etc." class="form-control">
+                        </div>
+                        <div class="modal-actions">
+                            <button class="button-secondary modal-close">Cancel</button>
+                            <button id="submit-post" class="button-primary">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div id="controls">
-        <div id="color-palette">
-        </div>
-        <div id="mix-label">Mix Colors</div>
-        <button class="btn btn-apply" id="mixColorBtn">Mix</button>
-        
-        <div id="brush-label">Brush Size</div>
-        <div id="brush-tools">
-            <div class="brush-size" data-size="0.05">
-                <div style="width: 8px; height: 8px;"></div>
-            </div>
-            <div class="brush-size" data-size="0.1">
-                <div style="width: 16px; height: 16px;"></div>
-            </div>
-            <div class="brush-size" data-size="0.2">
-                <div style="width: 24px; height: 24px;"></div>
-            </div>
-            <div class="brush-size" data-size="0.3">
-                <div style="width: 32px; height: 32px;"></div>
-            </div>
-        </div>
-    </div>
 
-    <div class="section-timer" id="sectionTimer">5</div>
-
-    <div class="color-mixer" id="colorMixer">
-        <h3>Oil Paint Mixer</h3>
-        <div class="color-preview" id="colorPreview"></div>
-        <div class="color-sliders">
-            <div class="color-slider">
-                <span>Red</span>
-                <input type="range" min="0" max="255" value="255" id="redSlider">
-            </div>
-            <div class="color-slider">
-                <span>Green</span>
-                <input type="range" min="0" max="255" value="0" id="greenSlider">
-            </div>
-            <div class="color-slider">
-                <span>Blue</span>
-                <input type="range" min="0" max="255" value="0" id="blueSlider">
-            </div>
-            <div class="color-slider">
-                <span>Opacity</span>
-                <input type="range" min="0" max="100" value="100" id="opacitySlider">
-            </div>
-            <div class="color-slider">
-                <span>Texture</span>
-                <input type="range" min="0" max="100" value="50" id="textureSlider">
-            </div>
-        </div>
-        <div class="mixer-buttons">
-            <button class="btn btn-apply" id="applyColorBtn">Apply</button>
-            <button class="btn btn-cancel" id="cancelMixBtn">Cancel</button>
-        </div>
-    </div>
-    
-    <div class="queue-info" id="queueInfo">
-        <h3>Queue Status</h3>
-        <div class="queue-position" id="queuePosition">You are in queue</div>
-        <div class="loading-indicator">
-            <div class="loading-bar" id="queueProgressBar"></div>
-        </div>
-    </div>
-    
-    <div id="section-info">
-        <h3>Section <span id="sectionNumber">0</span></h3>
-        <div id="sectionPainters">Active painters: 0</div>
-    </div>
-    
-    <div id="zoom-controls">
-        <div class="zoom-btn" id="zoom-in">+</div>
-        <div class="zoom-btn" id="zoom-out">-</div>
-        <div class="zoom-btn" id="reset-view-btn">Reset</div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
-    <script>
-        let scene, camera, renderer, raycaster, mouse;
-        let canvas, gridSize = 10;
-        let currentColor = '#FF0000';
-        let currentOpacity = 1.0;
-        let currentBrushSize = 0.1;
-        let currentTexture = 0.5;
-        let isDrawing = false;
-        let currentSection = null;
-        let timerInterval = null;
-        let timeLeft = 5;
-        let inQueue = false;
-        let queuePosition = 0;
-        let zoomLevel = 1;
-        let targetZoom = 1;
-        let cameraTarget = new THREE.Vector3(0, 0, 0);
-        let isZooming = false;
-        
-        if (localStorage.getItem('paintUserId')) {
-            userId = localStorage.getItem('paintUserId');
-        } else {
-            userId = 'user-' + Math.floor(Math.random() * 10000);
-            localStorage.setItem('paintUserId', userId);
-        }
-
-        let paintedSections = JSON.parse(localStorage.getItem('paintedSections') || '[]');
-        
-        const oilColors = [
-            { name: 'Cadmium Red', hex: '#E30022' },
-            { name: 'Alizarin Crimson', hex: '#E34234' },
-            { name: 'Cadmium Yellow', hex: '#FFF600' },
-            { name: 'Yellow Ochre', hex: '#CB9D06' },
-            { name: 'Ultramarine Blue', hex: '#0A1172' },
-            { name: 'Cobalt Blue', hex: '#0047AB' },
-            { name: 'Cerulean Blue', hex: '#2A52BE' },
-            { name: 'Phthalo Blue', hex: '#000F89' },
-            { name: 'Viridian', hex: '#40826D' },
-            { name: 'Sap Green', hex: '#507D2A' },
-            { name: 'Burnt Sienna', hex: '#E97451' },
-            { name: 'Burnt Umber', hex: '#8A3324' },
-            { name: 'Raw Umber', hex: '#826644' },
-            { name: 'Titanium White', hex: '#FFFFFF' },
-            { name: 'Ivory Black', hex: '#1B1B1B' },
-            { name: 'Magenta', hex: '#FF00FF' },
-            { name: 'Cyan', hex: '#00FFFF' },
-            { name: 'Neon Green', hex: '#39FF14' }
-        ];
-
-        const sections = [];
-        const paintStrokes = [];
-        
-        const sectionQueues = Array(100).fill(0);
-
-        function init() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x101020);
-
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 15;
-
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-            raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2();
-
-            createCanvasGrid();
-
-            window.addEventListener('resize', onWindowResize);
-            renderer.domElement.addEventListener('mousedown', onMouseDown);
-            renderer.domElement.addEventListener('mouseup', onMouseUp);
-            renderer.domElement.addEventListener('mousemove', onMouseMove);
-            renderer.domElement.addEventListener('touchstart', onTouchStart, { passive: false });
-            renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
-            renderer.domElement.addEventListener('touchmove', onTouchMove, { passive: false });
-            
-            document.getElementById('zoom-in').addEventListener('click', zoomIn);
-            document.getElementById('zoom-out').addEventListener('click', zoomOut);
-            document.getElementById('reset-view-btn').addEventListener('click', resetView);
-            
-            renderer.domElement.addEventListener('wheel', onWheel);
-
-            document.querySelectorAll('.brush-size').forEach(brush => {
-                brush.addEventListener('click', function() {
-                    currentBrushSize = parseFloat(this.getAttribute('data-size'));
-                    document.querySelectorAll('.brush-size').forEach(b => {
-                        b.style.border = '2px solid rgba(255, 255, 255, 0.3)';
-                    });
-                    this.style.border = '2px solid white';
-                });
-            });
-            document.querySelector('.brush-size').style.border = '2px solid white';
-
-            document.getElementById('mixColorBtn').addEventListener('click', function() {
-                document.getElementById('colorMixer').style.display = 'flex';
-                updateColorPreview();
-            });
-
-            document.getElementById('redSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('greenSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('blueSlider').addEventListener('input', updateColorPreview);
-            document.getElementById('opacitySlider').addEventListener('input', updateColorPreview);
-            document.getElementById('textureSlider').addEventListener('input', updateColorPreview);
-
-            document.getElementById('applyColorBtn').addEventListener('click', function() {
-                const r = document.getElementById('redSlider').value;
-                const g = document.getElementById('greenSlider').value;
-                const b = document.getElementById('blueSlider').value;
-                currentColor = rgbToHex(r, g, b);
-                currentOpacity = document.getElementById('opacitySlider').value / 100;
-                currentTexture = document.getElementById('textureSlider').value / 100;
-                document.getElementById('colorMixer').style.display = 'none';
-                
-                document.querySelectorAll('.color-picker').forEach(picker => {
-                    picker.style.boxShadow = 'none';
-                });
-            });
-
-            document.getElementById('cancelMixBtn').addEventListener('click', function() {
-                document.getElementById('colorMixer').style.display = 'none';
-            });
-            
-            document.getElementById('select-section-btn').addEventListener('click', function() {
-                document.getElementById('intro-screen').style.display = 'none';
-                document.getElementById('section-selector').style.display = 'flex';
-                createSectionsGrid();
-            });
-            
-            document.getElementById('reset-data-btn').addEventListener('click', function() {
-                if (confirm('This will reset all your data and allow you to paint in all sections again. Continue?')) {
-                    localStorage.removeItem('paintedSections');
-                    localStorage.removeItem('canvasStrokes');
-                    paintedSections = [];
-                    location.reload();
-                }
-            });
-            
-            document.getElementById('user-id-display').textContent = userId.substring(0, 8);
-            document.getElementById('completed-sections').textContent = paintedSections.length;
-            
-            createColorPalette();
-            setupSocketConnection();
-            animate();
-        }
-
-        function createCanvasGrid() {
-            const gridGeometry = new THREE.PlaneGeometry(10, 10);
-            const gridMaterial = new THREE.MeshBasicMaterial({ 
-                color: 0x101020, 
-                side: THREE.DoubleSide 
-            });
-            canvas = new THREE.Mesh(gridGeometry, gridMaterial);
-            scene.add(canvas);
-
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x00FFFF,
-                transparent: true,
-                opacity: 0.3
-            });
-            
-            for (let i = 0; i <= gridSize; i++) {
-                const y = (i / gridSize * 10) - 5;
-                const points = [
-                    new THREE.Vector3(-5, y, 0.01),
-                    new THREE.Vector3(5, y, 0.01)
-                ];
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                const line = new THREE.Line(geometry, lineMaterial);
-                scene.add(line);
-            }
-            
-            for (let i = 0; i <= gridSize; i++) {
-                const x = (i / gridSize * 10) - 5;
-                const points = [
-                    new THREE.Vector3(x, -5, 0.01),
-                    new THREE.Vector3(x, 5, 0.01)
-                ];
-                const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                const line = new THREE.Line(geometry, lineMaterial);
-                scene.add(line);
-            }
-
-            for (let i = 0; i < gridSize; i++) {
-                for (let j = 0; j < gridSize; j++) {
-                    const x = (j / gridSize * 10) - 5 + (0.5 / gridSize * 10);
-                    const y = (i / gridSize * 10) - 5 + (0.5 / gridSize * 10);
-                    
-                    sections.push({
-                        x: x,
-                        y: y,
-                        width: 10 / gridSize,
-                        height: 10 / gridSize,
-                        index: i * gridSize + j,
-                        painters: 0
-                    });
-                }
-            }
-        }
-        
-        function createSectionsGrid() {
-            const grid = document.getElementById('sections-grid');
-            grid.innerHTML = '';
-            
-            for (let i = 0; i < 100; i++) {
-                const cell = document.createElement('div');
-                
-                let className = 'section-cell';
-                if (paintedSections.includes(i)) {
-                    className += ' painted';
-                    cell.style.backgroundColor = 'rgba(255, 0, 255, 0.2)';
-                } else if (sections[i].painters > 0) {
-                    className += ' occupied';
-                }
-                
-                cell.className = className;
-                
-                cell.innerHTML = `
-                    <div class="section-cell-number">${i + 1}</div>
-                    <div class="section-cell-queue">${sectionQueues[i] > 0 ? sectionQueues[i] + ' in queue' : ''}</div>
-                    ${paintedSections.includes(i) ? '<div style="font-size: 0.6rem; color: #ff00ff;">Completed</div>' : ''}
-                `;
-                cell.setAttribute('data-index', i);
-                
-                cell.addEventListener('click', function() {
-                    const sectionIndex = parseInt(this.getAttribute('data-index'));
-                    selectSection(sectionIndex);
-                });
-                
-                grid.appendChild(cell);
-            }
-        }
-        
-        function selectSection(index) {
-            if (paintedSections.includes(index)) {
-                alert("You've already contributed to this section. Please choose another section.");
-                return;
-            }
-            
-            document.getElementById('section-selector').style.display = 'none';
-            
-            sectionQueues[index]++;
-            inQueue = true;
-            queuePosition = sectionQueues[index];
-            
-            document.getElementById('queueInfo').style.display = 'block';
-            updateQueuePosition();
-            
-            zoomToSection(index);
-            
-            document.getElementById('sectionNumber').textContent = index + 1;
-            document.getElementById('sectionPainters').textContent = `Active painters: ${sections[index].painters}`;
-            document.getElementById('section-info').style.display = 'block';
-            
-            processQueue(index);
-        }
-        
-        function zoomToSection(index) {
-            const section = sections[index];
-            cameraTarget.set(section.x, section.y, 0);
-            targetZoom = 5;
-            isZooming = true;
-        }
-        
-        function zoomIn() {
-            targetZoom = Math.min(targetZoom * 1.2, 10);
-            isZooming = true;
-        }
-        
-        function zoomOut() {
-            targetZoom = Math.max(targetZoom / 1.2, 1);
-            isZooming = true;
-        }
-        
-        function resetView() {
-            cameraTarget.set(0, 0, 0);
-            targetZoom = 1;
-            isZooming = true;
-        }
-        
-        function onWheel(event) {
-            event.preventDefault();
-            
-            if (event.deltaY < 0) {
-                targetZoom = Math.min(targetZoom * 1.1, 10);
-            } else {
-                targetZoom = Math.max(targetZoom / 1.1, 1);
-            }
-            
-            isZooming = true;
-        }
-        
-        function updateCamera() {
-            if (isZooming) {
-                zoomLevel = zoomLevel + (targetZoom - zoomLevel) * 0.1;
-                
-                camera.position.x += (cameraTarget.x - camera.position.x) * 0.1;
-                camera.position.y += (cameraTarget.y - camera.position.y) * 0.1;
-                camera.position.z = 15 / zoomLevel;
-                
-                if (Math.abs(zoomLevel - targetZoom) < 0.01 && 
-                    Math.abs(camera.position.x - cameraTarget.x) < 0.01 && 
-                    Math.abs(camera.position.y - cameraTarget.y) < 0.01) {
-                    isZooming = false;
-                }
-            }
-        }
-        
-        function processQueue(sectionIndex) {
-            let progress = 0;
-            const progressBar = document.getElementById('queueProgressBar');
-            const interval = setInterval(() => {
-                progress += 1;
-                progressBar.style.width = `${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    inQueue = false;
-                    
-                    sectionQueues[sectionIndex]--;
-                    sections[sectionIndex].painters++;
-                    
-                    document.getElementById('queueInfo').style.display = 'none';
-                    
-                    currentSection = sections[sectionIndex];
-                    
-                    document.getElementById('sectionPainters').textContent = `Active painters: ${sections[sectionIndex].painters}`;
-                }
-            }, 50);
-        }
-        
-        function updateQueuePosition() {
-            const positionElement = document.getElementById('queuePosition');
-            if (queuePosition <= 1) {
-                positionElement.textContent = "You're next!";
-            } else {
-                positionElement.textContent = `Queue position: ${queuePosition}`;
-            }
-        }
-        
-        function createColorPalette() {
-            const palette = document.getElementById('color-palette');
-            
-            oilColors.forEach(color => {
-                const colorPicker = document.createElement('div');
-                colorPicker.className = 'color-picker';
-                colorPicker.style.backgroundColor = color.hex;
-                colorPicker.setAttribute('data-color', color.hex);
-                colorPicker.setAttribute('title', color.name);
-                
-                colorPicker.addEventListener('click', function() {
-                    currentColor = this.getAttribute('data-color');
-                    
-                    const rgb = hexToRgb(currentColor);
-                    document.getElementById('redSlider').value = rgb.r;
-                    document.getElementById('greenSlider').value = rgb.g;
-                    document.getElementById('blueSlider').value = rgb.b;
-                    
-                    document.querySelectorAll('.color-picker').forEach(picker => {
-                        picker.style.boxShadow = 'none';
-                    });
-                    this.style.boxShadow = '0 0 0 3px white, 0 0 15px rgba(255, 255, 255, 0.8)';
-                });
-                
-                palette.appendChild(colorPicker);
-            });
-            
-            document.querySelector('.color-picker').style.boxShadow = '0 0 0 3px white, 0 0 15px rgba(255, 255, 255, 0.8)';
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function onMouseDown(event) {
-            if (inQueue || !currentSection) return;
-            
-            event.preventDefault();
-            
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    isDrawing = true;
-                    startPainting(point);
-                }
-            }
-        }
-
-        function onMouseUp(event) {
-            isDrawing = false;
-            clearTimeout(timerInterval);
-            document.getElementById('sectionTimer').style.display = 'none';
-        }
-
-        function onMouseMove(event) {
-            if (!isDrawing || !currentSection || inQueue) return;
-            
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    addPaintStroke(point);
-                }
-            }
-        }
-
-        function onTouchStart(event) {
-            if (inQueue || !currentSection) return;
-            
-            event.preventDefault();
-            
-            const touch = event.touches[0];
-            mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    isDrawing = true;
-                    startPainting(point);
-                }
-            }
-        }
-
-        function onTouchEnd(event) {
-            event.preventDefault();
-            isDrawing = false;
-            clearTimeout(timerInterval);
-            document.getElementById('sectionTimer').style.display = 'none';
-        }
-
-        function onTouchMove(event) {
-            if (!isDrawing || !currentSection || inQueue) return;
-            
-            event.preventDefault();
-            
-            const touch = event.touches[0];
-            mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
-            
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(canvas);
-            
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                
-                if (
-                    point.x >= currentSection.x - currentSection.width/2 && 
-                    point.x <= currentSection.x + currentSection.width/2 &&
-                    point.y >= currentSection.y - currentSection.height/2 && 
-                    point.y <= currentSection.y + currentSection.height/2
-                ) {
-                    addPaintStroke(point);
-                }
-            }
-        }
-
-        function startPainting(point) {
-            timeLeft = 5;
-            
-            const timerElement = document.getElementById('sectionTimer');
-            timerElement.textContent = timeLeft;
-            timerElement.style.display = 'block';
-            
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerElement.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    isDrawing = false;
-                    timerElement.style.display = 'none';
-                }
-            }, 1000);
-            
-            addPaintStroke(point);
-        }
-
-        function addPaintStroke(point) {
-            const jitter = currentTexture * 0.02;
-            const sizeVariation = 1 + (Math.random() * 0.2 - 0.1) * currentTexture;
-            const size = currentBrushSize * sizeVariation;
-            
-            const colorObj = hexToRgb(currentColor);
-            const r = Math.min(255, Math.max(0, colorObj.r + Math.random() * 20 - 10));
-            const g = Math.min(255, Math.max(0, colorObj.g + Math.random() * 20 - 10));
-            const b = Math.min(255, Math.max(0, colorObj.b + Math.random() * 20 - 10));
-            const strokeColor = new THREE.Color(rgbToHex(r, g, b));
-            
-            const strokeGeometry = new THREE.CircleGeometry(size, 32);
-            const strokeMaterial = new THREE.MeshBasicMaterial({
-                color: strokeColor,
-                transparent: true,
-                opacity: currentOpacity,
-                side: THREE.DoubleSide
-            });
-            
-            const stroke = new THREE.Mesh(strokeGeometry, strokeMaterial);
-            const xPos = point.x + (Math.random() * jitter * 2 - jitter);
-            const yPos = point.y + (Math.random() * jitter * 2 - jitter);
-            stroke.position.set(xPos, yPos, 0.02);
-            scene.add(stroke);
-            
-            paintStrokes.push(stroke);
-            
-            sendStrokeToServer({
-                x: xPos,
-                y: yPos,
-                color: rgbToHex(r, g, b),
-                opacity: currentOpacity,
-                size: size,
-                sectionIndex: currentSection.index,
-                userId: userId
-            });
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            updateCamera();
-            renderer.render(scene, camera);
-        }
-
-        function rgbToHex(r, g, b) {
-            return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-        }
-
-        function componentToHex(c) {
-            const hex = parseInt(c).toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
-        }
-
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function updateColorPreview() {
-            const r = document.getElementById('redSlider').value;
-            const g = document.getElementById('greenSlider').value;
-            const b = document.getElementById('blueSlider').value;
-            const opacity = document.getElementById('opacitySlider').value / 100;
-            
-            const colorPreview = document.getElementById('colorPreview');
-            colorPreview.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-            colorPreview.style.opacity = opacity;
-        }
-
-        function setupSocketConnection() {
-            loadExistingStrokes();
-            
-            window.receiveStrokeFromServer = function(strokeData) {
-                if (strokeData.userId !== userId) {
-                    const strokeGeometry = new THREE.CircleGeometry(strokeData.size, 32);
-                    const strokeMaterial = new THREE.MeshBasicMaterial({
-                        color: new THREE.Color(strokeData.color),
-                        transparent: true,
-                        opacity: strokeData.opacity,
-                        side: THREE.DoubleSide
-                    });
-                    
-                    const stroke = new THREE.Mesh(strokeGeometry, strokeMaterial);
-                    stroke.position.set(strokeData.x, strokeData.y, 0.02);
-                    scene.add(stroke);
-                    
-                    paintStrokes.push(stroke);
-                    
-                    saveStrokeToStorage(strokeData);
-                }
-            };
-            
-            function loadExistingStrokes() {
-                const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
-                
-                savedStrokes.forEach(strokeData => {
-                    const strokeGeometry = new THREE.CircleGeometry(strokeData.size, 32);
-                    const strokeMaterial = new THREE.MeshBasicMaterial({
-                        color: new THREE.Color(strokeData.color),
-                        transparent: true,
-                        opacity: strokeData.opacity,
-                        side: THREE.DoubleSide
-                    });
-                    
-                    const stroke = new THREE.Mesh(strokeGeometry, strokeMaterial);
-                    stroke.position.set(strokeData.x, strokeData.y, 0.02);
-                    scene.add(stroke);
-                    
-                    paintStrokes.push(stroke);
-                });
-            }
-            
-            function saveStrokeToStorage(strokeData) {
-                const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
-                savedStrokes.push(strokeData);
-                localStorage.setItem('canvasStrokes', JSON.stringify(savedStrokes));
-            }
-        }
-
-        function sendStrokeToServer(strokeData) {
-            const savedStrokes = JSON.parse(localStorage.getItem('canvasStrokes') || '[]');
-            savedStrokes.push(strokeData);
-            localStorage.setItem('canvasStrokes', JSON.stringify(savedStrokes));
-            
-            if (!paintedSections.includes(strokeData.sectionIndex)) {
-                paintedSections.push(strokeData.sectionIndex);
-                localStorage.setItem('paintedSections', JSON.stringify(paintedSections));
-                document.getElementById('completed-sections').textContent = paintedSections.length;
-            }
-            
-            setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    const mockStrokeFromOtherUser = {
-                        ...strokeData,
-                        x: strokeData.x + (Math.random() - 0.5) * 0.2,
-                        y: strokeData.y + (Math.random() - 0.5) * 0.2,
-                        userId: 'other-user-' + Math.floor(Math.random() * 100)
-                    };
-                    
-                    window.receiveStrokeFromServer(mockStrokeFromOtherUser);
-                }
-            }, 300);
-        }
-
-        window.onload = init;
-    </script>
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
