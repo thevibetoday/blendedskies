@@ -1,448 +1,491 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus - Connect Through Ideas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <div id="app" class="app-container">
-        <!-- Floating Navigation -->
-        <nav class="floating-nav" id="floating-nav">
-            <div class="nav-section main-actions">
-                <button class="nav-action-button" id="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <button class="nav-action-button search-toggle">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="nav-action-button theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-            <div class="nav-section logo-section">
-                <div class="platform-logo">N</div>
-            </div>
-            <div class="nav-section user-section">
-                <div class="notification-indicator" id="notification-toggle">
-                    <i class="fas fa-bell"></i>
-                    <span class="indicator-badge">3</span>
-                </div>
-                <div class="avatar-container">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile" class="user-avatar">
-                </div>
-            </div>
-        </nav>
-
-        <!-- Main Sidebar -->
-        <aside class="main-sidebar" id="main-sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-logo">nexus</h1>
-                <button class="close-sidebar" id="close-sidebar">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="sidebar-content">
-                <div class="nav-group">
-                    <h2 class="nav-group-title">Navigate</h2>
-                    <a href="#" class="nav-link active">
-                        <i class="fas fa-compass"></i>
-                        <span>Discover</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-bolt"></i>
-                        <span>For You</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-fire"></i>
-                        <span>Trending</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-satellite-dish"></i>
-                        <span>Live Spaces</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-map"></i>
-                        <span>ThoughtMaps</span>
-                    </a>
-                </div>
-                <div class="nav-group">
-                    <h2 class="nav-group-title">Dimensions</h2>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-brain"></i>
-                        <span>Intellectual</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-palette"></i>
-                        <span>Creative</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-microscope"></i>
-                        <span>Scientific</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-leaf"></i>
-                        <span>Wellness</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-globe"></i>
-                        <span>Worldview</span>
-                    </a>
-                </div>
-                <div class="nav-group">
-                    <h2 class="nav-group-title">Your Spaces</h2>
-                    <a href="#" class="nav-link">
-                        <span class="space-icon">T</span>
-                        <span>Technology</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <span class="space-icon">P</span>
-                        <span>Philosophy</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <span class="space-icon">D</span>
-                        <span>Design</span>
-                    </a>
-                </div>
-            </div>
-            <div class="sidebar-footer">
-                <button class="create-button">
-                    <i class="fas fa-plus"></i>
-                    <span>Create</span>
-                </button>
-            </div>
-        </aside>
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const floatingNav = document.getElementById('floating-nav');
+    const menuToggle = document.getElementById('menu-toggle');
+    const themeToggle = document.getElementById('theme-toggle');
+    const mainSidebar = document.getElementById('main-sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
+    const notificationToggle = document.getElementById('notification-toggle');
+    const notificationPanel = document.getElementById('notification-panel');
+    const closeNotifications = document.getElementById('close-notifications');
+    const composerInput = document.querySelector('.composer-input');
+    const composerSubmit = document.querySelector('.composer-submit');
+    const engageActions = document.querySelectorAll('.engage-action');
+    const actionTooltip = document.getElementById('action-tooltip');
+    const perspectiveOptions = document.querySelectorAll('.perspective-option');
+    const notificationFilters = document.querySelectorAll('.notification-filter');
+    
+    // Initialize theme from localStorage
+    initTheme();
+    
+    // Event Listeners
+    // Toggle sidebar
+    menuToggle.addEventListener('click', toggleSidebar);
+    closeSidebar.addEventListener('click', toggleSidebar);
+    
+    // Toggle theme
+    themeToggle.addEventListener('click', toggleTheme);
+    
+    // Toggle notifications panel
+    notificationToggle.addEventListener('click', toggleNotifications);
+    closeNotifications.addEventListener('click', toggleNotifications);
+    
+    // Composer input enable/disable submit
+    composerInput.addEventListener('input', function() {
+        composerSubmit.disabled = this.value.trim().length === 0;
+    });
+    
+    // Composer submit action
+    composerSubmit.addEventListener('click', function() {
+        if (composerInput.value.trim().length > 0) {
+            shareThought();
+        }
+    });
+    
+    // Engage action tooltips
+    engageActions.forEach(action => {
+        action.addEventListener('mouseenter', showTooltip);
+        action.addEventListener('mouseleave', hideTooltip);
+        action.addEventListener('click', toggleEngagement);
+    });
+    
+    // Perspective options
+    perspectiveOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            perspectiveOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            filterContent(this.textContent);
+        });
+    });
+    
+    // Notification filters
+    notificationFilters.forEach(filter => {
+        filter.addEventListener('click', function() {
+            notificationFilters.forEach(f => f.classList.remove('active'));
+            this.classList.add('active');
+            filterNotifications(this.textContent);
+        });
+    });
+    
+    // Close panels when clicking outside
+    document.addEventListener('click', function(e) {
+        // Close sidebar when clicking outside
+        if (mainSidebar.classList.contains('active') && 
+            !mainSidebar.contains(e.target) && 
+            !menuToggle.contains(e.target)) {
+            toggleSidebar();
+        }
         
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Immersive Header -->
-            <div class="immersive-header">
-                <div class="perspective-selector">
-                    <div class="perspective-label">Viewing through:</div>
-                    <div class="perspective-options">
-                        <button class="perspective-option active">All Perspectives</button>
-                        <button class="perspective-option">Contrasting Views</button>
-                        <button class="perspective-option">Emerging Ideas</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Thought Composer -->
-            <div class="thought-composer">
-                <div class="composer-avatar">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
-                </div>
-                <div class="composer-input-container">
-                    <textarea class="composer-input" placeholder="Share a thought that elevates the conversation..."></textarea>
-                    <div class="composer-actions">
-                        <button class="composer-action">
-                            <i class="fas fa-image"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-link"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-poll"></i>
-                        </button>
-                        <button class="composer-submit" disabled>Share</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ThoughtStream -->
-            <div class="thought-stream">
-                <!-- Thought Card 1 -->
-                <div class="thought-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=visionary" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">visionary_thinker</div>
-                                <div class="thought-time">2h ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Intellectual</div>
-                    </div>
-                    <div class="thought-content">
-                        <div class="depth-indicator">
-                            <div class="depth-dots">
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot"></span>
-                                <span class="depth-dot"></span>
-                            </div>
-                            <span class="depth-label">Thought-Provoking</span>
-                        </div>
-                        <p>We're experiencing a fascinating paradox: as our digital connections multiply, the value of genuine human interaction increases exponentially. This creates a new kind of social economy where authenticity becomes the true currency.</p>
-                        <div class="thought-tags">
-                            <span class="thought-tag">#DigitalParadox</span>
-                            <span class="thought-tag">#HumanConnection</span>
-                            <span class="thought-tag">#SocialEconomics</span>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-metrics">
-                            <span class="metric"><i class="fas fa-comment"></i> 42</span>
-                            <span class="metric"><i class="fas fa-retweet"></i> 128</span>
-                            <span class="metric"><i class="fas fa-eye"></i> 1.5k</span>
-                        </div>
-                        <div class="engagement-actions">
-                            <button class="engage-action elevate">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>Elevate</span>
-                            </button>
-                            <button class="engage-action amplify">
-                                <i class="fas fa-broadcast-tower"></i>
-                                <span>Amplify</span>
-                            </button>
-                            <button class="engage-action illuminate">
-                                <i class="fas fa-lightbulb"></i>
-                                <span>Illuminate</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-comment"></i>
-                                <span>Respond</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Thought Card 2 -->
-                <div class="thought-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=scientist" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">quantum_thinker</div>
-                                <div class="thought-time">4h ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Scientific</div>
-                    </div>
-                    <div class="thought-content">
-                        <div class="depth-indicator">
-                            <div class="depth-dots">
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot"></span>
-                            </div>
-                            <span class="depth-label">Insightful</span>
-                        </div>
-                        <p>The recent breakthrough in quantum materials offers a glimpse into how we might create self-healing infrastructure. By embedding engineered microorganisms into construction materials, we're essentially creating buildings that can repair themselves.</p>
-                        <div class="thought-media">
-                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=quantum" alt="Quantum Illustration" class="thought-image">
-                        </div>
-                        <div class="thought-tags">
-                            <span class="thought-tag">#QuantumMaterials</span>
-                            <span class="thought-tag">#SelfHealing</span>
-                            <span class="thought-tag">#Biotechnology</span>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-metrics">
-                            <span class="metric"><i class="fas fa-comment"></i> 76</span>
-                            <span class="metric"><i class="fas fa-retweet"></i> 215</span>
-                            <span class="metric"><i class="fas fa-eye"></i> 3.2k</span>
-                        </div>
-                        <div class="engagement-actions">
-                            <button class="engage-action elevate active">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>Elevate</span>
-                            </button>
-                            <button class="engage-action amplify">
-                                <i class="fas fa-broadcast-tower"></i>
-                                <span>Amplify</span>
-                            </button>
-                            <button class="engage-action illuminate active">
-                                <i class="fas fa-lightbulb"></i>
-                                <span>Illuminate</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-comment"></i>
-                                <span>Respond</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ThoughtMap Card -->
-                <div class="thought-card thought-map-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creator" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">mindmapper</div>
-                                <div class="thought-time">Yesterday</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag special">ThoughtMap</div>
-                    </div>
-                    <div class="thought-content">
-                        <h3 class="thought-map-title">The Future of Work: Connected Perspectives</h3>
-                        <div class="thought-map-preview">
-                            <div class="thought-map-container">
-                                <div class="map-node central">Remote Work</div>
-                                <div class="map-node connected-1">Productivity</div>
-                                <div class="map-node connected-2">Mental Health</div>
-                                <div class="map-node connected-3">Technology</div>
-                                <div class="map-node connected-4">Community</div>
-                                <div class="map-node connected-5">Sustainability</div>
-                            </div>
-                            <div class="thought-map-stats">
-                                <div class="map-stat"><i class="fas fa-sitemap"></i> 42 connected thoughts</div>
-                                <div class="map-stat"><i class="fas fa-users"></i> 18 contributors</div>
-                                <div class="map-stat"><i class="fas fa-eye"></i> 12.4k views</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-actions centered">
-                            <button class="engage-action special">
-                                <i class="fas fa-expand-alt"></i>
-                                <span>Explore Map</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-plus"></i>
-                                <span>Contribute</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Live Thought Space Card -->
-                <div class="thought-card live-space-card">
-                    <div class="live-indicator">
-                        <span class="pulse-dot"></span>
-                        <span class="live-text">LIVE NOW</span>
-                    </div>
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">future_visionary</div>
-                                <div class="thought-time">Started 28min ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Live Space</div>
-                    </div>
-                    <div class="thought-content">
-                        <h3 class="live-space-title">Reimagining Creative Collaboration in Virtual Spaces</h3>
-                        <div class="live-space-participants">
-                            <div class="participant-avatars">
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Speaker">
-                                    <div class="speaking-indicator active"></div>
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=designer" alt="Designer">
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=engineer" alt="Engineer">
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=artist" alt="Artist">
-                                </div>
-                            </div>
-                            <div class="participant-count">
-                                <i class="fas fa-user-friends"></i> 4 speakers • 238 listening
-                            </div>
-                        </div>
-                        <div class="live-transcript">
-                            <p><strong>future_visionary:</strong> ...when we remove physical constraints, we can reimagine collaboration entirely...</p>
-                            <p><strong>designer:</strong> Absolutely, and the spatial aspect becomes more conceptual than literal...</p>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-actions centered">
-                            <button class="engage-action primary">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Space</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-bell"></i>
-                                <span>Notify</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        // Close notification panel when clicking outside
+        if (notificationPanel.classList.contains('active') && 
+            !notificationPanel.contains(e.target) && 
+            !notificationToggle.contains(e.target)) {
+            toggleNotifications();
+        }
+    });
+    
+    // Initialize speaking indicators for live space
+    initializeSpeakingIndicators();
+    
+    // Scroll handling for floating nav
+    window.addEventListener('scroll', handleScroll);
+    
+    // Functions
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    }
+    
+    function toggleTheme() {
+        if (document.body.classList.contains('dark-mode')) {
+            document.body.classList.remove('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    
+    function toggleSidebar() {
+        mainSidebar.classList.toggle('active');
+    }
+    
+    function toggleNotifications() {
+        notificationPanel.classList.toggle('active');
         
-        <!-- Notification Panel -->
-        <div class="notification-panel" id="notification-panel">
-            <div class="panel-header">
-                <h2 class="panel-title">Notifications</h2>
-                <button class="panel-close" id="close-notifications">
-                    <i class="fas fa-times"></i>
-                </button>
+        // Mark notifications as read when panel is opened
+        if (notificationPanel.classList.contains('active')) {
+            const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+            unreadNotifications.forEach(notification => {
+                // In a real app, we'd send an API call here
+                // For now, just remove the unread class
+                // notification.classList.remove('unread');
+            });
+            
+            // Update notification badge
+            // In a real app, we'd update the count based on backend data
+            // document.querySelector('.indicator-badge').textContent = '0';
+        }
+    }
+    
+    function showTooltip(e) {
+        const action = e.currentTarget;
+        const actionRect = action.getBoundingClientRect();
+        const actionType = getActionType(action);
+        
+        // Update tooltip content
+        const tooltipTitle = actionTooltip.querySelector('.tooltip-title');
+        const tooltipDescription = actionTooltip.querySelector('.tooltip-description');
+        
+        tooltipTitle.textContent = capitalizeFirstLetter(actionType);
+        tooltipDescription.textContent = getActionDescription(actionType);
+        
+        // Position tooltip
+        actionTooltip.style.left = `${actionRect.left + (actionRect.width / 2) - (actionTooltip.offsetWidth / 2)}px`;
+        actionTooltip.style.top = `${actionRect.top - actionTooltip.offsetHeight - 10}px`;
+        
+        // Show tooltip
+        actionTooltip.classList.add('active');
+    }
+    
+    function hideTooltip() {
+        actionTooltip.classList.remove('active');
+    }
+    
+    function getActionType(action) {
+        if (action.classList.contains('elevate')) return 'elevate';
+        if (action.classList.contains('amplify')) return 'amplify';
+        if (action.classList.contains('illuminate')) return 'illuminate';
+        return action.querySelector('span').textContent.toLowerCase();
+    }
+    
+    function getActionDescription(actionType) {
+        const descriptions = {
+            'elevate': 'Content that raises the conversation',
+            'amplify': 'Content worth spreading further',
+            'illuminate': 'Content that brings clarity or new understanding',
+            'respond': 'Add your perspective to this thought',
+            'explore map': 'View the full interactive ThoughtMap',
+            'contribute': 'Add your ideas to this collaborative map',
+            'join space': 'Enter this live audio conversation',
+            'notify': 'Get notified about similar spaces'
+        };
+        
+        return descriptions[actionType] || '';
+    }
+    
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    
+    function toggleEngagement(e) {
+        const action = e.currentTarget;
+        
+        // Only toggle for engagement actions (not buttons like "Respond" or "Join Space")
+        if (action.classList.contains('elevate') || 
+            action.classList.contains('amplify') || 
+            action.classList.contains('illuminate')) {
+            
+            action.classList.toggle('active');
+            
+            // In a real app, we'd send an API call here to update the engagement
+            // For demo purposes, we'll just update the UI
+            
+            // Find the nearest metric that corresponds to this action type
+            const thoughtCard = action.closest('.thought-card');
+            const metrics = thoughtCard.querySelectorAll('.metric');
+            
+            metrics.forEach(metric => {
+                const metricType = metric.querySelector('i').className;
+                
+                if ((action.classList.contains('elevate') && metricType.includes('arrow-up')) ||
+                    (action.classList.contains('amplify') && metricType.includes('retweet')) ||
+                    (action.classList.contains('illuminate') && metricType.includes('lightbulb'))) {
+                    
+                    // Update the count
+                    let count = parseInt(metric.textContent.match(/\d+/)[0]);
+                    
+                    if (action.classList.contains('active')) {
+                        count++;
+                    } else {
+                        count--;
+                    }
+                    
+                    // Update the text
+                    metric.innerHTML = `<i class="${metric.querySelector('i').className}"></i> ${count}`;
+                }
+            });
+        }
+    }
+    
+    function shareThought() {
+        // In a real app, we'd send an API call here
+        // For demo purposes, we'll just create a new thought card
+        
+        const thoughtStream = document.querySelector('.thought-stream');
+        const newThought = document.createElement('div');
+        newThought.className = 'thought-card';
+        newThought.style.animation = 'slideUp 0.5s ease';
+        
+        // Get user avatar
+        const userAvatar = document.querySelector('.composer-avatar img').src;
+        
+        // Create thought content
+        newThought.innerHTML = `
+            <div class="thought-meta">
+                <div class="thought-author">
+                    <img src="${userAvatar}" alt="Author" class="author-avatar">
+                    <div class="author-info">
+                        <div class="author-name">You</div>
+                        <div class="thought-time">Just now</div>
+                    </div>
+                </div>
+                <div class="thought-dimension-tag">New Thought</div>
             </div>
-            <div class="notification-filters">
-                <button class="notification-filter active">All</button>
-                <button class="notification-filter">Mentions</button>
-                <button class="notification-filter">Responses</button>
-                <button class="notification-filter">Network</button>
+            <div class="thought-content">
+                <p>${composerInput.value}</p>
             </div>
-            <div class="notification-list">
-                <div class="notification-item unread">
-                    <div class="notification-icon illuminate">
+            <div class="thought-engagement">
+                <div class="engagement-metrics">
+                    <span class="metric"><i class="fas fa-comment"></i> 0</span>
+                    <span class="metric"><i class="fas fa-retweet"></i> 0</span>
+                    <span class="metric"><i class="fas fa-eye"></i> 1</span>
+                </div>
+                <div class="engagement-actions">
+                    <button class="engage-action elevate">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Elevate</span>
+                    </button>
+                    <button class="engage-action amplify">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span>Amplify</span>
+                    </button>
+                    <button class="engage-action illuminate">
                         <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>quantum_thinker</strong> and <strong>14 others</strong> illuminated your thought about digital paradoxes.</p>
-                        <span class="notification-time">12 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notification-item unread">
-                    <div class="notification-icon response">
-                        <i class="fas fa-reply"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>mindmapper</strong> responded to your thought: "This is exactly what I've been thinking about recently..."</p>
-                        <span class="notification-time">43 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notification-item unread">
-                    <div class="notification-icon mention">
-                        <i class="fas fa-at"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>future_visionary</strong> mentioned you in a ThoughtMap about creativity.</p>
-                        <span class="notification-time">2 hours ago</span>
-                    </div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-icon network">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>creator_mind</strong> and <strong>8 others</strong> connected with you.</p>
-                        <span class="notification-time">Yesterday</span>
-                    </div>
+                        <span>Illuminate</span>
+                    </button>
+                    <button class="engage-action">
+                        <i class="fas fa-comment"></i>
+                        <span>Respond</span>
+                    </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Action Tooltip -->
-        <div class="action-tooltip" id="action-tooltip">
-            <div class="tooltip-content">
-                <span class="tooltip-title">Elevate</span>
-                <span class="tooltip-description">Content that raises the conversation</span>
+        `;
+        
+        // Clear input
+        composerInput.value = '';
+        composerSubmit.disabled = true;
+        
+        // Add to DOM
+        thoughtStream.insertBefore(newThought, thoughtStream.firstChild);
+        
+        // Add event listeners to new engagement buttons
+        const newEngageActions = newThought.querySelectorAll('.engage-action');
+        newEngageActions.forEach(action => {
+            action.addEventListener('mouseenter', showTooltip);
+            action.addEventListener('mouseleave', hideTooltip);
+            action.addEventListener('click', toggleEngagement);
+        });
+        
+        // Show success message
+        showToast('Thought shared successfully!', 'success');
+    }
+    
+    function filterContent(perspective) {
+        // In a real app, we'd filter the content based on the selected perspective
+        // For demo purposes, we'll just show a toast
+        showToast(`Viewing through: ${perspective}`, 'info');
+    }
+    
+    function filterNotifications(filter) {
+        // In a real app, we'd filter the notifications based on the selected filter
+        // For demo purposes, we'll just show a toast
+        showToast(`Showing ${filter} notifications`, 'info');
+    }
+    
+    function initializeSpeakingIndicators() {
+        const speakingIndicators = document.querySelectorAll('.speaking-indicator');
+        if (speakingIndicators.length === 0) return;
+        
+        // Simulate speaking by cycling through participants
+        let currentSpeakerIndex = 0;
+        
+        setInterval(() => {
+            // Remove active class from all indicators
+            speakingIndicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+            
+            // Add active class to current speaker
+            if (speakingIndicators[currentSpeakerIndex]) {
+                speakingIndicators[currentSpeakerIndex].classList.add('active');
+            }
+            
+            // Move to next speaker
+            currentSpeakerIndex = (currentSpeakerIndex + 1) % speakingIndicators.length;
+        }, 4000);
+    }
+    
+    function handleScroll() {
+        if (window.scrollY > 20) {
+            floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                ? 'rgba(30, 41, 59, 0.95)' 
+                : 'rgba(255, 255, 255, 0.95)';
+        } else {
+            floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                ? 'rgba(30, 41, 59, 0.8)' 
+                : 'rgba(255, 255, 255, 0.8)';
+        }
+    }
+    
+    function showToast(message, type = 'info') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        // Add icon based on type
+        let icon = 'info-circle';
+        if (type === 'success') icon = 'check-circle';
+        if (type === 'error') icon = 'exclamation-circle';
+        if (type === 'warning') icon = 'exclamation-triangle';
+        
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="fas fa-${icon}"></i>
             </div>
-        </div>
-    </div>
+            <div class="toast-message">${message}</div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        // Add to DOM
+        document.body.appendChild(toast);
+        
+        // Show toast (with slight delay for animation)
+        setTimeout(() => {
+            toast.classList.add('active');
+        }, 10);
+        
+        // Add close event
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.classList.remove('active');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        });
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                toast.classList.remove('active');
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        toast.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
+});
 
-    <script src="index.js"></script>
-</body>
-</html>
+// Toast styles (added to JS file to ensure it works without requiring CSS changes)
+document.addEventListener('DOMContentLoaded', function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 90%;
+        }
+        
+        .dark-mode .toast {
+            background-color: #1E293B;
+            color: #F1F5F9;
+        }
+        
+        .toast.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .toast.info .toast-icon {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: #22D3EE;
+        }
+        
+        .toast.success .toast-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        
+        .toast.error .toast-icon {
+            background-color: rgba(244, 63, 94, 0.1);
+            color: #F43F5E;
+        }
+        
+        .toast.warning .toast-icon {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+        
+        .toast-message {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .toast-close {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #6B7280;
+        }
+        
+        .dark-mode .toast-close {
+            color: #94A3B8;
+        }
+        
+        .toast-close:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .dark-mode .toast-close:hover {
+            background-color: #334155;
+        }
+    `;
+    document.head.appendChild(style);
+});
