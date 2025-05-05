@@ -1,1788 +1,326 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fusion - The Ultimate Social Experience</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-:root {
-    /* Brand Colors */
-    --primary-color: #7F5AF0; /* Vibrant purple */
-    --primary-hover: #654AC8;
-    --secondary-color: #2CB67D; /* Teal accent */
-    --tertiary-color: #FF8E3C; /* Orange accent */
-    --quaternary-color: #FF5470; /* Pink accent */
-    
-    /* Light Mode Colors */
-    --light-bg: #FFFFFE;
-    --light-surface: #F9F8F8;
-    --light-card-bg: #FFFFFF;
-    --light-border: #E0E0E0;
-    --light-text: #16161A;
-    --light-text-secondary: #72757E;
-    
-    /* Dark Mode Colors */
-    --dark-bg: #16161A;
-    --dark-surface: #242629;
-    --dark-card-bg: #2E2F36;
-    --dark-border: #3F3F47;
-    --dark-text: #FFFFFE;
-    --dark-text-secondary: #94A1B2;
-    
-    /* Common Colors */
-    --success: #2CB67D;
-    --warning: #FF8E3C;
-    --error: #FF5470;
-    --info: #7F5AF0;
-    
-    /* Interaction Colors */
-    --upvote-color: #2CB67D;
-    --downvote-color: #FF5470;
-    --favorite-color: #FF8E3C;
-    --share-color: #7F5AF0;
-    
-    /* Dimensions */
-    --header-height: 64px;
-    --nav-width: 80px;
-    --sidebar-width: 300px;
-    --right-sidebar-width: 340px;
-    --mobile-nav-height: 60px;
-    
-    /* Typography */
-    --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    
-    /* Transitions */
-    --transition-default: all 0.2s ease-in-out;
-    
-    /* Shadows */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
-    
-    /* Z-index */
-    --z-header: 100;
-    --z-nav: 90;
-    --z-dropdown: 110;
-    --z-modal: 200;
-    --z-toast: 300;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family);
-    font-size: 16px;
-    line-height: 1.5;
-    transition: var(--transition-default);
-}
-
-body.light-mode {
-    background-color: var(--light-bg);
-    color: var(--light-text);
-}
-
-body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: inherit;
-}
-
-ul {
-    list-style: none;
-}
-
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-.container {
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 16px;
-}
-
-.app-container {
-    min-height: 100vh;
+.notification-item {
+    padding: var(--space-4);
     display: flex;
-    flex-direction: column;
+    border-bottom: 1px solid;
+    transition: background-color 0.2s;
 }
 
-/* Layout */
-.main-layout {
-    display: flex;
-    margin-top: var(--header-height);
-    min-height: calc(100vh - var(--header-height));
-}
-
-.main-content {
-    flex: 1;
-    margin-bottom: var(--mobile-nav-height);
-}
-
-@media (min-width: 768px) {
-    .main-content {
-        margin-left: var(--nav-width);
-        margin-bottom: 0;
-    }
-}
-
-@media (min-width: 1024px) {
-    .main-content {
-        margin-left: calc(var(--nav-width) + var(--sidebar-width));
-        margin-right: var(--right-sidebar-width);
-    }
-}
-
-/* Header */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--header-height);
-    z-index: var(--z-header);
-    transition: var(--transition-default);
-    display: flex;
-    align-items: center;
-}
-
-.light-mode .header {
-    background-color: var(--light-card-bg);
-    border-bottom: 1px solid var(--light-border);
-}
-
-.dark-mode .header {
-    background-color: var(--dark-card-bg);
-    border-bottom: 1px solid var(--dark-border);
-}
-
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 20px;
-}
-
-.header-logo {
-    font-size: 24px;
-    font-weight: 700;
-    background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.header-logo i {
-    margin-right: 8px;
-}
-
-.header-search {
-    flex: 1;
-    max-width: 600px;
-    margin: 0 20px;
-}
-
-.search-container {
-    position: relative;
-    width: 100%;
-}
-
-.search-container input {
-    width: 100%;
-    padding: 12px 16px 12px 42px;
-    border-radius: 24px;
-    border: none;
-    font-size: 14px;
-    transition: var(--transition-default);
-}
-
-.light-mode .search-container input {
-    background-color: var(--light-surface);
-    color: var(--light-text);
-}
-
-.dark-mode .search-container input {
-    background-color: var(--dark-surface);
-    color: var(--dark-text);
-}
-
-.search-container input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--primary-color);
-}
-
-.search-container i {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.light-mode .search-container i {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .search-container i {
-    color: var(--dark-text-secondary);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.action-button {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: var(--transition-default);
-}
-
-.light-mode .action-button {
-    background-color: var(--light-surface);
-    color: var(--light-text);
-}
-
-.dark-mode .action-button {
-    background-color: var(--dark-surface);
-    color: var(--dark-text);
-}
-
-.light-mode .action-button:hover {
-    background-color: var(--light-border);
-}
-
-.dark-mode .action-button:hover {
-    background-color: var(--dark-border);
-}
-
-.notification-indicator {
-    position: relative;
-}
-
-.notification-badge {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background-color: var(--error);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.user-menu {
-    position: relative;
-}
-
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    transition: var(--transition-default);
-}
-
-.user-avatar:hover {
-    box-shadow: 0 0 0 2px var(--primary-color);
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Navigation */
-.main-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--mobile-nav-height);
-    z-index: var(--z-nav);
-    transition: var(--transition-default);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.light-mode .main-nav {
-    background-color: var(--light-card-bg);
-    border-top: 1px solid var(--light-border);
-}
-
-.dark-mode .main-nav {
-    background-color: var(--dark-card-bg);
-    border-top: 1px solid var(--dark-border);
-}
-
-@media (min-width: 768px) {
-    .main-nav {
-        top: var(--header-height);
-        left: 0;
-        width: var(--nav-width);
-        height: calc(100vh - var(--header-height));
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 20px;
-        gap: 16px;
-        border-top: none;
-    }
-    
-    .light-mode .main-nav {
-        border-right: 1px solid var(--light-border);
-    }
-    
-    .dark-mode .main-nav {
-        border-right: 1px solid var(--dark-border);
-    }
-}
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-    transition: var(--transition-default);
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .nav-item {
-    color: var(--dark-text-secondary);
-}
-
-.nav-item.active {
-    color: var(--primary-color);
-}
-
-.nav-item i {
-    font-size: 20px;
-    margin-bottom: 4px;
-}
-
-.nav-item span {
-    font-size: 12px;
-    font-weight: 500;
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .nav-item {
-        padding: 12px;
-    }
-    
-    .nav-item i {
-        font-size: 24px;
-    }
-    
-    .nav-item:hover {
-        background-color: var(--light-surface);
-        border-radius: 12px;
-    }
-    
-    .dark-mode .nav-item:hover {
-        background-color: var(--dark-surface);
-    }
-    
-    .nav-item.active {
-        background-color: rgba(127, 90, 240, 0.1);
-        border-radius: 12px;
-    }
-}
-
-/* Sidebar */
-.left-sidebar {
-    position: fixed;
-    top: var(--header-height);
-    left: var(--nav-width);
-    width: var(--sidebar-width);
-    height: calc(100vh - var(--header-height));
-    overflow-y: auto;
-    transition: var(--transition-default);
-    padding: 20px;
-    display: none;
-}
-
-.light-mode .left-sidebar {
-    background-color: var(--light-card-bg);
-    border-right: 1px solid var(--light-border);
-}
-
-.dark-mode .left-sidebar {
-    background-color: var(--dark-card-bg);
-    border-right: 1px solid var(--dark-border);
-}
-
-@media (min-width: 1024px) {
-    .left-sidebar {
-        display: block;
-    }
-}
-
-.sidebar-section {
-    margin-bottom: 24px;
-}
-
-.sidebar-section-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-}
-
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.sidebar-menu-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 12px;
-    transition: var(--transition-default);
-}
-
-.light-mode .sidebar-menu-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .sidebar-menu-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.sidebar-menu-item i {
-    margin-right: 12px;
-    font-size: 18px;
-}
-
-.sidebar-menu-item.active {
-    background-color: rgba(127, 90, 240, 0.1);
-    color: var(--primary-color);
-}
-
-.communities-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.community-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 12px;
-    transition: var(--transition-default);
-}
-
-.light-mode .community-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .community-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.community-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    margin-right: 12px;
-    overflow: hidden;
-}
-
-.community-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.community-details {
-    flex: 1;
-}
-
-.community-name {
-    font-weight: 500;
-    margin-bottom: 2px;
-}
-
-.community-members {
-    font-size: 12px;
-}
-
-.light-mode .community-members {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .community-members {
-    color: var(--dark-text-secondary);
-}
-
-/* Right Sidebar */
-.right-sidebar {
-    position: fixed;
-    top: var(--header-height);
-    right: 0;
-    width: var(--right-sidebar-width);
-    height: calc(100vh - var(--header-height));
-    overflow-y: auto;
-    transition: var(--transition-default);
-    padding: 20px;
-    display: none;
-}
-
-.light-mode .right-sidebar {
-    background-color: var(--light-card-bg);
-    border-left: 1px solid var(--light-border);
-}
-
-.dark-mode .right-sidebar {
-    background-color: var(--dark-card-bg);
-    border-left: 1px solid var(--dark-border);
-}
-
-@media (min-width: 1024px) {
-    .right-sidebar {
-        display: block;
-    }
-}
-
-.trends-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.trend-item {
-    padding: 12px 16px;
-    border-radius: 12px;
-    transition: var(--transition-default);
-}
-
-.light-mode .trend-item {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .trend-item {
-    background-color: var(--dark-surface);
-}
-
-.trend-item:hover {
-    transform: translateY(-2px);
-}
-
-.trend-category {
-    font-size: 12px;
-    margin-bottom: 4px;
-}
-
-.light-mode .trend-category {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .trend-category {
-    color: var(--dark-text-secondary);
-}
-
-.trend-title {
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.trend-stats {
-    font-size: 12px;
-}
-
-.light-mode .trend-stats {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .trend-stats {
-    color: var(--dark-text-secondary);
-}
-
-.suggested-users {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.user-suggestion {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 12px;
-    transition: var(--transition-default);
-}
-
-.light-mode .user-suggestion:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .user-suggestion:hover {
-    background-color: var(--dark-surface);
-}
-
-.user-suggestion .user-avatar {
-    width: 48px;
-    height: 48px;
-    margin-right: 12px;
-}
-
-.user-suggestion .user-info {
-    flex: 1;
-}
-
-.user-suggestion .username {
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.user-suggestion .user-bio {
-    font-size: 13px;
-    line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.light-mode .user-suggestion .user-bio {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .user-suggestion .user-bio {
-    color: var(--dark-text-secondary);
-}
-
-.follow-button {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition-default);
-    margin-left: 12px;
-}
-
-.follow-button.primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.follow-button.primary:hover {
-    background-color: var(--primary-hover);
-}
-
-.follow-button.secondary {
-    background-color: transparent;
-    border: 1px solid;
-}
-
-.light-mode .follow-button.secondary {
+.light-mode .notification-item {
     border-color: var(--light-border);
 }
 
-.dark-mode .follow-button.secondary {
+.dark-mode .notification-item {
     border-color: var(--dark-border);
 }
 
-.light-mode .follow-button.secondary:hover {
+.notification-item:hover {
+    cursor: pointer;
+}
+
+.light-mode .notification-item:hover {
     background-color: var(--light-surface);
 }
 
-.dark-mode .follow-button.secondary:hover {
+.dark-mode .notification-item:hover {
     background-color: var(--dark-surface);
 }
 
-/* Feed */
-.content-wrapper {
-    padding: 20px;
-    max-width: 680px;
-    margin: 0 auto;
-}
-
-.sections-tabs {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid;
-}
-
-.light-mode .sections-tabs {
-    border-color: var(--light-border);
-}
-
-.dark-mode .sections-tabs {
-    border-color: var(--dark-border);
-}
-
-.section-tab {
-    padding: 12px 24px;
-    font-weight: 600;
+.notification-item.unread {
     position: relative;
-    transition: var(--transition-default);
 }
 
-.light-mode .section-tab {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .section-tab {
-    color: var(--dark-text-secondary);
-}
-
-.section-tab.active {
-    color: var(--primary-color);
-}
-
-.section-tab.active::after {
+.notification-item.unread::before {
     content: '';
     position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary-color);
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary);
 }
 
-.create-post {
-    padding: 16px;
-    margin-bottom: 20px;
-    border-radius: 16px;
-    transition: var(--transition-default);
-}
-
-.light-mode .create-post {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .create-post {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.create-post-input {
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
     display: flex;
-    gap: 12px;
-}
-
-.create-post-input .user-avatar {
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--space-3);
     flex-shrink: 0;
 }
 
-.post-input-container {
+.notification-icon.like {
+    background-color: rgba(255, 51, 102, 0.1);
+    color: var(--tertiary);
+}
+
+.notification-icon.comment {
+    background-color: rgba(36, 203, 255, 0.1);
+    color: var(--secondary);
+}
+
+.notification-icon.mention {
+    background-color: rgba(114, 64, 255, 0.1);
+    color: var(--primary);
+}
+
+.notification-icon.follow {
+    background-color: rgba(0, 230, 153, 0.1);
+    color: var(--quaternary);
+}
+
+.notification-content {
     flex: 1;
 }
 
-.post-input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    padding: 12px 16px;
-    border-radius: 24px;
-    margin-bottom: 12px;
-    transition: var(--transition-default);
+.notification-text {
+    margin-bottom: var(--space-1);
 }
 
-.light-mode .post-input {
-    background-color: var(--light-surface);
-    color: var(--light-text);
+.notification-time {
+    font-size: 0.75rem;
 }
 
-.dark-mode .post-input {
-    background-color: var(--dark-surface);
-    color: var(--dark-text);
-}
-
-.post-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--primary-color);
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-}
-
-.post-type-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.post-type-button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition-default);
-}
-
-.light-mode .post-type-button {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .post-type-button {
-    background-color: var(--dark-surface);
-}
-
-.post-type-button i {
-    font-size: 16px;
-}
-
-.post-type-button.text i {
-    color: var(--tertiary-color);
-}
-
-.post-type-button.photo i {
-    color: var(--quaternary-color);
-}
-
-.post-type-button.video i {
-    color: var(--secondary-color);
-}
-
-.post-type-button.poll i {
-    color: var(--primary-color);
-}
-
-.post-submit {
-    padding: 8px 20px;
-    border-radius: 24px;
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 600;
-    transition: var(--transition-default);
-}
-
-.post-submit:hover {
-    background-color: var(--primary-hover);
-}
-
-.post-submit:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.feed-filter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.feed-filter-label {
-    font-weight: 600;
-    font-size: 18px;
-}
-
-.feed-filter-options {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.filter-button {
-    padding: 6px 12px;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition-default);
-}
-
-.light-mode .filter-button {
-    background-color: var(--light-surface);
-    color: var(--light-text);
-}
-
-.dark-mode .filter-button {
-    background-color: var(--dark-surface);
-    color: var(--dark-text);
-}
-
-.filter-button.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.filter-button:hover:not(.active) {
-    background-color: var(--primary-color);
-    color: white;
-    opacity: 0.7;
-}
-
-.posts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.post-card {
-    padding: 20px;
-    border-radius: 16px;
-    transition: var(--transition-default);
-}
-
-.light-mode .post-card {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .post-card {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.post-card-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.post-author-info {
-    display: flex;
-    flex-direction: column;
-    margin-left: 12px;
-    flex: 1;
-}
-
-.post-author-name {
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.post-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-}
-
-.light-mode .post-meta {
+.light-mode .notification-time {
     color: var(--light-text-secondary);
 }
 
-.dark-mode .post-meta {
+.dark-mode .notification-time {
     color: var(--dark-text-secondary);
 }
 
-.post-timestamp::before {
-    content: '•';
-    margin-right: 8px;
+/* Toasts */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 300px;
+    max-width: 90%;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-toast);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateX(-50%) translateY(20px);
 }
 
-.post-options {
-    position: relative;
+.toast.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
-.post-options-button {
-    width: 32px;
-    height: 32px;
+.light-mode .toast {
+    background-color: var(--light-card);
+    border: 1px solid var(--light-border);
+}
+
+.dark-mode .toast {
+    background-color: var(--dark-card);
+    border: 1px solid var(--dark-border);
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: var(--transition-default);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
 }
 
-.light-mode .post-options-button:hover {
-    background-color: var(--light-surface);
+.toast-icon.success {
+    background-color: rgba(0, 230, 153, 0.1);
+    color: var(--quaternary);
 }
 
-.dark-mode .post-options-button:hover {
-    background-color: var(--dark-surface);
+.toast-icon.error {
+    background-color: rgba(255, 51, 102, 0.1);
+    color: var(--tertiary);
 }
 
-.post-content {
-    margin-bottom: 16px;
+.toast-icon.warning {
+    background-color: rgba(255, 188, 62, 0.1);
+    color: var(--quinary);
 }
 
-.post-text {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 16px;
+.toast-icon.info {
+    background-color: rgba(36, 203, 255, 0.1);
+    color: var(--secondary);
 }
 
-.post-media {
-    margin-bottom: 16px;
-}
-
-.post-image {
-    width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.post-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-
-.post-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.post-tag {
-    padding: 4px 12px;
-    border-radius: 24px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: var(--transition-default);
-}
-
-.light-mode .post-tag {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .post-tag {
-    background-color: var(--dark-surface);
-}
-
-.post-analytics {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 0;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    margin-bottom: 16px;
-}
-
-.light-mode .post-analytics {
-    border-color: var(--light-border);
-}
-
-.dark-mode .post-analytics {
-    border-color: var(--dark-border);
-}
-
-.post-stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-}
-
-.light-mode .post-stat {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-stat {
-    color: var(--dark-text-secondary);
-}
-
-.post-actions-row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.post-action-button {
+.toast-content {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px;
-    border-radius: 8px;
-    transition: var(--transition-default);
 }
 
-.light-mode .post-action-button:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .post-action-button:hover {
-    background-color: var(--dark-surface);
-}
-
-.post-action-button i {
-    font-size: 18px;
-}
-
-.post-action-button.upvote.active {
-    color: var(--upvote-color);
-}
-
-.post-action-button.downvote.active {
-    color: var(--downvote-color);
-}
-
-.post-action-button.favorite.active {
-    color: var(--favorite-color);
-}
-
-.post-action-button.share.active {
-    color: var(--share-color);
-}
-
-/* Artifact Components */
-.artifact-card {
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 20px;
-    transition: var(--transition-default);
-}
-
-.light-mode .artifact-card {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .artifact-card {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.artifact-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.artifact-type {
-    font-weight: 600;
-    font-size: 14px;
-    padding: 4px 12px;
-    border-radius: 16px;
-    margin-right: 12px;
-}
-
-.artifact-type.voice {
-    background-color: rgba(127, 90, 240, 0.2);
-    color: var(--primary-color);
-}
-
-.artifact-type.room {
-    background-color: rgba(44, 182, 125, 0.2);
-    color: var(--secondary-color);
-}
-
-.artifact-type.thread {
-    background-color: rgba(255, 142, 60, 0.2);
-    color: var(--tertiary-color);
-}
-
-.artifact-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.artifact-title {
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-.artifact-meta {
-    font-size: 13px;
-}
-
-.light-mode .artifact-meta {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .artifact-meta {
-    color: var(--dark-text-secondary);
-}
-
-.artifact-speakers {
-    display: flex;
-    margin-bottom: 16px;
-}
-
-.artifact-speaker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 12px;
-}
-
-.artifact-speaker .user-avatar {
-    margin-bottom: 4px;
-}
-
-.artifact-speaker .username {
-    font-size: 12px;
+.toast-message {
     font-weight: 500;
 }
 
-.artifact-actions {
+.toast-close {
+    width: 24px;
+    height: 24px;
     display: flex;
-    gap: 12px;
-}
-
-.artifact-action {
-    flex: 1;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 8px;
-    padding: 10px;
-    border-radius: 8px;
-    transition: var(--transition-default);
+    justify-content: center;
+    border-radius: var(--radius-full);
+    transition: all 0.2s;
 }
 
-.artifact-action.primary {
-    background-color: var(--primary-color);
+.light-mode .toast-close {
+    color: var(--light-icon);
+}
+
+.dark-mode .toast-close {
+    color: var(--dark-icon);
+}
+
+.light-mode .toast-close:hover {
+    background-color: var(--light-surface);
+}
+
+.dark-mode .toast-close:hover {
+    background-color: var(--dark-surface);
+}
+
+/* Custom Filter Bubble */
+.filter-bubble-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background-color: var(--primary);
     color: white;
-}
-
-.artifact-action.primary:hover {
-    background-color: var(--primary-hover);
-}
-
-.artifact-action.secondary {
-    background-color: transparent;
-    border: 1px solid;
-}
-
-.light-mode .artifact-action.secondary {
-    border-color: var(--light-border);
-}
-
-.dark-mode .artifact-action.secondary {
-    border-color: var(--dark-border);
-}
-
-.light-mode .artifact-action.secondary:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .artifact-action.secondary:hover {
-    background-color: var(--dark-surface);
-}
-
-.artifact-action i {
-    font-size: 16px;
-}
-
-/* Thread List */
-.thread-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.thread-card {
-    padding: 16px;
-    border-radius: 16px;
-    transition: var(--transition-default);
-}
-
-.light-mode .thread-card {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .thread-card {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.thread-header {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 90;
+    transition: all 0.2s;
 }
 
-.thread-author-info {
-    display: flex;
-    flex-direction: column;
-    margin-left: 12px;
-    flex: 1;
-}
-
-.thread-title {
-    font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 8px;
-}
-
-.thread-preview {
-    margin-bottom: 12px;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.light-mode .thread-preview {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .thread-preview {
-    color: var(--dark-text-secondary);
-}
-
-.thread-stats {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 13px;
-}
-
-.light-mode .thread-stats {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .thread-stats {
-    color: var(--dark-text-secondary);
-}
-
-.thread-stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.thread-stat i {
-    font-size: 14px;
-}
-
-/* Voice Rooms */
-.voice-rooms {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-}
-
-.voice-room-card {
-    padding: 16px;
-    border-radius: 16px;
-    transition: var(--transition-default);
-}
-
-.light-mode .voice-room-card {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .voice-room-card {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.voice-room-card:hover {
+.filter-bubble-trigger:hover {
+    background-color: var(--primary-dark);
     transform: translateY(-2px);
 }
 
-.voice-room-header {
-    margin-bottom: 12px;
-}
-
-.voice-room-title {
-    font-weight: 600;
-    font-size: 18px;
-    margin-bottom: 4px;
-}
-
-.voice-room-host {
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-.light-mode .voice-room-host {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .voice-room-host {
-    color: var(--dark-text-secondary);
-}
-
-.voice-room-participants {
-    display: flex;
-    margin-bottom: 16px;
-}
-
-.participant-avatars {
-    display: flex;
-}
-
-.participant-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid;
-    margin-left: -8px;
-    overflow: hidden;
-}
-
-.light-mode .participant-avatar {
-    border-color: var(--light-card-bg);
-}
-
-.dark-mode .participant-avatar {
-    border-color: var(--dark-card-bg);
-}
-
-.participant-avatar:first-child {
-    margin-left: 0;
-}
-
-.participant-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.participant-count {
-    margin-left: 8px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-}
-
-.light-mode .participant-count {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .participant-count {
-    color: var(--dark-text-secondary);
-}
-
-.voice-room-join {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: var(--transition-default);
-}
-
-.voice-room-join:hover {
-    background-color: var(--primary-hover);
-}
-
-.voice-room-join i {
-    font-size: 16px;
-}
-
-/* Modals */
-.modal {
-    display: none;
+.filter-bubble {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: var(--z-modal);
+    bottom: 90px;
+    right: 24px;
+    width: 280px;
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-xl);
+    z-index: 100;
+    transition: all 0.3s;
+    transform-origin: bottom right;
+    transform: scale(0);
+    opacity: 0;
 }
 
-.modal.active {
+.light-mode .filter-bubble {
+    background-color: var(--light-card);
+    border: 1px solid var(--light-border);
+}
+
+.dark-mode .filter-bubble {
+    background-color: var(--dark-card);
+    border: 1px solid var(--dark-border);
+}
+
+.filter-bubble.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.filter-bubble-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
 }
 
-.modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 16px;
-    padding: 24px;
-    transition: var(--transition-default);
+.filter-bubble-title {
+    font-weight: 700;
+    font-size: 1rem;
 }
 
-.light-mode .modal-content {
-    background-color: var(--light-card-bg);
+.filter-category {
+    margin-bottom: var(--space-4);
 }
 
-.dark-mode .modal-content {
-    background-color: var(--dark-card-bg);
-}
-
-.modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: var(--transition-default);
-}
-
-.light-mode .modal-close:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .modal-close:hover {
-    background-color: var(--dark-surface);
-}
-
-.modal-header {
-    margin-bottom: 20px;
-}
-
-.modal-title {
-    font-size: 20px;
+.filter-category-title {
     font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: var(--space-2);
 }
 
-.form-group {
-    margin-bottom: 20px;
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
 }
 
-.form-label {
-    display: block;
-    margin-bottom: 8px;
+.filter-tag {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
     font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
 }
 
-.form-control {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 8px;
-    border: 1px solid;
-    font-size: 15px;
-    transition: var(--transition-default);
-}
-
-.light-mode .form-control {
-    background-color: var(--light-card-bg);
-    border-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .form-control {
-    background-color: var(--dark-card-bg);
-    border-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-.form-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.auth-tabs {
-    display: flex;
-    margin-bottom: 24px;
-    border-bottom: 2px solid;
-}
-
-.light-mode .auth-tabs {
-    border-color: var(--light-border);
-}
-
-.dark-mode .auth-tabs {
-    border-color: var(--dark-border);
-}
-
-.auth-tab {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
-    font-weight: 600;
-    position: relative;
-}
-
-.auth-tab.active {
-    color: var(--primary-color);
-}
-
-.auth-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary-color);
-}
-
-.auth-submit {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 600;
-    margin-top: 16px;
-    transition: var(--transition-default);
-}
-
-.auth-submit:hover {
-    background-color: var(--primary-hover);
-}
-
-.auth-divider {
-    display: flex;
-    align-items: center;
-    margin: 24px 0;
-}
-
-.auth-divider::before,
-.auth-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-}
-
-.light-mode .auth-divider::before,
-.light-mode .auth-divider::after {
-    background-color: var(--light-border);
-}
-
-.dark-mode .auth-divider::before,
-.dark-mode .auth-divider::after {
-    background-color: var(--dark-border);
-}
-
-.auth-divider-text {
-    padding: 0 16px;
-    font-size: 14px;
-}
-
-.light-mode .auth-divider-text {
+.light-mode .filter-tag {
+    background-color: var(--light-surface);
     color: var(--light-text-secondary);
 }
 
-.dark-mode .auth-divider-text {
+.dark-mode .filter-tag {
+    background-color: var(--dark-surface);
     color: var(--dark-text-secondary);
 }
 
-.auth-social-buttons {
+.filter-tag.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.filter-bubble-actions {
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
+    margin-top: var(--space-4);
 }
 
-.auth-social-button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px;
-    border-radius: 8px;
+.filter-reset {
+    color: var(--primary);
     font-weight: 500;
-    transition: var(--transition-default);
+    font-size: 0.875rem;
 }
 
-.light-mode .auth-social-button {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .auth-social-button {
-    background-color: var(--dark-surface);
-}
-
-.auth-social-button i {
-    font-size: 18px;
-}
-
-.auth-footer {
-    margin-top: 24px;
-    text-align: center;
-    font-size: 14px;
-}
-
-.auth-link {
-    color: var(--primary-color);
+.filter-apply {
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--radius-full);
     font-weight: 500;
+    font-size: 0.875rem;
 }
 
 /* Utility Classes */
 .hidden {
     display: none !important;
-}
-
-.mr-1 {
-    margin-right: 4px;
-}
-
-.mr-2 {
-    margin-right: 8px;
-}
-
-.mr-3 {
-    margin-right: 12px;
-}
-
-.ml-1 {
-    margin-left: 4px;
-}
-
-.ml-2 {
-    margin-left: 8px;
-}
-
-.ml-3 {
-    margin-left: 12px;
 }
 
 .flex {
@@ -1806,19 +344,19 @@ ul {
 }
 
 .gap-1 {
-    gap: 4px;
+    gap: var(--space-1);
 }
 
 .gap-2 {
-    gap: 8px;
+    gap: var(--space-2);
 }
 
 .gap-3 {
-    gap: 12px;
+    gap: var(--space-3);
 }
 
 .gap-4 {
-    gap: 16px;
+    gap: var(--space-4);
 }
 
 .w-full {
@@ -1838,154 +376,30 @@ ul {
 }
 
 .text-xs {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .text-sm {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .text-lg {
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .text-xl {
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .text-2xl {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .rounded-full {
-    border-radius: 9999px;
+    border-radius: var(--radius-full);
 }
 
-.user-dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    min-width: 200px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    display: none;
-    z-index: var(--z-dropdown);
-    margin-top: 8px;
-}
-
-.light-mode .dropdown-menu {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .dropdown-menu {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.dropdown-item {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    transition: var(--transition-default);
-}
-
-.light-mode .dropdown-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .dropdown-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.dropdown-item i {
-    margin-right: 12px;
-    width: 16px;
-    text-align: center;
-}
-
-.dropdown-divider {
-    height: 1px;
-    width: 100%;
-}
-
-.light-mode .dropdown-divider {
-    background-color: var(--light-border);
-}
-
-.dark-mode .dropdown-divider {
-    background-color: var(--dark-border);
-}
-
-.toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: var(--shadow-md);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: var(--z-toast);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.toast.visible {
-    opacity: 1;
-}
-
-.light-mode .toast {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .toast {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.toast i {
-    font-size: 18px;
-}
-
-.toast.success i {
-    color: var(--success);
-}
-
-.toast.error i {
-    color: var(--error);
-}
-
-.toast.warning i {
-    color: var(--warning);
-}
-
-.toast.info i {
-    color: var(--info);
-}
-
-.toast-message {
-    font-weight: 500;
-}
-
-.toast-close {
-    margin-left: 12px;
-    cursor: pointer;
-}
-
-/* Animation Utilities */
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1993,10 +407,6 @@ ul {
     to {
         opacity: 1;
     }
-}
-
-.slide-up {
-    animation: slideUp 0.3s ease-in-out;
 }
 
 @keyframes slideUp {
@@ -2008,10 +418,6 @@ ul {
         transform: translateY(0);
         opacity: 1;
     }
-}
-
-.pulse {
-    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -2026,38 +432,51 @@ ul {
     }
 }
 
-.user-voice-indicator {
+.fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.slideUp {
+    animation: slideUp 0.3s ease-in-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Speaker Indicator */
+.speaking-indicator {
     position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    bottom: 0;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: var(--radius-full);
     background-color: var(--success);
-    border: 2px solid;
+    border: 2px solid white;
 }
 
-.light-mode .user-voice-indicator {
-    border-color: var(--light-card-bg);
+.light-mode .speaking-indicator {
+    border-color: var(--light-card);
 }
 
-.dark-mode .user-voice-indicator {
-    border-color: var(--dark-card-bg);
+.dark-mode .speaking-indicator {
+    border-color: var(--dark-card);
 }
 
-.user-voice-indicator.speaking {
+.speaking-indicator.active {
     animation: pulseSpeaking 1.5s infinite;
 }
 
 @keyframes pulseSpeaking {
     0% {
-        box-shadow: 0 0 0 0 rgba(44, 182, 125, 0.7);
+        box-shadow: 0 0 0 0 rgba(0, 230, 153, 0.7);
     }
     70% {
-        box-shadow: 0 0 0 6px rgba(44, 182, 125, 0);
+        box-shadow: 0 0 0 6px rgba(0, 230, 153, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(44, 182, 125, 0);
+        box-shadow: 0 0 0 0 rgba(0, 230, 153, 0);
     }
 }
     </style>
@@ -2067,137 +486,116 @@ ul {
         <!-- Header -->
         <header class="header">
             <div class="header-container">
-                <div class="header-logo">
-                    <i class="fas fa-atom"></i>Fusion
+                <div class="logo">
+                    <i class="fas fa-mountain"></i>OLYMPUS
                 </div>
-                <div class="header-search">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search Fusion...">
-                    </div>
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search anything...">
                 </div>
                 <div class="header-actions">
-                    <button id="theme-toggle" class="action-button">
+                    <button id="theme-toggle" class="header-icon-btn">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <div class="notification-indicator">
-                        <button class="action-button">
+                    <div class="notification-btn">
+                        <button id="notification-toggle" class="header-icon-btn">
                             <i class="fas fa-bell"></i>
                         </button>
-                        <span class="notification-badge">3</span>
+                        <span class="notification-badge">5</span>
                     </div>
-                    <div class="user-menu" id="user-menu">
-                        <button id="login-button" class="action-button">
-                            <i class="fas fa-user"></i>
-                        </button>
+                    <div class="user-menu">
+                        <div class="avatar">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
 
+        <!-- Main Layout -->
         <div class="main-layout">
-            <!-- Navigation -->
-            <nav class="main-nav">
-                <a href="#" class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-compass"></i>
-                    <span>Explore</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-microphone"></i>
-                    <span>Voice</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-comment-alt"></i>
-                    <span>Threads</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    <span>Communities</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-bookmark"></i>
-                    <span>Saved</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-            </nav>
-
-            <!-- Left Sidebar -->
-            <aside class="left-sidebar">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-section-title">Discover</h3>
-                    <div class="sidebar-menu">
-                        <a href="#" class="sidebar-menu-item">
-                            <i class="fas fa-fire"></i>
-                            <span>For You</span>
-                        </a>
-                        <a href="#" class="sidebar-menu-item active">
-                            <i class="fas fa-bolt"></i>
-                            <span>Following</span>
-                        </a>
-                        <a href="#" class="sidebar-menu-item">
-                            <i class="fas fa-signal"></i>
-                            <span>Trending</span>
-                        </a>
-                        <a href="#" class="sidebar-menu-item">
-                            <i class="fas fa-star"></i>
-                            <span>Popular</span>
-                        </a>
-                    </div>
+            <!-- Primary Sidebar / Mobile Navigation -->
+            <aside class="primary-sidebar">
+                <div class="nav-links">
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-compass"></i>
+                        <span>Explore</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-microphone"></i>
+                        <span>Voice</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-comment-alt"></i>
+                        <span>Threads</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        <span>Communities</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Saved</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
                 </div>
-
+                
+                <button class="create-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>Create</span>
+                </button>
+                
                 <div class="sidebar-section">
-                    <h3 class="sidebar-section-title">Your Communities</h3>
-                    <div class="communities-list">
+                    <div class="sidebar-heading">
+                        <h3 class="sidebar-title">Your Communities</h3>
+                        <a href="#" class="sidebar-action">See All</a>
+                    </div>
+                    <div class="community-list">
                         <a href="#" class="community-item">
                             <div class="community-avatar">
                                 <img src="https://api.dicebear.com/7.x/shapes/svg?seed=technology" alt="Technology Community">
                             </div>
-                            <div class="community-details">
+                            <div class="community-info">
                                 <div class="community-name">Technology</div>
-                                <div class="community-members">1.2M members</div>
+                                <div class="community-metric">3.2M members</div>
                             </div>
                         </a>
                         <a href="#" class="community-item">
                             <div class="community-avatar">
                                 <img src="https://api.dicebear.com/7.x/shapes/svg?seed=design" alt="Design Community">
                             </div>
-                            <div class="community-details">
+                            <div class="community-info">
                                 <div class="community-name">Design</div>
-                                <div class="community-members">843K members</div>
+                                <div class="community-metric">1.8M members</div>
+                            </div>
+                        </a>
+                        <a href="#" class="community-item">
+                            <div class="community-avatar">
+                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=science" alt="Science Community">
+                            </div>
+                            <div class="community-info">
+                                <div class="community-name">Science</div>
+                                <div class="community-metric">2.5M members</div>
                             </div>
                         </a>
                         <a href="#" class="community-item">
                             <div class="community-avatar">
                                 <img src="https://api.dicebear.com/7.x/shapes/svg?seed=gaming" alt="Gaming Community">
                             </div>
-                            <div class="community-details">
+                            <div class="community-info">
                                 <div class="community-name">Gaming</div>
-                                <div class="community-members">3.5M members</div>
-                            </div>
-                        </a>
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=books" alt="Books & Literature">
-                            </div>
-                            <div class="community-details">
-                                <div class="community-name">Books & Literature</div>
-                                <div class="community-members">567K members</div>
-                            </div>
-                        </a>
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=fitness" alt="Fitness & Health">
-                            </div>
-                            <div class="community-details">
-                                <div class="community-name">Fitness & Health</div>
-                                <div class="community-members">1.8M members</div>
+                                <div class="community-metric">5.7M members</div>
                             </div>
                         </a>
                     </div>
@@ -2206,694 +604,594 @@ ul {
 
             <!-- Main Content -->
             <main class="main-content">
-                <div class="content-wrapper">
-                    <div class="sections-tabs">
-                        <button class="section-tab active">Feed</button>
-                        <button class="section-tab">Threads</button>
-                        <button class="section-tab">Voice Rooms</button>
+                <div class="content-container">
+                    <!-- Content Tabs -->
+                    <div class="content-tabs">
+                        <button class="content-tab active">For You</button>
+                        <button class="content-tab">Following</button>
+                        <button class="content-tab">Voice</button>
+                        <button class="content-tab">Threads</button>
+                        <button class="content-tab">Discover</button>
                     </div>
 
-                    <!-- Create Post -->
-                    <div class="create-post">
-                        <div class="create-post-input">
-                            <div class="user-avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Your avatar">
-                            </div>
-                            <div class="post-input-container">
-                                <input type="text" class="post-input" placeholder="What's on your mind?">
-                                
-                                <div class="post-actions">
-                                    <div class="post-type-buttons">
-                                        <button class="post-type-button text">
-                                            <i class="fas fa-font"></i>
-                                            <span>Text</span>
-                                        </button>
-                                        <button class="post-type-button photo">
-                                            <i class="fas fa-image"></i>
-                                            <span>Photo</span>
-                                        </button>
-                                        <button class="post-type-button video">
-                                            <i class="fas fa-video"></i>
-                                            <span>Video</span>
-                                        </button>
-                                        <button class="post-type-button poll">
-                                            <i class="fas fa-poll"></i>
-                                            <span>Poll</span>
-                                        </button>
-                                    </div>
-                                    <button class="post-submit" disabled>Post</button>
-                                </div>
+                    <!-- Custom Experience Card -->
+                    <div class="experience-card">
+                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=adventure" class="experience-background" alt="">
+                        <div class="experience-overlay">
+                            <div class="experience-badge">✨ NEW EXPERIENCE</div>
+                            <h2 class="experience-title">Dive into Voice Communities</h2>
+                            <p class="experience-description">Join live conversations with people who share your interests. Discuss, debate, and collaborate in real-time audio spaces.</p>
+                            <div class="experience-cta">
+                                <button class="experience-button primary">Try Now</button>
+                                <button class="experience-button secondary">Learn More</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Voice Room Artifact -->
-                    <div class="artifact-card">
-                        <div class="artifact-header">
-                            <div class="artifact-type voice">Voice Room</div>
-                            <div class="artifact-info">
-                                <div class="artifact-title">The Future of AI Ethics</div>
-                                <div class="artifact-meta">Live • 342 listening</div>
+                    <!-- Post Composer -->
+                    <div class="post-composer">
+                        <div class="composer-header">
+                            <div class="avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
                             </div>
+                            <textarea class="composer-input" placeholder="What's on your mind?"></textarea>
                         </div>
-                        <div class="artifact-speakers">
-                            <div class="artifact-speaker">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker1" alt="Speaker">
-                                    <div class="user-voice-indicator speaking"></div>
-                                </div>
-                                <div class="username">tech_guru</div>
+                        <div class="composer-footer">
+                            <div class="composer-tools">
+                                <button class="composer-tool">
+                                    <i class="fas fa-image"></i>
+                                </button>
+                                <button class="composer-tool">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                                <button class="composer-tool">
+                                    <i class="fas fa-link"></i>
+                                </button>
+                                <button class="composer-tool">
+                                    <i class="fas fa-poll"></i>
+                                </button>
+                                <button class="composer-tool">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
                             </div>
-                            <div class="artifact-speaker">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker2" alt="Speaker">
-                                </div>
-                                <div class="username">ai_ethics</div>
-                            </div>
-                            <div class="artifact-speaker">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker3" alt="Speaker">
-                                </div>
-                                <div class="username">futurist_mind</div>
-                            </div>
-                        </div>
-                        <div class="artifact-actions">
-                            <button class="artifact-action primary">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Room</span>
-                            </button>
-                            <button class="artifact-action secondary">
-                                <i class="fas fa-bell"></i>
-                                <span>Remind Me</span>
-                            </button>
+                            <button class="composer-submit" disabled>Post</button>
                         </div>
                     </div>
 
-                    <!-- Feed Filter -->
-                    <div class="feed-filter">
-                        <div class="feed-filter-label">Your Feed</div>
-                        <div class="feed-filter-options">
-                            <button class="filter-button active">Best</button>
-                            <button class="filter-button">Newest</button>
-                            <button class="filter-button">Rising</button>
-                        </div>
-                    </div>
-                  <div class="posts-container">
+                    <!-- Content Feed -->
+                    <div class="content-feed">
                         <!-- Post Card 1 -->
                         <div class="post-card">
-                            <div class="post-card-header">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="mindful_tech">
+                            <div class="post-header">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
                                 </div>
                                 <div class="post-author-info">
-                                    <div class="post-author-name">mindful_tech</div>
+                                    <div class="post-author-name">
+                                        tech_visionary
+                                        <i class="fas fa-check-circle author-verified"></i>
+                                    </div>
                                     <div class="post-meta">
-                                        <span class="post-via">via Technology</span>
-                                        <span class="post-timestamp">1h ago</span>
+                                        <span class="post-time">2h ago</span>
+                                        <span class="post-context">via Technology</span>
                                     </div>
                                 </div>
-                                <div class="post-options">
-                                    <button class="post-options-button">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                </div>
+                                <button class="post-options">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
                             </div>
-                            <div class="post-content">
-                                <div class="post-text">
+                            <div class="post-body">
+                                <div class="post-content">
                                     Just discovered an incredible paradox: as our digital world becomes more connected, our genuine in-person interactions become more valuable. The more time we spend online, the more we crave authentic human connection.
                                 </div>
                                 <div class="post-tags">
-                                    <span class="post-tag">#technology</span>
-                                    <span class="post-tag">#society</span>
-                                    <span class="post-tag">#digitalminimalism</span>
+                                    <a href="#" class="post-tag">#technology</a>
+                                    <a href="#" class="post-tag">#society</a>
+                                    <a href="#" class="post-tag">#digitalminimalism</a>
                                 </div>
-                            </div>
-                            <div class="post-analytics">
-                                <div class="post-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>423 upvotes</span>
+                                <div class="post-stats">
+                                    <div class="stat-group">
+                                        <div class="post-stat">
+                                            <i class="fas fa-arrow-up"></i>
+                                            <span>1.2k</span>
+                                        </div>
+                                        <div class="post-stat">
+                                            <i class="fas fa-comment"></i>
+                                            <span>356</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-share"></i>
+                                        <span>28 shares</span>
+                                    </div>
                                 </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>86 comments</span>
+                                <div class="post-footer">
+                                    <button class="reaction-button">
+                                        <i class="fas fa-heart"></i>
+                                        <span>Like</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Boost</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <span>Insightful</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-comment"></i>
+                                        <span>Reply</span>
+                                    </button>
                                 </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-share"></i>
-                                    <span>24 shares</span>
-                                </div>
-                            </div>
-                            <div class="post-actions-row">
-                                <button class="post-action-button upvote">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>Upvote</span>
-                                </button>
-                                <button class="post-action-button downvote">
-                                    <i class="fas fa-arrow-down"></i>
-                                    <span>Downvote</span>
-                                </button>
-                                <button class="post-action-button">
-                                    <i class="fas fa-comment"></i>
-                                    <span>Comment</span>
-                                </button>
-                                <button class="post-action-button favorite">
-                                    <i class="fas fa-bookmark"></i>
-                                    <span>Save</span>
-                                </button>
-                                <button class="post-action-button share">
-                                    <i class="fas fa-share"></i>
-                                    <span>Share</span>
-                                </button>
                             </div>
                         </div>
 
-                        <!-- Thread Artifact -->
-                        <div class="artifact-card">
-                            <div class="artifact-header">
-                                <div class="artifact-type thread">Thread</div>
-                                <div class="artifact-info">
-                                    <div class="artifact-title">Why Minimalism Is More Than Just Aesthetics</div>
-                                    <div class="artifact-meta">38 posts • Updated 20m ago</div>
+                        <!-- Post Card 2 with Link -->
+                        <div class="post-card">
+                            <div class="post-header">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_news" alt="future_news">
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">
+                                        future_news
+                                        <i class="fas fa-check-circle author-verified"></i>
+                                    </div>
+                                    <div class="post-meta">
+                                        <span class="post-time">5h ago</span>
+                                        <span class="post-context">via Science</span>
+                                    </div>
+                                </div>
+                                <button class="post-options">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                            </div>
+                            <div class="post-body">
+                                <div class="post-content">
+                                    Scientists have created a new type of living material by embedding engineered bacteria into a hydrogel. This breakthrough could revolutionize everything from sustainable construction to environmental cleanup.
+                                </div>
+                                <div class="post-links">
+                                    <a href="#" class="link-preview">
+                                        <div class="link-image">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=science_breakthrough" alt="Science Breakthrough">
+                                        </div>
+                                        <div class="link-details">
+                                            <div class="link-source">sciencedaily.com</div>
+                                            <div class="link-title">Engineered Living Materials: The Future of Sustainable Infrastructure</div>
+                                            <div class="link-description">Researchers have created a new class of engineered living materials that can grow, heal, and respond to their environment.</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="post-tags">
+                                    <a href="#" class="post-tag">#science</a>
+                                    <a href="#" class="post-tag">#biotech</a>
+                                    <a href="#" class="post-tag">#sustainability</a>
+                                </div>
+                                <div class="post-stats">
+                                    <div class="stat-group">
+                                        <div class="post-stat">
+                                            <i class="fas fa-arrow-up"></i>
+                                            <span>876</span>
+                                        </div>
+                                        <div class="post-stat">
+                                            <i class="fas fa-comment"></i>
+                                            <span>142</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-share"></i>
+                                        <span>63 shares</span>
+                                    </div>
+                                </div>
+                                <div class="post-footer">
+                                    <button class="reaction-button liked">
+                                        <i class="fas fa-heart"></i>
+                                        <span>Liked</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Boost</span>
+                                    </button>
+                                    <button class="reaction-button insightful">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <span>Insightful</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-comment"></i>
+                                        <span>Reply</span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="artifact-actions">
-                                <button class="artifact-action primary">
-                                    <i class="fas fa-arrow-right"></i>
-                                    <span>View Thread</span>
+                        </div>
+
+                        <!-- Post Card 3 with Images -->
+                        <div class="post-card">
+                            <div class="post-header">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_designer" alt="creative_designer">
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">
+                                        creative_designer
+                                    </div>
+                                    <div class="post-meta">
+                                        <span class="post-time">8h ago</span>
+                                        <span class="post-context">via Design</span>
+                                    </div>
+                                </div>
+                                <button class="post-options">
+                                    <i class="fas fa-ellipsis-h"></i>
                                 </button>
-                                <button class="artifact-action secondary">
+                            </div>
+                            <div class="post-body">
+                                <div class="post-content">
+                                    New minimalist workspace setup complete! I've been experimenting with a cleaner, distraction-free environment to boost creativity and focus. What do you think?
+                                </div>
+                                <div class="post-media">
+                                    <div class="media-grid media-grid-3">
+                                        <div class="media-grid-item">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace1" alt="Workspace Image">
+                                        </div>
+                                        <div class="media-grid-item">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace2" alt="Workspace Image">
+                                        </div>
+                                        <div class="media-grid-item">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace3" alt="Workspace Image">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-tags">
+                                    <a href="#" class="post-tag">#design</a>
+                                    <a href="#" class="post-tag">#workspace</a>
+                                    <a href="#" class="post-tag">#minimalism</a>
+                                    <a href="#" class="post-tag">#productivity</a>
+                                </div>
+                                <div class="post-stats">
+                                    <div class="stat-group">
+                                        <div class="post-stat">
+                                            <i class="fas fa-arrow-up"></i>
+                                            <span>1.5k</span>
+                                        </div>
+                                        <div class="post-stat">
+                                            <i class="fas fa-comment"></i>
+                                            <span>283</span>
+                                        </div>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-share"></i>
+                                        <span>112 shares</span>
+                                    </div>
+                                </div>
+                                <div class="post-footer">
+                                    <button class="reaction-button">
+                                        <i class="fas fa-heart"></i>
+                                        <span>Like</span>
+                                    </button>
+                                    <button class="reaction-button boosted">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>Boosted</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <span>Insightful</span>
+                                    </button>
+                                    <button class="reaction-button">
+                                        <i class="fas fa-comment"></i>
+                                        <span>Reply</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Voice Room Preview Card -->
+                        <div class="voice-room">
+                            <div class="voice-room-status status-live">Live Now</div>
+                            <h3 class="voice-room-title">The Future of Sustainable Technology</h3>
+                            <div class="room-host">Hosted by tech_visionary</div>
+                            <div class="participants-preview">
+                                <div class="participants-avatars">
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
+                                        <div class="speaking-indicator active"></div>
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_engineer" alt="eco_engineer">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_designer" alt="future_designer">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=climate_scientist" alt="climate_scientist">
+                                    </div>
+                                </div>
+                                <div class="participant-count">
+                                    <span>532 listening</span>
+                                </div>
+                            </div>
+                            <div class="room-cta">
+                                <button class="join-button primary">
+                                    <i class="fas fa-headphones"></i>
+                                    <span>Join Room</span>
+                                </button>
+                                <button class="join-button secondary">
                                     <i class="fas fa-bell"></i>
-                                    <span>Follow</span>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Post Card 2 with Image -->
-                        <div class="post-card">
-                            <div class="post-card-header">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_nomad" alt="tech_nomad">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">tech_nomad</div>
-                                    <div class="post-meta">
-                                        <span class="post-via">via Design</span>
-                                        <span class="post-timestamp">3h ago</span>
-                                    </div>
-                                </div>
-                                <div class="post-options">
-                                    <button class="post-options-button">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-text">
-                                    Been experimenting with a minimal digital setup this week. No notifications, no feeds, just intentional usage. My focus has improved dramatically. Highly recommend trying a digital detox!
-                                </div>
-                                <div class="post-media">
-                                    <div class="post-image">
-                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace" alt="Minimal workspace setup">
-                                    </div>
-                                </div>
-                                <div class="post-tags">
-                                    <span class="post-tag">#productivity</span>
-                                    <span class="post-tag">#digitaldetox</span>
-                                    <span class="post-tag">#minimalism</span>
-                                </div>
-                            </div>
-                            <div class="post-analytics">
-                                <div class="post-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>978 upvotes</span>
-                                </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>143 comments</span>
-                                </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-share"></i>
-                                    <span>58 shares</span>
-                                </div>
-                            </div>
-                            <div class="post-actions-row">
-                                <button class="post-action-button upvote active">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>Upvote</span>
-                                </button>
-                                <button class="post-action-button downvote">
-                                    <i class="fas fa-arrow-down"></i>
-                                    <span>Downvote</span>
-                                </button>
-                                <button class="post-action-button">
-                                    <i class="fas fa-comment"></i>
-                                    <span>Comment</span>
-                                </button>
-                                <button class="post-action-button favorite">
-                                    <i class="fas fa-bookmark"></i>
-                                    <span>Save</span>
-                                </button>
-                                <button class="post-action-button share">
-                                    <i class="fas fa-share"></i>
-                                    <span>Share</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Post Card 3 with Multiple Images -->
-                        <div class="post-card">
-                            <div class="post-card-header">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_soul" alt="creative_soul">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">creative_soul</div>
-                                    <div class="post-meta">
-                                        <span class="post-via">via Photography</span>
-                                        <span class="post-timestamp">5h ago</span>
-                                    </div>
-                                </div>
-                                <div class="post-options">
-                                    <button class="post-options-button">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-text">
-                                    I've been drawing every morning for 30 minutes before checking my phone. It's completely shifted my relationship with creativity, and I find myself thinking visually throughout the day.
-                                </div>
-                                <div class="post-media">
-                                    <div class="post-grid">
-                                        <div class="post-image">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art1" alt="Morning sketch">
-                                        </div>
-                                        <div class="post-image">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art2" alt="Morning sketch">
-                                        </div>
-                                        <div class="post-image">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art3" alt="Morning sketch">
-                                        </div>
-                                        <div class="post-image">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art4" alt="Morning sketch">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-tags">
-                                    <span class="post-tag">#creativity</span>
-                                    <span class="post-tag">#art</span>
-                                    <span class="post-tag">#morningroutine</span>
-                                </div>
-                            </div>
-                            <div class="post-analytics">
-                                <div class="post-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>1.2k upvotes</span>
-                                </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>92 comments</span>
-                                </div>
-                                <div class="post-stat">
-                                    <i class="fas fa-share"></i>
-                                    <span>124 shares</span>
-                                </div>
-                            </div>
-                            <div class="post-actions-row">
-                                <button class="post-action-button upvote">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>Upvote</span>
-                                </button>
-                                <button class="post-action-button downvote">
-                                    <i class="fas fa-arrow-down"></i>
-                                    <span>Downvote</span>
-                                </button>
-                                <button class="post-action-button">
-                                    <i class="fas fa-comment"></i>
-                                    <span>Comment</span>
-                                </button>
-                                <button class="post-action-button favorite active">
-                                    <i class="fas fa-bookmark"></i>
-                                    <span>Saved</span>
-                                </button>
-                                <button class="post-action-button share">
-                                    <i class="fas fa-share"></i>
-                                    <span>Share</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Threads Section (Initially Hidden) -->
-                    <div class="thread-list hidden">
-                        <div class="thread-card">
-                            <div class="thread-header">
-                                <div class="user-avatar">
+                        <!-- Thread Preview Card -->
+                        <div class="thread">
+                            <div class="post-header">
+                                <div class="avatar">
                                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=philosophy_buff" alt="philosophy_buff">
                                 </div>
-                                <div class="thread-author-info">
-                                    <div class="post-author-name">philosophy_buff</div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">
+                                        philosophy_buff
+                                    </div>
                                     <div class="post-meta">
-                                        <span class="post-via">via Philosophy</span>
-                                        <span class="post-timestamp">2h ago</span>
+                                        <span class="post-time">12h ago</span>
+                                        <span class="post-context">via Philosophy</span>
                                     </div>
                                 </div>
+                                <button class="post-options">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
                             </div>
-                            <div class="thread-title">The Paradox of Choice: Are We Happier With More Options?</div>
+                            <h3 class="thread-title">The Paradox of Choice: Are We Happier With More Options?</h3>
                             <div class="thread-preview">
-                                Modern society provides us with an unprecedented abundance of choices in every aspect of our lives. From the 50+ types of cereal at the grocery store to the endless stream of content...
+                                Modern society provides us with an unprecedented abundance of choices in every aspect of our lives. From the 50+ types of cereal at the grocery store to the endless stream of content on streaming platforms, we're constantly faced with decisions. But does this wealth of options actually make us happier? Psychologist Barry Schwartz argues in his book "The Paradox of Choice" that excessive choice can actually lead to...
                             </div>
-                            <div class="thread-stats">
-                                <div class="thread-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>43 posts</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-user"></i>
-                                    <span>17 participants</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>632 upvotes</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="thread-card">
-                            <div class="thread-header">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_writer" alt="tech_writer">
-                                </div>
-                                <div class="thread-author-info">
-                                    <div class="post-author-name">tech_writer</div>
-                                    <div class="post-meta">
-                                        <span class="post-via">via Technology</span>
-                                        <span class="post-timestamp">6h ago</span>
+                            <div class="thread-footer">
+                                <div class="thread-stats">
+                                    <div class="thread-stat">
+                                        <i class="fas fa-comment"></i>
+                                        <span>47 posts</span>
+                                    </div>
+                                    <div class="thread-stat">
+                                        <i class="fas fa-user"></i>
+                                        <span>19 participants</span>
+                                    </div>
+                                    <div class="thread-stat">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>683 upvotes</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="thread-title">Why Minimalism Is More Than Just Aesthetics</div>
-                            <div class="thread-preview">
-                                In a world constantly bombarding us with more—more features, more options, more notifications—the philosophy of minimalism offers a refreshing counterpoint. But minimalism is much more than just...
-                            </div>
-                            <div class="thread-stats">
-                                <div class="thread-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>38 posts</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-user"></i>
-                                    <span>12 participants</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>487 upvotes</span>
+                                <div class="thread-last-activity">
+                                    Last post 14 minutes ago
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="thread-card">
-                            <div class="thread-header">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=science_nerd" alt="science_nerd">
-                                </div>
-                                <div class="thread-author-info">
-                                    <div class="post-author-name">science_nerd</div>
-                                    <div class="post-meta">
-                                        <span class="post-via">via Science</span>
-                                        <span class="post-timestamp">1d ago</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="thread-title">The Future of Space Exploration: Moon Base, Mars, and Beyond</div>
-                            <div class="thread-preview">
-                                We stand at a pivotal moment in human history, with multiple space agencies and private companies setting their sights on establishing permanent outposts beyond Earth. The Moon is once again...
-                            </div>
-                            <div class="thread-stats">
-                                <div class="thread-stat">
-                                    <i class="fas fa-comment"></i>
-                                    <span>72 posts</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-user"></i>
-                                    <span>28 participants</span>
-                                </div>
-                                <div class="thread-stat">
-                                    <i class="fas fa-arrow-up"></i>
-                                    <span>1.3k upvotes</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Voice Rooms Section (Initially Hidden) -->
-                    <div class="voice-rooms hidden">
-                        <div class="voice-room-card">
-                            <div class="voice-room-header">
-                                <div class="voice-room-title">The Future of AI Ethics</div>
-                                <div class="voice-room-host">Hosted by tech_guru</div>
-                            </div>
-                            <div class="voice-room-participants">
-                                <div class="participant-avatars">
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker1" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker2" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker3" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker4" alt="Speaker">
-                                    </div>
-                                </div>
-                                <div class="participant-count">
-                                    <span>342 listening</span>
-                                </div>
-                            </div>
-                            <button class="voice-room-join">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Room</span>
-                            </button>
-                        </div>
-
-                        <div class="voice-room-card">
-                            <div class="voice-room-header">
-                                <div class="voice-room-title">Mindfulness & Digital Wellness</div>
-                                <div class="voice-room-host">Hosted by mindful_tech</div>
-                            </div>
-                            <div class="voice-room-participants">
-                                <div class="participant-avatars">
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=wellness_guru" alt="Speaker">
-                                    </div>
-                                </div>
-                                <div class="participant-count">
-                                    <span>126 listening</span>
-                                </div>
-                            </div>
-                            <button class="voice-room-join">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Room</span>
-                            </button>
-                        </div>
-
-                        <div class="voice-room-card">
-                            <div class="voice-room-header">
-                                <div class="voice-room-title">Gaming Night: Strategy Games</div>
-                                <div class="voice-room-host">Hosted by game_master</div>
-                            </div>
-                            <div class="voice-room-participants">
-                                <div class="participant-avatars">
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=game_master" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=strategy_lover" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=chess_pro" alt="Speaker">
-                                    </div>
-                                </div>
-                                <div class="participant-count">
-                                    <span>89 listening</span>
-                                </div>
-                            </div>
-                            <button class="voice-room-join">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Room</span>
-                            </button>
-                        </div>
-
-                        <div class="voice-room-card">
-                            <div class="voice-room-header">
-                                <div class="voice-room-title">Book Club: Sci-Fi Classics</div>
-                                <div class="voice-room-host">Hosted by book_worm</div>
-                            </div>
-                            <div class="voice-room-participants">
-                                <div class="participant-avatars">
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=book_worm" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=sci_fi_fan" alt="Speaker">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=literature_prof" alt="Speaker">
-                                    </div>
-                                </div>
-                                <div class="participant-count">
-                                    <span>204 listening</span>
-                                </div>
-                            </div>
-                            <button class="voice-room-join">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Room</span>
-                            </button>
                         </div>
                     </div>
                 </div>
             </main>
 
-            <!-- Right Sidebar -->
-            <aside class="right-sidebar">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-section-title">Trending Today</h3>
-                    <div class="trends-list">
+            <!-- Secondary Sidebar -->
+            <aside class="secondary-sidebar">
+                <!-- Trends Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">Trending Today</h3>
+                    <div class="trend-list">
                         <div class="trend-item">
                             <div class="trend-category">Technology</div>
                             <div class="trend-title">AI Models Surpass Human Performance in Critical Thinking</div>
-                            <div class="trend-stats">2.4k discussions • Trending with #AIEthics</div>
+                            <div class="trend-metrics">3.7k discussions • Trending with #AIEthics</div>
                         </div>
                         <div class="trend-item">
                             <div class="trend-category">Science</div>
-                            <div class="trend-title">NASA Announces New Moon Base Timeline</div>
-                            <div class="trend-stats">1.8k discussions • Trending with #Artemis</div>
+                            <div class="trend-title">New Breakthrough in Quantum Computing Stability</div>
+                            <div class="trend-metrics">2.1k discussions • Trending with #QuantumLeap</div>
                         </div>
                         <div class="trend-item">
                             <div class="trend-category">Culture</div>
                             <div class="trend-title">Digital Minimalism Movement Grows</div>
-                            <div class="trend-stats">3.2k discussions • Trending with #LessIsMore</div>
+                            <div class="trend-metrics">5.4k discussions • Trending with #LessIsMore</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="sidebar-section">
-                    <h3 class="sidebar-section-title">Upcoming Voice Events</h3>
-                    <div class="trends-list">
-                        <div class="trend-item">
-                            <div class="trend-category">Tomorrow • 7PM EST</div>
-                            <div class="trend-title">The Future of Remote Work</div>
-                            <div class="trend-stats">523 interested • Hosted by work_futurist</div>
+                <!-- Upcoming Events Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">Upcoming Events</h3>
+                    <div class="upcoming-events">
+                        <div class="event-item">
+                            <div class="event-date">
+                                <span class="event-month">MAY</span>
+                                <span class="event-day">12</span>
+                            </div>
+                            <div class="event-info">
+                                <div class="event-title">Future of AI Ethics Forum</div>
+                                <div class="event-details">Virtual • 4:00 PM EST</div>
+                                <div class="event-participants">
+                                    <div class="event-avatar-stack">
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
+                                        </div>
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ai_ethics" alt="ai_ethics">
+                                        </div>
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=digital_rights" alt="digital_rights">
+                                        </div>
+                                    </div>
+                                    <span class="event-participant-count">482 going</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="trend-item">
-                            <div class="trend-category">Wed • 2PM EST</div>
-                            <div class="trend-title">How to Build a Personal Brand</div>
-                            <div class="trend-stats">347 interested • Hosted by brand_guru</div>
+                        <div class="event-item">
+                            <div class="event-date">
+                                <span class="event-month">MAY</span>
+                                <span class="event-day">18</span>
+                            </div>
+                            <div class="event-info">
+                                <div class="event-title">Sustainable Design Workshop</div>
+                                <div class="event-details">Hybrid • 2:00 PM EST</div>
+                                <div class="event-participants">
+                                    <div class="event-avatar-stack">
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_designer" alt="eco_designer">
+                                        </div>
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=green_architect" alt="green_architect">
+                                        </div>
+                                    </div>
+                                    <span class="event-participant-count">327 going</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="sidebar-section">
-                    <h3 class="sidebar-section-title">Suggested Users</h3>
+                <!-- Suggested Profiles Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">Suggested Profiles</h3>
                     <div class="suggested-users">
                         <div class="user-suggestion">
-                            <div class="user-avatar">
+                            <div class="avatar">
                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_writer" alt="tech_writer">
                             </div>
                             <div class="user-info">
-                                <div class="username">tech_writer</div>
-                                <div class="user-bio">Tech columnist, future thinker, exploring the intersection of humans and technology.</div>
+                                <div class="user-name">tech_writer</div>
+                                <div class="user-bio">Technology columnist, exploring the intersection of humans and technology in the digital age.</div>
                             </div>
-                            <button class="follow-button primary">Follow</button>
+                            <button class="follow-btn primary">Follow</button>
                         </div>
                         <div class="user-suggestion">
-                            <div class="user-avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=art_curator" alt="art_curator">
-                            </div>
-                            <div class="user-info">
-                                <div class="username">art_curator</div>
-                                <div class="user-bio">Digital art curator, NFT enthusiast, helping artists thrive in the digital economy.</div>
-                            </div>
-                            <button class="follow-button primary">Follow</button>
-                        </div>
-                        <div class="user-suggestion">
-                            <div class="user-avatar">
+                            <div class="avatar">
                                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_thinker" alt="future_thinker">
                             </div>
                             <div class="user-info">
-                                <div class="username">future_thinker</div>
-                                <div class="user-bio">Exploring future scenarios, technology trends, and human potential.</div>
+                                <div class="user-name">future_thinker</div>
+                                <div class="user-bio">Futurist exploring emerging technologies and their impact on society and human potential.</div>
                             </div>
-                            <button class="follow-button primary">Follow</button>
+                            <button class="follow-btn primary">Follow</button>
+                        </div>
+                        <div class="user-suggestion">
+                            <div class="avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=science_communicator" alt="science_communicator">
+                            </div>
+                            <div class="user-info">
+                                <div class="user-name">science_communicator</div>
+                                <div class="user-bio">Making complex scientific concepts accessible and engaging for everyone.</div>
+                            </div>
+                            <button class="follow-btn primary">Follow</button>
                         </div>
                     </div>
                 </div>
             </aside>
         </div>
 
-        <!-- Modals -->
-        <div id="login-modal" class="modal">
-            <div class="modal-content">
-                <button class="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="modal-header">
-                    <h2 class="modal-title">Welcome to Fusion</h2>
+        <!-- Notification Panel -->
+        <div id="notification-panel" class="notification-panel">
+            <div class="notification-header">
+                <h2 class="notification-title">Notifications</h2>
+                <div class="notification-actions">
+                    <button class="notification-action primary">Mark all read</button>
                 </div>
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="login">Login</button>
-                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            <div class="notification-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon like">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-text"><strong>tech_visionary</strong> and <strong>14 others</strong> liked your post about digital minimalism.</div>
+                        <div class="notification-time">12 minutes ago</div>
+                    </div>
                 </div>
-                <div id="login-tab" class="auth-form">
-                    <div class="form-group">
-                        <label class="form-label" for="login-username">Username or Email</label>
-                        <input type="text" id="login-username" class="form-control" placeholder="Enter your username or email">
+                <div class="notification-item unread">
+                    <div class="notification-icon comment">
+                        <i class="fas fa-comment"></i>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="login-password">Password</label>
-                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password">
+                    <div class="notification-content">
+                        <div class="notification-text"><strong>future_thinker</strong> replied to your post: "That's a fascinating perspective! I've been thinking along similar lines..."</div>
+                        <div class="notification-time">43 minutes ago</div>
                     </div>
-                    <button class="auth-submit">Login</button>
                 </div>
-                <div id="signup-tab" class="auth-form hidden">
-                    <div class="form-group">
-                        <label class="form-label" for="signup-username">Username</label>
-                        <input type="text" id="signup-username" class="form-control" placeholder="Choose a unique username">
+                <div class="notification-item unread">
+                    <div class="notification-icon mention">
+                        <i class="fas fa-at"></i>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="signup-email">Email</label>
-                        <input type="email" id="signup-email" class="form-control" placeholder="Enter your email">
+                    <div class="notification-content">
+                        <div class="notification-text"><strong>creative_designer</strong> mentioned you in a thread about workspace design.</div>
+                        <div class="notification-time">1 hour ago</div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="signup-password">Password</label>
-                        <input type="password" id="signup-password" class="form-control" placeholder="Create a strong password">
-                    </div>
-                    <button class="auth-submit">Sign Up</button>
                 </div>
-                <div class="auth-divider">
-                    <span class="auth-divider-text">or continue with</span>
+                <div class="notification-item">
+                    <div class="notification-icon follow">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-text"><strong>philosophy_buff</strong> and <strong>8 others</strong> started following you.</div>
+                        <div class="notification-time">3 hours ago</div>
+                    </div>
                 </div>
-                <div class="auth-social-buttons">
-                    <button class="auth-social-button">
-                        <i class="fab fa-google"></i>
-                        <span>Google</span>
-                    </button>
-                    <button class="auth-social-button">
-                        <i class="fab fa-apple"></i>
-                        <span>Apple</span>
-                    </button>
+                <div class="notification-item">
+                    <div class="notification-icon like">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-text">Your post was featured in <strong>Today's Highlights</strong>.</div>
+                        <div class="notification-time">5 hours ago</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Toast Notifications -->
-        <div id="toast" class="toast success">
-            <i class="fas fa-check-circle"></i>
-            <span class="toast-message">Post has been saved successfully!</span>
+        <!-- Custom Filter Bubble -->
+        <button id="filter-trigger" class="filter-bubble-trigger">
+            <i class="fas fa-filter"></i>
+        </button>
+        <div id="filter-bubble" class="filter-bubble">
+            <div class="filter-bubble-header">
+                <h3 class="filter-bubble-title">Customize Your Feed</h3>
+            </div>
+            <div class="filter-category">
+                <h4 class="filter-category-title">Content Types</h4>
+                <div class="filter-tags">
+                    <div class="filter-tag active">All</div>
+                    <div class="filter-tag">Posts</div>
+                    <div class="filter-tag">Threads</div>
+                    <div class="filter-tag">Voice</div>
+                    <div class="filter-tag">Events</div>
+                </div>
+            </div>
+            <div class="filter-category">
+                <h4 class="filter-category-title">Topics</h4>
+                <div class="filter-tags">
+                    <div class="filter-tag active">Technology</div>
+                    <div class="filter-tag active">Science</div>
+                    <div class="filter-tag active">Design</div>
+                    <div class="filter-tag">Politics</div>
+                    <div class="filter-tag">Sports</div>
+                    <div class="filter-tag">Finance</div>
+                    <div class="filter-tag">Gaming</div>
+                    <div class="filter-tag">Health</div>
+                </div>
+            </div>
+            <div class="filter-category">
+                <h4 class="filter-category-title">Sort By</h4>
+                <div class="filter-tags">
+                    <div class="filter-tag active">For You</div>
+                    <div class="filter-tag">Latest</div>
+                    <div class="filter-tag">Popular</div>
+                    <div class="filter-tag">Trending</div>
+                </div>
+            </div>
+            <div class="filter-bubble-actions">
+                <button class="filter-reset">Reset</button>
+                <button class="filter-apply">Apply</button>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <div class="toast-icon success">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-message">Your post has been published!</div>
+            </div>
             <button class="toast-close">
                 <i class="fas fa-times"></i>
             </button>
@@ -2901,199 +1199,150 @@ ul {
     </div>
 
     <script>
-        // DOM Elements
-        const app = document.getElementById('app');
-        const themeToggle = document.getElementById('theme-toggle');
-        const loginButton = document.getElementById('login-button');
-        const loginModal = document.getElementById('login-modal');
-        const sectionTabs = document.querySelectorAll('.section-tab');
-        const feedSection = document.querySelector('.posts-container');
-        const threadsSection = document.querySelector('.thread-list');
-        const voiceRoomsSection = document.querySelector('.voice-rooms');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const loginTab = document.getElementById('login-tab');
-        const signupTab = document.getElementById('signup-tab');
-        const postInput = document.querySelector('.post-input');
-        const postSubmit = document.querySelector('.post-submit');
-        const postActionButtons = document.querySelectorAll('.post-action-button');
-        const toast = document.getElementById('toast');
-        const modalCloseButton = document.querySelector('.modal-close');
-
-        // Initialize Theme
-        const initTheme = () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                document.body.classList.add('light-mode');
-                document.body.classList.remove('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        };
-
-        // Toggle Theme
-        const toggleTheme = () => {
-            if (document.body.classList.contains('light-mode')) {
-                document.body.classList.remove('light-mode');
-                document.body.classList.add('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.classList.remove('dark-mode');
-                document.body.classList.add('light-mode');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                localStorage.setItem('theme', 'light');
-            }
-        };
-
-        // Show Modal
-        const showModal = (modal) => {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        // Hide Modal
-        const hideModal = (modal) => {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        };
-
-        // Switch Section Tabs
-        const switchSection = (tabIndex) => {
-            sectionTabs.forEach((tab, index) => {
-                if (index === tabIndex) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const app = document.getElementById('app');
+            const themeToggle = document.getElementById('theme-toggle');
+            const notificationToggle = document.getElementById('notification-toggle');
+            const notificationPanel = document.getElementById('notification-panel');
+            const filterTrigger = document.getElementById('filter-trigger');
+            const filterBubble = document.getElementById('filter-bubble');
+            const filterTags = document.querySelectorAll('.filter-tag');
+            const contentTabs = document.querySelectorAll('.content-tab');
+            const composerInput = document.querySelector('.composer-input');
+            const composerSubmit = document.querySelector('.composer-submit');
+            const toast = document.getElementById('toast');
+            
+            // Initialize theme from localStorage
+            initTheme();
+            
+            // Event Listeners
+            themeToggle.addEventListener('click', toggleTheme);
+            notificationToggle.addEventListener('click', toggleNotifications);
+            filterTrigger.addEventListener('click', toggleFilterBubble);
+            
+            // Close panels when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!notificationPanel.contains(e.target) && !notificationToggle.contains(e.target)) {
+                    notificationPanel.classList.remove('active');
+                }
+                
+                if (!filterBubble.contains(e.target) && !filterTrigger.contains(e.target)) {
+                    filterBubble.classList.remove('active');
                 }
             });
-
-            if (tabIndex === 0) {
-                feedSection.classList.remove('hidden');
-                threadsSection.classList.add('hidden');
-                voiceRoomsSection.classList.add('hidden');
-            } else if (tabIndex === 1) {
-                feedSection.classList.add('hidden');
-                threadsSection.classList.remove('hidden');
-                voiceRoomsSection.classList.add('hidden');
-            } else if (tabIndex === 2) {
-                feedSection.classList.add('hidden');
-                threadsSection.classList.add('hidden');
-                voiceRoomsSection.classList.remove('hidden');
-            }
-        };
-
-        // Switch Auth Tabs
-        const switchAuthTab = (tabName) => {
-            authTabs.forEach(tab => {
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.add('active');
+            
+            // Filter tag selection
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+            
+            // Content tab switching
+            contentTabs.forEach((tab, index) => {
+                tab.addEventListener('click', function() {
+                    contentTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Composer input enable/disable submit
+            composerInput.addEventListener('input', function() {
+                if (this.value.trim().length > 0) {
+                    composerSubmit.removeAttribute('disabled');
                 } else {
-                    tab.classList.remove('active');
+                    composerSubmit.setAttribute('disabled', '');
                 }
             });
-
-            if (tabName === 'login') {
-                loginTab.classList.remove('hidden');
-                signupTab.classList.add('hidden');
-            } else {
-                loginTab.classList.add('hidden');
-                signupTab.classList.remove('hidden');
-            }
-        };
-
-        // Enable/Disable Post Submit
-        const togglePostSubmit = () => {
-            if (postInput.value.trim().length > 0) {
-                postSubmit.removeAttribute('disabled');
-            } else {
-                postSubmit.setAttribute('disabled', '');
-            }
-        };
-
-        // Show Toast Notification
-        const showToast = (type, message) => {
-            toast.className = `toast ${type}`;
-            toast.querySelector('.toast-message').textContent = message;
-            toast.classList.add('visible');
             
-            setTimeout(() => {
-                toast.classList.remove('visible');
-            }, 3000);
-        };
-
-        // Toggle Post Action (upvote, downvote, etc.)
-        const togglePostAction = (button) => {
-            const action = button.classList[1];
+            // Composer submit action
+            composerSubmit.addEventListener('click', function() {
+                if (composerInput.value.trim().length > 0) {
+                    // Here we would normally save the post to a database
+                    composerInput.value = '';
+                    composerSubmit.setAttribute('disabled', '');
+                    
+                    // Show success toast
+                    showToast('success', 'Your post has been published!');
+                }
+            });
             
-            if (action === 'upvote' || action === 'downvote') {
-                const upvoteButton = button.parentElement.querySelector('.upvote');
-                const downvoteButton = button.parentElement.querySelector('.downvote');
-                
-                if (action === 'upvote') {
-                    if (button.classList.contains('active')) {
-                        button.classList.remove('active');
-                    } else {
-                        button.classList.add('active');
-                        downvoteButton.classList.remove('active');
+            // Reaction buttons
+            document.querySelectorAll('.reaction-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Toggle reaction
+                    const action = this.querySelector('span').textContent.toLowerCase();
+                    
+                    if (action === 'like' || action === 'liked') {
+                        this.classList.toggle('liked');
+                        this.querySelector('span').textContent = this.classList.contains('liked') ? 'Liked' : 'Like';
+                    } else if (action === 'boost' || action === 'boosted') {
+                        this.classList.toggle('boosted');
+                        this.querySelector('span').textContent = this.classList.contains('boosted') ? 'Boosted' : 'Boost';
+                    } else if (action === 'insightful') {
+                        this.classList.toggle('insightful');
+                    } else if (action === 'celebrate' || action === 'celebrated') {
+                        this.classList.toggle('celebrated');
+                        this.querySelector('span').textContent = this.classList.contains('celebrated') ? 'Celebrated' : 'Celebrate';
                     }
+                });
+            });
+            
+            // Add click handler for toast close button
+            document.querySelector('.toast-close').addEventListener('click', function() {
+                hideToast();
+            });
+            
+            // Functions
+            function initTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.body.classList.remove('light-mode');
+                    document.body.classList.add('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
                 } else {
-                    if (button.classList.contains('active')) {
-                        button.classList.remove('active');
-                    } else {
-                        button.classList.add('active');
-                        upvoteButton.classList.remove('active');
-                    }
+                    document.body.classList.add('light-mode');
+                    document.body.classList.remove('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
                 }
-            } else if (action === 'favorite') {
-                button.classList.toggle('active');
+            }
+            
+            function toggleTheme() {
+                if (document.body.classList.contains('light-mode')) {
+                    document.body.classList.remove('light-mode');
+                    document.body.classList.add('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.body.classList.add('light-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+            
+            function toggleNotifications() {
+                notificationPanel.classList.toggle('active');
+            }
+            
+            function toggleFilterBubble() {
+                filterBubble.classList.toggle('active');
+            }
+            
+            function showToast(type, message) {
+                toast.classList.remove('success', 'error', 'warning', 'info');
+                toast.classList.add(type);
+                toast.querySelector('.toast-message').textContent = message;
+                toast.classList.add('active');
                 
-                if (button.classList.contains('active')) {
-                    showToast('success', 'Post has been saved!');
-                    button.querySelector('span').textContent = 'Saved';
-                } else {
-                    showToast('info', 'Post has been unsaved.');
-                    button.querySelector('span').textContent = 'Save';
-                }
-            } else if (action === 'share') {
-                showToast('info', 'Sharing options opened.');
+                // Auto hide after 5 seconds
+                setTimeout(hideToast, 5000);
             }
-        };
-
-        // Event Listeners
-        window.addEventListener('DOMContentLoaded', initTheme);
-        themeToggle.addEventListener('click', toggleTheme);
-        loginButton.addEventListener('click', () => showModal(loginModal));
-        modalCloseButton.addEventListener('click', () => hideModal(loginModal));
-
-        sectionTabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => switchSection(index));
-        });
-
-        authTabs.forEach(tab => {
-            tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
-        });
-
-        if (postInput) {
-            postInput.addEventListener('input', togglePostSubmit);
-        }
-
-        postActionButtons.forEach(button => {
-            button.addEventListener('click', () => togglePostAction(button));
-        });
-
-        // Close modal when clicking outside
-        loginModal.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                hideModal(loginModal);
+            
+            function hideToast() {
+                toast.classList.remove('active');
             }
-        });
-
-        // Close toast on click
-        toast.querySelector('.toast-close').addEventListener('click', () => {
-            toast.classList.remove('visible');
         });
     </script>
 </body>
