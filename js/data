@@ -1,0 +1,121 @@
+// Mock data for Zeno social platform
+const MOCK_DATA = {
+    // Initial posts
+    posts: [
+        {
+            id: 'post1',
+            author: {
+                username: 'cosmic_writer',
+                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=cosmic_writer'
+            },
+            content: 'Just discovered a fascinating paradox: the more connected our digital world becomes, the more we seem to crave genuine in-person interactions. What do you think?',
+            timestamp: new Date(Date.now() - 10 * 60 * 1000), // 10 minutes ago
+            likes: 42,
+            drifts: 9,
+            drops: 3,
+            comments: 7,
+            tags: ['philosophy', 'digital'],
+            userVote: null,
+            liked: false
+        },
+        {
+            id: 'post2',
+            author: {
+                username: 'tech_nomad',
+                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=tech_nomad'
+            },
+            content: 'Been experimenting with a minimal digital setup this week. No notifications, no feeds, just intentional usage. My focus has improved dramatically. Highly recommend trying a digital detox!',
+            timestamp: new Date(Date.now() - 60 * 60 * 1000), // 1 hour ago
+            likes: 89,
+            drifts: 17,
+            drops: 2,
+            comments: 13,
+            tags: ['productivity', 'minimalism'],
+            userVote: null,
+            liked: false
+        },
+        {
+            id: 'post3',
+            author: {
+                username: 'future_thinker',
+                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=future_thinker'
+            },
+            content: 'The best social media platform would be chronological, ad-free, with no algorithms, no follower counts, and focused on meaningful conversations. Basically the opposite of what we have now.',
+            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+            likes: 217,
+            drifts: 53,
+            drops: 4,
+            comments: 31,
+            tags: ['thoughts', 'social media'],
+            userVote: null,
+            liked: false
+        },
+        {
+            id: 'post4',
+            author: {
+                username: 'mindful_dev',
+                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_dev'
+            },
+            content: 'Unpopular opinion: most software is bloated with features 80% of users never touch. Is "simpler is better" still a design principle, or have we lost our way in feature creep?',
+            timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
+            likes: 156,
+            drifts: 42,
+            drops: 8,
+            comments: 24,
+            tags: ['design', 'technology', 'simplicity'],
+            userVote: null,
+            liked: false
+        },
+        {
+            id: 'post5',
+            author: {
+                username: 'creative_soul',
+                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=creative_soul'
+            },
+            content: 'I've been drawing every morning for 30 minutes before checking my phone. It's completely shifted my relationship with creativity, and I find myself thinking visually throughout the day.',
+            timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+            likes: 104,
+            drifts: 28,
+            drops: 1,
+            comments: 17,
+            tags: ['creativity', 'habit', 'mindfulness'],
+            userVote: null,
+            liked: false
+        }
+    ],
+    
+    // User data
+    currentUser: null
+};
+
+// Utility functions
+function formatTimeAgo(date) {
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    
+    if (diffInSeconds < 60) {
+        return 'just now';
+    }
+    
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes}m ago`;
+    }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+        return `${diffInHours}h ago`;
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 30) {
+        return `${diffInDays}d ago`;
+    }
+    
+    return date.toLocaleDateString();
+}
+
+// Generate a unique ID
+function generateId() {
+    return 'post' + Date.now() + Math.random().toString(36).substring(2, 9);
+}
