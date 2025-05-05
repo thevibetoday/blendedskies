@@ -1,1782 +1,801 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeno - A Post-Modern Social Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-:root {
-    --primary-color: #6c5ce7;
-    --primary-hover: #5849c2;
-    --secondary-color: #a29bfe;
-    --light-bg: #f5f6fa;
-    --light-card-bg: #ffffff;
-    --light-border: #e1e1e1;
-    --light-text: #333333;
-    --light-text-secondary: #666666;
-    --dark-bg: #1a1a2e;
-    --dark-card-bg: #262740;
-    --dark-border: #3a3a5a;
-    --dark-text: #f0f0f0;
-    --dark-text-secondary: #c2c2c2;
-    --success: #10ac84;
-    --danger: #ee5253;
-    --warning: #ff9f43;
-    --info: #54a0ff;
-    --drift-color: #67e8f9;
-    --drop-color: #f97316;
-    --heart-color: #f472b6;
-    --header-height: 60px;
-    --sidebar-width: 240px;
-    --right-sidebar-width: 280px;
-    --mobile-nav-height: 60px;
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family);
-    font-size: 16px;
-    line-height: 1.5;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-body.light-mode {
-    background-color: var(--light-bg);
-    color: var(--light-text);
-}
-
-body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: inherit;
-}
-
-ul {
-    list-style: none;
-}
-
-.container {
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.app-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-content {
-    flex: 1;
-    margin-top: var(--header-height);
-    padding: 20px 0;
-    margin-bottom: var(--mobile-nav-height);
-}
-
-@media (min-width: 768px) {
-    .main-content {
-        margin-bottom: 0;
-    }
-}
-
-.main-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .main-container {
-        grid-template-columns: var(--sidebar-width) 1fr;
-    }
-}
-
-@media (min-width: 1024px) {
-    .main-container {
-        grid-template-columns: var(--sidebar-width) 1fr var(--right-sidebar-width);
-    }
-}
-
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--header-height);
-    z-index: 1000;
-    transition: background-color 0.3s;
-}
-
-.light-mode .header {
-    background-color: var(--light-card-bg);
-    border-bottom: 1px solid var(--light-border);
-}
-
-.dark-mode .header {
-    background-color: var(--dark-card-bg);
-    border-bottom: 1px solid var(--dark-border);
-}
-
-.header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-}
-
-.header-logo h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.header-search {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .header-search {
-        display: block;
-        flex: 1;
-        max-width: 400px;
-        margin: 0 20px;
-    }
-}
-
-.search-container {
-    position: relative;
-    width: 100%;
-}
-
-.search-container input {
-    width: 100%;
-    padding: 10px 15px 10px 40px;
-    border-radius: 20px;
-    border: none;
-    font-size: 0.9rem;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.light-mode .search-container input {
-    background-color: #f0f0f0;
-    color: var(--light-text);
-}
-
-.dark-mode .search-container input {
-    background-color: #333355;
-    color: var(--dark-text);
-}
-
-.search-container i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.light-mode .search-container i {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .search-container i {
-    color: var(--dark-text-secondary);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-}
-
-.theme-toggle {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-right: 15px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .theme-toggle {
-    background-color: #f0f0f0;
-    color: var(--light-text);
-}
-
-.dark-mode .theme-toggle {
-    background-color: #333355;
-    color: var(--dark-text);
-}
-
-.light-mode .theme-toggle:hover {
-    background-color: #e0e0e0;
-}
-
-.dark-mode .theme-toggle:hover {
-    background-color: #444470;
-}
-
-.login-button {
-    padding: 8px 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.login-button:hover {
-    background-color: var(--primary-hover);
-}
-
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.username {
-    font-weight: 500;
-}
-
-.sidebar {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .sidebar {
-        display: block;
-        position: sticky;
-        top: calc(var(--header-height) + 20px);
-        height: calc(100vh - var(--header-height) - 40px);
-        overflow-y: auto;
-        padding-bottom: 20px;
-    }
-}
-
-.main-nav ul {
-    margin-bottom: 30px;
-}
-
-.main-nav li {
-    margin-bottom: 5px;
-}
-
-.main-nav a {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    border-radius: 30px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.light-mode .main-nav a {
-    color: var(--light-text);
-}
-
-.dark-mode .main-nav a {
-    color: var(--dark-text);
-}
-
-.light-mode .main-nav a:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .main-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.main-nav li.active a {
-    background-color: rgba(108, 92, 231, 0.1);
-    color: var(--primary-color);
-}
-
-.main-nav i {
-    margin-right: 15px;
-    font-size: 1.2rem;
-}
-
-.sidebar-section {
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .sidebar-section {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .sidebar-section {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.sidebar-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.topic-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.topic-item a {
-    display: block;
-    padding: 8px 10px;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .topic-item a:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .topic-item a:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.topic-name {
-    display: block;
-    font-weight: 500;
-}
-
-.topic-count {
-    display: block;
-    font-size: 0.8rem;
-}
-
-.light-mode .topic-count {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .topic-count {
-    color: var(--dark-text-secondary);
-}
-
-.right-sidebar {
-    display: none;
-}
-
-@media (min-width: 1024px) {
-    .right-sidebar {
-        display: block;
-        position: sticky;
-        top: calc(var(--header-height) + 20px);
-        height: calc(100vh - var(--header-height) - 40px);
-        overflow-y: auto;
-        padding-bottom: 20px;
-    }
-}
-
-.user-suggestions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.user-suggestion {
-    display: flex;
-    align-items: center;
-    padding: 8px 0;
-}
-
-.user-suggestion .user-avatar {
-    width: 36px;
-    height: 36px;
-    margin-right: 10px;
-}
-
-.user-suggestion .user-info {
-    flex: 1;
-}
-
-.follow-button {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition: all 0.3s;
-}
-
-.light-mode .follow-button {
-    background-color: #f0f0f0;
-    color: var(--light-text);
-}
-
-.dark-mode .follow-button {
-    background-color: #333355;
-    color: var(--dark-text);
-}
-
-.light-mode .follow-button:hover {
-    background-color: #e0e0e0;
-}
-
-.dark-mode .follow-button:hover {
-    background-color: #444470;
-}
-
-.feed {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.create-post {
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .create-post {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .create-post {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.post-input-container {
-    display: flex;
-    align-items: center;
-}
-
-.post-input {
-    flex: 1;
-    margin-left: 10px;
-}
-
-.post-input button {
-    width: 100%;
-    text-align: left;
-    padding: 10px 15px;
-    border-radius: 20px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .post-input button {
-    background-color: #f0f0f0;
-    color: var(--light-text);
-}
-
-.dark-mode .post-input button {
-    background-color: #333355;
-    color: var(--dark-text);
-}
-
-.light-mode .post-input button:hover {
-    background-color: #e0e0e0;
-}
-
-.dark-mode .post-input button:hover {
-    background-color: #444470;
-}
-
-.posts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.post {
-    padding: 15px;
-    border-radius: 12px;
-    transition: background-color 0.3s;
-}
-
-.light-mode .post {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .post {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.post-header .user-avatar {
-    margin-right: 10px;
-}
-
-.post-header .username {
-    font-weight: 600;
-}
-
-.post-timestamp {
-    font-size: 0.8rem;
-}
-
-.light-mode .post-timestamp {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-timestamp {
-    color: var(--dark-text-secondary);
-}
-
-.post-content {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-
-.post-tag {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.light-mode .post-tag {
-    background-color: rgba(108, 92, 231, 0.1);
-    color: var(--primary-color);
-}
-
-.dark-mode .post-tag {
-    background-color: rgba(108, 92, 231, 0.2);
-    color: var(--secondary-color);
-}
-
-.post-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid;
-    padding-top: 10px;
-}
-
-.light-mode .post-actions {
-    border-color: var(--light-border);
-}
-
-.dark-mode .post-actions {
-    border-color: var(--dark-border);
-}
-
-.post-action {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 8px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-}
-
-.light-mode .post-action {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-action {
-    color: var(--dark-text-secondary);
-}
-
-.light-mode .post-action:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .post-action:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.post-action.liked {
-    color: var(--heart-color);
-}
-
-.post-action.drift {
-    color: var(--drift-color);
-}
-
-.post-action.drop {
-    color: var(--drop-color);
-}
-
-.post-action i {
-    font-size: 1rem;
-}
-
-.vote-actions {
-    display: flex;
-    align-items: center;
-}
-
-.mobile-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--mobile-nav-height);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
-    transition: background-color 0.3s;
-}
-
-.light-mode .mobile-nav {
-    background-color: var(--light-card-bg);
-    border-top: 1px solid var(--light-border);
-}
-
-.dark-mode .mobile-nav {
-    background-color: var(--dark-card-bg);
-    border-top: 1px solid var(--dark-border);
-}
-
-@media (min-width: 768px) {
-    .mobile-nav {
-        display: none;
-    }
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-}
-
-.nav-item.active {
-    color: var(--primary-color);
-}
-
-.new-post-button {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
-    overflow-y: auto;
-    padding: 40px 20px;
-}
-
-.modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: background-color 0.3s;
-}
-
-.light-mode .modal-content {
-    background-color: var(--light-card-bg);
-}
-
-.dark-mode .modal-content {
-    background-color: var(--dark-card-bg);
-}
-
-.modal-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.light-mode .modal-header {
-    border-color: var(--light-border);
-}
-
-.dark-mode .modal-header {
-    border-color: var(--dark-border);
-}
-
-.modal-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.modal-close {
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid;
-    font-size: 0.95rem;
-    font-family: inherit;
-    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
-}
-
-.light-mode .form-control {
-    background-color: var(--light-card-bg);
-    border-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .form-control {
-    background-color: #333355;
-    border-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.button-primary {
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    display: inline-block;
-    text-align: center;
-}
-
-.button-primary:hover {
-    background-color: var(--primary-hover);
-}
-
-.button-secondary {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    display: inline-block;
-    text-align: center;
-}
-
-.light-mode .button-secondary {
-    background-color: #f0f0f0;
-    color: var(--light-text);
-}
-
-.dark-mode .button-secondary {
-    background-color: #333355;
-    color: var(--dark-text);
-}
-
-.light-mode .button-secondary:hover {
-    background-color: #e0e0e0;
-}
-
-.dark-mode .button-secondary:hover {
-    background-color: #444470;
-}
-
-.form-footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-.link-button {
-    color: var(--primary-color);
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.user-details {
-    margin-left: 10px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 200px;
-    margin-top: 10px;
-    border-radius: 8px;
-    overflow: hidden;
-    z-index: 100;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.2s;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.light-mode .dropdown-menu {
-    background-color: var(--light-card-bg);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .dropdown-menu {
-    background-color: var(--dark-card-bg);
-    border: 1px solid var(--dark-border);
-}
-
-.user-dropdown:hover .dropdown-menu {
-    visibility: visible;
-    opacity: 1;
-}
-
-.dropdown-item {
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-}
-
-.light-mode .dropdown-item:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.dark-mode .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.dropdown-item i {
-    margin-right: 10px;
-    font-size: 1rem;
-}
-
-.dropdown-divider {
-    height: 1px;
-    width: 100%;
-}
-
-.light-mode .dropdown-divider {
-    background-color: var(--light-border);
-}
-
-.dark-mode .dropdown-divider {
-    background-color: var(--dark-border);
-}
-
-.reactions-popup {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    background-color: white;
-    border-radius: 30px;
-    padding: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.2s;
-    z-index: 100;
-}
-
-.reactions-popup.active {
-    visibility: visible;
-    opacity: 1;
-}
-
-.reaction-item {
-    padding: 6px;
-    font-size: 1.2rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.reaction-item:hover {
-    transform: scale(1.2);
-}
-    </style>
-</head>
-<body class="light-mode">
-    <div id="app" class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="container">
-                <div class="header-logo">
-                    <h1>Zeno</h1>
-                </div>
-                <div class="header-search">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search Zeno...">
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button id="theme-toggle" class="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="user-menu" id="user-menu">
-                        <button class="login-button" id="login-button">Login</button>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <div class="container main-container">
-                <!-- Sidebar -->
-                <aside class="sidebar">
-                    <nav class="main-nav">
-                        <ul>
-                            <li class="active"><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                            <li><a href="#"><i class="fas fa-compass"></i> Explore</a></li>
-                            <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
-                            <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
-                        </ul>
-                    </nav>
-                    
-                    <div class="trending-topics sidebar-section">
-                        <h3>Trending Topics</h3>
-                        <ul class="topic-list">
-                            <li class="topic-item">
-                                <a href="#">
-                                    <span class="topic-name">#digital_minimalism</span>
-                                    <span class="topic-count">1,204 posts</span>
-                                </a>
-                            </li>
-                            <li class="topic-item">
-                                <a href="#">
-                                    <span class="topic-name">#futuredrift</span>
-                                    <span class="topic-count">987 posts</span>
-                                </a>
-                            </li>
-                            <li class="topic-item">
-                                <a href="#">
-                                    <span class="topic-name">#designthinking</span>
-                                    <span class="topic-count">856 posts</span>
-                                </a>
-                            </li>
-                            <li class="topic-item">
-                                <a href="#">
-                                    <span class="topic-name">#philosophy</span>
-                                    <span class="topic-count">723 posts</span>
-                                </a>
-                            </li>
-                            <li class="topic-item">
-                                <a href="#">
-                                    <span class="topic-name">#creativity</span>
-                                    <span class="topic-count">691 posts</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </aside>
-
-                <!-- Feed -->
-                <section class="feed">
-                    <!-- Create Post (visible when logged in) -->
-                    <div id="create-post-area" class="create-post hidden">
-                        <div class="post-input-container">
-                            <div class="user-avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Your avatar">
+<!-- Posts Container -->
+                    <div class="posts-container">
+                        <!-- Post Card 1 -->
+                        <div class="post-card">
+                            <div class="post-card-header">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="mindful_tech">
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">mindful_tech</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Technology</span>
+                                        <span class="post-timestamp">1h ago</span>
+                                    </div>
+                                </div>
+                                <div class="post-options">
+                                    <button class="post-options-button">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="post-input">
-                                <button id="open-post-modal">What's on your mind?</button>
+                            <div class="post-content">
+                                <div class="post-text">
+                                    Just discovered an incredible paradox: as our digital world becomes more connected, our genuine in-person interactions become more valuable. The more time we spend online, the more we crave authentic human connection.
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">#technology</span>
+                                    <span class="post-tag">#society</span>
+                                    <span class="post-tag">#digitalminimalism</span>
+                                </div>
+                            </div>
+                            <div class="post-analytics">
+                                <div class="post-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>423 upvotes</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>86 comments</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-share"></i>
+                                    <span>24 shares</span>
+                                </div>
+                            </div>
+                            <div class="post-actions-row">
+                                <button class="post-action-button upvote">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Upvote</span>
+                                </button>
+                                <button class="post-action-button downvote">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Downvote</span>
+                                </button>
+                                <button class="post-action-button">
+                                    <i class="fas fa-comment"></i>
+                                    <span>Comment</span>
+                                </button>
+                                <button class="post-action-button favorite">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>Save</span>
+                                </button>
+                                <button class="post-action-button share">
+                                    <i class="fas fa-share"></i>
+                                    <span>Share</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Thread Artifact -->
+                        <div class="artifact-card">
+                            <div class="artifact-header">
+                                <div class="artifact-type thread">Thread</div>
+                                <div class="artifact-info">
+                                    <div class="artifact-title">Why Minimalism Is More Than Just Aesthetics</div>
+                                    <div class="artifact-meta">38 posts • Updated 20m ago</div>
+                                </div>
+                            </div>
+                            <div class="artifact-actions">
+                                <button class="artifact-action primary">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>View Thread</span>
+                                </button>
+                                <button class="artifact-action secondary">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Follow</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Post Card 2 with Image -->
+                        <div class="post-card">
+                            <div class="post-card-header">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_nomad" alt="tech_nomad">
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">tech_nomad</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Design</span>
+                                        <span class="post-timestamp">3h ago</span>
+                                    </div>
+                                </div>
+                                <div class="post-options">
+                                    <button class="post-options-button">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-text">
+                                    Been experimenting with a minimal digital setup this week. No notifications, no feeds, just intentional usage. My focus has improved dramatically. Highly recommend trying a digital detox!
+                                </div>
+                                <div class="post-media">
+                                    <div class="post-image">
+                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace" alt="Minimal workspace setup">
+                                    </div>
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">#productivity</span>
+                                    <span class="post-tag">#digitaldetox</span>
+                                    <span class="post-tag">#minimalism</span>
+                                </div>
+                            </div>
+                            <div class="post-analytics">
+                                <div class="post-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>978 upvotes</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>143 comments</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-share"></i>
+                                    <span>58 shares</span>
+                                </div>
+                            </div>
+                            <div class="post-actions-row">
+                                <button class="post-action-button upvote active">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Upvote</span>
+                                </button>
+                                <button class="post-action-button downvote">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Downvote</span>
+                                </button>
+                                <button class="post-action-button">
+                                    <i class="fas fa-comment"></i>
+                                    <span>Comment</span>
+                                </button>
+                                <button class="post-action-button favorite">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>Save</span>
+                                </button>
+                                <button class="post-action-button share">
+                                    <i class="fas fa-share"></i>
+                                    <span>Share</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Post Card 3 with Multiple Images -->
+                        <div class="post-card">
+                            <div class="post-card-header">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_soul" alt="creative_soul">
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author-name">creative_soul</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Photography</span>
+                                        <span class="post-timestamp">5h ago</span>
+                                    </div>
+                                </div>
+                                <div class="post-options">
+                                    <button class="post-options-button">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-text">
+                                    I've been drawing every morning for 30 minutes before checking my phone. It's completely shifted my relationship with creativity, and I find myself thinking visually throughout the day.
+                                </div>
+                                <div class="post-media">
+                                    <div class="post-grid">
+                                        <div class="post-image">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art1" alt="Morning sketch">
+                                        </div>
+                                        <div class="post-image">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art2" alt="Morning sketch">
+                                        </div>
+                                        <div class="post-image">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art3" alt="Morning sketch">
+                                        </div>
+                                        <div class="post-image">
+                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=art4" alt="Morning sketch">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">#creativity</span>
+                                    <span class="post-tag">#art</span>
+                                    <span class="post-tag">#morningroutine</span>
+                                </div>
+                            </div>
+                            <div class="post-analytics">
+                                <div class="post-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>1.2k upvotes</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>92 comments</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-share"></i>
+                                    <span>124 shares</span>
+                                </div>
+                            </div>
+                            <div class="post-actions-row">
+                                <button class="post-action-button upvote">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Upvote</span>
+                                </button>
+                                <button class="post-action-button downvote">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Downvote</span>
+                                </button>
+                                <button class="post-action-button">
+                                    <i class="fas fa-comment"></i>
+                                    <span>Comment</span>
+                                </button>
+                                <button class="post-action-button favorite active">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>Saved</span>
+                                </button>
+                                <button class="post-action-button share">
+                                    <i class="fas fa-share"></i>
+                                    <span>Share</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Posts Feed -->
-                    <div class="posts-container" id="posts-container">
-                        <!-- Posts will be loaded here by JavaScript -->
-                    </div>
-                </section>
-                
-                <!-- Right Sidebar - Suggested Content -->
-                <aside class="right-sidebar">
-                    <div class="sidebar-section suggested-users">
-                        <h3>Suggested Users</h3>
-                        <ul class="user-suggestions">
-                            <li class="user-suggestion">
+                    <!-- Threads Section (Initially Hidden) -->
+                    <div class="thread-list hidden">
+                        <div class="thread-card">
+                            <div class="thread-header">
                                 <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="mindful_tech">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=philosophy_buff" alt="philosophy_buff">
                                 </div>
-                                <div class="user-info">
-                                    <span class="username">@mindful_tech</span>
+                                <div class="thread-author-info">
+                                    <div class="post-author-name">philosophy_buff</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Philosophy</span>
+                                        <span class="post-timestamp">2h ago</span>
+                                    </div>
                                 </div>
-                                <button class="follow-button">Follow</button>
-                            </li>
-                            <li class="user-suggestion">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ethical_coder" alt="ethical_coder">
+                            </div>
+                            <div class="thread-title">The Paradox of Choice: Are We Happier With More Options?</div>
+                            <div class="thread-preview">
+                                Modern society provides us with an unprecedented abundance of choices in every aspect of our lives. From the 50+ types of cereal at the grocery store to the endless stream of content...
+                            </div>
+                            <div class="thread-stats">
+                                <div class="thread-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>43 posts</span>
                                 </div>
-                                <div class="user-info">
-                                    <span class="username">@ethical_coder</span>
+                                <div class="thread-stat">
+                                    <i class="fas fa-user"></i>
+                                    <span>17 participants</span>
                                 </div>
-                                <button class="follow-button">Follow</button>
-                            </li>
-                            <li class="user-suggestion">
-                                <div class="user-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=deep_thinker" alt="deep_thinker">
+                                <div class="thread-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>632 upvotes</span>
                                 </div>
-                                <div class="user-info">
-                                    <span class="username">@deep_thinker</span>
-                                </div>
-                                <button class="follow-button">Follow</button>
-                            </li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>
-        </main>
+                            </div>
+                        </div>
 
-        <!-- Mobile Navigation -->
-        <nav class="mobile-nav">
-            <button class="nav-item active">
-                <i class="fas fa-home"></i>
-            </button>
-            <button class="nav-item">
-                <i class="fas fa-compass"></i>
-            </button>
-            <button class="nav-item new-post-button">
-                <i class="fas fa-plus"></i>
-            </button>
-            <button class="nav-item">
-                <i class="fas fa-bell"></i>
-            </button>
-            <button class="nav-item">
-                <i class="fas fa-user"></i>
-            </button>
-        </nav>
+                        <div class="thread-card">
+                            <div class="thread-header">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_writer" alt="tech_writer">
+                                </div>
+                                <div class="thread-author-info">
+                                    <div class="post-author-name">tech_writer</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Technology</span>
+                                        <span class="post-timestamp">6h ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thread-title">Why Minimalism Is More Than Just Aesthetics</div>
+                            <div class="thread-preview">
+                                In a world constantly bombarding us with more—more features, more options, more notifications—the philosophy of minimalism offers a refreshing counterpoint. But minimalism is much more than just...
+                            </div>
+                            <div class="thread-stats">
+                                <div class="thread-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>38 posts</span>
+                                </div>
+                                <div class="thread-stat">
+                                    <i class="fas fa-user"></i>
+                                    <span>12 participants</span>
+                                </div>
+                                <div class="thread-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>487 upvotes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="thread-card">
+                            <div class="thread-header">
+                                <div class="user-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=science_nerd" alt="science_nerd">
+                                </div>
+                                <div class="thread-author-info">
+                                    <div class="post-author-name">science_nerd</div>
+                                    <div class="post-meta">
+                                        <span class="post-via">via Science</span>
+                                        <span class="post-timestamp">1d ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thread-title">The Future of Space Exploration: Moon Base, Mars, and Beyond</div>
+                            <div class="thread-preview">
+                                We stand at a pivotal moment in human history, with multiple space agencies and private companies setting their sights on establishing permanent outposts beyond Earth. The Moon is once again...
+                            </div>
+                            <div class="thread-stats">
+                                <div class="thread-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>72 posts</span>
+                                </div>
+                                <div class="thread-stat">
+                                    <i class="fas fa-user"></i>
+                                    <span>28 participants</span>
+                                </div>
+                                <div class="thread-stat">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>1.3k upvotes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voice Rooms Section (Initially Hidden) -->
+                    <div class="voice-rooms hidden">
+                        <div class="voice-room-card">
+                            <div class="voice-room-header">
+                                <div class="voice-room-title">The Future of AI Ethics</div>
+                                <div class="voice-room-host">Hosted by tech_guru</div>
+                            </div>
+                            <div class="voice-room-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker1" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker2" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker3" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker4" alt="Speaker">
+                                    </div>
+                                </div>
+                                <div class="participant-count">
+                                    <span>342 listening</span>
+                                </div>
+                            </div>
+                            <button class="voice-room-join">
+                                <i class="fas fa-headphones"></i>
+                                <span>Join Room</span>
+                            </button>
+                        </div>
+
+                        <div class="voice-room-card">
+                            <div class="voice-room-header">
+                                <div class="voice-room-title">Mindfulness & Digital Wellness</div>
+                                <div class="voice-room-host">Hosted by mindful_tech</div>
+                            </div>
+                            <div class="voice-room-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_tech" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=wellness_guru" alt="Speaker">
+                                    </div>
+                                </div>
+                                <div class="participant-count">
+                                    <span>126 listening</span>
+                                </div>
+                            </div>
+                            <button class="voice-room-join">
+                                <i class="fas fa-headphones"></i>
+                                <span>Join Room</span>
+                            </button>
+                        </div>
+
+                        <div class="voice-room-card">
+                            <div class="voice-room-header">
+                                <div class="voice-room-title">Gaming Night: Strategy Games</div>
+                                <div class="voice-room-host">Hosted by game_master</div>
+                            </div>
+                            <div class="voice-room-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=game_master" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=strategy_lover" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=chess_pro" alt="Speaker">
+                                    </div>
+                                </div>
+                                <div class="participant-count">
+                                    <span>89 listening</span>
+                                </div>
+                            </div>
+                            <button class="voice-room-join">
+                                <i class="fas fa-headphones"></i>
+                                <span>Join Room</span>
+                            </button>
+                        </div>
+
+                        <div class="voice-room-card">
+                            <div class="voice-room-header">
+                                <div class="voice-room-title">Book Club: Sci-Fi Classics</div>
+                                <div class="voice-room-host">Hosted by book_worm</div>
+                            </div>
+                            <div class="voice-room-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=book_worm" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=sci_fi_fan" alt="Speaker">
+                                    </div>
+                                    <div class="participant-avatar">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=literature_prof" alt="Speaker">
+                                    </div>
+                                </div>
+                                <div class="participant-count">
+                                    <span>204 listening</span>
+                                </div>
+                            </div>
+                            <button class="voice-room-join">
+                                <i class="fas fa-headphones"></i>
+                                <span>Join Room</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Trending Today</h3>
+                    <div class="trends-list">
+                        <div class="trend-item">
+                            <div class="trend-category">Technology</div>
+                            <div class="trend-title">AI Models Surpass Human Performance in Critical Thinking</div>
+                            <div class="trend-stats">2.4k discussions • Trending with #AIEthics</div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-category">Science</div>
+                            <div class="trend-title">NASA Announces New Moon Base Timeline</div>
+                            <div class="trend-stats">1.8k discussions • Trending with #Artemis</div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-category">Culture</div>
+                            <div class="trend-title">Digital Minimalism Movement Grows</div>
+                            <div class="trend-stats">3.2k discussions • Trending with #LessIsMore</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Upcoming Voice Events</h3>
+                    <div class="trends-list">
+                        <div class="trend-item">
+                            <div class="trend-category">Tomorrow • 7PM EST</div>
+                            <div class="trend-title">The Future of Remote Work</div>
+                            <div class="trend-stats">523 interested • Hosted by work_futurist</div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-category">Wed • 2PM EST</div>
+                            <div class="trend-title">How to Build a Personal Brand</div>
+                            <div class="trend-stats">347 interested • Hosted by brand_guru</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Suggested Users</h3>
+                    <div class="suggested-users">
+                        <div class="user-suggestion">
+                            <div class="user-avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_writer" alt="tech_writer">
+                            </div>
+                            <div class="user-info">
+                                <div class="username">tech_writer</div>
+                                <div class="user-bio">Tech columnist, future thinker, exploring the intersection of humans and technology.</div>
+                            </div>
+                            <button class="follow-button primary">Follow</button>
+                        </div>
+                        <div class="user-suggestion">
+                            <div class="user-avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=art_curator" alt="art_curator">
+                            </div>
+                            <div class="user-info">
+                                <div class="username">art_curator</div>
+                                <div class="user-bio">Digital art curator, NFT enthusiast, helping artists thrive in the digital economy.</div>
+                            </div>
+                            <button class="follow-button primary">Follow</button>
+                        </div>
+                        <div class="user-suggestion">
+                            <div class="user-avatar">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_thinker" alt="future_thinker">
+                            </div>
+                            <div class="user-info">
+                                <div class="username">future_thinker</div>
+                                <div class="user-bio">Exploring future scenarios, technology trends, and human potential.</div>
+                            </div>
+                            <button class="follow-button primary">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
 
         <!-- Modals -->
         <div id="login-modal" class="modal">
             <div class="modal-content">
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
                 <div class="modal-header">
-                    <h2>Sign in to your account</h2>
-                    <button class="modal-close">&times;</button>
+                    <h2 class="modal-title">Welcome to Fusion</h2>
                 </div>
-                <div class="modal-body">
-                    <div class="login-form">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" name="username" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" class="form-control">
-                        </div>
-                        <button id="login-submit" class="button-primary">Sign in</button>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                <div id="login-tab" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-username">Username or Email</label>
+                        <input type="text" id="login-username" class="form-control" placeholder="Enter your username or email">
                     </div>
-                    <div class="form-footer">
-                        <p>Don't have an account? <button id="switch-to-signup" class="link-button">Sign up</button></p>
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password">
                     </div>
+                    <button class="auth-submit">Login</button>
+                </div>
+                <div id="signup-tab" class="auth-form hidden">
+                    <div class="form-group">
+                        <label class="form-label" for="signup-username">Username</label>
+                        <input type="text" id="signup-username" class="form-control" placeholder="Choose a unique username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-email">Email</label>
+                        <input type="email" id="signup-email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-password">Password</label>
+                        <input type="password" id="signup-password" class="form-control" placeholder="Create a strong password">
+                    </div>
+                    <button class="auth-submit">Sign Up</button>
+                </div>
+                <div class="auth-divider">
+                    <span class="auth-divider-text">or continue with</span>
+                </div>
+                <div class="auth-social-buttons">
+                    <button class="auth-social-button">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button class="auth-social-button">
+                        <i class="fab fa-apple"></i>
+                        <span>Apple</span>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div id="create-post-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Create a Post</h2>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="post-form">
-                        <div class="user-info">
-                            <div class="user-avatar">
-                                <img id="create-post-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Your avatar">
-                            </div>
-                            <div class="user-details">
-                                <span id="create-post-username" class="username">username</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <textarea id="post-content" placeholder="What's on your mind?" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="post-tags">Tags (comma separated)</label>
-                            <input type="text" id="post-tags" placeholder="philosophy, thoughts, etc." class="form-control">
-                        </div>
-                        <div class="modal-actions">
-                            <button class="button-secondary modal-close">Cancel</button>
-                            <button id="submit-post" class="button-primary">Post</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast success">
+            <i class="fas fa-check-circle"></i>
+            <span class="toast-message">Post has been saved successfully!</span>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script>
-// Mock data for Zeno social platform
-const MOCK_DATA = {
-    // Initial posts
-    posts: [
-        {
-            id: 'post1',
-            author: {
-                username: 'cosmic_writer',
-                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=cosmic_writer'
-            },
-            content: "Just discovered a fascinating paradox: the more connected our digital world becomes, the more we seem to crave genuine in-person interactions. What do you think?",
-            timestamp: new Date(Date.now() - 10 * 60 * 1000), // 10 minutes ago
-            likes: 42,
-            drifts: 9,
-            drops: 3,
-            comments: 7,
-            tags: ['philosophy', 'digital'],
-            userVote: null,
-            liked: false
-        },
-        {
-            id: 'post2',
-            author: {
-                username: 'tech_nomad',
-                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=tech_nomad'
-            },
-            content: "Been experimenting with a minimal digital setup this week. No notifications, no feeds, just intentional usage. My focus has improved dramatically. Highly recommend trying a digital detox!",
-            timestamp: new Date(Date.now() - 60 * 60 * 1000), // 1 hour ago
-            likes: 89,
-            drifts: 17,
-            drops: 2,
-            comments: 13,
-            tags: ['productivity', 'minimalism'],
-            userVote: null,
-            liked: false
-        },
-        {
-            id: 'post3',
-            author: {
-                username: 'future_thinker',
-                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=future_thinker'
-            },
-            content: "The best social media platform would be chronological, ad-free, with no algorithms, no follower counts, and focused on meaningful conversations. Basically the opposite of what we have now.",
-            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-            likes: 217,
-            drifts: 53,
-            drops: 4,
-            comments: 31,
-            tags: ['thoughts', 'social media'],
-            userVote: null,
-            liked: false
-        },
-        {
-            id: 'post4',
-            author: {
-                username: 'mindful_dev',
-                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=mindful_dev'
-            },
-            content: "Unpopular opinion: most software is bloated with features 80% of users never touch. Is \"simpler is better\" still a design principle, or have we lost our way in feature creep?",
-            timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
-            likes: 156,
-            drifts: 42,
-            drops: 8,
-            comments: 24,
-            tags: ['design', 'technology', 'simplicity'],
-            userVote: null,
-            liked: false
-        },
-        {
-            id: 'post5',
-            author: {
-                username: 'creative_soul',
-                avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=creative_soul'
-            },
-            content: "I have been drawing every morning for 30 minutes before checking my phone. It has completely shifted my relationship with creativity, and I find myself thinking visually throughout the day.",
-            timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
-            likes: 104,
-            drifts: 28,
-            drops: 1,
-            comments: 17,
-            tags: ['creativity', 'habit', 'mindfulness'],
-            userVote: null,
-            liked: false
-        }
-    ],
-    
-    // User data
-    currentUser: null
-};
+        // DOM Elements
+        const app = document.getElementById('app');
+        const themeToggle = document.getElementById('theme-toggle');
+        const loginButton = document.getElementById('login-button');
+        const loginModal = document.getElementById('login-modal');
+        const sectionTabs = document.querySelectorAll('.section-tab');
+        const feedSection = document.querySelector('.posts-container');
+        const threadsSection = document.querySelector('.thread-list');
+        const voiceRoomsSection = document.querySelector('.voice-rooms');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const loginTab = document.getElementById('login-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const postInput = document.querySelector('.post-input');
+        const postSubmit = document.querySelector('.post-submit');
+        const postActionButtons = document.querySelectorAll('.post-action-button');
+        const toast = document.getElementById('toast');
+        const modalCloseButton = document.querySelector('.modal-close');
 
-// Utility functions
-function formatTimeAgo(date) {
-    const now = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
-    
-    if (diffInSeconds < 60) {
-        return 'just now';
-    }
-    
-    const diffInMinutes = Math.floor(diffInSeconds / 60);
-    if (diffInMinutes < 60) {
-        return `${diffInMinutes}m ago`;
-    }
-    
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-        return `${diffInHours}h ago`;
-    }
-    
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 30) {
-        return `${diffInDays}d ago`;
-    }
-    
-    return date.toLocaleDateString();
-}
-
-// Generate a unique ID
-function generateId() {
-    return 'post' + Date.now() + Math.random().toString(36).substring(2, 9);
-}
-
-// Wait for DOM to be fully loaded before executing code
-document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const app = document.getElementById('app');
-    const themeToggle = document.getElementById('theme-toggle');
-    const loginButton = document.getElementById('login-button');
-    const loginModal = document.getElementById('login-modal');
-    const createPostModal = document.getElementById('create-post-modal');
-    const createPostArea = document.getElementById('create-post-area');
-    const openPostModalButton = document.getElementById('open-post-modal');
-    const postsContainer = document.getElementById('posts-container');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const loginSubmitButton = document.getElementById('login-submit');
-    const switchToSignupButton = document.getElementById('switch-to-signup');
-    const submitPostButton = document.getElementById('submit-post');
-    const postContentInput = document.getElementById('post-content');
-    const postTagsInput = document.getElementById('post-tags');
-    const userMenu = document.getElementById('user-menu');
-    
-    // All modal close buttons
-    const modalCloseButtons = document.querySelectorAll('.modal-close');
-    
-    // Mobile navigation - new post button
-    const mobileNewPostButton = document.querySelector('.mobile-nav .new-post-button');
-    
-    // Load posts on page load
-    loadPosts();
-    
-    // Initialize theme from localStorage
-    initTheme();
-    
-    // Event listeners
-    themeToggle.addEventListener('click', toggleTheme);
-    loginButton.addEventListener('click', openLoginModal);
-    if (openPostModalButton) {
-        openPostModalButton.addEventListener('click', openCreatePostModal);
-    }
-    if (mobileNewPostButton) {
-        mobileNewPostButton.addEventListener('click', openCreatePostModal);
-    }
-    loginSubmitButton.addEventListener('click', handleLogin);
-    switchToSignupButton.addEventListener('click', toggleSignupMode);
-    submitPostButton.addEventListener('click', createPost);
-    
-    // Close modals when clicking outside or on close button
-    modalCloseButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const modal = this.closest('.modal');
-            closeModal(modal);
-        });
-    });
-    
-    // Close modal when clicking outside content
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal(this);
+        // Initialize Theme
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.add('light-mode');
+                document.body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
-        });
-    });
-    
-    // Theme Functions
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.body.classList.remove('light-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            document.body.classList.add('light-mode');
-            document.body.classList.remove('dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    }
-    
-    function toggleTheme() {
-        if (document.body.classList.contains('light-mode')) {
-            document.body.classList.remove('light-mode');
-            document.body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.add('light-mode');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            localStorage.setItem('theme', 'light');
-        }
-    }
-    
-    // Modal Functions
-    function openLoginModal() {
-        openModal(loginModal);
-    }
-    
-    function openCreatePostModal() {
-        if (!MOCK_DATA.currentUser) {
-            openLoginModal();
-            return;
-        }
-        
-        // Set user info in modal
-        document.getElementById('create-post-username').textContent = MOCK_DATA.currentUser.username;
-        document.getElementById('create-post-avatar').src = MOCK_DATA.currentUser.avatarUrl;
-        
-        openModal(createPostModal);
-    }
-    
-    function openModal(modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeModal(modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    function closeAllModals() {
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.classList.remove('active');
-        });
-        document.body.style.overflow = '';
-    }
-    
-    // Auth Functions
-    function handleLogin() {
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-        
-        if (username && password) {
-            // In a real app, we would authenticate with a server here
-            // For demo purposes, we'll just "log in" the user with their username
-            
-            MOCK_DATA.currentUser = {
-                username: username,
-                avatarUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
-                joinDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
-            };
-            
-            // Update UI to show logged in state
-            updateAuthUI();
-            
-            // Close login modal
-            closeModal(loginModal);
-        }
-    }
-    
-    function updateAuthUI() {
-        if (MOCK_DATA.currentUser) {
-            // User is logged in
-            loginButton.classList.add('hidden');
-            
-            // Create user avatar/dropdown
-            userMenu.innerHTML = `
-                <div class="user-dropdown">
-                    <div class="user-avatar">
-                        <img src="${MOCK_DATA.currentUser.avatarUrl}" alt="${MOCK_DATA.currentUser.username}">
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-item">
-                            <i class="fas fa-user"></i>
-                            <span>@${MOCK_DATA.currentUser.username}</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </div>
-                        <div class="dropdown-item" id="logout-button">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Add logout event listener
-            document.getElementById('logout-button').addEventListener('click', function() {
-                MOCK_DATA.currentUser = null;
-                updateAuthUI();
-            });
-            
-            // Show create post area
-            if (createPostArea) {
-                createPostArea.classList.remove('hidden');
-            }
-        } else {
-            // User is logged out
-            loginButton.classList.remove('hidden');
-            
-            // Reset user menu
-            userMenu.innerHTML = `
-                <button class="login-button" id="login-button">Login</button>
-            `;
-            
-            // Re-assign login button click event
-            document.getElementById('login-button').addEventListener('click', openLoginModal);
-            
-            // Hide create post area
-            if (createPostArea) {
-                createPostArea.classList.add('hidden');
-            }
-        }
-    }
-    
-    // Sign Up vs Login toggle
-    let isSignUp = false;
-    
-    function toggleSignupMode() {
-        isSignUp = !isSignUp;
-        
-        // Update UI
-        if (isSignUp) {
-            document.querySelector('.modal-header h2').textContent = 'Create an account';
-            loginSubmitButton.textContent = 'Sign up';
-            switchToSignupButton.textContent = 'Sign in';
-            document.querySelector('.form-footer p').innerHTML = 'Already have an account? <button id="switch-to-signup" class="link-button">Sign in</button>';
-        } else {
-            document.querySelector('.modal-header h2').textContent = 'Sign in to your account';
-            loginSubmitButton.textContent = 'Sign in';
-            switchToSignupButton.textContent = 'Sign up';
-            document.querySelector('.form-footer p').innerHTML = 'Don\'t have an account? <button id="switch-to-signup" class="link-button">Sign up</button>';
-        }
-        
-        // Re-assign the event listener
-        document.getElementById('switch-to-signup').addEventListener('click', toggleSignupMode);
-    }
-    
-    // Post Functions
-    function loadPosts() {
-        // Clear current posts
-        postsContainer.innerHTML = '';
-        
-        // Sort posts by timestamp (newest first)
-        const sortedPosts = [...MOCK_DATA.posts].sort((a, b) => b.timestamp - a.timestamp);
-        
-        // Add posts to container
-        sortedPosts.forEach(post => {
-            postsContainer.appendChild(createPostElement(post));
-        });
-    }
-    
-    function createPostElement(post) {
-        const postElement = document.createElement('div');
-        postElement.classList.add('post');
-        postElement.dataset.postId = post.id;
-        
-        const timeAgo = formatTimeAgo(post.timestamp);
-        
-        postElement.innerHTML = `
-            <div class="post-header">
-                <div class="user-avatar">
-                    <img src="${post.author.avatarUrl}" alt="${post.author.username}">
-                </div>
-                <div class="user-info">
-                    <span class="username">${post.author.username}</span>
-                    <span class="post-timestamp">${timeAgo}</span>
-                </div>
-            </div>
-            <div class="post-content">
-                ${post.content}
-            </div>
-            <div class="post-tags">
-                ${post.tags.map(tag => `<span class="post-tag">#${tag}</span>`).join('')}
-            </div>
-            <div class="post-actions">
-                <button class="post-action ${post.liked ? 'liked' : ''}" data-action="like">
-                    <i class="fas ${post.liked ? 'fa-heart' : 'fa-heart'}"></i>
-                    <span>${post.likes}</span>
-                </button>
-                <button class="post-action" data-action="comment">
-                    <i class="fas fa-comment"></i>
-                    <span>${post.comments}</span>
-                </button>
-                <div class="vote-actions">
-                    <button class="post-action ${post.userVote === 'drift' ? 'drift' : ''}" data-action="drift">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>${post.drifts}</span>
-                    </button>
-                    <button class="post-action ${post.userVote === 'drop' ? 'drop' : ''}" data-action="drop">
-                        <i class="fas fa-arrow-down"></i>
-                        <span>${post.drops}</span>
-                    </button>
-                </div>
-                <button class="post-action" data-action="share">
-                    <i class="fas fa-share"></i>
-                </button>
-                <button class="post-action" data-action="bookmark">
-                    <i class="fas fa-bookmark"></i>
-                </button>
-            </div>
-        `;
-        
-        // Add event listeners to post actions
-        const actions = postElement.querySelectorAll('.post-action');
-        actions.forEach(action => {
-            action.addEventListener('click', function() {
-                const actionType = this.dataset.action;
-                const postId = this.closest('.post').dataset.postId;
-                handlePostAction(actionType, postId, this);
-            });
-        });
-        
-        return postElement;
-    }
-    
-    function handlePostAction(actionType, postId, buttonElement) {
-        // Require login for post actions
-        if (!MOCK_DATA.currentUser) {
-            openLoginModal();
-            return;
-        }
-        
-        const post = MOCK_DATA.posts.find(p => p.id === postId);
-        if (!post) return;
-        
-        switch (actionType) {
-            case 'like':
-                post.liked = !post.liked;
-                post.likes = post.liked ? post.likes + 1 : post.likes - 1;
-                buttonElement.classList.toggle('liked', post.liked);
-                buttonElement.querySelector('span').textContent = post.likes;
-                buttonElement.querySelector('i').className = post.liked ? 'fas fa-heart' : 'fas fa-heart';
-                break;
-                
-            case 'drift':
-                // If already drifted, remove drift
-                if (post.userVote === 'drift') {
-                    post.userVote = null;
-                    post.drifts--;
-                    buttonElement.classList.remove('drift');
-                } 
-                // If dropped, switch to drift
-                else if (post.userVote === 'drop') {
-                    post.userVote = 'drift';
-                    post.drifts++;
-                    post.drops--;
-                    buttonElement.classList.add('drift');
-                    
-                    // Update drop button
-                    const dropButton = buttonElement.closest('.vote-actions').querySelector('[data-action="drop"]');
-                    dropButton.classList.remove('drop');
-                    dropButton.querySelector('span').textContent = post.drops;
-                } 
-                // If no vote, add drift
-                else {
-                    post.userVote = 'drift';
-                    post.drifts++;
-                    buttonElement.classList.add('drift');
-                }
-                
-                buttonElement.querySelector('span').textContent = post.drifts;
-                break;
-                
-            case 'drop':
-                // If already dropped, remove drop
-                if (post.userVote === 'drop') {
-                    post.userVote = null;
-                    post.drops--;
-                    buttonElement.classList.remove('drop');
-                } 
-                // If drifted, switch to drop
-                else if (post.userVote === 'drift') {
-                    post.userVote = 'drop';
-                    post.drops++;
-                    post.drifts--;
-                    buttonElement.classList.add('drop');
-                    
-                    // Update drift button
-                    const driftButton = buttonElement.closest('.vote-actions').querySelector('[data-action="drift"]');
-                    driftButton.classList.remove('drift');
-                    driftButton.querySelector('span').textContent = post.drifts;
-                } 
-                // If no vote, add drop
-                else {
-                    post.userVote = 'drop';
-                    post.drops++;
-                    buttonElement.classList.add('drop');
-                }
-                
-                buttonElement.querySelector('span').textContent = post.drops;
-                break;
-                
-            case 'comment':
-                // In a real app, this would open a comment form
-                alert('Comment functionality would be here');
-                break;
-                
-            case 'share':
-                alert('Share functionality would be here');
-                break;
-                
-            case 'bookmark':
-                alert('Bookmark functionality would be here');
-                break;
-        }
-    }
-    
-    function createPost() {
-        const content = postContentInput.value.trim();
-        const tagsString = postTagsInput.value.trim();
-        
-        if (!content) return;
-        
-        // Parse tags
-        const tags = tagsString ? tagsString.split(',').map(tag => tag.trim().toLowerCase()) : [];
-        
-        // Create new post
-        const newPost = {
-            id: generateId(),
-            author: {
-                username: MOCK_DATA.currentUser.username,
-                avatarUrl: MOCK_DATA.currentUser.avatarUrl
-            },
-            content: content,
-            timestamp: new Date(),
-            likes: 0,
-            drifts: 0,
-            drops: 0,
-            comments: 0,
-            tags: tags,
-            userVote: null,
-            liked: false
         };
-        
-        // Add to posts array
-        MOCK_DATA.posts.unshift(newPost);
-        
-        // Refresh posts
-        loadPosts();
-        
-        // Clear form
-        postContentInput.value = '';
-        postTagsInput.value = '';
-        
-        // Close modal
-        closeModal(createPostModal);
-    }
-});
+
+        // Toggle Theme
+        const toggleTheme = () => {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.remove('light-mode');
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.body.classList.add('light-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // Show Modal
+        const showModal = (modal) => {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        // Hide Modal
+        const hideModal = (modal) => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        // Switch Section Tabs
+        const switchSection = (tabIndex) => {
+            sectionTabs.forEach((tab, index) => {
+                if (index === tabIndex) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            if (tabIndex === 0) {
+                feedSection.classList.remove('hidden');
+                threadsSection.classList.add('hidden');
+                voiceRoomsSection.classList.add('hidden');
+            } else if (tabIndex === 1) {
+                feedSection.classList.add('hidden');
+                threadsSection.classList.remove('hidden');
+                voiceRoomsSection.classList.add('hidden');
+            } else if (tabIndex === 2) {
+                feedSection.classList.add('hidden');
+                threadsSection.classList.add('hidden');
+                voiceRoomsSection.classList.remove('hidden');
+            }
+        };
+
+        // Switch Auth Tabs
+        const switchAuthTab = (tabName) => {
+            authTabs.forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            if (tabName === 'login') {
+                loginTab.classList.remove('hidden');
+                signupTab.classList.add('hidden');
+            } else {
+                loginTab.classList.add('hidden');
+                signupTab.classList.remove('hidden');
+            }
+        };
+
+        // Enable/Disable Post Submit
+        const togglePostSubmit = () => {
+            if (postInput.value.trim().length > 0) {
+                postSubmit.removeAttribute('disabled');
+            } else {
+                postSubmit.setAttribute('disabled', '');
+            }
+        };
+
+        // Show Toast Notification
+        const showToast = (type, message) => {
+            toast.className = `toast ${type}`;
+            toast.querySelector('.toast-message').textContent = message;
+            toast.classList.add('visible');
+            
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3000);
+        };
+
+        // Toggle Post Action (upvote, downvote, etc.)
+        const togglePostAction = (button) => {
+            const action = button.classList[1];
+            
+            if (action === 'upvote' || action === 'downvote') {
+                const upvoteButton = button.parentElement.querySelector('.upvote');
+                const downvoteButton = button.parentElement.querySelector('.downvote');
+                
+                if (action === 'upvote') {
+                    if (button.classList.contains('active')) {
+                        button.classList.remove('active');
+                    } else {
+                        button.classList.add('active');
+                        downvoteButton.classList.remove('active');
+                    }
+                } else {
+                    if (button.classList.contains('active')) {
+                        button.classList.remove('active');
+                    } else {
+                        button.classList.add('active');
+                        upvoteButton.classList.remove('active');
+                    }
+                }
+            } else if (action === 'favorite') {
+                button.classList.toggle('active');
+                
+                if (button.classList.contains('active')) {
+                    showToast('success', 'Post has been saved!');
+                    button.querySelector('span').textContent = 'Saved';
+                } else {
+                    showToast('info', 'Post has been unsaved.');
+                    button.querySelector('span').textContent = 'Save';
+                }
+            } else if (action === 'share') {
+                showToast('info', 'Sharing options opened.');
+            }
+        };
+
+        // Event Listeners
+        window.addEventListener('DOMContentLoaded', initTheme);
+        themeToggle.addEventListener('click', toggleTheme);
+        loginButton.addEventListener('click', () => showModal(loginModal));
+        modalCloseButton.addEventListener('click', () => hideModal(loginModal));
+
+        sectionTabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => switchSection(index));
+        });
+
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
+        });
+
+        if (postInput) {
+            postInput.addEventListener('input', togglePostSubmit);
+        }
+
+        postActionButtons.forEach(button => {
+            button.addEventListener('click', () => togglePostAction(button));
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                hideModal(loginModal);
+            }
+        });
+
+        // Close toast on click
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.classList.remove('visible');
+        });
     </script>
 </body>
 </html>
