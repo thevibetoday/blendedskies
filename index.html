@@ -3,2750 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OLYMPUS - Beyond Social Media</title>
+    <title>OLYMPUS - The Ultimate Social Media Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-:root {
-    /* Core Brand Colors */
-    --primary: #7240FF;
-    --primary-dark: #5B30E6;
-    --primary-light: #9E77FF;
-    --secondary: #24CBFF;
-    --tertiary: #FF3366;
-    --quaternary: #00E699;
-    --quinary: #FFCB47;
-    
-    /* Functional Colors */
-    --success: #00D26A;
-    --warning: #FFBC3E;
-    --error: #FF4D4F;
-    --info: #24CBFF;
-    
-    /* Engagement Colors */
-    --like: #FF3366;
-    --boost: #00E699;
-    --insightful: #24CBFF;
-    --celebrate: #FFBC3E;
-    
-    /* Neutrals */
-    --white: #FFFFFF;
-    --gray-50: #F9FAFB;
-    --gray-100: #F3F4F6;
-    --gray-200: #E5E7EB;
-    --gray-300: #D1D5DB;
-    --gray-400: #9CA3AF;
-    --gray-500: #6B7280;
-    --gray-600: #4B5563;
-    --gray-700: #374151;
-    --gray-800: #1F2937;
-    --gray-900: #111827;
-    --black: #000000;
-    
-    /* Theme Colors - Light */
-    --light-bg: #F9FAFB;
-    --light-card: #FFFFFF;
-    --light-surface: #F3F4F6;
-    --light-border: #E5E7EB;
-    --light-text: #111827;
-    --light-text-secondary: #4B5563;
-    --light-icon: #6B7280;
-    
-    /* Theme Colors - Dark */
-    --dark-bg: #0A0A10;
-    --dark-card: #121218;
-    --dark-surface: #1E1E2A;
-    --dark-border: #2E2E3A;
-    --dark-text: #FFFFFF;
-    --dark-text-secondary: #A1A1AA;
-    --dark-icon: #71717A;
-    
-    /* Dimensions */
-    --header-height: 64px;
-    --sidebar-width: 280px;
-    --right-sidebar-width: 320px;
-    --mobile-nav-height: 60px;
-    
-    /* Typography */
-    --font-primary: 'Montserrat', sans-serif;
-    --font-secondary: 'Nunito', sans-serif;
-    
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-normal: 300ms ease;
-    --transition-slow: 500ms ease;
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    
-    /* Z-index layers */
-    --z-header: 100;
-    --z-sidebar: 90;
-    --z-dropdown: 110;
-    --z-modal: 200;
-    --z-toast: 300;
-    --z-tooltip: 400;
-    
-    /* Border radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-full: 9999px;
-    
-    /* Spacing */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
-    --space-20: 80px;
-    
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --gradient-secondary: linear-gradient(135deg, var(--tertiary) 0%, var(--primary) 100%);
-    --gradient-tertiary: linear-gradient(135deg, var(--quaternary) 0%, var(--secondary) 100%);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-secondary);
-    font-size: 16px;
-    line-height: 1.5;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-body.light-mode {
-    background-color: var(--light-bg);
-    color: var(--light-text);
-}
-
-body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-primary);
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: color 0.2s;
-}
-
-button {
-    cursor: pointer;
-    font-family: var(--font-primary);
-    border: none;
-    background: none;
-    transition: all 0.2s;
-}
-
-ul {
-    list-style: none;
-}
-
-input, textarea, select {
-    font-family: var(--font-secondary);
-    font-size: 16px;
-}
-
-/* Hidden Utility */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-/* Layout */
-.app-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-layout {
-    display: flex;
-    min-height: calc(100vh - var(--header-height));
-    margin-top: var(--header-height);
-}
-
-.main-content {
-    flex: 1;
-    margin-bottom: var(--mobile-nav-height);
-    transition: margin 0.3s ease;
-}
-
-@media (min-width: 768px) {
-    .main-content {
-        margin-left: var(--sidebar-width);
-        margin-bottom: 0;
-    }
-}
-
-@media (min-width: 1280px) {
-    .main-content {
-        margin-right: var(--right-sidebar-width);
-    }
-}
-
-.content-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: var(--space-4);
-}
-
-@media (min-width: 768px) {
-    .content-container {
-        padding: var(--space-8);
-    }
-}
-
-/* Header */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--header-height);
-    z-index: var(--z-header);
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.light-mode .header {
-    background-color: var(--light-card);
-    border-bottom: 1px solid var(--light-border);
-}
-
-.dark-mode .header {
-    background-color: var(--dark-card);
-    border-bottom: 1px solid var(--dark-border);
-}
-
-.header-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--space-4);
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    font-family: var(--font-primary);
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.logo i {
-    font-size: 1.8rem;
-    margin-right: var(--space-2);
-    color: var(--primary);
-    -webkit-text-fill-color: initial;
-}
-
-.search-bar {
-    display: none;
-    max-width: 480px;
-    width: 100%;
-    margin: 0 var(--space-8);
-    position: relative;
-}
-
-@media (min-width: 768px) {
-    .search-bar {
-        display: block;
-    }
-}
-
-.search-input {
-    width: 100%;
-    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-10);
-    border-radius: var(--radius-full);
-    border: 1px solid;
-    transition: all 0.2s;
-}
-
-.light-mode .search-input {
-    background-color: var(--light-surface);
-    border-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .search-input {
-    background-color: var(--dark-surface);
-    border-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(114, 64, 255, 0.2);
-}
-
-.search-icon {
-    position: absolute;
-    left: var(--space-4);
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1rem;
-    transition: color 0.2s;
-}
-
-.light-mode .search-icon {
-    color: var(--light-icon);
-}
-
-.dark-mode .search-icon {
-    color: var(--dark-icon);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-}
-
-.header-icon-btn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    font-size: 1.25rem;
-    transition: all 0.2s;
-}
-
-.light-mode .header-icon-btn {
-    color: var(--light-icon);
-    background-color: transparent;
-}
-
-.dark-mode .header-icon-btn {
-    color: var(--dark-icon);
-    background-color: transparent;
-}
-
-.light-mode .header-icon-btn:hover {
-    background-color: var(--light-surface);
-    color: var(--gray-800);
-}
-
-.dark-mode .header-icon-btn:hover {
-    background-color: var(--dark-surface);
-    color: var(--white);
-}
-
-.notification-btn {
-    position: relative;
-}
-
-.notification-badge {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 16px;
-    height: 16px;
-    background-color: var(--tertiary);
-    color: white;
-    border-radius: var(--radius-full);
-    font-size: 0.7rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.user-menu {
-    position: relative;
-}
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 2px solid;
-}
-
-.light-mode .avatar {
-    border-color: transparent;
-}
-
-.dark-mode .avatar {
-    border-color: transparent;
-}
-
-.avatar:hover {
-    border-color: var(--primary);
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Primary Sidebar */
-.primary-sidebar {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: var(--mobile-nav-height);
-    z-index: var(--z-sidebar);
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.light-mode .primary-sidebar {
-    background-color: var(--light-card);
-    border-top: 1px solid var(--light-border);
-}
-
-.dark-mode .primary-sidebar {
-    background-color: var(--dark-card);
-    border-top: 1px solid var(--dark-border);
-}
-
-@media (min-width: 768px) {
-    .primary-sidebar {
-        top: var(--header-height);
-        height: calc(100vh - var(--header-height));
-        width: var(--sidebar-width);
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: var(--space-8);
-        border-top: none;
-    }
-    
-    .light-mode .primary-sidebar {
-        border-right: 1px solid var(--light-border);
-    }
-    
-    .dark-mode .primary-sidebar {
-        border-right: 1px solid var(--dark-border);
-    }
-}
-
-/* Mobile Navigation */
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--light-icon);
-    font-size: 0.7rem;
-    font-weight: 500;
-    gap: var(--space-1);
-    transition: all 0.2s;
-}
-
-.dark-mode .nav-item {
-    color: var(--dark-icon);
-}
-
-.nav-item i {
-    font-size: 1.25rem;
-}
-
-.nav-item.active {
-    color: var(--primary);
-}
-
-@media (min-width: 768px) {
-    .nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-2);
-        width: 100%;
-        padding: 0 var(--space-4);
-    }
-    
-    .nav-item {
-        flex-direction: row;
-        font-size: 1rem;
-        padding: var(--space-3) var(--space-4);
-        border-radius: var(--radius-lg);
-        justify-content: flex-start;
-    }
-    
-    .nav-item i {
-        margin-right: var(--space-3);
-    }
-    
-    .light-mode .nav-item:hover {
-        background-color: var(--light-surface);
-    }
-    
-    .dark-mode .nav-item:hover {
-        background-color: var(--dark-surface);
-    }
-    
-    .nav-item.active {
-        font-weight: 600;
-        background-color: rgba(114, 64, 255, 0.1);
-    }
-}
-
-.sidebar-section {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .sidebar-section {
-        display: block;
-        padding: var(--space-6) var(--space-4);
-        margin-top: var(--space-4);
-    }
-    
-    .sidebar-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--space-4);
-    }
-    
-    .sidebar-title {
-        font-size: 1rem;
-        font-weight: 700;
-    }
-    
-    .sidebar-action {
-        font-size: 0.875rem;
-        color: var(--primary);
-        font-weight: 600;
-    }
-}
-
-.community-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.community-item {
-    display: flex;
-    align-items: center;
-    padding: var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
-}
-
-.light-mode .community-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .community-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.community-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    margin-right: var(--space-3);
-}
-
-.community-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.community-info {
-    flex: 1;
-    overflow: hidden;
-}
-
-.community-name {
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.community-metric {
-    font-size: 0.75rem;
-}
-
-.light-mode .community-metric {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .community-metric {
-    color: var(--dark-text-secondary);
-}
-
-.create-btn {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .create-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: var(--space-6) var(--space-4);
-        padding: var(--space-3) var(--space-4);
-        border-radius: var(--radius-lg);
-        font-weight: 600;
-        font-size: 0.875rem;
-        background-color: var(--primary);
-        color: white;
-        transition: all 0.2s;
-    }
-    
-    .create-btn:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
-    }
-    
-    .create-btn i {
-        margin-right: var(--space-2);
-        font-size: 1rem;
-    }
-}
-
-/* Secondary Sidebar */
-.secondary-sidebar {
-    display: none;
-    position: fixed;
-    top: var(--header-height);
-    right: 0;
-    width: var(--right-sidebar-width);
-    height: calc(100vh - var(--header-height));
-    overflow-y: auto;
-    transition: all 0.3s;
-    padding: var(--space-4);
-}
-
-.light-mode .secondary-sidebar {
-    background-color: var(--light-card);
-    border-left: 1px solid var(--light-border);
-}
-
-.dark-mode .secondary-sidebar {
-    background-color: var(--dark-card);
-    border-left: 1px solid var(--dark-border);
-}
-
-@media (min-width: 1280px) {
-    .secondary-sidebar {
-        display: block;
-    }
-}
-
-.sidebar-card {
-    padding: var(--space-4);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--space-4);
-}
-
-.light-mode .sidebar-card {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .sidebar-card {
-    background-color: var(--dark-surface);
-}
-
-.sidebar-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: var(--space-3);
-}
-
-.trend-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.trend-item {
-    display: flex;
-    flex-direction: column;
-    padding: var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.light-mode .trend-item:hover {
-    background-color: var(--light-bg);
-}
-
-.dark-mode .trend-item:hover {
-    background-color: var(--dark-bg);
-}
-
-.trend-category {
-    font-size: 0.75rem;
-    margin-bottom: var(--space-1);
-}
-
-.light-mode .trend-category {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .trend-category {
-    color: var(--dark-text-secondary);
-}
-
-.trend-title {
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-}
-
-.trend-metrics {
-    font-size: 0.75rem;
-}
-
-.light-mode .trend-metrics {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .trend-metrics {
-    color: var(--dark-text-secondary);
-}
-
-.upcoming-events {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.event-item {
-    display: flex;
-    gap: var(--space-3);
-    padding: var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.light-mode .event-item:hover {
-    background-color: var(--light-bg);
-}
-
-.dark-mode .event-item:hover {
-    background-color: var(--dark-bg);
-}
-
-.event-date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 48px;
-    height: 48px;
-    padding: var(--space-1);
-    background-color: var(--primary);
-    border-radius: var(--radius-md);
-    color: white;
-    font-weight: 600;
-}
-
-.event-month {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-}
-
-.event-day {
-    font-size: 1.125rem;
-}
-
-.event-info {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.event-title {
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-}
-
-.event-details {
-    font-size: 0.75rem;
-    margin-bottom: var(--space-1);
-}
-
-.light-mode .event-details {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .event-details {
-    color: var(--dark-text-secondary);
-}
-
-.event-participants {
-    display: flex;
-    align-items: center;
-}
-
-.event-avatar-stack {
-    display: flex;
-    margin-right: var(--space-2);
-}
-
-.event-avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-full);
-    border: 2px solid;
-    overflow: hidden;
-    margin-left: -8px;
-}
-
-.event-avatar:first-child {
-    margin-left: 0;
-}
-
-.light-mode .event-avatar {
-    border-color: var(--light-surface);
-}
-
-.dark-mode .event-avatar {
-    border-color: var(--dark-surface);
-}
-
-.event-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.event-participant-count {
-    font-size: 0.75rem;
-}
-
-.light-mode .event-participant-count {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .event-participant-count {
-    color: var(--dark-text-secondary);
-}
-
-.suggested-users {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-}
-
-.user-suggestion {
-    display: flex;
-    align-items: center;
-    padding: var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
-}
-
-.light-mode .user-suggestion:hover {
-    background-color: var(--light-bg);
-}
-
-.dark-mode .user-suggestion:hover {
-    background-color: var(--dark-bg);
-}
-
-.user-suggestion .avatar {
-    width: 48px;
-    height: 48px;
-    margin-right: var(--space-3);
-}
-
-.user-info {
-    flex: 1;
-    overflow: hidden;
-}
-
-.user-name {
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: var(--space-1);
-}
-
-.user-bio {
-    font-size: 0.75rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.light-mode .user-bio {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .user-bio {
-    color: var(--dark-text-secondary);
-}
-
-.follow-btn {
-    white-space: nowrap;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 2px solid;
-    transition: all 0.2s;
-}
-
-.follow-btn.primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: white;
-}
-
-.follow-btn.primary:hover {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
-}
-
-.follow-btn.secondary {
-    background-color: transparent;
-}
-
-.light-mode .follow-btn.secondary {
-    border-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .follow-btn.secondary {
-    border-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.light-mode .follow-btn.secondary:hover {
-    background-color: var(--light-border);
-}
-
-.dark-mode .follow-btn.secondary:hover {
-    background-color: var(--dark-border);
-}
-
-/* Main Content */
-.content-tabs {
-    display: flex;
-    border-bottom: 2px solid;
-    margin-bottom: var(--space-6);
-}
-
-.light-mode .content-tabs {
-    border-color: var(--light-border);
-}
-
-.dark-mode .content-tabs {
-    border-color: var(--dark-border);
-}
-
-.content-tab {
-    padding: var(--space-3) var(--space-4);
-    font-family: var(--font-primary);
-    font-weight: 600;
-    position: relative;
-    white-space: nowrap;
-}
-
-.light-mode .content-tab {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .content-tab {
-    color: var(--dark-text-secondary);
-}
-
-.content-tab.active {
-    color: var(--primary);
-}
-
-.content-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary);
-}
-
-/* Content Feed */
-.content-feed {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-}
-
-/* Post Composer */
-.post-composer {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: var(--space-6);
-    transition: box-shadow 0.3s;
-}
-
-.light-mode .post-composer {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .post-composer {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.light-mode .post-composer:focus-within {
-    box-shadow: var(--shadow-md);
-}
-
-.dark-mode .post-composer:focus-within {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-}
-
-.composer-header {
-    padding: var(--space-4);
-    display: flex;
-    gap: var(--space-3);
-    align-items: flex-start;
-}
-
-.composer-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    resize: none;
-    padding: var(--space-2);
-    min-height: 60px;
-    font-family: var(--font-secondary);
-}
-
-.light-mode .composer-input {
-    color: var(--light-text);
-}
-
-.dark-mode .composer-input {
-    color: var(--dark-text);
-}
-
-.composer-input:focus {
-    outline: none;
-}
-
-.composer-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-3) var(--space-4);
-    border-top: 1px solid;
-}
-
-.light-mode .composer-footer {
-    border-color: var(--light-border);
-}
-
-.dark-mode .composer-footer {
-    border-color: var(--dark-border);
-}
-
-.composer-tools {
-    display: flex;
-    gap: var(--space-3);
-}
-
-.composer-tool {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    font-size: 1rem;
-    transition: all 0.2s;
-}
-
-.light-mode .composer-tool {
-    color: var(--light-icon);
-}
-
-.dark-mode .composer-tool {
-    color: var(--dark-icon);
-}
-
-.light-mode .composer-tool:hover {
-    background-color: var(--light-surface);
-    color: var(--primary);
-}
-
-.dark-mode .composer-tool:hover {
-    background-color: var(--dark-surface);
-    color: var(--primary);
-}
-
-.composer-submit {
-    padding: var(--space-2) var(--space-5);
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    background-color: var(--primary);
-    color: white;
-    transition: all 0.2s;
-}
-
-.composer-submit:hover {
-    background-color: var(--primary-dark);
-}
-
-.composer-submit:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Enhanced Post Card */
-.post-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: all 0.3s;
-}
-
-.light-mode .post-card {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .post-card {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.post-card:hover {
-    transform: translateY(-2px);
-}
-
-.light-mode .post-card:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.dark-mode .post-card:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-}
-
-.post-header {
-    padding: var(--space-4);
-    display: flex;
-    align-items: center;
-}
-
-.post-author-info {
-    flex: 1;
-    margin-left: var(--space-3);
-}
-
-.post-author-name {
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-}
-
-.author-verified {
-    color: var(--primary);
-    font-size: 0.875rem;
-}
-
-.post-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: 0.75rem;
-}
-
-.light-mode .post-meta {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-meta {
-    color: var(--dark-text-secondary);
-}
-
-.post-context {
-    display: flex;
-    align-items: center;
-}
-
-.post-context::before {
-    content: '•';
-    margin-right: var(--space-2);
-}
-
-.post-options {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    transition: all 0.2s;
-}
-
-.light-mode .post-options {
-    color: var(--light-icon);
-}
-
-.dark-mode .post-options {
-    color: var(--dark-icon);
-}
-
-.light-mode .post-options:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .post-options:hover {
-    background-color: var(--dark-surface);
-}
-
-.post-body {
-    padding: 0 var(--space-4) var(--space-4);
-}
-
-.post-content {
-    margin-bottom: var(--space-4);
-    word-break: break-word;
-}
-
-.post-links {
-    margin-bottom: var(--space-4);
-}
-
-.link-preview {
-    display: flex;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    height: 120px;
-    border: 1px solid;
-}
-
-.light-mode .link-preview {
-    border-color: var(--light-border);
-}
-
-.dark-mode .link-preview {
-    border-color: var(--dark-border);
-}
-
-.link-image {
-    width: 120px;
-    height: 100%;
-    overflow: hidden;
-}
-
-.link-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.link-details {
-    flex: 1;
-    padding: var(--space-3);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.link-source {
-    font-size: 0.75rem;
-    margin-bottom: var(--space-1);
-}
-
-.light-mode .link-source {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .link-source {
-    color: var(--dark-text-secondary);
-}
-
-.link-title {
-    font-weight: 600;
-    margin-bottom: var(--space-2);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.link-description {
-    font-size: 0.875rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.light-mode .link-description {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .link-description {
-    color: var(--dark-text-secondary);
-}
-
-.post-media {
-    margin-bottom: var(--space-4);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-}
-
-.media-image {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-}
-
-.media-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    max-height: 400px;
-}
-
-.media-grid-item {
-    height: 200px;
-    overflow: hidden;
-}
-
-.media-grid-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.media-grid-3 {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-}
-
-.media-grid-3 .media-grid-item:first-child {
-    grid-row: span 2;
-}
-
-.media-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-}
-
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-4);
-}
-
-.post-tag {
-    display: inline-flex;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.light-mode .post-tag {
-    background-color: var(--light-surface);
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-tag {
-    background-color: var(--dark-surface);
-    color: var(--dark-text-secondary);
-}
-
-.light-mode .post-tag:hover {
-    background-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .post-tag:hover {
-    background-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.post-stats {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-3) 0;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    margin-bottom: var(--space-3);
-}
-
-.light-mode .post-stats {
-    border-color: var(--light-border);
-}
-
-.dark-mode .post-stats {
-    border-color: var(--dark-border);
-}
-
-.stat-group {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-}
-
-.post-stat {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    font-size: 0.875rem;
-}
-
-.light-mode .post-stat {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .post-stat {
-    color: var(--dark-text-secondary);
-}
-
-.post-footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 var(--space-2) var(--space-3);
-}
-
-.reaction-button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-2);
-    border-radius: var(--radius-md);
-    transition: all 0.2s;
-    font-weight: 500;
-}
-
-.light-mode .reaction-button {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .reaction-button {
-    color: var(--dark-text-secondary);
-}
-
-.light-mode .reaction-button:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .reaction-button:hover {
-    background-color: var(--dark-surface);
-}
-
-.reaction-button i {
-    font-size: 1.25rem;
-}
-
-.reaction-button.liked {
-    color: var(--like);
-}
-
-.reaction-button.boosted {
-    color: var(--boost);
-}
-
-.reaction-button.insightful {
-    color: var(--insightful);
-}
-
-.reaction-button.celebrated {
-    color: var(--celebrate);
-}
-
-/* Voice Rooms */
-.voice-rooms {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--space-4);
-}
-
-.voice-room {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    padding: var(--space-4);
-    transition: all 0.3s;
-}
-
-.light-mode .voice-room {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .voice-room {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.voice-room:hover {
-    transform: translateY(-2px);
-}
-
-.light-mode .voice-room:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.dark-mode .voice-room:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-}
-
-.voice-room-status {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: var(--space-3);
-}
-
-.status-live {
-    background-color: rgba(255, 51, 102, 0.1);
-    color: var(--tertiary);
-}
-
-.status-scheduled {
-    background-color: rgba(36, 203, 255, 0.1);
-    color: var(--secondary);
-}
-
-.voice-room-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin-bottom: var(--space-2);
-}
-
-.room-host {
-    font-size: 0.875rem;
-    margin-bottom: var(--space-3);
-}
-
-.light-mode .room-host {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .room-host {
-    color: var(--dark-text-secondary);
-}
-
-.participants-preview {
-    display: flex;
-    margin-bottom: var(--space-4);
-}
-
-.participants-avatars {
-    display: flex;
-    margin-right: var(--space-3);
-}
-
-.participant-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    border: 2px solid;
-    margin-left: -10px;
-    position: relative;
-}
-
-.participant-avatar:first-child {
-    margin-left: 0;
-}
-
-.light-mode .participant-avatar {
-    border-color: var(--light-card);
-}
-
-.dark-mode .participant-avatar {
-    border-color: var(--dark-card);
-}
-
-.participant-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: var(--radius-full);
-}
-
-.participant-count {
-    font-size: 0.875rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-}
-
-.room-cta {
-    display: flex;
-    gap: var(--space-2);
-}
-
-.join-button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-.join-button.primary {
-    background-color: var(--primary);
-    color: white;
-}
-
-.join-button.primary:hover {
-    background-color: var(--primary-dark);
-}
-
-.join-button.secondary {
-    background-color: transparent;
-    border: 1px solid;
-}
-
-.light-mode .join-button.secondary {
-    border-color: var(--light-border);
-    color: var(--light-text);
-}
-
-.dark-mode .join-button.secondary {
-    border-color: var(--dark-border);
-    color: var(--dark-text);
-}
-
-.light-mode .join-button.secondary:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .join-button.secondary:hover {
-    background-color: var(--dark-surface);
-}
-
-/* Threads */
-.thread-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-}
-
-.thread {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: all 0.3s;
-}
-
-.light-mode .thread {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .thread {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.thread:hover {
-    transform: translateY(-2px);
-}
-
-.light-mode .thread:hover {
-    box-shadow: var(--shadow-md);
-}
-
-.dark-mode .thread:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-}
-
-.thread-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: var(--space-3);
-    padding: 0 var(--space-4);
-}
-
-.thread-preview {
-    padding: 0 var(--space-4);
-    margin-bottom: var(--space-4);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-
-.light-mode .thread-preview {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .thread-preview {
-    color: var(--dark-text-secondary);
-}
-
-.thread-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-3) var(--space-4);
-    border-top: 1px solid;
-}
-
-.light-mode .thread-footer {
-    border-color: var(--light-border);
-    background-color: var(--light-surface);
-}
-
-.dark-mode .thread-footer {
-    border-color: var(--dark-border);
-    background-color: var(--dark-surface);
-}
-
-.thread-stats {
-    display: flex;
-    gap: var(--space-4);
-}
-
-.thread-stat {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    font-size: 0.875rem;
-}
-
-.light-mode .thread-stat {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .thread-stat {
-    color: var(--dark-text-secondary);
-}
-
-.thread-last-activity {
-    font-size: 0.875rem;
-}
-
-.light-mode .thread-last-activity {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .thread-last-activity {
-    color: var(--dark-text-secondary);
-}
-
-/* Custom Experience Card */
-.experience-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: var(--space-6);
-    position: relative;
-}
-
-.experience-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    filter: brightness(0.7);
-}
-
-.experience-overlay {
-    position: relative;
-    z-index: 1;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
-    padding: var(--space-8) var(--space-4);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.experience-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 600;
-    background-color: var(--tertiary);
-    color: white;
-    margin-bottom: var(--space-3);
-}
-
-.experience-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: var(--space-2);
-}
-
-.experience-description {
-    max-width: 500px;
-    margin-bottom: var(--space-4);
-    font-size: 1rem;
-}
-
-.experience-cta {
-    display: flex;
-    gap: var(--space-3);
-}
-
-.experience-button {
-    padding: var(--space-2) var(--space-5);
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-.experience-button.primary {
-    background-color: white;
-    color: var(--gray-900);
-}
-
-.experience-button.primary:hover {
-    background-color: var(--gray-200);
-}
-
-.experience-button.secondary {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-}
-
-.experience-button.secondary:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Dropdowns */
-.dropdown {
-    position: absolute;
-    z-index: var(--z-dropdown);
-    min-width: 200px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    display: none;
-}
-
-.light-mode .dropdown {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .dropdown {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.dropdown.active {
-    display: block;
-}
-
-.dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: var(--space-3) var(--space-4);
-    transition: all 0.2s;
-}
-
-.light-mode .dropdown-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .dropdown-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.dropdown-item i {
-    margin-right: var(--space-3);
-    width: 16px;
-    text-align: center;
-}
-
-.dropdown-divider {
-    height: 1px;
-    width: 100%;
-}
-
-.light-mode .dropdown-divider {
-    background-color: var(--light-border);
-}
-
-.dark-mode .dropdown-divider {
-    background-color: var(--dark-border);
-}
-
-/* Modals */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: var(--z-modal);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
-}
-
-.modal.active {
-    display: flex;
-}
-
-.modal-container {
-    width: 100%;
-    max-width: 500px;
-    border-radius: var(--radius-lg);
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-}
-
-.light-mode .modal-container {
-    background-color: var(--light-card);
-}
-
-.dark-mode .modal-container {
-    background-color: var(--dark-card);
-}
-
-.modal-header {
-    padding: var(--space-4);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid;
-}
-
-.light-mode .modal-header {
-    border-color: var(--light-border);
-}
-
-.dark-mode .modal-header {
-    border-color: var(--dark-border);
-}
-
-.modal-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-
-.modal-close {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    transition: all 0.2s;
-}
-
-.light-mode .modal-close {
-    color: var(--light-icon);
-}
-
-.dark-mode .modal-close {
-    color: var(--dark-icon);
-}
-
-.light-mode .modal-close:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .modal-close:hover {
-    background-color: var(--dark-surface);
-}
-
-.modal-body {
-    padding: var(--space-4);
-}
-
-.modal-footer {
-    padding: var(--space-4);
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-3);
-    border-top: 1px solid;
-}
-
-.light-mode .modal-footer {
-    border-color: var(--light-border);
-}
-
-.dark-mode .modal-footer {
-    border-color: var(--dark-border);
-}
-
-/* Filter System */
-.filter-menu {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    box-shadow: var(--shadow-lg);
-    width: 90%;
-    max-width: 400px;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2000;
-    display: none;
-}
-
-.dark-mode .filter-menu {
-    background-color: rgba(18, 18, 24, 0.95);
-}
-
-.filter-menu.active {
-    display: block;
-}
-
-.filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--gray-200);
-}
-
-.dark-mode .filter-header {
-    border-color: var(--dark-border);
-}
-
-.filter-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-}
-
-.filter-close {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    background-color: var(--gray-100);
-    color: var(--gray-800);
-    transition: all 0.2s;
-}
-
-.dark-mode .filter-close {
-    background-color: var(--dark-surface);
-    color: var(--dark-text);
-}
-
-.filter-close:hover {
-    background-color: var(--gray-200);
-}
-
-.dark-mode .filter-close:hover {
-    background-color: var(--dark-border);
-}
-
-.filter-section {
-    margin-bottom: var(--space-4);
-}
-
-.filter-section-title {
-    font-weight: 600;
-    margin-bottom: var(--space-3);
-    font-size: 0.95rem;
-}
-
-.filter-options {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.filter-option {
-    display: flex;
-    align-items: center;
-}
-
-.filter-checkbox {
-    margin-right: var(--space-2);
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--gray-300);
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.dark-mode .filter-checkbox {
-    border-color: var(--dark-border);
-}
-
-.filter-checkbox.checked {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    color: white;
-}
-
-.filter-label {
-    font-size: 0.95rem;
-    cursor: pointer;
-}
-
-.filter-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--space-4);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--gray-200);
-}
-
-.dark-mode .filter-actions {
-    border-color: var(--dark-border);
-}
-
-.filter-reset {
-    color: var(--primary);
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.filter-apply {
-    padding: var(--space-2) var(--space-4);
-    background-color: var(--primary);
-    color: white;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
-}
-
-.filter-apply:hover {
-    background-color: var(--primary-dark);
-}
-
-/* Notification System */
-.notification-panel {
-    position: fixed;
-    top: var(--header-height);
-    right: 0;
-    width: 100%;
-    max-width: 400px;
-    height: calc(100vh - var(--header-height));
-    z-index: var(--z-dropdown);
-    overflow-y: auto;
-    display: none;
-    transition: transform 0.3s;
-    transform: translateX(100%);
-}
-
-.light-mode .notification-panel {
-    background-color: var(--light-card);
-    border-left: 1px solid var(--light-border);
-}
-
-.dark-mode .notification-panel {
-    background-color: var(--dark-card);
-    border-left: 1px solid var(--dark-border);
-}
-
-.notification-panel.active {
-    display: block;
-    transform: translateX(0);
-}
-
-.notification-header {
-    position: sticky;
-    top: 0;
-    padding: var(--space-4);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid;
-    background-color: inherit;
-}
-
-.light-mode .notification-header {
-    border-color: var(--light-border);
-}
-
-.dark-mode .notification-header {
-    border-color: var(--dark-border);
-}
-
-.notification-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-}
-
-.notification-actions {
-    display: flex;
-    gap: var(--space-2);
-}
-
-.notification-action {
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.notification-action.primary {
-    background-color: transparent;
-    color: var(--primary);
-}
-
-.notification-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.notification-item {
-    padding: var(--space-4);
-    display: flex;
-    border-bottom: 1px solid;
-    transition: background-color 0.2s;
-}
-
-.light-mode .notification-item {
-    border-color: var(--light-border);
-}
-
-.dark-mode .notification-item {
-    border-color: var(--dark-border);
-}
-
-.notification-item:hover {
-    cursor: pointer;
-}
-
-.light-mode .notification-item:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .notification-item:hover {
-    background-color: var(--dark-surface);
-}
-
-.notification-item.unread {
-    position: relative;
-}
-
-.notification-item.unread::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--primary);
-}
-
-.notification-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: var(--space-3);
-    flex-shrink: 0;
-}
-
-.notification-icon.like {
-    background-color: rgba(255, 51, 102, 0.1);
-    color: var(--tertiary);
-}
-
-.notification-icon.comment {
-    background-color: rgba(36, 203, 255, 0.1);
-    color: var(--secondary);
-}
-
-.notification-icon.mention {
-    background-color: rgba(114, 64, 255, 0.1);
-    color: var(--primary);
-}
-
-.notification-icon.follow {
-    background-color: rgba(0, 230, 153, 0.1);
-    color: var(--quaternary);
-}
-
-.notification-content {
-    flex: 1;
-}
-
-.notification-text {
-    margin-bottom: var(--space-1);
-}
-
-.notification-time {
-    font-size: 0.75rem;
-}
-
-.light-mode .notification-time {
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .notification-time {
-    color: var(--dark-text-secondary);
-}
-
-/* Toasts */
-.toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 300px;
-    max-width: 90%;
-    padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    box-shadow: var(--shadow-lg);
-    z-index: var(--z-toast);
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-    transform: translateX(-50%) translateY(20px);
-}
-
-.toast.active {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-.light-mode .toast {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .toast {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.toast-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    font-size: 0.875rem;
-}
-
-.toast-icon.success {
-    background-color: rgba(0, 230, 153, 0.1);
-    color: var(--quaternary);
-}
-
-.toast-icon.error {
-    background-color: rgba(255, 51, 102, 0.1);
-    color: var(--tertiary);
-}
-
-.toast-icon.warning {
-    background-color: rgba(255, 188, 62, 0.1);
-    color: var(--quinary);
-}
-
-.toast-icon.info {
-    background-color: rgba(36, 203, 255, 0.1);
-    color: var(--secondary);
-}
-
-.toast-content {
-    flex: 1;
-}
-
-.toast-message {
-    font-weight: 500;
-}
-
-.toast-close {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-full);
-    transition: all 0.2s;
-}
-
-.light-mode .toast-close {
-    color: var(--light-icon);
-}
-
-.dark-mode .toast-close {
-    color: var(--dark-icon);
-}
-
-.light-mode .toast-close:hover {
-    background-color: var(--light-surface);
-}
-
-.dark-mode .toast-close:hover {
-    background-color: var(--dark-surface);
-}
-
-/* Custom Filter Bubble */
-.filter-bubble-trigger {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    border-radius: var(--radius-full);
-    background-color: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    box-shadow: var(--shadow-lg);
-    z-index: 90;
-    transition: all 0.2s;
-}
-
-.filter-bubble-trigger:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.filter-bubble {
-    position: fixed;
-    bottom: 90px;
-    right: 24px;
-    width: 280px;
-    border-radius: var(--radius-lg);
-    padding: var(--space-4);
-    box-shadow: var(--shadow-xl);
-    z-index: 100;
-    transition: all 0.3s;
-    transform-origin: bottom right;
-    transform: scale(0);
-    opacity: 0;
-}
-
-.light-mode .filter-bubble {
-    background-color: var(--light-card);
-    border: 1px solid var(--light-border);
-}
-
-.dark-mode .filter-bubble {
-    background-color: var(--dark-card);
-    border: 1px solid var(--dark-border);
-}
-
-.filter-bubble.active {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.filter-bubble-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--space-4);
-}
-
-.filter-bubble-title {
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.filter-category {
-    margin-bottom: var(--space-4);
-}
-
-.filter-category-title {
-    font-weight: 600;
-    font-size: 0.875rem;
-    margin-bottom: var(--space-2);
-}
-
-.filter-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-}
-
-.filter-tag {
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.light-mode .filter-tag {
-    background-color: var(--light-surface);
-    color: var(--light-text-secondary);
-}
-
-.dark-mode .filter-tag {
-    background-color: var(--dark-surface);
-    color: var(--dark-text-secondary);
-}
-
-.filter-tag.active {
-    background-color: var(--primary);
-    color: white;
-}
-
-.filter-bubble-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: var(--space-4);
-}
-
-.filter-reset {
-    color: var(--primary);
-    font-weight: 500;
-    font-size: 0.875rem;
-}
-
-.filter-apply {
-    padding: var(--space-1) var(--space-3);
-    background-color: var(--primary);
-    color: white;
-    border-radius: var(--radius-full);
-    font-weight: 500;
-    font-size: 0.875rem;
-}
-
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
-.flex {
-    display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.gap-1 {
-    gap: var(--space-1);
-}
-
-.gap-2 {
-    gap: var(--space-2);
-}
-
-.gap-3 {
-    gap: var(--space-3);
-}
-
-.gap-4 {
-    gap: var(--space-4);
-}
-
-.w-full {
-    width: 100%;
-}
-
-.font-bold {
-    font-weight: 700;
-}
-
-.font-semibold {
-    font-weight: 600;
-}
-
-.font-medium {
-    font-weight: 500;
-}
-
-.text-xs {
-    font-size: 0.75rem;
-}
-
-.text-sm {
-    font-size: 0.875rem;
-}
-
-.text-lg {
-    font-size: 1.125rem;
-}
-
-.text-xl {
-    font-size: 1.25rem;
-}
-
-.text-2xl {
-    font-size: 1.5rem;
-}
-
-.rounded-full {
-    border-radius: var(--radius-full);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.fadeIn {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.slideUp {
-    animation: slideUp 0.3s ease-in-out;
-}
-
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-/* Speaker Indicator */
-.speaking-indicator {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 14px;
-    height: 14px;
-    border-radius: var(--radius-full);
-    background-color: var(--success);
-    border: 2px solid white;
-}
-
-.light-mode .speaking-indicator {
-    border-color: var(--light-card);
-}
-
-.dark-mode .speaking-indicator {
-    border-color: var(--dark-card);
-}
-
-.speaking-indicator.active {
-    animation: pulseSpeaking 1.5s infinite;
-}
-
-@keyframes pulseSpeaking {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 230, 153, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 6px rgba(0, 230, 153, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 230, 153, 0);
-    }
-}
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body class="light-mode">
+    <!-- Age Verification Modal -->
+    <div class="age-verification-modal" id="age-verification-modal">
+        <div class="age-verification-container">
+            <div class="age-verification-header">
+                <h2 class="age-verification-title">Welcome to OLYMPUS</h2>
+                <p class="age-verification-subtitle">The ultimate social media platform</p>
+            </div>
+            <div class="age-verification-body">
+                <form class="age-verification-form">
+                    <div class="age-input-group">
+                        <label class="age-input-label">Please confirm your date of birth</label>
+                        <input type="date" class="age-input" id="birth-date" required>
+                    </div>
+                    <div class="age-verification-actions">
+                        <button type="button" class="age-button secondary" id="cancel-verification">Cancel</button>
+                        <button type="submit" class="age-button primary" id="confirm-age">Continue</button>
+                    </div>
+                </form>
+            </div>
+            <div class="age-verification-footer">
+                <p>By continuing, you agree to our Terms of Service and Privacy Policy. Users under 18 will require parental approval.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Filter Modal -->
+    <div class="content-filter-modal" id="content-filter-modal" style="display: none;">
+        <div class="content-filter-container">
+            <div class="content-filter-header">
+                <h2 class="content-filter-title">Customize Your Experience</h2>
+                <p class="content-filter-description">Select the content you want to see on OLYMPUS</p>
+            </div>
+            <div class="content-filter-body">
+                <div class="filter-category">
+                    <h3 class="filter-category-header">Content Categories</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Educational Content</div>
+                                <div class="filter-option-description">Learning resources, tutorials, and informative posts</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Entertainment</div>
+                                <div class="filter-option-description">Fun, creative, and recreational content</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">News & Current Events</div>
+                                <div class="filter-option-description">Latest happenings around the world</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Community Discussions</div>
+                                <div class="filter-option-description">Conversations and debates on various topics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-category">
+                    <h3 class="filter-category-header">Content Types</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Text Posts</div>
+                                <div class="filter-option-description">Written content and updates</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Images & Photos</div>
+                                <div class="filter-option-description">Visual content and photography</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Videos</div>
+                                <div class="filter-option-description">Short and long-form video content</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Voice & Audio</div>
+                                <div class="filter-option-description">Podcasts, voice rooms, and audio content</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-category">
+                    <h3 class="filter-category-header">Sensitive Content</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <div class="filter-checkbox"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Mature Discussions</div>
+                                <div class="filter-option-description">Content with mature themes suitable for adults</div>
+                            </div>
+                        </div>
+                        <div class="filter-option">
+                            <div class="filter-checkbox"><i class="fas fa-check"></i></div>
+                            <div class="filter-option-label">
+                                <div class="filter-option-name">Controversial Topics</div>
+                                <div class="filter-option-description">Debates on polarizing issues</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-filter-footer">
+                <button class="filter-button secondary" id="reset-filters">Reset to Default</button>
+                <button class="filter-button primary" id="apply-filters">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parent Controls Panel -->
+    <div class="parent-controls-panel" id="parent-controls-panel">
+        <div class="parent-controls-header">
+            <h2 class="parent-controls-title">Parent Controls</h2>
+            <button class="parent-controls-close" id="close-parent-controls">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="parent-controls-body">
+            <div class="parent-control-section">
+                <h3 class="parent-control-section-title">Account Settings</h3>
+                <div class="parent-control-group">
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Supervised Account</div>
+                            <div class="parent-control-description">Enable full parental supervision</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Daily Usage Reports</div>
+                            <div class="parent-control-description">Receive daily activity summaries</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="parent-control-section">
+                <h3 class="parent-control-section-title">Content Controls</h3>
+                <div class="parent-control-group">
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Age-Appropriate Content Only</div>
+                            <div class="parent-control-description">Restrict to content suitable for under 18</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Educational Priority</div>
+                            <div class="parent-control-description">Prioritize educational content in feed</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Messaging Restrictions</div>
+                            <div class="parent-control-description">Limit messaging to approved contacts</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="parent-control-section">
+                <h3 class="parent-control-section-title">Time Management</h3>
+                <div class="parent-control-group">
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Daily Time Limit</div>
+                            <div class="parent-control-description">Set maximum usage time per day</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="time-limit-slider">
+                        <input type="range" min="30" max="240" value="120" step="15" id="time-limit-range">
+                        <div class="time-limit-value">2 hours per day</div>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Scheduled Downtime</div>
+                            <div class="parent-control-description">Set times when the app cannot be used</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="parent-control-section">
+                <h3 class="parent-control-section-title">Privacy & Security</h3>
+                <div class="parent-control-group">
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Private Account</div>
+                            <div class="parent-control-description">Only approved followers can see posts</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Location Sharing</div>
+                            <div class="parent-control-description">Disable location information on posts</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="parent-control-item">
+                        <div>
+                            <div class="parent-control-label">Comment Approval</div>
+                            <div class="parent-control-description">Review comments before they appear</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="parent-controls-footer">
+            <button class="parent-control-button primary">Save Settings</button>
+        </div>
+    </div>
+    
     <div id="app" class="app-container">
         <!-- Header -->
         <header class="header">
@@ -2761,6 +293,9 @@ input, textarea, select {
                 <div class="header-actions">
                     <button id="theme-toggle" class="header-icon-btn">
                         <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="content-filter-btn" class="header-icon-btn">
+                        <i class="fas fa-sliders-h"></i>
                     </button>
                     <div class="notification-btn">
                         <button id="notification-toggle" class="header-icon-btn">
@@ -2814,6 +349,10 @@ input, textarea, select {
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Safety</span>
+                    </a>
                 </div>
                 
                 <button class="create-btn">
@@ -2866,7 +405,7 @@ input, textarea, select {
                     </div>
                 </div>
             </aside>
-
+            
             <!-- Main Content -->
             <main class="main-content">
                 <div class="content-container">
@@ -2877,6 +416,79 @@ input, textarea, select {
                         <button class="content-tab">Voice</button>
                         <button class="content-tab">Threads</button>
                         <button class="content-tab">Discover</button>
+                        <button class="content-tab">Trending</button>
+                        <button class="content-tab">Verified</button>
+                    </div>
+
+                    <!-- Advanced Content Discovery -->
+                    <div class="discovery-card">
+                        <div class="discovery-header">
+                            <div class="discovery-title">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Discover New Perspectives</span>
+                            </div>
+                        </div>
+                        <div class="discovery-body">
+                            <div class="discovery-tabs">
+                                <button class="discovery-tab active">For You</button>
+                                <button class="discovery-tab">Technology</button>
+                                <button class="discovery-tab">Science</button>
+                                <button class="discovery-tab">Arts</button>
+                                <button class="discovery-tab">Culture</button>
+                                <button class="discovery-tab">Environment</button>
+                                <button class="discovery-tab">Health</button>
+                            </div>
+                            <div class="discovery-items">
+                                <div class="discovery-item">
+                                    <div class="discovery-item-image">
+                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech1" alt="Discovery Item">
+                                    </div>
+                                    <div class="discovery-item-content">
+                                        <div class="discovery-item-title">The Future of AI Ethics</div>
+                                        <div class="discovery-item-meta">
+                                            <i class="fas fa-fire"></i>
+                                            <span>Trending</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="discovery-item">
+                                    <div class="discovery-item-image">
+                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech2" alt="Discovery Item">
+                                    </div>
+                                    <div class="discovery-item-content">
+                                        <div class="discovery-item-title">Quantum Computing Breakthroughs</div>
+                                        <div class="discovery-item-meta">
+                                            <i class="fas fa-users"></i>
+                                            <span>Popular</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="discovery-item">
+                                    <div class="discovery-item-image">
+                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech3" alt="Discovery Item">
+                                    </div>
+                                    <div class="discovery-item-content">
+                                        <div class="discovery-item-title">Sustainable Energy Innovations</div>
+                                        <div class="discovery-item-meta">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <span>New</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="discovery-item">
+                                    <div class="discovery-item-image">
+                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech4" alt="Discovery Item">
+                                    </div>
+                                    <div class="discovery-item-content">
+                                        <div class="discovery-item-title">Biotech Revolution 2025</div>
+                                        <div class="discovery-item-meta">
+                                            <i class="fas fa-certificate"></i>
+                                            <span>Featured</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Custom Experience Card -->
@@ -2885,7 +497,7 @@ input, textarea, select {
                         <div class="experience-overlay">
                             <div class="experience-badge">✨ NEW EXPERIENCE</div>
                             <h2 class="experience-title">Dive into Voice Communities</h2>
-                            <p class="experience-description">Join live conversations with people who share your interests. Discuss, debate, and collaborate in real-time audio spaces.</p>
+                            <p class="experience-description">Join live conversations with people who share your interests. Discuss, debate, and collaborate in real-time audio spaces with spatial audio technology.</p>
                             <div class="experience-cta">
                                 <button class="experience-button primary">Try Now</button>
                                 <button class="experience-button secondary">Learn More</button>
@@ -2918,6 +530,9 @@ input, textarea, select {
                                 <button class="composer-tool">
                                     <i class="fas fa-microphone"></i>
                                 </button>
+                                <button class="composer-tool">
+                                    <i class="fas fa-hashtag"></i>
+                                </button>
                             </div>
                             <button class="composer-submit" disabled>Post</button>
                         </div>
@@ -2925,7 +540,7 @@ input, textarea, select {
 
                     <!-- Content Feed -->
                     <div class="content-feed">
-                        <!-- Post Card 1 -->
+                        <!-- Post Card 1 with Multi-dimensional Voting -->
                         <div class="post-card">
                             <div class="post-header">
                                 <div class="avatar">
@@ -2946,14 +561,63 @@ input, textarea, select {
                                 </button>
                             </div>
                             <div class="post-body">
+                                <div class="content-depth-indicator">
+                                    <div class="depth-meter">
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot"></div>
+                                        <div class="depth-dot"></div>
+                                    </div>
+                                    <div class="depth-label">In-depth</div>
+                                    <div class="reading-time">
+                                        <i class="far fa-clock"></i>
+                                        <span>2 min read</span>
+                                    </div>
+                                </div>
                                 <div class="post-content">
-                                    Just discovered an incredible paradox: as our digital world becomes more connected, our genuine in-person interactions become more valuable. The more time we spend online, the more we crave authentic human connection.
+                                    Just discovered an incredible paradox: as our digital world becomes more connected, our genuine in-person interactions become more valuable. The more time we spend online, the more we crave authentic human connection. This creates an interesting economic dynamic where real-world experiences are becoming premium offerings.
                                 </div>
                                 <div class="post-tags">
                                     <a href="#" class="post-tag">#technology</a>
                                     <a href="#" class="post-tag">#society</a>
                                     <a href="#" class="post-tag">#digitalminimalism</a>
                                 </div>
+                                
+                                <!-- Multi-dimensional Voting Panel -->
+                                <div class="multi-vote-panel">
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Accuracy</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3">3</button>
+                                            <button class="vote-button value-4 active">4</button>
+                                            <button class="vote-button value-5">5</button>
+                                        </div>
+                                    </div>
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Insightful</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3">3</button>
+                                            <button class="vote-button value-4">4</button>
+                                            <button class="vote-button value-5 active">5</button>
+                                        </div>
+                                    </div>
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Relevance</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3 active">3</button>
+                                            <button class="vote-button value-4">4</button>
+                                            <button class="vote-button value-5">5</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="post-stats">
                                     <div class="stat-group">
                                         <div class="post-stat">
@@ -2991,7 +655,7 @@ input, textarea, select {
                             </div>
                         </div>
 
-                        <!-- Post Card 2 with Link -->
+                        <!-- Post Card 2 with Link and Up/Down Votes -->
                         <div class="post-card">
                             <div class="post-header">
                                 <div class="avatar">
@@ -3007,11 +671,34 @@ input, textarea, select {
                                         <span class="post-context">via Science</span>
                                     </div>
                                 </div>
+                                <div class="voting-buttons">
+                                    <button class="voting-button upvote active">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <div class="vote-count">876</div>
+                                    <button class="voting-button downvote">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
                                 <button class="post-options">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                             </div>
                             <div class="post-body">
+                                <div class="content-depth-indicator">
+                                    <div class="depth-meter">
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot active"></div>
+                                        <div class="depth-dot"></div>
+                                    </div>
+                                    <div class="depth-label">Technical</div>
+                                    <div class="reading-time">
+                                        <i class="far fa-clock"></i>
+                                        <span>4 min read</span>
+                                    </div>
+                                </div>
                                 <div class="post-content">
                                     Scientists have created a new type of living material by embedding engineered bacteria into a hydrogel. This breakthrough could revolutionize everything from sustainable construction to environmental cleanup.
                                 </div>
@@ -3035,17 +722,17 @@ input, textarea, select {
                                 <div class="post-stats">
                                     <div class="stat-group">
                                         <div class="post-stat">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>876</span>
-                                        </div>
-                                        <div class="post-stat">
                                             <i class="fas fa-comment"></i>
                                             <span>142</span>
                                         </div>
+                                        <div class="post-stat">
+                                            <i class="fas fa-retweet"></i>
+                                            <span>63 shares</span>
+                                        </div>
                                     </div>
                                     <div class="post-stat">
-                                        <i class="fas fa-share"></i>
-                                        <span>63 shares</span>
+                                        <i class="fas fa-bookmark"></i>
+                                        <span>231 saves</span>
                                     </div>
                                 </div>
                                 <div class="post-footer">
@@ -3069,8 +756,23 @@ input, textarea, select {
                             </div>
                         </div>
 
-                        <!-- Post Card 3 with Images -->
+                        <!-- Collaborative Post with Images -->
                         <div class="post-card">
+                            <div class="collab-indicator">
+                                <i class="fas fa-users collab-icon"></i>
+                                <span class="collab-text">Collaborative Post</span>
+                                <div class="collab-participants">
+                                    <div class="collab-avatar-stack">
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_designer" alt="creative_designer">
+                                        </div>
+                                        <div class="event-avatar">
+                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_designer" alt="eco_designer">
+                                        </div>
+                                    </div>
+                                    <span class="collab-count">+3 more</span>
+                                </div>
+                            </div>
                             <div class="post-header">
                                 <div class="avatar">
                                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_designer" alt="creative_designer">
@@ -3084,13 +786,22 @@ input, textarea, select {
                                         <span class="post-context">via Design</span>
                                     </div>
                                 </div>
+                                <div class="voting-buttons">
+                                    <button class="voting-button upvote active">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <div class="vote-count">1.5k</div>
+                                    <button class="voting-button downvote">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
                                 <button class="post-options">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
                             </div>
                             <div class="post-body">
                                 <div class="post-content">
-                                    New minimalist workspace setup complete! I've been experimenting with a cleaner, distraction-free environment to boost creativity and focus. What do you think?
+                                    Our team collaborated on a new minimalist workspace design focused on sustainability and productivity. We've been experimenting with a cleaner, distraction-free environment to boost creativity and focus. What do you think?
                                 </div>
                                 <div class="post-media">
                                     <div class="media-grid media-grid-3">
@@ -3109,22 +820,58 @@ input, textarea, select {
                                     <a href="#" class="post-tag">#design</a>
                                     <a href="#" class="post-tag">#workspace</a>
                                     <a href="#" class="post-tag">#minimalism</a>
+                                    <a href="#" class="post-tag">#sustainability</a>
                                     <a href="#" class="post-tag">#productivity</a>
                                 </div>
+                                
+                                <!-- Multi-dimensional Voting Panel -->
+                                <div class="multi-vote-panel">
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Innovation</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3">3</button>
+                                            <button class="vote-button value-4">4</button>
+                                            <button class="vote-button value-5 active">5</button>
+                                        </div>
+                                    </div>
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Design</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3">3</button>
+                                            <button class="vote-button value-4 active">4</button>
+                                            <button class="vote-button value-5">5</button>
+                                        </div>
+                                    </div>
+                                    <div class="vote-dimension">
+                                        <div class="vote-label">Practicality</div>
+                                        <div class="vote-scale">
+                                            <button class="vote-button value-1">1</button>
+                                            <button class="vote-button value-2">2</button>
+                                            <button class="vote-button value-3 active">3</button>
+                                            <button class="vote-button value-4">4</button>
+                                            <button class="vote-button value-5">5</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="post-stats">
                                     <div class="stat-group">
-                                        <div class="post-stat">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>1.5k</span>
-                                        </div>
                                         <div class="post-stat">
                                             <i class="fas fa-comment"></i>
                                             <span>283</span>
                                         </div>
+                                        <div class="post-stat">
+                                            <i class="fas fa-retweet"></i>
+                                            <span>112 shares</span>
+                                        </div>
                                     </div>
                                     <div class="post-stat">
-                                        <i class="fas fa-share"></i>
-                                        <span>112 shares</span>
+                                        <i class="fas fa-users"></i>
+                                        <span>5 contributors</span>
                                     </div>
                                 </div>
                                 <div class="post-footer">
@@ -3148,7 +895,7 @@ input, textarea, select {
                             </div>
                         </div>
 
-                        <!-- Voice Room Preview Card -->
+                        <!-- Enhanced Voice Room with Spatial Audio -->
                         <div class="voice-room">
                             <div class="voice-room-status status-live">Live Now</div>
                             <h3 class="voice-room-title">The Future of Sustainable Technology</h3>
@@ -3173,6 +920,26 @@ input, textarea, select {
                                     <span>532 listening</span>
                                 </div>
                             </div>
+                            <div class="spatial-audio-indicator">
+                                <i class="fas fa-headphones"></i>
+                                <span>Spatial Audio Enabled</span>
+                            </div>
+                            <div class="voice-room-controls">
+                                <button class="voice-control-button mute">
+                                    <i class="fas fa-microphone-slash"></i>
+                                </button>
+                                <button class="voice-control-button video">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                                <button class="voice-control-button settings">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                            <div class="voice-transcript">
+                                <p><strong>tech_visionary:</strong> We need to consider how sustainable technology can address climate challenges while remaining accessible...</p>
+                                <p><strong>eco_engineer:</strong> Great point! Affordability is crucial for widespread adoption of green tech...</p>
+                                <p><strong>climate_scientist:</strong> The data shows that implementation needs to accelerate...</p>
+                            </div>
                             <div class="room-cta">
                                 <button class="join-button primary">
                                     <i class="fas fa-headphones"></i>
@@ -3184,7 +951,7 @@ input, textarea, select {
                             </div>
                         </div>
 
-                        <!-- Thread Preview Card -->
+                        <!-- Enhanced Thread with Knowledge Verification -->
                         <div class="thread">
                             <div class="post-header">
                                 <div class="avatar">
@@ -3199,9 +966,32 @@ input, textarea, select {
                                         <span class="post-context">via Philosophy</span>
                                     </div>
                                 </div>
+                                <div class="voting-buttons">
+                                    <button class="voting-button upvote active">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <div class="vote-count">683</div>
+                                    <button class="voting-button downvote">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
                                 <button class="post-options">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
+                            </div>
+                            <div class="content-depth-indicator">
+                                <div class="depth-meter">
+                                    <div class="depth-dot active"></div>
+                                    <div class="depth-dot active"></div>
+                                    <div class="depth-dot active"></div>
+                                    <div class="depth-dot active"></div>
+                                    <div class="depth-dot active"></div>
+                                </div>
+                                <div class="depth-label">Expert</div>
+                                <div class="reading-time">
+                                    <i class="far fa-clock"></i>
+                                    <span>12 min read</span>
+                                </div>
                             </div>
                             <h3 class="thread-title">The Paradox of Choice: Are We Happier With More Options?</h3>
                             <div class="thread-preview">
@@ -3218,8 +1008,8 @@ input, textarea, select {
                                         <span>19 participants</span>
                                     </div>
                                     <div class="thread-stat">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>683 upvotes</span>
+                                        <i class="fas fa-certificate"></i>
+                                        <span>Knowledge Verified</span>
                                     </div>
                                 </div>
                                 <div class="thread-last-activity">
@@ -3251,6 +1041,28 @@ input, textarea, select {
                             <div class="trend-category">Culture</div>
                             <div class="trend-title">Digital Minimalism Movement Grows</div>
                             <div class="trend-metrics">5.4k discussions • Trending with #LessIsMore</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Age & Content Filter Controls -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">
+                        <i class="fas fa-shield-alt" style="color: var(--success); margin-right: 8px;"></i>
+                        Safety Controls
+                    </h3>
+                    <div style="padding: 10px 0;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="font-weight: 600;">Content Filtering</span>
+                            <button class="follow-btn primary" style="padding: 4px 12px;" id="open-content-filter">Adjust</button>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <span style="font-weight: 600;">Parental Controls</span>
+                            <button class="follow-btn primary" style="padding: 4px 12px;" id="open-parent-controls">Manage</button>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-weight: 600;">Privacy Settings</span>
+                            <button class="follow-btn secondary" style="padding: 4px 12px;">View</button>
                         </div>
                     </div>
                 </div>
@@ -3449,166 +1261,15 @@ input, textarea, select {
             </div>
         </div>
 
-        <!-- Toast -->
-        <div id="toast" class="toast">
-            <div class="toast-icon success">
-                <i class="fas fa-check"></i>
-            </div>
-            <div class="toast-content">
-                <div class="toast-message">Your post has been published!</div>
-            </div>
-            <button class="toast-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
+      <!-- Toast -->
+<div id="toast" class="toast">
+    <div class="toast-icon success">
+        <i class="fas fa-check"></i>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const app = document.getElementById('app');
-            const themeToggle = document.getElementById('theme-toggle');
-            const notificationToggle = document.getElementById('notification-toggle');
-            const notificationPanel = document.getElementById('notification-panel');
-            const filterTrigger = document.getElementById('filter-trigger');
-            const filterBubble = document.getElementById('filter-bubble');
-            const filterTags = document.querySelectorAll('.filter-tag');
-            const contentTabs = document.querySelectorAll('.content-tab');
-            const composerInput = document.querySelector('.composer-input');
-            const composerSubmit = document.querySelector('.composer-submit');
-            const toast = document.getElementById('toast');
-            
-            // Initialize theme from localStorage
-            initTheme();
-            
-            // Event Listeners
-            themeToggle.addEventListener('click', toggleTheme);
-            notificationToggle.addEventListener('click', toggleNotifications);
-            filterTrigger.addEventListener('click', toggleFilterBubble);
-            
-            // Close panels when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!notificationPanel.contains(e.target) && !notificationToggle.contains(e.target)) {
-                    notificationPanel.classList.remove('active');
-                }
-                
-                if (!filterBubble.contains(e.target) && !filterTrigger.contains(e.target)) {
-                    filterBubble.classList.remove('active');
-                }
-            });
-            
-            // Filter tag selection
-            filterTags.forEach(tag => {
-                tag.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                });
-            });
-            
-            // Content tab switching
-            contentTabs.forEach((tab, index) => {
-                tab.addEventListener('click', function() {
-                    contentTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Composer input enable/disable submit
-            composerInput.addEventListener('input', function() {
-                if (this.value.trim().length > 0) {
-                    composerSubmit.removeAttribute('disabled');
-                } else {
-                    composerSubmit.setAttribute('disabled', '');
-                }
-            });
-            
-            // Composer submit action
-            composerSubmit.addEventListener('click', function() {
-                if (composerInput.value.trim().length > 0) {
-                    // Here we would normally save the post to a database
-                    composerInput.value = '';
-                    composerSubmit.setAttribute('disabled', '');
-                    
-                    // Show success toast
-                    showToast('success', 'Your post has been published!');
-                }
-            });
-            
-            // Reaction buttons
-            document.querySelectorAll('.reaction-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Toggle reaction
-                    const action = this.querySelector('span').textContent.toLowerCase();
-                    
-                    if (action === 'like' || action === 'liked') {
-                        this.classList.toggle('liked');
-                        this.querySelector('span').textContent = this.classList.contains('liked') ? 'Liked' : 'Like';
-                    } else if (action === 'boost' || action === 'boosted') {
-                        this.classList.toggle('boosted');
-                        this.querySelector('span').textContent = this.classList.contains('boosted') ? 'Boosted' : 'Boost';
-                    } else if (action === 'insightful') {
-                        this.classList.toggle('insightful');
-                    } else if (action === 'celebrate' || action === 'celebrated') {
-                        this.classList.toggle('celebrated');
-                        this.querySelector('span').textContent = this.classList.contains('celebrated') ? 'Celebrated' : 'Celebrate';
-                    }
-                });
-            });
-            
-            // Add click handler for toast close button
-            document.querySelector('.toast-close').addEventListener('click', function() {
-                hideToast();
-            });
-            
-            // Functions
-            function initTheme() {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'dark') {
-                    document.body.classList.remove('light-mode');
-                    document.body.classList.add('dark-mode');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                } else {
-                    document.body.classList.add('light-mode');
-                    document.body.classList.remove('dark-mode');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                }
-            }
-            
-            function toggleTheme() {
-                if (document.body.classList.contains('light-mode')) {
-                    document.body.classList.remove('light-mode');
-                    document.body.classList.add('dark-mode');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    document.body.classList.add('light-mode');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                    localStorage.setItem('theme', 'light');
-                }
-            }
-            
-            function toggleNotifications() {
-                notificationPanel.classList.toggle('active');
-            }
-            
-            function toggleFilterBubble() {
-                filterBubble.classList.toggle('active');
-            }
-            
-            function showToast(type, message) {
-                toast.classList.remove('success', 'error', 'warning', 'info');
-                toast.classList.add(type);
-                toast.querySelector('.toast-message').textContent = message;
-                toast.classList.add('active');
-                
-                // Auto hide after 5 seconds
-                setTimeout(hideToast, 5000);
-            }
-            
-            function hideToast() {
-                toast.classList.remove('active');
-            }
-        });
-    </script>
-</body>
-</html>
+    <div class="toast-content">
+        <div class="toast-message">Your post has been published!</div>
+    </div>
+    <button class="toast-close">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
