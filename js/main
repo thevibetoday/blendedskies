@@ -1,0 +1,413 @@
+// Wait for DOM to be fully loaded before executing code
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const app = document.getElementById('app');
+    const themeToggle = document.getElementById('theme-toggle');
+    const loginButton = document.getElementById('login-button');
+    const loginModal = document.getElementById('login-modal');
+    const createPostModal = document.getElementById('create-post-modal');
+    const createPostArea = document.getElementById('create-post-area');
+    const openPostModalButton = document.getElementById('open-post-modal');
+    const postsContainer = document.getElementById('posts-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginSubmitButton = document.getElementById('login-submit');
+    const switchToSignupButton = document.getElementById('switch-to-signup');
+    const submitPostButton = document.getElementById('submit-post');
+    const postContentInput = document.getElementById('post-content');
+    const postTagsInput = document.getElementById('post-tags');
+    const userMenu = document.getElementById('user-menu');
+    
+    // All modal close buttons
+    const modalCloseButtons = document.querySelectorAll('.modal-close');
+    
+    // Mobile navigation - new post button
+    const mobileNewPostButton = document.querySelector('.mobile-nav .new-post-button');
+    
+    // Load posts on page load
+    loadPosts();
+    
+    // Initialize theme from localStorage
+    initTheme();
+    
+    // Event listeners
+    themeToggle.addEventListener('click', toggleTheme);
+    loginButton.addEventListener('click', openLoginModal);
+    openPostModalButton?.addEventListener('click', openCreatePostModal);
+    mobileNewPostButton?.addEventListener('click', openCreatePostModal);
+    loginSubmitButton.addEventListener('click', handleLogin);
+    switchToSignupButton.addEventListener('click', toggleSignupMode);
+    submitPostButton.addEventListener('click', createPost);
+    
+    // Close modals when clicking outside or on close button
+    modalCloseButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = this.closest('.modal');
+            closeModal(modal);
+        });
+    });
+    
+    // Close modal when clicking outside content
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal(this);
+            }
+        });
+    });
+    
+    // Theme Functions
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    }
+    
+    function toggleTheme() {
+        if (document.body.classList.contains('light-mode')) {
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        }
+    }
+    
+    // Modal Functions
+    function openLoginModal() {
+        openModal(loginModal);
+    }
+    
+    function openCreatePostModal() {
+        if (!MOCK_DATA.currentUser) {
+            openLoginModal();
+            return;
+        }
+        
+        // Set user info in modal
+        document.getElementById('create-post-username').textContent = MOCK_DATA.currentUser.username;
+        document.getElementById('create-post-avatar').src = MOCK_DATA.currentUser.avatarUrl;
+        
+        openModal(createPostModal);
+    }
+    
+    function openModal(modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal(modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    function closeAllModals() {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+    }
+    
+    // Auth Functions
+    function handleLogin() {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        
+        if (username && password) {
+            // In a real app, we would authenticate with a server here
+            // For demo purposes, we'll just "log in" the user with their username
+            
+            MOCK_DATA.currentUser = {
+                username: username,
+                avatarUrl: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
+                joinDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+            };
+            
+            // Update UI to show logged in state
+            updateAuthUI();
+            
+            // Close login modal
+            closeModal(loginModal);
+        }
+    }
+    
+    function updateAuthUI() {
+        if (MOCK_DATA.currentUser) {
+            // User is logged in
+            loginButton.classList.add('hidden');
+            
+            // Create user avatar/dropdown
+            userMenu.innerHTML = `
+                <div class="user-avatar">
+                    <img src="${MOCK_DATA.currentUser.avatarUrl}" alt="${MOCK_DATA.currentUser.username}">
+                </div>
+            `;
+            
+            // Show create post area
+            if (createPostArea) {
+                createPostArea.classList.remove('hidden');
+            }
+        } else {
+            // User is logged out
+            loginButton.classList.remove('hidden');
+            
+            // Reset user menu
+            userMenu.innerHTML = `
+                <button class="login-button" id="login-button">Login</button>
+            `;
+            
+            // Re-assign login button click event
+            document.getElementById('login-button').addEventListener('click', openLoginModal);
+            
+            // Hide create post area
+            if (createPostArea) {
+                createPostArea.classList.add('hidden');
+            }
+        }
+    }
+    
+    // Sign Up vs Login toggle
+    let isSignUp = false;
+    
+    function toggleSignupMode() {
+        isSignUp = !isSignUp;
+        
+        // Update UI
+        if (isSignUp) {
+            document.querySelector('.modal-header h2').textContent = 'Create an account';
+            loginSubmitButton.textContent = 'Sign up';
+            switchToSignupButton.textContent = 'Sign in';
+            document.querySelector('.form-footer p').innerHTML = 'Already have an account? <button id="switch-to-signup" class="link-button">Sign in</button>';
+        } else {
+            document.querySelector('.modal-header h2').textContent = 'Sign in to your account';
+            loginSubmitButton.textContent = 'Sign in';
+            switchToSignupButton.textContent = 'Sign up';
+            document.querySelector('.form-footer p').innerHTML = 'Don\'t have an account? <button id="switch-to-signup" class="link-button">Sign up</button>';
+        }
+        
+        // Re-assign the event listener
+        document.getElementById('switch-to-signup').addEventListener('click', toggleSignupMode);
+    }
+    
+    // Post Functions
+    function loadPosts() {
+        // Clear current posts
+        postsContainer.innerHTML = '';
+        
+        // Sort posts by timestamp (newest first)
+        const sortedPosts = [...MOCK_DATA.posts].sort((a, b) => b.timestamp - a.timestamp);
+        
+        // Add posts to container
+        sortedPosts.forEach(post => {
+            postsContainer.appendChild(createPostElement(post));
+        });
+    }
+    
+    function createPostElement(post) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.dataset.postId = post.id;
+        
+        const timeAgo = formatTimeAgo(post.timestamp);
+        
+        postElement.innerHTML = `
+            <div class="post-header">
+                <div class="user-avatar">
+                    <img src="${post.author.avatarUrl}" alt="${post.author.username}">
+                </div>
+                <div class="user-info">
+                    <span class="username">${post.author.username}</span>
+                    <span class="post-timestamp">${timeAgo}</span>
+                </div>
+            </div>
+            <div class="post-content">
+                ${post.content}
+            </div>
+            <div class="post-tags">
+                ${post.tags.map(tag => `<span class="post-tag">#${tag}</span>`).join('')}
+            </div>
+            <div class="post-actions">
+                <button class="post-action ${post.liked ? 'liked' : ''}" data-action="like">
+                    <i class="fas ${post.liked ? 'fa-heart' : 'fa-heart'}"></i>
+                    <span>${post.likes}</span>
+                </button>
+                <button class="post-action" data-action="comment">
+                    <i class="fas fa-comment"></i>
+                    <span>${post.comments}</span>
+                </button>
+                <div class="vote-actions">
+                    <button class="post-action ${post.userVote === 'drift' ? 'drift' : ''}" data-action="drift">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>${post.drifts}</span>
+                    </button>
+                    <button class="post-action ${post.userVote === 'drop' ? 'drop' : ''}" data-action="drop">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>${post.drops}</span>
+                    </button>
+                </div>
+                <button class="post-action" data-action="share">
+                    <i class="fas fa-share"></i>
+                </button>
+                <button class="post-action" data-action="bookmark">
+                    <i class="fas fa-bookmark"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners to post actions
+        const actions = postElement.querySelectorAll('.post-action');
+        actions.forEach(action => {
+            action.addEventListener('click', function() {
+                const actionType = this.dataset.action;
+                const postId = this.closest('.post').dataset.postId;
+                handlePostAction(actionType, postId, this);
+            });
+        });
+        
+        return postElement;
+    }
+    
+    function handlePostAction(actionType, postId, buttonElement) {
+        // Require login for post actions
+        if (!MOCK_DATA.currentUser) {
+            openLoginModal();
+            return;
+        }
+        
+        const post = MOCK_DATA.posts.find(p => p.id === postId);
+        if (!post) return;
+        
+        switch (actionType) {
+            case 'like':
+                post.liked = !post.liked;
+                post.likes = post.liked ? post.likes + 1 : post.likes - 1;
+                buttonElement.classList.toggle('liked', post.liked);
+                buttonElement.querySelector('span').textContent = post.likes;
+                buttonElement.querySelector('i').className = post.liked ? 'fas fa-heart' : 'fas fa-heart';
+                break;
+                
+            case 'drift':
+                // If already drifted, remove drift
+                if (post.userVote === 'drift') {
+                    post.userVote = null;
+                    post.drifts--;
+                    buttonElement.classList.remove('drift');
+                } 
+                // If dropped, switch to drift
+                else if (post.userVote === 'drop') {
+                    post.userVote = 'drift';
+                    post.drifts++;
+                    post.drops--;
+                    buttonElement.classList.add('drift');
+                    
+                    // Update drop button
+                    const dropButton = buttonElement.closest('.vote-actions').querySelector('[data-action="drop"]');
+                    dropButton.classList.remove('drop');
+                    dropButton.querySelector('span').textContent = post.drops;
+                } 
+                // If no vote, add drift
+                else {
+                    post.userVote = 'drift';
+                    post.drifts++;
+                    buttonElement.classList.add('drift');
+                }
+                
+                buttonElement.querySelector('span').textContent = post.drifts;
+                break;
+                
+            case 'drop':
+                // If already dropped, remove drop
+                if (post.userVote === 'drop') {
+                    post.userVote = null;
+                    post.drops--;
+                    buttonElement.classList.remove('drop');
+                } 
+                // If drifted, switch to drop
+                else if (post.userVote === 'drift') {
+                    post.userVote = 'drop';
+                    post.drops++;
+                    post.drifts--;
+                    buttonElement.classList.add('drop');
+                    
+                    // Update drift button
+                    const driftButton = buttonElement.closest('.vote-actions').querySelector('[data-action="drift"]');
+                    driftButton.classList.remove('drift');
+                    driftButton.querySelector('span').textContent = post.drifts;
+                } 
+                // If no vote, add drop
+                else {
+                    post.userVote = 'drop';
+                    post.drops++;
+                    buttonElement.classList.add('drop');
+                }
+                
+                buttonElement.querySelector('span').textContent = post.drops;
+                break;
+                
+            case 'comment':
+                // In a real app, this would open a comment form
+                alert('Comment functionality would be here');
+                break;
+                
+            case 'share':
+                alert('Share functionality would be here');
+                break;
+                
+            case 'bookmark':
+                alert('Bookmark functionality would be here');
+                break;
+        }
+    }
+    
+    function createPost() {
+        const content = postContentInput.value.trim();
+        const tagsString = postTagsInput.value.trim();
+        
+        if (!content) return;
+        
+        // Parse tags
+        const tags = tagsString ? tagsString.split(',').map(tag => tag.trim().toLowerCase()) : [];
+        
+        // Create new post
+        const newPost = {
+            id: generateId(),
+            author: {
+                username: MOCK_DATA.currentUser.username,
+                avatarUrl: MOCK_DATA.currentUser.avatarUrl
+            },
+            content: content,
+            timestamp: new Date(),
+            likes: 0,
+            drifts: 0,
+            drops: 0,
+            comments: 0,
+            tags: tags,
+            userVote: null,
+            liked: false
+        };
+        
+        // Add to posts array
+        MOCK_DATA.posts.unshift(newPost);
+        
+        // Refresh posts
+        loadPosts();
+        
+        // Clear form
+        postContentInput.value = '';
+        postTagsInput.value = '';
+        
+        // Close modal
+        closeModal(createPostModal);
+    }
+});
