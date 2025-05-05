@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const composerInput = document.querySelector('.composer-input');
     const composerSubmit = document.querySelector('.composer-submit');
     const toast = document.getElementById('toast');
-    const ageVerificationModal = document.getElementById('age-verification-modal');
+    // const ageVerificationModal = document.getElementById('age-verification-modal');
     const confirmAgeBtn = document.getElementById('confirm-age');
     const cancelVerificationBtn = document.getElementById('cancel-verification');
     const contentFilterModal = document.getElementById('content-filter-modal');
@@ -44,38 +44,38 @@ document.addEventListener('DOMContentLoaded', function() {
     closeParentControlsBtn.addEventListener('click', toggleParentControlsPanel);
     
     // Age verification handlers
-    confirmAgeBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const birthDateInput = document.getElementById('birth-date');
-        if (birthDateInput.value) {
-            const birthDate = new Date(birthDateInput.value);
-            const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
+    // confirmAgeBtn.addEventListener('click', function(e) {
+    //     e.preventDefault();
+    //     const birthDateInput = document.getElementById('birth-date');
+    //     if (birthDateInput.value) {
+    //         const birthDate = new Date(birthDateInput.value);
+    //         const today = new Date();
+    //         let age = today.getFullYear() - birthDate.getFullYear();
+    //         const monthDiff = today.getMonth() - birthDate.getMonth();
             
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
+    //         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    //             age--;
+    //         }
             
-            if (age < 13) {
-                alert('You must be at least 13 years old to use OLYMPUS.');
-            } else if (age < 18) {
-                ageVerificationModal.style.display = 'none';
-                parentControlsPanel.classList.add('active');
-                showToast('info', 'Parental approval required for users under 18.');
-            } else {
-                ageVerificationModal.style.display = 'none';
-                showToast('success', 'Age verification complete!');
-            }
-        } else {
-            alert('Please enter your date of birth.');
-        }
-    });
+    //         if (age < 13) {
+    //             alert('You must be at least 13 years old to use OLYMPUS.');
+    //         } else if (age < 18) {
+    //             ageVerificationModal.style.display = 'none';
+    //             parentControlsPanel.classList.add('active');
+    //             showToast('info', 'Parental approval required for users under 18.');
+    //         } else {
+    //             ageVerificationModal.style.display = 'none';
+    //             showToast('success', 'Age verification complete!');
+    //         }
+    //     } else {
+    //         alert('Please enter your date of birth.');
+    //     }
+    // });
     
-    cancelVerificationBtn.addEventListener('click', function() {
-        // In a real app, this might redirect to a landing page
-        alert('Age verification is required to use OLYMPUS.');
-    });
+    // cancelVerificationBtn.addEventListener('click', function() {
+    //     // In a real app, this might redirect to a landing page
+    //     alert('Age verification is required to use OLYMPUS.');
+    // });
     
     // Content filter modal handlers
     applyFiltersBtn.addEventListener('click', function() {
