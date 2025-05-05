@@ -3,1186 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OLYMPUS - The Ultimate Social Media Platform</title>
+    <title>Nexus - Connect Through Ideas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
-<body class="light-mode">
-    <!-- Age Verification Modal -->
-    <div class="age-verification-modal" id="age-verification-modal">
-        <div class="age-verification-container">
-            <div class="age-verification-header">
-                <h2 class="age-verification-title">Welcome to OLYMPUS</h2>
-                <p class="age-verification-subtitle">The ultimate social media platform</p>
-            </div>
-            <div class="age-verification-body">
-                <form class="age-verification-form">
-                    <div class="age-input-group">
-                        <label class="age-input-label">Please confirm your date of birth</label>
-                        <input type="date" class="age-input" id="birth-date" required>
-                    </div>
-                    <div class="age-verification-actions">
-                        <button type="button" class="age-button secondary" id="cancel-verification">Cancel</button>
-                        <button type="submit" class="age-button primary" id="confirm-age">Continue</button>
-                    </div>
-                </form>
-            </div>
-            <div class="age-verification-footer">
-                <p>By continuing, you agree to our Terms of Service and Privacy Policy. Users under 18 will require parental approval.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Content Filter Modal -->
-    <div class="content-filter-modal" id="content-filter-modal" style="display: none;">
-        <div class="content-filter-container">
-            <div class="content-filter-header">
-                <h2 class="content-filter-title">Customize Your Experience</h2>
-                <p class="content-filter-description">Select the content you want to see on OLYMPUS</p>
-            </div>
-            <div class="content-filter-body">
-                <div class="filter-category">
-                    <h3 class="filter-category-header">Content Categories</h3>
-                    <div class="filter-options">
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Educational Content</div>
-                                <div class="filter-option-description">Learning resources, tutorials, and informative posts</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Entertainment</div>
-                                <div class="filter-option-description">Fun, creative, and recreational content</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">News & Current Events</div>
-                                <div class="filter-option-description">Latest happenings around the world</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Community Discussions</div>
-                                <div class="filter-option-description">Conversations and debates on various topics</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="filter-category">
-                    <h3 class="filter-category-header">Content Types</h3>
-                    <div class="filter-options">
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Text Posts</div>
-                                <div class="filter-option-description">Written content and updates</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Images & Photos</div>
-                                <div class="filter-option-description">Visual content and photography</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Videos</div>
-                                <div class="filter-option-description">Short and long-form video content</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox checked"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Voice & Audio</div>
-                                <div class="filter-option-description">Podcasts, voice rooms, and audio content</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="filter-category">
-                    <h3 class="filter-category-header">Sensitive Content</h3>
-                    <div class="filter-options">
-                        <div class="filter-option">
-                            <div class="filter-checkbox"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Mature Discussions</div>
-                                <div class="filter-option-description">Content with mature themes suitable for adults</div>
-                            </div>
-                        </div>
-                        <div class="filter-option">
-                            <div class="filter-checkbox"><i class="fas fa-check"></i></div>
-                            <div class="filter-option-label">
-                                <div class="filter-option-name">Controversial Topics</div>
-                                <div class="filter-option-description">Debates on polarizing issues</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-filter-footer">
-                <button class="filter-button secondary" id="reset-filters">Reset to Default</button>
-                <button class="filter-button primary" id="apply-filters">Apply Filters</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Parent Controls Panel -->
-    <div class="parent-controls-panel" id="parent-controls-panel">
-        <div class="parent-controls-header">
-            <h2 class="parent-controls-title">Parent Controls</h2>
-            <button class="parent-controls-close" id="close-parent-controls">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="parent-controls-body">
-            <div class="parent-control-section">
-                <h3 class="parent-control-section-title">Account Settings</h3>
-                <div class="parent-control-group">
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Supervised Account</div>
-                            <div class="parent-control-description">Enable full parental supervision</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Daily Usage Reports</div>
-                            <div class="parent-control-description">Receive daily activity summaries</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="parent-control-section">
-                <h3 class="parent-control-section-title">Content Controls</h3>
-                <div class="parent-control-group">
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Age-Appropriate Content Only</div>
-                            <div class="parent-control-description">Restrict to content suitable for under 18</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Educational Priority</div>
-                            <div class="parent-control-description">Prioritize educational content in feed</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Messaging Restrictions</div>
-                            <div class="parent-control-description">Limit messaging to approved contacts</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="parent-control-section">
-                <h3 class="parent-control-section-title">Time Management</h3>
-                <div class="parent-control-group">
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Daily Time Limit</div>
-                            <div class="parent-control-description">Set maximum usage time per day</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="time-limit-slider">
-                        <input type="range" min="30" max="240" value="120" step="15" id="time-limit-range">
-                        <div class="time-limit-value">2 hours per day</div>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Scheduled Downtime</div>
-                            <div class="parent-control-description">Set times when the app cannot be used</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="parent-control-section">
-                <h3 class="parent-control-section-title">Privacy & Security</h3>
-                <div class="parent-control-group">
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Private Account</div>
-                            <div class="parent-control-description">Only approved followers can see posts</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Location Sharing</div>
-                            <div class="parent-control-description">Disable location information on posts</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                    <div class="parent-control-item">
-                        <div>
-                            <div class="parent-control-label">Comment Approval</div>
-                            <div class="parent-control-description">Review comments before they appear</div>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="parent-controls-footer">
-            <button class="parent-control-button primary">Save Settings</button>
-        </div>
-    </div>
-    
+<body>
     <div id="app" class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-container">
-                <div class="logo">
-                    <i class="fas fa-mountain"></i>OLYMPUS
+        <!-- Floating Navigation -->
+        <nav class="floating-nav" id="floating-nav">
+            <div class="nav-section main-actions">
+                <button class="nav-action-button" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="nav-action-button search-toggle">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="nav-action-button theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="nav-section logo-section">
+                <div class="platform-logo">N</div>
+            </div>
+            <div class="nav-section user-section">
+                <div class="notification-indicator" id="notification-toggle">
+                    <i class="fas fa-bell"></i>
+                    <span class="indicator-badge">3</span>
                 </div>
-                <div class="search-bar">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search anything...">
-                </div>
-                <div class="header-actions">
-                    <button id="theme-toggle" class="header-icon-btn">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button id="content-filter-btn" class="header-icon-btn">
-                        <i class="fas fa-sliders-h"></i>
-                    </button>
-                    <div class="notification-btn">
-                        <button id="notification-toggle" class="header-icon-btn">
-                            <i class="fas fa-bell"></i>
-                        </button>
-                        <span class="notification-badge">5</span>
-                    </div>
-                    <div class="user-menu">
-                        <div class="avatar">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
-                        </div>
-                    </div>
+                <div class="avatar-container">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile" class="user-avatar">
                 </div>
             </div>
-        </header>
+        </nav>
 
-        <!-- Main Layout -->
-        <div class="main-layout">
-            <!-- Primary Sidebar / Mobile Navigation -->
-            <aside class="primary-sidebar">
-                <div class="nav-links">
-                    <a href="#" class="nav-item active">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="#" class="nav-item">
+        <!-- Main Sidebar -->
+        <aside class="main-sidebar" id="main-sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-logo">nexus</h1>
+                <button class="close-sidebar" id="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="nav-group">
+                    <h2 class="nav-group-title">Navigate</h2>
+                    <a href="#" class="nav-link active">
                         <i class="fas fa-compass"></i>
-                        <span>Explore</span>
+                        <span>Discover</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-microphone"></i>
-                        <span>Voice</span>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-bolt"></i>
+                        <span>For You</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-comment-alt"></i>
-                        <span>Threads</span>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-fire"></i>
+                        <span>Trending</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-users"></i>
-                        <span>Communities</span>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>Live Spaces</span>
                     </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-bookmark"></i>
-                        <span>Saved</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-user"></i>
-                        <span>Profile</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Safety</span>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-map"></i>
+                        <span>ThoughtMaps</span>
                     </a>
                 </div>
-                
-                <button class="create-btn">
+                <div class="nav-group">
+                    <h2 class="nav-group-title">Dimensions</h2>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-brain"></i>
+                        <span>Intellectual</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-palette"></i>
+                        <span>Creative</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-microscope"></i>
+                        <span>Scientific</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Wellness</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-globe"></i>
+                        <span>Worldview</span>
+                    </a>
+                </div>
+                <div class="nav-group">
+                    <h2 class="nav-group-title">Your Spaces</h2>
+                    <a href="#" class="nav-link">
+                        <span class="space-icon">T</span>
+                        <span>Technology</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <span class="space-icon">P</span>
+                        <span>Philosophy</span>
+                    </a>
+                    <a href="#" class="nav-link">
+                        <span class="space-icon">D</span>
+                        <span>Design</span>
+                    </a>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="create-button">
                     <i class="fas fa-plus"></i>
                     <span>Create</span>
                 </button>
-                
-                <div class="sidebar-section">
-                    <div class="sidebar-heading">
-                        <h3 class="sidebar-title">Your Communities</h3>
-                        <a href="#" class="sidebar-action">See All</a>
-                    </div>
-                    <div class="community-list">
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=technology" alt="Technology Community">
-                            </div>
-                            <div class="community-info">
-                                <div class="community-name">Technology</div>
-                                <div class="community-metric">3.2M members</div>
-                            </div>
-                        </a>
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=design" alt="Design Community">
-                            </div>
-                            <div class="community-info">
-                                <div class="community-name">Design</div>
-                                <div class="community-metric">1.8M members</div>
-                            </div>
-                        </a>
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=science" alt="Science Community">
-                            </div>
-                            <div class="community-info">
-                                <div class="community-name">Science</div>
-                                <div class="community-metric">2.5M members</div>
-                            </div>
-                        </a>
-                        <a href="#" class="community-item">
-                            <div class="community-avatar">
-                                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=gaming" alt="Gaming Community">
-                            </div>
-                            <div class="community-info">
-                                <div class="community-name">Gaming</div>
-                                <div class="community-metric">5.7M members</div>
-                            </div>
-                        </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Immersive Header -->
+            <div class="immersive-header">
+                <div class="perspective-selector">
+                    <div class="perspective-label">Viewing through:</div>
+                    <div class="perspective-options">
+                        <button class="perspective-option active">All Perspectives</button>
+                        <button class="perspective-option">Contrasting Views</button>
+                        <button class="perspective-option">Emerging Ideas</button>
                     </div>
                 </div>
-            </aside>
+            </div>
             
-            <!-- Main Content -->
-            <main class="main-content">
-                <div class="content-container">
-                    <!-- Content Tabs -->
-                    <div class="content-tabs">
-                        <button class="content-tab active">For You</button>
-                        <button class="content-tab">Following</button>
-                        <button class="content-tab">Voice</button>
-                        <button class="content-tab">Threads</button>
-                        <button class="content-tab">Discover</button>
-                        <button class="content-tab">Trending</button>
-                        <button class="content-tab">Verified</button>
+            <!-- Thought Composer -->
+            <div class="thought-composer">
+                <div class="composer-avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
+                </div>
+                <div class="composer-input-container">
+                    <textarea class="composer-input" placeholder="Share a thought that elevates the conversation..."></textarea>
+                    <div class="composer-actions">
+                        <button class="composer-action">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <button class="composer-action">
+                            <i class="fas fa-link"></i>
+                        </button>
+                        <button class="composer-action">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="composer-action">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                        <button class="composer-action">
+                            <i class="fas fa-poll"></i>
+                        </button>
+                        <button class="composer-submit" disabled>Share</button>
                     </div>
-
-                    <!-- Advanced Content Discovery -->
-                    <div class="discovery-card">
-                        <div class="discovery-header">
-                            <div class="discovery-title">
+                </div>
+            </div>
+            
+            <!-- ThoughtStream -->
+            <div class="thought-stream">
+                <!-- Thought Card 1 -->
+                <div class="thought-card">
+                    <div class="thought-meta">
+                        <div class="thought-author">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=visionary" alt="Author" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">visionary_thinker</div>
+                                <div class="thought-time">2h ago</div>
+                            </div>
+                        </div>
+                        <div class="thought-dimension-tag">Intellectual</div>
+                    </div>
+                    <div class="thought-content">
+                        <div class="depth-indicator">
+                            <div class="depth-dots">
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot"></span>
+                                <span class="depth-dot"></span>
+                            </div>
+                            <span class="depth-label">Thought-Provoking</span>
+                        </div>
+                        <p>We're experiencing a fascinating paradox: as our digital connections multiply, the value of genuine human interaction increases exponentially. This creates a new kind of social economy where authenticity becomes the true currency.</p>
+                        <div class="thought-tags">
+                            <span class="thought-tag">#DigitalParadox</span>
+                            <span class="thought-tag">#HumanConnection</span>
+                            <span class="thought-tag">#SocialEconomics</span>
+                        </div>
+                    </div>
+                    <div class="thought-engagement">
+                        <div class="engagement-metrics">
+                            <span class="metric"><i class="fas fa-comment"></i> 42</span>
+                            <span class="metric"><i class="fas fa-retweet"></i> 128</span>
+                            <span class="metric"><i class="fas fa-eye"></i> 1.5k</span>
+                        </div>
+                        <div class="engagement-actions">
+                            <button class="engage-action elevate">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Elevate</span>
+                            </button>
+                            <button class="engage-action amplify">
+                                <i class="fas fa-broadcast-tower"></i>
+                                <span>Amplify</span>
+                            </button>
+                            <button class="engage-action illuminate">
                                 <i class="fas fa-lightbulb"></i>
-                                <span>Discover New Perspectives</span>
+                                <span>Illuminate</span>
+                            </button>
+                            <button class="engage-action">
+                                <i class="fas fa-comment"></i>
+                                <span>Respond</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Thought Card 2 -->
+                <div class="thought-card">
+                    <div class="thought-meta">
+                        <div class="thought-author">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=scientist" alt="Author" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">quantum_thinker</div>
+                                <div class="thought-time">4h ago</div>
                             </div>
                         </div>
-                        <div class="discovery-body">
-                            <div class="discovery-tabs">
-                                <button class="discovery-tab active">For You</button>
-                                <button class="discovery-tab">Technology</button>
-                                <button class="discovery-tab">Science</button>
-                                <button class="discovery-tab">Arts</button>
-                                <button class="discovery-tab">Culture</button>
-                                <button class="discovery-tab">Environment</button>
-                                <button class="discovery-tab">Health</button>
+                        <div class="thought-dimension-tag">Scientific</div>
+                    </div>
+                    <div class="thought-content">
+                        <div class="depth-indicator">
+                            <div class="depth-dots">
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot active"></span>
+                                <span class="depth-dot"></span>
                             </div>
-                            <div class="discovery-items">
-                                <div class="discovery-item">
-                                    <div class="discovery-item-image">
-                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech1" alt="Discovery Item">
-                                    </div>
-                                    <div class="discovery-item-content">
-                                        <div class="discovery-item-title">The Future of AI Ethics</div>
-                                        <div class="discovery-item-meta">
-                                            <i class="fas fa-fire"></i>
-                                            <span>Trending</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="discovery-item">
-                                    <div class="discovery-item-image">
-                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech2" alt="Discovery Item">
-                                    </div>
-                                    <div class="discovery-item-content">
-                                        <div class="discovery-item-title">Quantum Computing Breakthroughs</div>
-                                        <div class="discovery-item-meta">
-                                            <i class="fas fa-users"></i>
-                                            <span>Popular</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="discovery-item">
-                                    <div class="discovery-item-image">
-                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech3" alt="Discovery Item">
-                                    </div>
-                                    <div class="discovery-item-content">
-                                        <div class="discovery-item-title">Sustainable Energy Innovations</div>
-                                        <div class="discovery-item-meta">
-                                            <i class="fas fa-lightbulb"></i>
-                                            <span>New</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="discovery-item">
-                                    <div class="discovery-item-image">
-                                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech4" alt="Discovery Item">
-                                    </div>
-                                    <div class="discovery-item-content">
-                                        <div class="discovery-item-title">Biotech Revolution 2025</div>
-                                        <div class="discovery-item-meta">
-                                            <i class="fas fa-certificate"></i>
-                                            <span>Featured</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <span class="depth-label">Insightful</span>
+                        </div>
+                        <p>The recent breakthrough in quantum materials offers a glimpse into how we might create self-healing infrastructure. By embedding engineered microorganisms into construction materials, we're essentially creating buildings that can repair themselves.</p>
+                        <div class="thought-media">
+                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=quantum" alt="Quantum Illustration" class="thought-image">
+                        </div>
+                        <div class="thought-tags">
+                            <span class="thought-tag">#QuantumMaterials</span>
+                            <span class="thought-tag">#SelfHealing</span>
+                            <span class="thought-tag">#Biotechnology</span>
+                        </div>
+                    </div>
+                    <div class="thought-engagement">
+                        <div class="engagement-metrics">
+                            <span class="metric"><i class="fas fa-comment"></i> 76</span>
+                            <span class="metric"><i class="fas fa-retweet"></i> 215</span>
+                            <span class="metric"><i class="fas fa-eye"></i> 3.2k</span>
+                        </div>
+                        <div class="engagement-actions">
+                            <button class="engage-action elevate active">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Elevate</span>
+                            </button>
+                            <button class="engage-action amplify">
+                                <i class="fas fa-broadcast-tower"></i>
+                                <span>Amplify</span>
+                            </button>
+                            <button class="engage-action illuminate active">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Illuminate</span>
+                            </button>
+                            <button class="engage-action">
+                                <i class="fas fa-comment"></i>
+                                <span>Respond</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ThoughtMap Card -->
+                <div class="thought-card thought-map-card">
+                    <div class="thought-meta">
+                        <div class="thought-author">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creator" alt="Author" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">mindmapper</div>
+                                <div class="thought-time">Yesterday</div>
+                            </div>
+                        </div>
+                        <div class="thought-dimension-tag special">ThoughtMap</div>
+                    </div>
+                    <div class="thought-content">
+                        <h3 class="thought-map-title">The Future of Work: Connected Perspectives</h3>
+                        <div class="thought-map-preview">
+                            <div class="thought-map-container">
+                                <div class="map-node central">Remote Work</div>
+                                <div class="map-node connected-1">Productivity</div>
+                                <div class="map-node connected-2">Mental Health</div>
+                                <div class="map-node connected-3">Technology</div>
+                                <div class="map-node connected-4">Community</div>
+                                <div class="map-node connected-5">Sustainability</div>
+                            </div>
+                            <div class="thought-map-stats">
+                                <div class="map-stat"><i class="fas fa-sitemap"></i> 42 connected thoughts</div>
+                                <div class="map-stat"><i class="fas fa-users"></i> 18 contributors</div>
+                                <div class="map-stat"><i class="fas fa-eye"></i> 12.4k views</div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Custom Experience Card -->
-                    <div class="experience-card">
-                        <img src="https://api.dicebear.com/7.x/shapes/svg?seed=adventure" class="experience-background" alt="">
-                        <div class="experience-overlay">
-                            <div class="experience-badge">✨ NEW EXPERIENCE</div>
-                            <h2 class="experience-title">Dive into Voice Communities</h2>
-                            <p class="experience-description">Join live conversations with people who share your interests. Discuss, debate, and collaborate in real-time audio spaces with spatial audio technology.</p>
-                            <div class="experience-cta">
-                                <button class="experience-button primary">Try Now</button>
-                                <button class="experience-button secondary">Learn More</button>
-                            </div>
+                    <div class="thought-engagement">
+                        <div class="engagement-actions centered">
+                            <button class="engage-action special">
+                                <i class="fas fa-expand-alt"></i>
+                                <span>Explore Map</span>
+                            </button>
+                            <button class="engage-action">
+                                <i class="fas fa-plus"></i>
+                                <span>Contribute</span>
+                            </button>
                         </div>
                     </div>
-
-                    <!-- Post Composer -->
-                    <div class="post-composer">
-                        <div class="composer-header">
-                            <div class="avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
+                </div>
+                
+                <!-- Live Thought Space Card -->
+                <div class="thought-card live-space-card">
+                    <div class="live-indicator">
+                        <span class="pulse-dot"></span>
+                        <span class="live-text">LIVE NOW</span>
+                    </div>
+                    <div class="thought-meta">
+                        <div class="thought-author">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Author" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">future_visionary</div>
+                                <div class="thought-time">Started 28min ago</div>
                             </div>
-                            <textarea class="composer-input" placeholder="What's on your mind?"></textarea>
                         </div>
-                        <div class="composer-footer">
-                            <div class="composer-tools">
-                                <button class="composer-tool">
-                                    <i class="fas fa-image"></i>
-                                </button>
-                                <button class="composer-tool">
-                                    <i class="fas fa-video"></i>
-                                </button>
-                                <button class="composer-tool">
-                                    <i class="fas fa-link"></i>
-                                </button>
-                                <button class="composer-tool">
-                                    <i class="fas fa-poll"></i>
-                                </button>
-                                <button class="composer-tool">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
-                                <button class="composer-tool">
-                                    <i class="fas fa-hashtag"></i>
-                                </button>
+                        <div class="thought-dimension-tag">Live Space</div>
+                    </div>
+                    <div class="thought-content">
+                        <h3 class="live-space-title">Reimagining Creative Collaboration in Virtual Spaces</h3>
+                        <div class="live-space-participants">
+                            <div class="participant-avatars">
+                                <div class="participant-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Speaker">
+                                    <div class="speaking-indicator active"></div>
+                                </div>
+                                <div class="participant-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=designer" alt="Designer">
+                                </div>
+                                <div class="participant-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=engineer" alt="Engineer">
+                                </div>
+                                <div class="participant-avatar">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=artist" alt="Artist">
+                                </div>
                             </div>
-                            <button class="composer-submit" disabled>Post</button>
+                            <div class="participant-count">
+                                <i class="fas fa-user-friends"></i> 4 speakers • 238 listening
+                            </div>
+                        </div>
+                        <div class="live-transcript">
+                            <p><strong>future_visionary:</strong> ...when we remove physical constraints, we can reimagine collaboration entirely...</p>
+                            <p><strong>designer:</strong> Absolutely, and the spatial aspect becomes more conceptual than literal...</p>
                         </div>
                     </div>
-
-                    <!-- Content Feed -->
-                    <div class="content-feed">
-                        <!-- Post Card 1 with Multi-dimensional Voting -->
-                        <div class="post-card">
-                            <div class="post-header">
-                                <div class="avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">
-                                        tech_visionary
-                                        <i class="fas fa-check-circle author-verified"></i>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-time">2h ago</span>
-                                        <span class="post-context">via Technology</span>
-                                    </div>
-                                </div>
-                                <button class="post-options">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <div class="post-body">
-                                <div class="content-depth-indicator">
-                                    <div class="depth-meter">
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot"></div>
-                                        <div class="depth-dot"></div>
-                                    </div>
-                                    <div class="depth-label">In-depth</div>
-                                    <div class="reading-time">
-                                        <i class="far fa-clock"></i>
-                                        <span>2 min read</span>
-                                    </div>
-                                </div>
-                                <div class="post-content">
-                                    Just discovered an incredible paradox: as our digital world becomes more connected, our genuine in-person interactions become more valuable. The more time we spend online, the more we crave authentic human connection. This creates an interesting economic dynamic where real-world experiences are becoming premium offerings.
-                                </div>
-                                <div class="post-tags">
-                                    <a href="#" class="post-tag">#technology</a>
-                                    <a href="#" class="post-tag">#society</a>
-                                    <a href="#" class="post-tag">#digitalminimalism</a>
-                                </div>
-                                
-                                <!-- Multi-dimensional Voting Panel -->
-                                <div class="multi-vote-panel">
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Accuracy</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3">3</button>
-                                            <button class="vote-button value-4 active">4</button>
-                                            <button class="vote-button value-5">5</button>
-                                        </div>
-                                    </div>
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Insightful</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3">3</button>
-                                            <button class="vote-button value-4">4</button>
-                                            <button class="vote-button value-5 active">5</button>
-                                        </div>
-                                    </div>
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Relevance</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3 active">3</button>
-                                            <button class="vote-button value-4">4</button>
-                                            <button class="vote-button value-5">5</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="post-stats">
-                                    <div class="stat-group">
-                                        <div class="post-stat">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>1.2k</span>
-                                        </div>
-                                        <div class="post-stat">
-                                            <i class="fas fa-comment"></i>
-                                            <span>356</span>
-                                        </div>
-                                    </div>
-                                    <div class="post-stat">
-                                        <i class="fas fa-share"></i>
-                                        <span>28 shares</span>
-                                    </div>
-                                </div>
-                                <div class="post-footer">
-                                    <button class="reaction-button">
-                                        <i class="fas fa-heart"></i>
-                                        <span>Like</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>Boost</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <span>Insightful</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-comment"></i>
-                                        <span>Reply</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Post Card 2 with Link and Up/Down Votes -->
-                        <div class="post-card">
-                            <div class="post-header">
-                                <div class="avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_news" alt="future_news">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">
-                                        future_news
-                                        <i class="fas fa-check-circle author-verified"></i>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-time">5h ago</span>
-                                        <span class="post-context">via Science</span>
-                                    </div>
-                                </div>
-                                <div class="voting-buttons">
-                                    <button class="voting-button upvote active">
-                                        <i class="fas fa-chevron-up"></i>
-                                    </button>
-                                    <div class="vote-count">876</div>
-                                    <button class="voting-button downvote">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                </div>
-                                <button class="post-options">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <div class="post-body">
-                                <div class="content-depth-indicator">
-                                    <div class="depth-meter">
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot active"></div>
-                                        <div class="depth-dot"></div>
-                                    </div>
-                                    <div class="depth-label">Technical</div>
-                                    <div class="reading-time">
-                                        <i class="far fa-clock"></i>
-                                        <span>4 min read</span>
-                                    </div>
-                                </div>
-                                <div class="post-content">
-                                    Scientists have created a new type of living material by embedding engineered bacteria into a hydrogel. This breakthrough could revolutionize everything from sustainable construction to environmental cleanup.
-                                </div>
-                                <div class="post-links">
-                                    <a href="#" class="link-preview">
-                                        <div class="link-image">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=science_breakthrough" alt="Science Breakthrough">
-                                        </div>
-                                        <div class="link-details">
-                                            <div class="link-source">sciencedaily.com</div>
-                                            <div class="link-title">Engineered Living Materials: The Future of Sustainable Infrastructure</div>
-                                            <div class="link-description">Researchers have created a new class of engineered living materials that can grow, heal, and respond to their environment.</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="post-tags">
-                                    <a href="#" class="post-tag">#science</a>
-                                    <a href="#" class="post-tag">#biotech</a>
-                                    <a href="#" class="post-tag">#sustainability</a>
-                                </div>
-                                <div class="post-stats">
-                                    <div class="stat-group">
-                                        <div class="post-stat">
-                                            <i class="fas fa-comment"></i>
-                                            <span>142</span>
-                                        </div>
-                                        <div class="post-stat">
-                                            <i class="fas fa-retweet"></i>
-                                            <span>63 shares</span>
-                                        </div>
-                                    </div>
-                                    <div class="post-stat">
-                                        <i class="fas fa-bookmark"></i>
-                                        <span>231 saves</span>
-                                    </div>
-                                </div>
-                                <div class="post-footer">
-                                    <button class="reaction-button liked">
-                                        <i class="fas fa-heart"></i>
-                                        <span>Liked</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>Boost</span>
-                                    </button>
-                                    <button class="reaction-button insightful">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <span>Insightful</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-comment"></i>
-                                        <span>Reply</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Collaborative Post with Images -->
-                        <div class="post-card">
-                            <div class="collab-indicator">
-                                <i class="fas fa-users collab-icon"></i>
-                                <span class="collab-text">Collaborative Post</span>
-                                <div class="collab-participants">
-                                    <div class="collab-avatar-stack">
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_designer" alt="creative_designer">
-                                        </div>
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_designer" alt="eco_designer">
-                                        </div>
-                                    </div>
-                                    <span class="collab-count">+3 more</span>
-                                </div>
-                            </div>
-                            <div class="post-header">
-                                <div class="avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creative_designer" alt="creative_designer">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">
-                                        creative_designer
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-time">8h ago</span>
-                                        <span class="post-context">via Design</span>
-                                    </div>
-                                </div>
-                                <div class="voting-buttons">
-                                    <button class="voting-button upvote active">
-                                        <i class="fas fa-chevron-up"></i>
-                                    </button>
-                                    <div class="vote-count">1.5k</div>
-                                    <button class="voting-button downvote">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                </div>
-                                <button class="post-options">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <div class="post-body">
-                                <div class="post-content">
-                                    Our team collaborated on a new minimalist workspace design focused on sustainability and productivity. We've been experimenting with a cleaner, distraction-free environment to boost creativity and focus. What do you think?
-                                </div>
-                                <div class="post-media">
-                                    <div class="media-grid media-grid-3">
-                                        <div class="media-grid-item">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace1" alt="Workspace Image">
-                                        </div>
-                                        <div class="media-grid-item">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace2" alt="Workspace Image">
-                                        </div>
-                                        <div class="media-grid-item">
-                                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=workspace3" alt="Workspace Image">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-tags">
-                                    <a href="#" class="post-tag">#design</a>
-                                    <a href="#" class="post-tag">#workspace</a>
-                                    <a href="#" class="post-tag">#minimalism</a>
-                                    <a href="#" class="post-tag">#sustainability</a>
-                                    <a href="#" class="post-tag">#productivity</a>
-                                </div>
-                                
-                                <!-- Multi-dimensional Voting Panel -->
-                                <div class="multi-vote-panel">
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Innovation</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3">3</button>
-                                            <button class="vote-button value-4">4</button>
-                                            <button class="vote-button value-5 active">5</button>
-                                        </div>
-                                    </div>
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Design</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3">3</button>
-                                            <button class="vote-button value-4 active">4</button>
-                                            <button class="vote-button value-5">5</button>
-                                        </div>
-                                    </div>
-                                    <div class="vote-dimension">
-                                        <div class="vote-label">Practicality</div>
-                                        <div class="vote-scale">
-                                            <button class="vote-button value-1">1</button>
-                                            <button class="vote-button value-2">2</button>
-                                            <button class="vote-button value-3 active">3</button>
-                                            <button class="vote-button value-4">4</button>
-                                            <button class="vote-button value-5">5</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="post-stats">
-                                    <div class="stat-group">
-                                        <div class="post-stat">
-                                            <i class="fas fa-comment"></i>
-                                            <span>283</span>
-                                        </div>
-                                        <div class="post-stat">
-                                            <i class="fas fa-retweet"></i>
-                                            <span>112 shares</span>
-                                        </div>
-                                    </div>
-                                    <div class="post-stat">
-                                        <i class="fas fa-users"></i>
-                                        <span>5 contributors</span>
-                                    </div>
-                                </div>
-                                <div class="post-footer">
-                                    <button class="reaction-button">
-                                        <i class="fas fa-heart"></i>
-                                        <span>Like</span>
-                                    </button>
-                                    <button class="reaction-button boosted">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>Boosted</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <span>Insightful</span>
-                                    </button>
-                                    <button class="reaction-button">
-                                        <i class="fas fa-comment"></i>
-                                        <span>Reply</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Enhanced Voice Room with Spatial Audio -->
-                        <div class="voice-room">
-                            <div class="voice-room-status status-live">Live Now</div>
-                            <h3 class="voice-room-title">The Future of Sustainable Technology</h3>
-                            <div class="room-host">Hosted by tech_visionary</div>
-                            <div class="participants-preview">
-                                <div class="participants-avatars">
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
-                                        <div class="speaking-indicator active"></div>
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_engineer" alt="eco_engineer">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_designer" alt="future_designer">
-                                    </div>
-                                    <div class="participant-avatar">
-                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=climate_scientist" alt="climate_scientist">
-                                    </div>
-                                </div>
-                                <div class="participant-count">
-                                    <span>532 listening</span>
-                                </div>
-                            </div>
-                            <div class="spatial-audio-indicator">
+                    <div class="thought-engagement">
+                        <div class="engagement-actions centered">
+                            <button class="engage-action primary">
                                 <i class="fas fa-headphones"></i>
-                                <span>Spatial Audio Enabled</span>
-                            </div>
-                            <div class="voice-room-controls">
-                                <button class="voice-control-button mute">
-                                    <i class="fas fa-microphone-slash"></i>
-                                </button>
-                                <button class="voice-control-button video">
-                                    <i class="fas fa-video"></i>
-                                </button>
-                                <button class="voice-control-button settings">
-                                    <i class="fas fa-cog"></i>
-                                </button>
-                            </div>
-                            <div class="voice-transcript">
-                                <p><strong>tech_visionary:</strong> We need to consider how sustainable technology can address climate challenges while remaining accessible...</p>
-                                <p><strong>eco_engineer:</strong> Great point! Affordability is crucial for widespread adoption of green tech...</p>
-                                <p><strong>climate_scientist:</strong> The data shows that implementation needs to accelerate...</p>
-                            </div>
-                            <div class="room-cta">
-                                <button class="join-button primary">
-                                    <i class="fas fa-headphones"></i>
-                                    <span>Join Room</span>
-                                </button>
-                                <button class="join-button secondary">
-                                    <i class="fas fa-bell"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Enhanced Thread with Knowledge Verification -->
-                        <div class="thread">
-                            <div class="post-header">
-                                <div class="avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=philosophy_buff" alt="philosophy_buff">
-                                </div>
-                                <div class="post-author-info">
-                                    <div class="post-author-name">
-                                        philosophy_buff
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-time">12h ago</span>
-                                        <span class="post-context">via Philosophy</span>
-                                    </div>
-                                </div>
-                                <div class="voting-buttons">
-                                    <button class="voting-button upvote active">
-                                        <i class="fas fa-chevron-up"></i>
-                                    </button>
-                                    <div class="vote-count">683</div>
-                                    <button class="voting-button downvote">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                </div>
-                                <button class="post-options">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                            </div>
-                            <div class="content-depth-indicator">
-                                <div class="depth-meter">
-                                    <div class="depth-dot active"></div>
-                                    <div class="depth-dot active"></div>
-                                    <div class="depth-dot active"></div>
-                                    <div class="depth-dot active"></div>
-                                    <div class="depth-dot active"></div>
-                                </div>
-                                <div class="depth-label">Expert</div>
-                                <div class="reading-time">
-                                    <i class="far fa-clock"></i>
-                                    <span>12 min read</span>
-                                </div>
-                            </div>
-                            <h3 class="thread-title">The Paradox of Choice: Are We Happier With More Options?</h3>
-                            <div class="thread-preview">
-                                Modern society provides us with an unprecedented abundance of choices in every aspect of our lives. From the 50+ types of cereal at the grocery store to the endless stream of content on streaming platforms, we're constantly faced with decisions. But does this wealth of options actually make us happier? Psychologist Barry Schwartz argues in his book "The Paradox of Choice" that excessive choice can actually lead to...
-                            </div>
-                            <div class="thread-footer">
-                                <div class="thread-stats">
-                                    <div class="thread-stat">
-                                        <i class="fas fa-comment"></i>
-                                        <span>47 posts</span>
-                                    </div>
-                                    <div class="thread-stat">
-                                        <i class="fas fa-user"></i>
-                                        <span>19 participants</span>
-                                    </div>
-                                    <div class="thread-stat">
-                                        <i class="fas fa-certificate"></i>
-                                        <span>Knowledge Verified</span>
-                                    </div>
-                                </div>
-                                <div class="thread-last-activity">
-                                    Last post 14 minutes ago
-                                </div>
-                            </div>
+                                <span>Join Space</span>
+                            </button>
+                            <button class="engage-action">
+                                <i class="fas fa-bell"></i>
+                                <span>Notify</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-            </main>
-
-            <!-- Secondary Sidebar -->
-            <aside class="secondary-sidebar">
-                <!-- Trends Card -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-card-title">Trending Today</h3>
-                    <div class="trend-list">
-                        <div class="trend-item">
-                            <div class="trend-category">Technology</div>
-                            <div class="trend-title">AI Models Surpass Human Performance in Critical Thinking</div>
-                            <div class="trend-metrics">3.7k discussions • Trending with #AIEthics</div>
-                        </div>
-                        <div class="trend-item">
-                            <div class="trend-category">Science</div>
-                            <div class="trend-title">New Breakthrough in Quantum Computing Stability</div>
-                            <div class="trend-metrics">2.1k discussions • Trending with #QuantumLeap</div>
-                        </div>
-                        <div class="trend-item">
-                            <div class="trend-category">Culture</div>
-                            <div class="trend-title">Digital Minimalism Movement Grows</div>
-                            <div class="trend-metrics">5.4k discussions • Trending with #LessIsMore</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Enhanced Age & Content Filter Controls -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-card-title">
-                        <i class="fas fa-shield-alt" style="color: var(--success); margin-right: 8px;"></i>
-                        Safety Controls
-                    </h3>
-                    <div style="padding: 10px 0;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="font-weight: 600;">Content Filtering</span>
-                            <button class="follow-btn primary" style="padding: 4px 12px;" id="open-content-filter">Adjust</button>
-                        </div>
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                            <span style="font-weight: 600;">Parental Controls</span>
-                            <button class="follow-btn primary" style="padding: 4px 12px;" id="open-parent-controls">Manage</button>
-                        </div>
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <span style="font-weight: 600;">Privacy Settings</span>
-                            <button class="follow-btn secondary" style="padding: 4px 12px;">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Upcoming Events Card -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-card-title">Upcoming Events</h3>
-                    <div class="upcoming-events">
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-month">MAY</span>
-                                <span class="event-day">12</span>
-                            </div>
-                            <div class="event-info">
-                                <div class="event-title">Future of AI Ethics Forum</div>
-                                <div class="event-details">Virtual • 4:00 PM EST</div>
-                                <div class="event-participants">
-                                    <div class="event-avatar-stack">
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_visionary" alt="tech_visionary">
-                                        </div>
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ai_ethics" alt="ai_ethics">
-                                        </div>
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=digital_rights" alt="digital_rights">
-                                        </div>
-                                    </div>
-                                    <span class="event-participant-count">482 going</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-month">MAY</span>
-                                <span class="event-day">18</span>
-                            </div>
-                            <div class="event-info">
-                                <div class="event-title">Sustainable Design Workshop</div>
-                                <div class="event-details">Hybrid • 2:00 PM EST</div>
-                                <div class="event-participants">
-                                    <div class="event-avatar-stack">
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=eco_designer" alt="eco_designer">
-                                        </div>
-                                        <div class="event-avatar">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=green_architect" alt="green_architect">
-                                        </div>
-                                    </div>
-                                    <span class="event-participant-count">327 going</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Suggested Profiles Card -->
-                <div class="sidebar-card">
-                    <h3 class="sidebar-card-title">Suggested Profiles</h3>
-                    <div class="suggested-users">
-                        <div class="user-suggestion">
-                            <div class="avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=tech_writer" alt="tech_writer">
-                            </div>
-                            <div class="user-info">
-                                <div class="user-name">tech_writer</div>
-                                <div class="user-bio">Technology columnist, exploring the intersection of humans and technology in the digital age.</div>
-                            </div>
-                            <button class="follow-btn primary">Follow</button>
-                        </div>
-                        <div class="user-suggestion">
-                            <div class="avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=future_thinker" alt="future_thinker">
-                            </div>
-                            <div class="user-info">
-                                <div class="user-name">future_thinker</div>
-                                <div class="user-bio">Futurist exploring emerging technologies and their impact on society and human potential.</div>
-                            </div>
-                            <button class="follow-btn primary">Follow</button>
-                        </div>
-                        <div class="user-suggestion">
-                            <div class="avatar">
-                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=science_communicator" alt="science_communicator">
-                            </div>
-                            <div class="user-info">
-                                <div class="user-name">science_communicator</div>
-                                <div class="user-bio">Making complex scientific concepts accessible and engaging for everyone.</div>
-                            </div>
-                            <button class="follow-btn primary">Follow</button>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-        </div>
-
+            </div>
+        </main>
+        
         <!-- Notification Panel -->
-        <div id="notification-panel" class="notification-panel">
-            <div class="notification-header">
-                <h2 class="notification-title">Notifications</h2>
-                <div class="notification-actions">
-                    <button class="notification-action primary">Mark all read</button>
-                </div>
+        <div class="notification-panel" id="notification-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Notifications</h2>
+                <button class="panel-close" id="close-notifications">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="notification-filters">
+                <button class="notification-filter active">All</button>
+                <button class="notification-filter">Mentions</button>
+                <button class="notification-filter">Responses</button>
+                <button class="notification-filter">Network</button>
             </div>
             <div class="notification-list">
                 <div class="notification-item unread">
-                    <div class="notification-icon like">
-                        <i class="fas fa-heart"></i>
+                    <div class="notification-icon illuminate">
+                        <i class="fas fa-lightbulb"></i>
                     </div>
                     <div class="notification-content">
-                        <div class="notification-text"><strong>tech_visionary</strong> and <strong>14 others</strong> liked your post about digital minimalism.</div>
-                        <div class="notification-time">12 minutes ago</div>
+                        <p class="notification-text"><strong>quantum_thinker</strong> and <strong>14 others</strong> illuminated your thought about digital paradoxes.</p>
+                        <span class="notification-time">12 minutes ago</span>
                     </div>
                 </div>
                 <div class="notification-item unread">
-                    <div class="notification-icon comment">
-                        <i class="fas fa-comment"></i>
+                    <div class="notification-icon response">
+                        <i class="fas fa-reply"></i>
                     </div>
                     <div class="notification-content">
-                        <div class="notification-text"><strong>future_thinker</strong> replied to your post: "That's a fascinating perspective! I've been thinking along similar lines..."</div>
-                        <div class="notification-time">43 minutes ago</div>
+                        <p class="notification-text"><strong>mindmapper</strong> responded to your thought: "This is exactly what I've been thinking about recently..."</p>
+                        <span class="notification-time">43 minutes ago</span>
                     </div>
                 </div>
                 <div class="notification-item unread">
@@ -1190,86 +418,31 @@
                         <i class="fas fa-at"></i>
                     </div>
                     <div class="notification-content">
-                        <div class="notification-text"><strong>creative_designer</strong> mentioned you in a thread about workspace design.</div>
-                        <div class="notification-time">1 hour ago</div>
+                        <p class="notification-text"><strong>future_visionary</strong> mentioned you in a ThoughtMap about creativity.</p>
+                        <span class="notification-time">2 hours ago</span>
                     </div>
                 </div>
                 <div class="notification-item">
-                    <div class="notification-icon follow">
+                    <div class="notification-icon network">
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="notification-content">
-                        <div class="notification-text"><strong>philosophy_buff</strong> and <strong>8 others</strong> started following you.</div>
-                        <div class="notification-time">3 hours ago</div>
-                    </div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-icon like">
-                        <i class="fas fa-arrow-up"></i>
-                    </div>
-                    <div class="notification-content">
-                        <div class="notification-text">Your post was featured in <strong>Today's Highlights</strong>.</div>
-                        <div class="notification-time">5 hours ago</div>
+                        <p class="notification-text"><strong>creator_mind</strong> and <strong>8 others</strong> connected with you.</p>
+                        <span class="notification-time">Yesterday</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Custom Filter Bubble -->
-        <button id="filter-trigger" class="filter-bubble-trigger">
-            <i class="fas fa-filter"></i>
-        </button>
-        <div id="filter-bubble" class="filter-bubble">
-            <div class="filter-bubble-header">
-                <h3 class="filter-bubble-title">Customize Your Feed</h3>
-            </div>
-            <div class="filter-category">
-                <h4 class="filter-category-title">Content Types</h4>
-                <div class="filter-tags">
-                    <div class="filter-tag active">All</div>
-                    <div class="filter-tag">Posts</div>
-                    <div class="filter-tag">Threads</div>
-                    <div class="filter-tag">Voice</div>
-                    <div class="filter-tag">Events</div>
-                </div>
-            </div>
-            <div class="filter-category">
-                <h4 class="filter-category-title">Topics</h4>
-                <div class="filter-tags">
-                    <div class="filter-tag active">Technology</div>
-                    <div class="filter-tag active">Science</div>
-                    <div class="filter-tag active">Design</div>
-                    <div class="filter-tag">Politics</div>
-                    <div class="filter-tag">Sports</div>
-                    <div class="filter-tag">Finance</div>
-                    <div class="filter-tag">Gaming</div>
-                    <div class="filter-tag">Health</div>
-                </div>
-            </div>
-            <div class="filter-category">
-                <h4 class="filter-category-title">Sort By</h4>
-                <div class="filter-tags">
-                    <div class="filter-tag active">For You</div>
-                    <div class="filter-tag">Latest</div>
-                    <div class="filter-tag">Popular</div>
-                    <div class="filter-tag">Trending</div>
-                </div>
-            </div>
-            <div class="filter-bubble-actions">
-                <button class="filter-reset">Reset</button>
-                <button class="filter-apply">Apply</button>
+        <!-- Action Tooltip -->
+        <div class="action-tooltip" id="action-tooltip">
+            <div class="tooltip-content">
+                <span class="tooltip-title">Elevate</span>
+                <span class="tooltip-description">Content that raises the conversation</span>
             </div>
         </div>
+    </div>
 
-      <!-- Toast -->
-<div id="toast" class="toast">
-    <div class="toast-icon success">
-        <i class="fas fa-check"></i>
-    </div>
-    <div class="toast-content">
-        <div class="toast-message">Your post has been published!</div>
-    </div>
-    <button class="toast-close">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
+    <script src="index.js"></script>
+</body>
+</html>
