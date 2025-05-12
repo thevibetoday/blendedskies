@@ -403,19 +403,80 @@
         margin: 0 auto;
     }
 
-    /* Filter Header */
-    .filter-header {
+    /* Filter Bar */
+    .filter-bar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
         margin-bottom: var(--space-6);
-        border-bottom: 1px solid var(--light-border);
         padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--light-border);
     }
 
-    .dark-mode .filter-header {
+    .dark-mode .filter-bar {
         border-color: var(--dark-border);
+    }
+
+    /* Filter Dropdown */
+    .filter-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .filter-dropdown-button {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-md);
+        background-color: var(--light-surface);
+        color: var(--light-text);
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .dark-mode .filter-dropdown-button {
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+    }
+
+    .filter-dropdown-button:hover {
+        background-color: var(--light-border);
+    }
+
+    .dark-mode .filter-dropdown-button:hover {
+        background-color: var(--dark-border);
+    }
+
+    .filter-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: var(--z-dropdown);
+        width: 300px;
+        background-color: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        padding: var(--space-4);
+        margin-top: var(--space-2);
+    }
+
+    .dark-mode .filter-dropdown-content {
+        background-color: var(--dark-card);
+    }
+
+    .filter-dropdown:hover .filter-dropdown-content {
+        display: block;
+        animation: fadeIn 0.2s ease;
     }
 
     .filter-section {
         margin-bottom: var(--space-4);
+    }
+
+    .filter-section:last-child {
+        margin-bottom: 0;
     }
 
     .filter-title {
@@ -452,7 +513,6 @@
 
     .filter-option:hover {
         background-color: var(--light-border);
-        transform: translateY(-2px);
     }
 
     .dark-mode .filter-option:hover {
@@ -464,107 +524,110 @@
         color: white;
     }
 
-    /* Perspective Filters */
-    .perspective-filters {
-        display: flex;
-        gap: var(--space-2);
-        margin-bottom: var(--space-4);
-        overflow-x: auto;
-        padding-bottom: var(--space-2);
-    }
-    
-    .perspective-filters::-webkit-scrollbar {
-        height: 6px;
-    }
-    
-    .perspective-filters::-webkit-scrollbar-track {
-        background: var(--light-surface);
-        border-radius: var(--radius-full);
-    }
-    
-    .dark-mode .perspective-filters::-webkit-scrollbar-track {
-        background: var(--dark-surface);
-    }
-    
-    .perspective-filters::-webkit-scrollbar-thumb {
-        background-color: var(--gray-300);
-        border-radius: var(--radius-full);
-    }
-    
-    .dark-mode .perspective-filters::-webkit-scrollbar-thumb {
-        background-color: var(--gray-600);
+    /* Perspective Selector */
+    .perspective-selector {
+        margin-bottom: var(--space-3);
     }
 
-    .perspective-filter {
+    .perspective-tabs {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-surface);
+        padding: var(--space-1);
+        border-radius: var(--radius-full);
+        width: fit-content;
+    }
+
+    .dark-mode .perspective-tabs {
+        background-color: var(--dark-surface);
+    }
+
+    .perspective-tab {
         padding: var(--space-2) var(--space-4);
         border-radius: var(--radius-full);
-        font-weight: 500;
         font-size: 14px;
-        white-space: nowrap;
+        font-weight: 500;
         display: flex;
         align-items: center;
         gap: var(--space-2);
         transition: all var(--transition-fast);
     }
 
-    .perspective-filter:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .perspective-filter.left {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--perspective-left);
-    }
-
-    .perspective-filter.left.active {
-        background-color: var(--perspective-left);
-        color: white;
-    }
-
-    .perspective-filter.right {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--perspective-right);
-    }
-
-    .perspective-filter.right.active {
-        background-color: var(--perspective-right);
-        color: white;
-    }
-
-    .perspective-filter.center {
-        background-color: rgba(139, 92, 246, 0.1);
-        color: var(--perspective-center);
-    }
-
-    .perspective-filter.center.active {
-        background-color: var(--perspective-center);
-        color: white;
-    }
-
-    .perspective-filter.facts {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: var(--perspective-facts);
-    }
-
-    .perspective-filter.facts.active {
-        background-color: var(--perspective-facts);
-        color: white;
-    }
-
-    .perspective-filter.all {
-        background-color: var(--light-surface);
+    .perspective-tab:not(.active) {
         color: var(--light-text-secondary);
     }
 
-    .dark-mode .perspective-filter.all {
-        background-color: var(--dark-surface);
+    .dark-mode .perspective-tab:not(.active) {
         color: var(--dark-text-secondary);
     }
 
-    .perspective-filter.all.active {
-        background-color: var(--primary);
+    .perspective-tab.active {
         color: white;
+    }
+
+    .perspective-tab.all.active {
+        background-color: var(--primary);
+    }
+
+    .perspective-tab.left.active {
+        background-color: var(--perspective-left);
+    }
+
+    .perspective-tab.right.active {
+        background-color: var(--perspective-right);
+    }
+
+    .perspective-tab.center.active {
+        background-color: var(--perspective-center);
+    }
+
+    .perspective-tab.facts.active {
+        background-color: var(--perspective-facts);
+    }
+
+    /* Active Filters */
+    .active-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .active-filter-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--light-text-secondary);
+    }
+
+    .dark-mode .active-filter-label {
+        color: var(--dark-text-secondary);
+    }
+
+    .active-filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .active-filter-tag {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-full);
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .dark-mode .active-filter-tag {
+        background-color: rgba(99, 102, 241, 0.2);
+        color: var(--primary-light);
+    }
+
+    .active-filter-tag i {
+        cursor: pointer;
     }
 
     /* News Cards */
@@ -770,11 +833,18 @@
 
     /* Archive Calendar */
     .archive-calendar {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: var(--z-modal);
         background-color: var(--white);
         border-radius: var(--radius-lg);
         padding: var(--space-4);
-        margin-bottom: var(--space-6);
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-xl);
+        max-width: 400px;
+        width: 90%;
+        animation: fadeIn 0.3s ease;
     }
 
     .dark-mode .archive-calendar {
@@ -798,7 +868,7 @@
         gap: var(--space-2);
     }
 
-    .calendar-nav-button {
+    .calendar-nav-button, .calendar-close {
         width: 36px;
         height: 36px;
         border-radius: var(--radius-full);
@@ -810,7 +880,7 @@
         transition: all var(--transition-fast);
     }
 
-    .dark-mode .calendar-nav-button {
+    .dark-mode .calendar-nav-button, .dark-mode .calendar-close {
         background-color: var(--dark-surface);
         color: var(--dark-text-secondary);
     }
@@ -818,7 +888,11 @@
     .calendar-nav-button:hover {
         background-color: var(--primary-light);
         color: var(--primary-dark);
-        transform: translateY(-2px);
+    }
+
+    .calendar-close:hover {
+        background-color: rgba(244, 63, 94, 0.1);
+        color: var(--tertiary);
     }
 
     .calendar-grid {
@@ -850,12 +924,12 @@
         transition: all var(--transition-fast);
     }
 
-    .calendar-day:hover {
+    .calendar-day:hover:not(.inactive) {
         background-color: var(--light-surface);
         cursor: pointer;
     }
 
-    .dark-mode .calendar-day:hover {
+    .dark-mode .calendar-day:hover:not(.inactive) {
         background-color: var(--dark-surface);
     }
 
@@ -880,6 +954,19 @@
 
     .dark-mode .calendar-day.inactive {
         color: var(--gray-600);
+    }
+    
+    /* Modal overlay */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: var(--z-modal) - 1;
+        backdrop-filter: blur(2px);
+        animation: fadeIn 0.3s ease;
     }
 
     /* Responsive Adjustments */
@@ -1037,69 +1124,90 @@
         
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Filter Header -->
-            <div class="filter-header">
-                <div class="filter-section">
-                    <h2 class="filter-title">Sources</h2>
-                    <div class="filter-options">
-                        <button class="filter-option active">All Sources</button>
-                        <button class="filter-option">CNN</button>
-                        <button class="filter-option">Fox News</button>
-                        <button class="filter-option">BBC</button>
-                        <button class="filter-option">Reuters</button>
-                        <button class="filter-option">AP</button>
-                        <button class="filter-option">WSJ</button>
-                        <button class="filter-option">Economist</button>
+            <!-- Compact Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-dropdown">
+                    <button class="filter-dropdown-button">
+                        <i class="fas fa-filter"></i>
+                        <span>Filters</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="filter-dropdown-content">
+                        <div class="filter-section">
+                            <h2 class="filter-title">Sources</h2>
+                            <div class="filter-options">
+                                <button class="filter-option active">All Sources</button>
+                                <button class="filter-option">CNN</button>
+                                <button class="filter-option">Fox News</button>
+                                <button class="filter-option">BBC</button>
+                                <button class="filter-option">Reuters</button>
+                                <button class="filter-option">AP</button>
+                                <button class="filter-option">WSJ</button>
+                                <button class="filter-option">Economist</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h2 class="filter-title">Date Range</h2>
+                            <div class="filter-options">
+                                <button class="filter-option active">Today</button>
+                                <button class="filter-option">This Week</button>
+                                <button class="filter-option">This Month</button>
+                                <button class="filter-option">Last 3 Months</button>
+                                <button class="filter-option">This Year</button>
+                                <button class="filter-option">All Time</button>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-section">
+                            <h2 class="filter-title">Categories</h2>
+                            <div class="filter-options">
+                                <button class="filter-option active">All Categories</button>
+                                <button class="filter-option">Politics</button>
+                                <button class="filter-option">Sports</button>
+                                <button class="filter-option">Science</button>
+                                <button class="filter-option">Home & Living</button>
+                                <button class="filter-option">Health</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="filter-section">
-                    <h2 class="filter-title">Date Range</h2>
-                    <div class="filter-options">
-                        <button class="filter-option active">Today</button>
-                        <button class="filter-option">This Week</button>
-                        <button class="filter-option">This Month</button>
-                        <button class="filter-option">Last 3 Months</button>
-                        <button class="filter-option">This Year</button>
-                        <button class="filter-option">All Time</button>
+                <!-- Perspective Selector -->
+                <div class="perspective-selector">
+                    <div class="perspective-tabs">
+                        <button class="perspective-tab all active" data-perspective="all">
+                            <i class="fas fa-globe"></i>
+                            <span>All Views</span>
+                        </button>
+                        <button class="perspective-tab left" data-perspective="left">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Left</span>
+                        </button>
+                        <button class="perspective-tab center" data-perspective="center">
+                            <i class="fas fa-grip-lines-vertical"></i>
+                            <span>Center</span>
+                        </button>
+                        <button class="perspective-tab right" data-perspective="right">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>Right</span>
+                        </button>
+                        <button class="perspective-tab facts" data-perspective="facts">
+                            <i class="fas fa-balance-scale"></i>
+                            <span>Facts</span>
+                        </button>
                     </div>
                 </div>
                 
-                <div class="filter-section">
-                    <h2 class="filter-title">Categories</h2>
-                    <div class="filter-options">
-                        <button class="filter-option active">All Categories</button>
-                        <button class="filter-option">Politics</button>
-                        <button class="filter-option">Sports</button>
-                        <button class="filter-option">Science</button>
-                        <button class="filter-option">Home & Living</button>
-                        <button class="filter-option">Health</button>
+                <!-- Active Filters Display -->
+                <div class="active-filters">
+                    <span class="active-filter-label">Active Filters:</span>
+                    <div class="active-filter-tags">
+                        <span class="active-filter-tag">Today <i class="fas fa-times"></i></span>
+                        <span class="active-filter-tag">All Sources <i class="fas fa-times"></i></span>
+                        <span class="active-filter-tag">All Categories <i class="fas fa-times"></i></span>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Perspective Filters -->
-            <div class="perspective-filters">
-                <button class="perspective-filter all active">
-                    <i class="fas fa-globe"></i>
-                    <span>All Perspectives</span>
-                </button>
-                <button class="perspective-filter left">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Left View</span>
-                </button>
-                <button class="perspective-filter center">
-                    <i class="fas fa-grip-lines-vertical"></i>
-                    <span>Center View</span>
-                </button>
-                <button class="perspective-filter right">
-                    <i class="fas fa-arrow-right"></i>
-                    <span>Right View</span>
-                </button>
-                <button class="perspective-filter facts">
-                    <i class="fas fa-balance-scale"></i>
-                    <span>Just the Facts</span>
-                </button>
             </div>
             
             <!-- News Stream -->
@@ -1246,8 +1354,8 @@
                 </div>
             </div>
             
-            <!-- Archive Calendar -->
-            <div class="archive-calendar">
+            <!-- Archive Calendar (Hidden by default) -->
+            <div class="archive-calendar" id="archive-calendar" style="display: none;">
                 <div class="calendar-header">
                     <h3 class="calendar-title">May 2025</h3>
                     <div class="calendar-nav">
@@ -1256,6 +1364,9 @@
                         </button>
                         <button class="calendar-nav-button">
                             <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="calendar-close">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -1347,19 +1458,30 @@
                 const parent = this.parentElement;
                 parent.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
+                updateActiveFilterTags();
                 filterContent();
             });
         });
         
-        // Perspective filters
-        perspectiveFilters.forEach(filter => {
-            filter.addEventListener('click', function() {
-                perspectiveFilters.forEach(f => f.classList.remove('active'));
+        // Perspective tabs
+        const perspectiveTabs = document.querySelectorAll('.perspective-tab');
+        perspectiveTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                perspectiveTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                filterByPerspective(this.classList.contains('left') ? 'left' : 
-                                   this.classList.contains('right') ? 'right' : 
-                                   this.classList.contains('center') ? 'center' : 
-                                   this.classList.contains('facts') ? 'facts' : 'all');
+                filterByPerspective(this.dataset.perspective);
+            });
+        });
+        
+        // Active filter tags
+        const activeFilterTags = document.querySelectorAll('.active-filter-tag i');
+        activeFilterTags.forEach(tag => {
+            tag.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const tagElement = this.parentElement;
+                const filterText = tagElement.textContent.trim().replace(' ×', '');
+                resetFilter(filterText);
+                tagElement.remove();
             });
         });
         
@@ -1385,6 +1507,7 @@
                     calendarDays.forEach(d => d.classList.remove('selected'));
                     this.classList.add('selected');
                     filterByDate(this.textContent);
+                    toggleArchiveCalendar(); // Close the calendar after selection
                 }
             });
         });
@@ -1430,13 +1553,96 @@
             mainSidebar.classList.toggle('active');
         }
         
+        // Toggle archive calendar
+        archiveToggle.addEventListener('click', toggleArchiveCalendar);
+        document.querySelector('.calendar-close').addEventListener('click', toggleArchiveCalendar);
+        
         function toggleArchiveCalendar() {
-            archiveCalendar.style.display = archiveCalendar.style.display === 'none' ? 'block' : 'none';
+            const archiveCalendar = document.getElementById('archive-calendar');
+            
+            if (archiveCalendar.style.display === 'none') {
+                // Create modal overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                overlay.id = 'modal-overlay';
+                document.body.appendChild(overlay);
+                
+                // Show calendar
+                archiveCalendar.style.display = 'block';
+                
+                // Add click event to overlay to close calendar
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) {
+                        toggleArchiveCalendar();
+                    }
+                });
+            } else {
+                // Hide calendar
+                archiveCalendar.style.display = 'none';
+                
+                // Remove overlay
+                const overlay = document.getElementById('modal-overlay');
+                if (overlay) {
+                    overlay.remove();
+                }
+            }
+        }
+        
+        function updateActiveFilterTags() {
+            // Get active filters
+            const activeTags = [];
+            document.querySelectorAll('.filter-option.active').forEach(filter => {
+                activeTags.push(filter.textContent);
+            });
+            
+            // Update active filter tags
+            const activeFilterTags = document.querySelector('.active-filter-tags');
+            activeFilterTags.innerHTML = '';
+            
+            activeTags.forEach(tag => {
+                const tagElement = document.createElement('span');
+                tagElement.className = 'active-filter-tag';
+                tagElement.innerHTML = `${tag} <i class="fas fa-times"></i>`;
+                
+                // Add click event to remove icon
+                tagElement.querySelector('i').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    resetFilter(tag);
+                    tagElement.remove();
+                });
+                
+                activeFilterTags.appendChild(tagElement);
+            });
+        }
+        
+        function resetFilter(filterText) {
+            // Find the corresponding default filter and click it
+            document.querySelectorAll('.filter-option').forEach(option => {
+                if (option.textContent.includes('All') && 
+                    option.parentElement.querySelector('.filter-title').textContent.includes(
+                        filterText.includes('Sources') ? 'Sources' : 
+                        filterText.includes('Categories') ? 'Categories' : 'Date'
+                    )) {
+                    option.click();
+                }
+            });
         }
         
         function filterContent() {
             // In a real app, we'd filter the content based on the selected filters
-            // For demo purposes, we'll just log the active filters
+            // For demo purposes, we'll add a visual effect
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                card.style.opacity = '0.5';
+                card.style.transform = 'scale(0.98)';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(-3px)';
+                }, 300);
+            });
+            
+            // Log active filters
             const activeFilters = [];
             document.querySelectorAll('.filter-option.active').forEach(filter => {
                 activeFilters.push(filter.textContent);
@@ -1445,20 +1651,35 @@
         }
         
         function filterByPerspective(perspective) {
-            // In a real app, we'd filter the content based on the selected perspective
-            // For demo purposes, we'll just log the active perspective
             console.log('Active perspective:', perspective);
             
-            // Simple animation for filtered cards
+            // Update all cards with visual indication of filtering
             const newsCards = document.querySelectorAll('.news-card');
+            
+            // First make all cards semi-transparent
             newsCards.forEach(card => {
-                card.style.opacity = '0.5';
-                card.style.transform = 'scale(0.95)';
+                const cardPerspective = card.querySelector('.news-perspective');
                 
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(-3px)';
-                }, 300);
+                if (perspective === 'all' || 
+                    (cardPerspective && cardPerspective.classList.contains(perspective))) {
+                    // Matches the filter - show normally after brief animation
+                    card.style.display = 'block';
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.98)';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(-3px)';
+                    }, 300);
+                } else {
+                    // Doesn't match - hide with animation
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.95)';
+                    
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
             });
         }
         
@@ -1482,4 +1703,4 @@
     });
     </script>
 </body>
-</html
+</html>
