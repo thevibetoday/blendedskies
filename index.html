@@ -1293,9 +1293,7 @@
                 <div class="platform-logo">P</div>
             </div>
             <div class="nav-section user-section">
-                <button class="nav-action-button" id="archive-toggle">
-                    <i class="fas fa-calendar-alt"></i>
-                </button>
+                <!-- Empty section to balance the layout -->
             </div>
         </nav>
         
@@ -1312,7 +1310,7 @@
                     <div class="search-filter-group">
                         <label class="search-filter-label">Sources:</label>
                         <div class="search-filter-options">
-                            <span class="search-filter-option">All Sources</span>
+                            <span class="search-filter-option active">All Sources</span>
                             <span class="search-filter-option">CNN</span>
                             <span class="search-filter-option">Fox News</span>
                             <span class="search-filter-option">BBC</span>
@@ -1322,10 +1320,11 @@
                             <span class="search-filter-option">More...</span>
                         </div>
                     </div>
+                    
                     <div class="search-filter-group">
                         <label class="search-filter-label">Categories:</label>
                         <div class="search-filter-options">
-                            <span class="search-filter-option">All Categories</span>
+                            <span class="search-filter-option active">All Categories</span>
                             <span class="search-filter-option">Politics</span>
                             <span class="search-filter-option">Economy</span>
                             <span class="search-filter-option">Science</span>
@@ -1334,12 +1333,32 @@
                             <span class="search-filter-option">More...</span>
                         </div>
                     </div>
+                    
                     <div class="search-filter-group">
                         <label class="search-filter-label">Date Range:</label>
                         <div class="search-date-range">
-                            <input type="date" class="search-date-input">
+                            <input type="date" class="search-date-input" placeholder="From">
                             <span class="search-date-separator">to</span>
-                            <input type="date" class="search-date-input">
+                            <input type="date" class="search-date-input" placeholder="To">
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Search In:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">Everywhere</span>
+                            <span class="search-filter-option">Headlines Only</span>
+                            <span class="search-filter-option">Content Only</span>
+                            <span class="search-filter-option">Source Names</span>
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Sort By:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">Most Recent</span>
+                            <span class="search-filter-option">Most Relevant</span>
+                            <span class="search-filter-option">Most Sources</span>
                         </div>
                     </div>
                 </div>
@@ -1559,73 +1578,8 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Archive Calendar (Hidden by default) -->
-            <div class="archive-calendar" id="archive-calendar" style="display: none;">
-                <div class="calendar-header">
-                    <h3 class="calendar-title">May 2025</h3>
-                    <div class="calendar-nav">
-                        <button class="calendar-nav-button">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="calendar-nav-button">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="calendar-close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="calendar-grid">
-                    <div class="calendar-weekday">Sun</div>
-                    <div class="calendar-weekday">Mon</div>
-                    <div class="calendar-weekday">Tue</div>
-                    <div class="calendar-weekday">Wed</div>
-                    <div class="calendar-weekday">Thu</div>
-                    <div class="calendar-weekday">Fri</div>
-                    <div class="calendar-weekday">Sat</div>
-                    
-                    <div class="calendar-day inactive">27</div>
-                    <div class="calendar-day inactive">28</div>
-                    <div class="calendar-day inactive">29</div>
-                    <div class="calendar-day inactive">30</div>
-                    <div class="calendar-day">1</div>
-                    <div class="calendar-day">2</div>
-                    <div class="calendar-day">3</div>
-                    
-                    <div class="calendar-day">4</div>
-                    <div class="calendar-day">5</div>
-                    <div class="calendar-day has-news">6</div>
-                    <div class="calendar-day">7</div>
-                    <div class="calendar-day">8</div>
-                    <div class="calendar-day has-news">9</div>
-                    <div class="calendar-day has-news">10</div>
-                    
-                    <div class="calendar-day">11</div>
-                    <div class="calendar-day today">12</div>
-                    <div class="calendar-day">13</div>
-                    <div class="calendar-day">14</div>
-                    <div class="calendar-day">15</div>
-                    <div class="calendar-day">16</div>
-                    <div class="calendar-day">17</div>
-                    
-                    <div class="calendar-day">18</div>
-                    <div class="calendar-day">19</div>
-                    <div class="calendar-day">20</div>
-                    <div class="calendar-day">21</div>
-                    <div class="calendar-day">22</div>
-                    <div class="calendar-day">23</div>
-                    <div class="calendar-day">24</div>
-                    
-                    <div class="calendar-day">25</div>
-                    <div class="calendar-day">26</div>
-                    <div class="calendar-day">27</div>
-                    <div class="calendar-day">28</div>
-                    <div class="calendar-day">29</div>
-                    <div class="calendar-day">30</div>
-                    <div class="calendar-day">31</div>
-                </div>
-            </div>
+            <!-- Archive Calendar (removed) -->
+
         </main>
     </div>
 
