@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senate Passes New Infrastructure Bill - Full Analysis | Perspectify</title>
+    <title>Perspectify - Multiple Perspectives News</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -16,14 +16,6 @@
             --tertiary: #F43F5E;
             --quaternary: #10B981;
             --quinary: #F59E0B;
-            
-            /* Source Colors */
-            --cnn-color: #CC0000;
-            --fox-color: #006699;
-            --bbc-color: #BB1919;
-            --reuters-color: #FF8000;
-            --ap-color: #000000;
-            --wsj-color: #337AB7;
             
             /* Functional Colors */
             --success: #10B981;
@@ -215,95 +207,312 @@
             color: var(--primary);
         }
 
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background-color: var(--white);
+            z-index: var(--z-dropdown);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform var(--transition-normal);
+        }
+        
+        .dark-mode .sidebar {
+            background-color: var(--dark-card);
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: calc(var(--z-dropdown) - 1);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        }
+        
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-6) var(--space-4);
+            border-bottom: 1px solid var(--light-border);
+        }
+        
+        .dark-mode .sidebar-header {
+            border-color: var(--dark-border);
+        }
+        
+        .sidebar-logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        .close-sidebar {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            color: var(--light-icon);
+            transition: all var(--transition-fast);
+        }
+        
+        .dark-mode .close-sidebar {
+            color: var(--dark-icon);
+        }
+        
+        .close-sidebar:hover {
+            background-color: var(--light-surface);
+            color: var(--tertiary);
+        }
+        
+        .dark-mode .close-sidebar:hover {
+            background-color: var(--dark-surface);
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-4);
+        }
+        
+        .sidebar-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .sidebar-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--light-text-secondary);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dark-mode .sidebar-section-title {
+            color: var(--dark-text-secondary);
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--light-text);
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+        
+        .dark-mode .sidebar-nav-item {
+            color: var(--dark-text);
+        }
+        
+        .sidebar-nav-item:hover {
+            background-color: var(--light-surface);
+        }
+        
+        .dark-mode .sidebar-nav-item:hover {
+            background-color: var(--dark-surface);
+        }
+        
+        .sidebar-nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .dark-mode .sidebar-nav-item.active {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+        }
+        
+        .sidebar-nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--light-border);
+            font-size: 12px;
+            color: var(--light-text-secondary);
+            text-align: center;
+        }
+        
+        .dark-mode .sidebar-footer {
+            border-color: var(--dark-border);
+            color: var(--dark-text-secondary);
+        }
+
         /* Main Content */
         .main-content {
             padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: var(--space-6);
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Article Container */
-        .article-container {
-            background-color: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-        }
-
-        .dark-mode .article-container {
-            background-color: var(--dark-card);
-        }
-
-        /* Article Header */
-        .article-header {
-            padding: var(--space-6);
+        /* Category Bar */
+        .category-bar {
+            display: flex;
+            overflow-x: auto;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-2);
             border-bottom: 1px solid var(--light-border);
+            scrollbar-width: thin;
+        }
+        
+        .category-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .category-bar::-webkit-scrollbar-track {
+            background: var(--light-surface);
+            border-radius: var(--radius-full);
+        }
+        
+        .dark-mode .category-bar::-webkit-scrollbar-track {
+            background: var(--dark-surface);
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb {
+            background-color: var(--gray-300);
+            border-radius: var(--radius-full);
+        }
+        
+        .dark-mode .category-bar::-webkit-scrollbar-thumb {
+            background-color: var(--gray-600);
         }
 
-        .dark-mode .article-header {
+        .dark-mode .category-bar {
             border-color: var(--dark-border);
         }
 
-        .article-meta {
+        .category-tab {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-4);
+            gap: var(--space-2);
+            transition: all var(--transition-fast);
+            color: var(--light-text-secondary);
+            background-color: var(--light-surface);
         }
 
-        .article-category {
-            font-size: 14px;
+        .dark-mode .category-tab {
+            color: var(--dark-text-secondary);
+            background-color: var(--dark-surface);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* News Cards */
+        .news-stream {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .news-card {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .news-card {
+            background-color: var(--dark-card);
+        }
+
+        .news-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .news-meta {
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .news-meta {
+            border-color: var(--dark-border);
+        }
+
+        .news-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-category {
+            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             color: var(--primary);
-            background-color: rgba(99, 102, 241, 0.1);
-            padding: var(--space-1) var(--space-3);
-            border-radius: var(--radius-full);
+            margin-bottom: var(--space-1);
         }
 
-        .article-date {
-            font-size: 14px;
+        .news-date {
+            font-size: 12px;
             color: var(--light-text-secondary);
         }
 
-        .dark-mode .article-date {
+        .dark-mode .news-date {
             color: var(--dark-text-secondary);
         }
-
-        .article-title {
-            font-size: 32px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: var(--space-4);
-        }
-
-        .article-subtitle {
-            font-size: 18px;
-            color: var(--light-text-secondary);
-            font-weight: 400;
-            margin-bottom: var(--space-4);
-        }
-
-        .dark-mode .article-subtitle {
-            color: var(--dark-text-secondary);
-        }
-
-        .article-sources {
+        
+        .news-sources {
             display: flex;
             flex-wrap: wrap;
             gap: var(--space-2);
         }
 
-        .article-source {
+        .news-source {
             font-size: 12px;
             font-weight: 500;
             padding: var(--space-1) var(--space-2);
@@ -315,428 +524,284 @@
             gap: var(--space-1);
         }
 
-        .dark-mode .article-source {
+        .dark-mode .news-source {
             background-color: var(--dark-surface);
             color: var(--dark-text-secondary);
         }
 
-        /* Article Image */
-        .article-hero-image {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-        }
-
-        /* Article Content */
-        .article-content {
-            padding: var(--space-6);
-        }
-
-        .article-section {
-            margin-bottom: var(--space-8);
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: var(--space-4);
-            padding-bottom: var(--space-2);
-            border-bottom: 2px solid var(--light-border);
-        }
-
-        .dark-mode .section-title {
-            border-color: var(--dark-border);
-        }
-
-        .article-text {
-            margin-bottom: var(--space-4);
-            font-size: 16px;
-            line-height: 1.7;
-        }
-
-        .article-text a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .article-text a:hover {
-            text-decoration: underline;
-        }
-
-        .summary-box {
-            background-color: var(--light-surface);
-            border-radius: var(--radius-md);
+        .news-content {
             padding: var(--space-4);
-            margin-bottom: var(--space-4);
         }
 
-        .dark-mode .summary-box {
-            background-color: var(--dark-surface);
-        }
-
-        .summary-title {
-            font-weight: 600;
-            margin-bottom: var(--space-2);
-        }
-
-        .summary-list {
-            padding-left: var(--space-5);
-        }
-
-        .summary-list li {
-            margin-bottom: var(--space-2);
-        }
-
-        /* Source Perspectives */
-        .source-perspectives {
-            margin-top: var(--space-8);
-        }
-
-        .perspectives-title {
+        .news-title {
             font-size: 20px;
             font-weight: 700;
-            margin-bottom: var(--space-4);
-        }
-
-        .perspective-card {
-            background-color: var(--light-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-4);
-            margin-bottom: var(--space-4);
-            border-left: 4px solid var(--gray-300);
-        }
-
-        .dark-mode .perspective-card {
-            background-color: var(--dark-surface);
-            border-left-color: var(--gray-600);
-        }
-
-        .perspective-card.cnn {
-            border-left-color: var(--cnn-color);
-        }
-
-        .perspective-card.fox {
-            border-left-color: var(--fox-color);
-        }
-
-        .perspective-card.bbc {
-            border-left-color: var(--bbc-color);
-        }
-
-        .perspective-card.reuters {
-            border-left-color: var(--reuters-color);
-        }
-
-        .perspective-card.ap {
-            border-left-color: var(--ap-color);
-        }
-
-        .perspective-card.wsj {
-            border-left-color: var(--wsj-color);
-        }
-
-        .perspective-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-bottom: var(--space-3);
         }
 
-        .perspective-source {
-            font-weight: 700;
-            font-size: 16px;
+        .news-summary {
+            color: var(--light-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .news-summary {
+            color: var(--dark-text-secondary);
+        }
+
+        .news-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+        }
+
+        .news-footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--light-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .news-footer {
+            border-color: var(--dark-border);
+        }
+        
+        .news-meta-info {
+            display: flex;
+            gap: var(--space-4);
+        }
+        
+        .news-source-count, .news-read-time {
+            font-size: 14px;
+            color: var(--light-text-secondary);
             display: flex;
             align-items: center;
             gap: var(--space-2);
         }
-
-        .perspective-date {
-            font-size: 12px;
-            color: var(--light-text-secondary);
-        }
-
-        .dark-mode .perspective-date {
+        
+        .dark-mode .news-source-count, .dark-mode .news-read-time {
             color: var(--dark-text-secondary);
         }
 
-        .perspective-content {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .perspective-content p {
-            margin-bottom: var(--space-3);
-        }
-
-        .perspective-quote {
-            border-left: 2px solid var(--gray-300);
-            padding-left: var(--space-3);
-            font-style: italic;
-            color: var(--light-text-secondary);
-            margin: var(--space-3) 0;
-        }
-
-        .dark-mode .perspective-quote {
-            border-left-color: var(--gray-600);
-            color: var(--dark-text-secondary);
-        }
-
-        .perspective-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: var(--space-3);
-            padding-top: var(--space-3);
-            border-top: 1px solid var(--light-border);
-            font-size: 12px;
-        }
-
-        .dark-mode .perspective-footer {
-            border-color: var(--dark-border);
-        }
-
-        .perspective-author {
+        .news-read-more {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            background-color: var(--primary);
+            color: white;
             font-weight: 600;
+            transition: all var(--transition-fast);
         }
 
-        .perspective-link a {
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
+        .news-read-more:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        .perspective-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Sidebar */
-        .article-sidebar {
-            align-self: start;
-            position: sticky;
-            top: calc(var(--floating-nav-height) + 40px);
-        }
-
-        .sidebar-widget {
+        /* Search Panel */
+        .search-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             background-color: var(--white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-4);
-            margin-bottom: var(--space-4);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-dropdown);
+            padding: var(--space-6) var(--space-4);
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            overflow-y: auto;
+            max-height: 80vh;
         }
-
-        .dark-mode .sidebar-widget {
+        
+        .dark-mode .search-panel {
             background-color: var(--dark-card);
         }
-
-        .widget-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: var(--space-3);
-            padding-bottom: var(--space-2);
-            border-bottom: 1px solid var(--light-border);
+        
+        .search-panel.active {
+            transform: translateY(0);
         }
-
-        .dark-mode .widget-title {
-            border-color: var(--dark-border);
-        }
-
-        .key-points-list {
-            list-style: none;
-        }
-
-        .key-points-list li {
-            padding: var(--space-2) 0;
-            padding-left: var(--space-4);
-            position: relative;
-        }
-
-        .key-points-list li:before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .metadata-item {
+        
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
-            padding: var(--space-2) 0;
-            border-bottom: 1px solid var(--light-border);
+            flex-direction: column;
+            gap: var(--space-4);
         }
-
-        .dark-mode .metadata-item {
-            border-color: var(--dark-border);
+        
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
-
-        .metadata-item:last-child {
-            border-bottom: none;
-        }
-
-        .metadata-label {
-            font-weight: 600;
-            color: var(--light-text-secondary);
-        }
-
-        .dark-mode .metadata-label {
-            color: var(--dark-text-secondary);
-        }
-
-        .metadata-value {
-            font-weight: 500;
-        }
-
-        .related-articles-list {
-            list-style: none;
-        }
-
-        .related-article-item {
-            padding: var(--space-2) 0;
-            border-bottom: 1px solid var(--light-border);
-        }
-
-        .dark-mode .related-article-item {
-            border-color: var(--dark-border);
-        }
-
-        .related-article-item:last-child {
-            border-bottom: none;
-        }
-
-        .related-article-link {
-            text-decoration: none;
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-lg);
+            font-size: 18px;
+            outline: none;
+            background-color: var(--white);
             color: var(--light-text);
-            display: block;
             transition: all var(--transition-fast);
         }
-
-        .dark-mode .related-article-link {
+        
+        .dark-mode .search-input {
+            background-color: var(--dark-surface);
             color: var(--dark-text);
+            border-color: var(--primary-dark);
         }
-
-        .related-article-link:hover {
-            color: var(--primary);
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
         }
-
-        .related-article-title {
+        
+        .search-button {
+            position: absolute;
+            right: var(--space-3);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        .search-filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .search-filter-label {
             font-weight: 600;
             font-size: 14px;
-            margin-bottom: var(--space-1);
-        }
-
-        .related-article-date {
-            font-size: 12px;
             color: var(--light-text-secondary);
         }
-
-        .dark-mode .related-article-date {
+        
+        .dark-mode .search-filter-label {
             color: var(--dark-text-secondary);
         }
-
-        /* Interactive Elements */
-        .interactive-sources {
-            margin-bottom: var(--space-8);
-        }
-
-        .source-tabs {
+        
+        .search-filter-options {
             display: flex;
-            border-bottom: 1px solid var(--light-border);
-            margin-bottom: var(--space-4);
-            overflow-x: auto;
-            scrollbar-width: thin;
+            flex-wrap: wrap;
+            gap: var(--space-2);
         }
-
-        .dark-mode .source-tabs {
-            border-color: var(--dark-border);
-        }
-
-        .source-tabs::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .source-tabs::-webkit-scrollbar-track {
-            background: var(--light-surface);
+        
+        .search-filter-option {
+            padding: var(--space-2) var(--space-3);
             border-radius: var(--radius-full);
-        }
-
-        .dark-mode .source-tabs::-webkit-scrollbar-track {
-            background: var(--dark-surface);
-        }
-
-        .source-tabs::-webkit-scrollbar-thumb {
-            background-color: var(--gray-300);
-            border-radius: var(--radius-full);
-        }
-
-        .dark-mode .source-tabs::-webkit-scrollbar-thumb {
-            background-color: var(--gray-600);
-        }
-
-        .source-tab {
-            padding: var(--space-3) var(--space-4);
-            white-space: nowrap;
-            font-weight: 600;
+            background-color: var(--light-surface);
             color: var(--light-text-secondary);
-            border-bottom: 3px solid transparent;
+            font-size: 14px;
+            cursor: pointer;
             transition: all var(--transition-fast);
         }
-
-        .dark-mode .source-tab {
+        
+        .dark-mode .search-filter-option {
+            background-color: var(--dark-surface);
             color: var(--dark-text-secondary);
         }
-
-        .source-tab:hover {
-            color: var(--light-text);
+        
+        .search-filter-option:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
         }
-
-        .dark-mode .source-tab:hover {
-            color: var(--dark-text);
+        
+        .search-filter-option.active {
+            background-color: var(--primary);
+            color: white;
         }
-
-        .source-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .source-content {
-            display: none;
-        }
-
-        .source-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* Footer */
-        .article-footer {
-            margin-top: var(--space-8);
-            padding-top: var(--space-6);
-            border-top: 1px solid var(--light-border);
-        }
-
-        .dark-mode .article-footer {
-            border-color: var(--dark-border);
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: var(--space-4);
-        }
-
-        .footer-link {
+        
+        .search-date-range {
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
         }
-
-        .footer-link:hover {
-            text-decoration: underline;
+        
+        .search-date-input {
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-md);
+            background-color: var(--white);
+            color: var(--light-text);
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .dark-mode .search-date-input {
+            background-color: var(--dark-surface);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+        
+        .search-date-separator {
+            color: var(--light-text-secondary);
+        }
+        
+        .dark-mode .search-date-separator {
+            color: var(--dark-text-secondary);
+        }
+        
+        .search-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-3);
+        }
+        
+        .search-reset {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+        
+        .dark-mode .search-reset {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
+        }
+        
+        .search-reset:hover {
+            background-color: var(--light-border);
+        }
+        
+        .dark-mode .search-reset:hover {
+            background-color: var(--dark-border);
+        }
+        
+        .search-submit {
+            padding: var(--space-2) var(--space-6);
+            border-radius: var(--radius-md);
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-submit:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* Toast */
@@ -788,6 +853,16 @@
             color: #10B981;
         }
         
+        .toast.error .toast-icon {
+            background-color: rgba(244, 63, 94, 0.1);
+            color: #F43F5E;
+        }
+        
+        .toast.warning .toast-icon {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+        
         .toast-message {
             flex: 1;
             font-weight: 500;
@@ -816,38 +891,23 @@
             background-color: #334155;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Adjustments */
+        /* Responsive */
         @media (max-width: 768px) {
-            .article-title {
-                font-size: 24px;
-            }
-            
-            .article-meta {
+            .news-meta,
+            .news-footer {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: var(--space-2);
+                gap: var(--space-3);
             }
             
-            .footer-links {
-                flex-direction: column;
-                gap: var(--space-4);
+            .news-footer .news-meta-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .news-footer .news-read-more {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
@@ -857,8 +917,8 @@
         <!-- Floating Navigation -->
         <nav class="floating-nav" id="floating-nav">
             <div class="nav-section main-actions">
-                <button class="nav-action-button" id="back-button" onclick="window.history.back()">
-                    <i class="fas fa-arrow-left"></i>
+                <button class="nav-action-button" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </button>
                 <button class="nav-action-button" id="search-toggle">
                     <i class="fas fa-search"></i>
@@ -871,354 +931,234 @@
                 <div class="platform-logo">P</div>
             </div>
             <div class="nav-section user-section">
-                <button class="nav-action-button" id="share-button">
-                    <i class="fas fa-share-alt"></i>
-                </button>
+                <!-- Empty section for balance -->
             </div>
         </nav>
+        
+        <!-- Sidebar Menu -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-logo">Perspectify</h1>
+                <button class="close-sidebar" id="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Navigate</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item active"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-bolt"></i> Featured</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-fire"></i> Trending</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-history"></i> Recent</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-bookmark"></i> Saved</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Categories</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item" data-category="politics"><i class="fas fa-landmark"></i> Politics</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="sports"><i class="fas fa-futbol"></i> Sports</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="science"><i class="fas fa-flask"></i> Science</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="health"><i class="fas fa-heartbeat"></i> Health</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="business"><i class="fas fa-chart-line"></i> Business</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="technology"><i class="fas fa-microchip"></i> Technology</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="living"><i class="fas fa-home"></i> Home & Living</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">About</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-question-circle"></i> How It Works</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p>© 2025 Perspectify News</p>
+            </div>
+        </aside>
+        
+        <!-- Overlay for Sidebar -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        
+        <!-- Search Panel -->
+        <div class="search-panel" id="search-panel">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" class="search-input" placeholder="Search by keywords, sources, dates, or categories...">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Sources:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">All Sources</span>
+                            <span class="search-filter-option">CNN</span>
+                            <span class="search-filter-option">Fox News</span>
+                            <span class="search-filter-option">BBC</span>
+                            <span class="search-filter-option">Reuters</span>
+                            <span class="search-filter-option">AP</span>
+                            <span class="search-filter-option">WSJ</span>
+                            <span class="search-filter-option">More...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Categories:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">All Categories</span>
+                            <span class="search-filter-option">Politics</span>
+                            <span class="search-filter-option">Economy</span>
+                            <span class="search-filter-option">Science</span>
+                            <span class="search-filter-option">Health</span>
+                            <span class="search-filter-option">Sports</span>
+                            <span class="search-filter-option">More...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Date Range:</label>
+                        <div class="search-date-range">
+                            <input type="date" class="search-date-input" placeholder="From">
+                            <span class="search-date-separator">to</span>
+                            <input type="date" class="search-date-input" placeholder="To">
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Search In:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">Everywhere</span>
+                            <span class="search-filter-option">Headlines Only</span>
+                            <span class="search-filter-option">Content Only</span>
+                            <span class="search-filter-option">Source Names</span>
+                        </div>
+                    </div>
+                    
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Sort By:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option active">Most Recent</span>
+                            <span class="search-filter-option">Most Relevant</span>
+                            <span class="search-filter-option">Most Sources</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button class="search-reset">Reset Filters</button>
+                    <button class="search-submit">Search</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <div class="article-container">
-                <!-- Article Header -->
-                <header class="article-header">
-                    <div class="article-meta">
-                        <span class="article-category">Politics</span>
-                        <span class="article-date">May 12, 2025</span>
+            <!-- Category Bar -->
+            <div class="category-bar">
+                <button class="category-tab all active" data-category="all">
+                    <i class="fas fa-globe"></i>
+                    <span>All Categories</span>
+                </button>
+                <button class="category-tab politics" data-category="politics">
+                    <i class="fas fa-landmark"></i>
+                    <span>Politics</span>
+                </button>
+                <button class="category-tab sports" data-category="sports">
+                    <i class="fas fa-futbol"></i>
+                    <span>Sports</span>
+                </button>
+                <button class="category-tab science" data-category="science">
+                    <i class="fas fa-flask"></i>
+                    <span>Science</span>
+                </button>
+                <button class="category-tab health" data-category="health">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Health</span>
+                </button>
+                <button class="category-tab living" data-category="living">
+                    <i class="fas fa-home"></i>
+                    <span>Home & Living</span>
+                </button>
+            </div>
+            
+            <!-- News Stream -->
+            <div class="news-stream">
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Politics</div>
+                            <div class="news-date">May 12, 2025</div>
+                        </div>
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> AP</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> WSJ</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> CNN</span>
+                        </div>
                     </div>
-                    <h1 class="article-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h1>
-                    <p class="article-subtitle">The $1.2 trillion legislation represents a major investment in America's roads, bridges, public transit, and broadband internet</p>
-                    <div class="article-sources">
-                        <span class="article-source"><i class="fas fa-newspaper"></i> Reuters</span>
-                        <span class="article-source"><i class="fas fa-newspaper"></i> AP</span>
-                        <span class="article-source"><i class="fas fa-newspaper"></i> WSJ</span>
-                        <span class="article-source"><i class="fas fa-newspaper"></i> CNN</span>
+                    <div class="news-content">
+                        <h3 class="news-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h3>
+                        <p class="news-summary">The $1.2 trillion infrastructure bill passed the Senate with a 69-30 vote, allocating funds for roads, bridges, public transit, and broadband internet. The bill now moves to the House for consideration.</p>
+                        <img src="https://placehold.co/800x400?text=Infrastructure+Bill" alt="Infrastructure Bill Signing" class="news-image" />
                     </div>
-                </header>
-
-                <!-- Hero Image -->
-                <img src="https://placehold.co/1200x500?text=Infrastructure+Bill+Signing+Ceremony" alt="Infrastructure Bill Signing Ceremony" class="article-hero-image">
-
-                <!-- Article Content -->
-                <div class="article-content">
-                    <!-- Key Facts Section -->
-                    <section class="article-section">
-                        <h2 class="section-title">Key Facts</h2>
-                        <div class="summary-box">
-                            <p class="summary-title">What You Need to Know:</p>
-                            <ul class="summary-list">
-                                <li>The Senate passed a $1.2 trillion infrastructure bill with a 69-30 vote, showing rare bipartisan cooperation</li>
-                                <li>The bill includes $550 billion in new spending on transportation, utilities, and pollution cleanup</li>
-                                <li>Key investments include $110 billion for roads and bridges, $66 billion for passenger and freight rail, and $65 billion for broadband internet</li>
-                                <li>The bill now moves to the House of Representatives for consideration</li>
-                                <li>President is expected to sign the legislation if it passes the House</li>
-                            </ul>
+                    <div class="news-footer">
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 4 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 5 min read</span>
                         </div>
-                        <p class="article-text">
-                            In a significant showing of bipartisan cooperation, the Senate has passed a $1.2 trillion infrastructure bill, marking a major step toward fulfilling a key legislative priority for the administration. The vote, which ended with 69 senators in favor and 30 opposed, demonstrates that bipartisan agreement is still possible on major legislation despite the highly polarized political climate.
-                        </p>
-                        <p class="article-text">
-                            The Infrastructure Investment and Jobs Act represents the largest investment in America's physical infrastructure in decades. The bill includes approximately $550 billion in new federal spending over five years, with the remainder coming from the reallocation of existing funds.
-                        </p>
-                        <p class="article-text">
-                            The legislation now moves to the House of Representatives, where its passage may face additional challenges. Some progressive Democrats have indicated they won't support the infrastructure bill unless it moves in tandem with a larger social policy and climate bill that Democrats plan to pass through the budget reconciliation process, which doesn't require Republican support.
-                        </p>
-                    </section>
-
-                    <!-- What's in the Bill Section -->
-                    <section class="article-section">
-                        <h2 class="section-title">What's in the Bill</h2>
-                        <p class="article-text">
-                            The infrastructure package includes significant investments in various sectors of American infrastructure:
-                        </p>
-                        <p class="article-text">
-                            <strong>Transportation:</strong> The bill allocates $110 billion for roads and bridges, $66 billion for passenger and freight rail, $39 billion for public transit, $25 billion for airports, and $17 billion for ports.
-                        </p>
-                        <p class="article-text">
-                            <strong>Utilities:</strong> The legislation includes $65 billion for broadband internet, $65 billion for the power grid, and $55 billion for water infrastructure.
-                        </p>
-                        <p class="article-text">
-                            <strong>Environmental Remediation:</strong> The bill provides $21 billion for environmental cleanup, addressing pollution and contaminants in soil and groundwater.
-                        </p>
-                        <p class="article-text">
-                            <strong>Electric Vehicles:</strong> The legislation allocates $7.5 billion for a network of electric vehicle charging stations and another $7.5 billion for electric buses and ferries.
-                        </p>
-                    </section>
-
-                    <!-- How It's Funded Section -->
-                    <section class="article-section">
-                        <h2 class="section-title">How It's Funded</h2>
-                        <p class="article-text">
-                            Unlike many large spending bills, the infrastructure package includes provisions designed to offset its costs, though the Congressional Budget Office has estimated it will add about $256 billion to the deficit over the next decade.
-                        </p>
-                        <p class="article-text">
-                            Funding sources in the bill include:
-                        </p>
-                        <p class="article-text">
-                            - Repurposing unspent COVID-19 relief funds<br>
-                            - Delaying a Medicare rebate rule<br>
-                            - Applying new reporting requirements for cryptocurrency transactions<br>
-                            - Extending certain government fees<br>
-                            - Strategic petroleum reserve sales<br>
-                            - Spectrum auctions for 5G services
-                        </p>
-                        <p class="article-text">
-                            The bill does not include corporate or individual tax increases, which had been a red line for Republican negotiators.
-                        </p>
-                    </section>
-
-                    <!-- Political Analysis Section -->
-                    <section class="article-section">
-                        <h2 class="section-title">Political Analysis</h2>
-                        <p class="article-text">
-                            The bipartisan nature of the Senate vote represents a significant achievement in today's polarized political climate. Nineteen Republican senators, including Minority Leader Mitch McConnell, joined all 50 Democrats in supporting the bill.
-                        </p>
-                        <p class="article-text">
-                            For the President, the bill's passage is a step toward fulfilling a campaign promise to work across the aisle and demonstrate that government can still function effectively. The administration has argued that the infrastructure investments will create jobs, enhance American competitiveness, and address climate change.
-                        </p>
-                        <p class="article-text">
-                            Republican supporters have emphasized the benefits of infrastructure improvements for their constituents and the economy, while arguing that they successfully prevented more ambitious Democratic spending proposals from being included in the bill.
-                        </p>
-                    </section>
-
-                    <!-- What's Next Section -->
-                    <section class="article-section">
-                        <h2 class="section-title">What's Next</h2>
-                        <p class="article-text">
-                            The bill now moves to the House of Representatives, where its fate is tied to a separate $3.5 trillion budget resolution focused on social programs, healthcare, and climate initiatives. Progressive Democrats have indicated they won't support the infrastructure bill unless the larger package moves forward simultaneously.
-                        </p>
-                        <p class="article-text">
-                            House Speaker Nancy Pelosi has suggested that the chamber won't take up the infrastructure bill until the Senate passes the larger package through budget reconciliation, a process that allows legislation to pass with a simple majority, avoiding the 60-vote threshold typically required to overcome a filibuster.
-                        </p>
-                        <p class="article-text">
-                            If the bill ultimately passes both chambers, it would represent one of the most significant investments in American infrastructure in generations and a rare example of bipartisan cooperation on major legislation.
-                        </p>
-                    </section>
-
-                    <!-- Source Perspectives Section -->
-                    <section class="source-perspectives">
-                        <h2 class="perspectives-title">Source Perspectives</h2>
-                        
-                        <!-- Interactive Source Tabs -->
-                        <div class="interactive-sources">
-                            <div class="source-tabs">
-                                <button class="source-tab active" data-source="all">All Sources</button>
-                                <button class="source-tab" data-source="cnn">CNN</button>
-                                <button class="source-tab" data-source="fox">Fox News</button>
-                                <button class="source-tab" data-source="reuters">Reuters</button>
-                                <button class="source-tab" data-source="ap">Associated Press</button>
-                                <button class="source-tab" data-source="wsj">Wall Street Journal</button>
-                            </div>
-                            
-                            <!-- All Sources Content -->
-                            <div class="source-content active" id="all-content">
-                                <!-- CNN Perspective -->
-                                <div class="perspective-card cnn">
-                                    <div class="perspective-header">
-                                        <div class="perspective-source">
-                                            <i class="fas fa-newspaper"></i> CNN
-                                        </div>
-                                        <div class="perspective-date">May 12, 2025</div>
-                                    </div>
-                                    <div class="perspective-content">
-                                        <p>CNN highlights the bill as a significant victory for the Biden administration, emphasizing the bipartisan nature of the vote and framing it as a fulfillment of Biden's campaign promise to work across the aisle.</p>
-                                        <div class="perspective-quote">
-                                            "The bipartisan infrastructure bill represents a historic achievement in President Biden's effort to demonstrate that democracy can still work and deliver real results for the American people."
-                                        </div>
-                                        <p>The report emphasizes the job creation potential of the legislation and notes that it represents an important step in addressing climate change, particularly through investments in electric vehicle infrastructure and clean energy transmission.</p>
-                                    </div>
-                                    <div class="perspective-footer">
-                                        <div class="perspective-author">By Jane Smith, CNN Political Analyst</div>
-                                        <div class="perspective-link">
-                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
-                                                Read Original <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Fox News Perspective -->
-                                <div class="perspective-card fox">
-                                    <div class="perspective-header">
-                                        <div class="perspective-source">
-                                            <i class="fas fa-newspaper"></i> Fox News
-                                        </div>
-                                        <div class="perspective-date">May 12, 2025</div>
-                                    </div>
-                                    <div class="perspective-content">
-                                        <p>Fox News coverage focuses on the concerns raised by some Republican senators who voted against the bill, questioning its fiscal responsibility and highlighting the Congressional Budget Office's estimate that it will add to the deficit.</p>
-                                        <div class="perspective-quote">
-                                            "While some Republicans joined Democrats to pass this massive spending package, critics argue it fails to adequately offset its costs and could contribute to rising inflation pressures."
-                                        </div>
-                                        <p>The report also emphasizes concerns about the bill's connection to the larger $3.5 trillion reconciliation package, which some conservatives have labeled as "reckless spending" on "liberal wish list items."</p>
-                                    </div>
-                                    <div class="perspective-footer">
-                                        <div class="perspective-author">By Robert Johnson, Fox News Congressional Correspondent</div>
-                                        <div class="perspective-link">
-                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
-                                                Read Original <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Reuters Perspective -->
-                                <div class="perspective-card reuters">
-                                    <div class="perspective-header">
-                                        <div class="perspective-source">
-                                            <i class="fas fa-newspaper"></i> Reuters
-                                        </div>
-                                        <div class="perspective-date">May 12, 2025</div>
-                                    </div>
-                                    <div class="perspective-content">
-                                        <p>Reuters provides a balanced, fact-focused account of the bill's passage, detailing the specific investments included and the legislative process ahead.</p>
-                                        <div class="perspective-quote">
-                                            "The $1.2 trillion infrastructure package, a cornerstone of Biden's agenda, represents the largest investment in the nation's physical infrastructure in decades."
-                                        </div>
-                                        <p>The report contextualizes the bill within historical infrastructure spending and includes reactions from economists who suggest the long-term economic benefits may outweigh concerns about short-term deficit increases.</p>
-                                    </div>
-                                    <div class="perspective-footer">
-                                        <div class="perspective-author">By Reuters Staff</div>
-                                        <div class="perspective-link">
-                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
-                                                Read Original <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- CNN Content -->
-                            <div class="source-content" id="cnn-content">
-                                <!-- CNN Perspective (expanded) -->
-                                <div class="perspective-card cnn">
-                                    <div class="perspective-header">
-                                        <div class="perspective-source">
-                                            <i class="fas fa-newspaper"></i> CNN
-                                        </div>
-                                        <div class="perspective-date">May 12, 2025</div>
-                                    </div>
-                                    <div class="perspective-content">
-                                        <p>CNN highlights the bill as a significant victory for the Biden administration, emphasizing the bipartisan nature of the vote and framing it as a fulfillment of Biden's campaign promise to work across the aisle.</p>
-                                        <div class="perspective-quote">
-                                            "The bipartisan infrastructure bill represents a historic achievement in President Biden's effort to demonstrate that democracy can still work and deliver real results for the American people."
-                                        </div>
-                                        <p>The report emphasizes the job creation potential of the legislation and notes that it represents an important step in addressing climate change, particularly through investments in electric vehicle infrastructure and clean energy transmission.</p>
-                                        <p>CNN's analysis suggests that the bill's passage could provide momentum for other elements of Biden's agenda, including the larger $3.5 trillion reconciliation package focused on social programs and climate initiatives.</p>
-                                        <p>The report features interviews with Democratic senators who emphasize the transformative potential of the infrastructure investments, particularly for rural and underserved communities that lack reliable broadband access.</p>
-                                        <div class="perspective-quote">
-                                            "This is what governing looks like," said a senior Democratic senator quoted in the report. "We've shown that both parties can come together to address the nation's most pressing needs."
-                                        </div>
-                                        <p>CNN's coverage also highlights the political implications of the bipartisan vote, suggesting it could provide electoral benefits for both Democratic and Republican senators who supported the bill and can now point to concrete achievements when campaigning for reelection.</p>
-                                    </div>
-                                    <div class="perspective-footer">
-                                        <div class="perspective-author">By Jane Smith, CNN Political Analyst</div>
-                                        <div class="perspective-link">
-                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
-                                                Read Original <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Other Source Tabs Content (would be similar) -->
+                        <a href="article.html" class="news-read-more">Read Full Analysis</a>
+                    </div>
+                </div>
+                
+                <!-- News Card 2 -->
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Science</div>
+                            <div class="news-date">May 11, 2025</div>
                         </div>
-                    </section>
-
-                    <!-- Article Footer -->
-                    <footer class="article-footer">
-                        <div class="footer-links">
-                            <a href="#" class="footer-link" onclick="showToast('Navigating to previous article', 'info'); return false;">
-                                <i class="fas fa-arrow-left"></i> Previous Article
-                            </a>
-                            <a href="#" class="footer-link" onclick="showToast('Navigating to next article', 'info'); return false;">
-                                Next Article <i class="fas fa-arrow-right"></i>
-                            </a>
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> The Guardian</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> NPR</span>
+                            <span class="news-source"><i class="fas fa-flask"></i> Nature Climate Change</span>
                         </div>
-                    </footer>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">New Study Shows Accelerating Climate Change Effects on Global Food Production</h3>
+                        <p class="news-summary">Research published in Nature Climate Change indicates that agricultural yields could decrease by up to 30% in some regions by 2050 if current carbon emission trends continue, threatening global food security.</p>
+                        <img src="https://placehold.co/800x400?text=Climate+Change" alt="Climate Change Impact" class="news-image" />
+                    </div>
+                    <div class="news-footer">
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 7 min read</span>
+                        </div>
+                        <a href="#" class="news-read-more">Read Full Analysis</a>
+                    </div>
                 </div>
             </div>
-
-            <!-- Sidebar -->
-            <aside class="article-sidebar">
-                <!-- Key Points Widget -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Key Points</h3>
-                    <ul class="key-points-list">
-                        <li>$1.2 trillion infrastructure package passed with 69-30 Senate vote</li>
-                        <li>Includes $550 billion in new spending</li>
-                        <li>Funds roads, bridges, transit, broadband, and power grid</li>
-                        <li>Represents rare bipartisan cooperation</li>
-                        <li>Now moves to House for consideration</li>
-                    </ul>
-                </div>
-
-                <!-- Article Metadata -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Article Details</h3>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Published</span>
-                        <span class="metadata-value">May 12, 2025</span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Word Count</span>
-                        <span class="metadata-value">1,450</span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Reading Time</span>
-                        <span class="metadata-value">5 minutes</span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Sources</span>
-                        <span class="metadata-value">4</span>
-                    </div>
-                    <div class="metadata-item">
-                        <span class="metadata-label">Last Updated</span>
-                        <span class="metadata-value">May 12, 2025</span>
-                    </div>
-                </div>
-
-                <!-- Related Articles -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Related Articles</h3>
-                    <ul class="related-articles-list">
-                        <li class="related-article-item">
-                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
-                                <div class="related-article-title">What The Infrastructure Bill Means For Your State</div>
-                                <div class="related-article-date">May 11, 2025</div>
-                            </a>
-                        </li>
-                        <li class="related-article-item">
-                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
-                                <div class="related-article-title">History of Major Infrastructure Legislation in America</div>
-                                <div class="related-article-date">May 10, 2025</div>
-                            </a>
-                        </li>
-                        <li class="related-article-item">
-                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
-                                <div class="related-article-title">How Infrastructure Funding Gets Distributed</div>
-                                <div class="related-article-date">May 8, 2025</div>
-                            </a>
-                        </li>
-                        <li class="related-article-item">
-                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
-                                <div class="related-article-title">The Bipartisan Negotiators Behind The Bill</div>
-                                <div class="related-article-date">May 7, 2025</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
         </main>
     </div>
 
     <script>
         // DOM Elements
         const themeToggle = document.getElementById('theme-toggle');
-        const shareButtoon = document.getElementById('share-button');
-        const sourceTabs = document.querySelectorAll('.source-tab');
-
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const searchToggle = document.getElementById('search-toggle');
+        const searchPanel = document.getElementById('search-panel');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const searchFilterOptions = document.querySelectorAll('.search-filter-option');
+        const searchReset = document.querySelector('.search-reset');
+        const searchSubmit = document.querySelector('.search-submit');
+        const sidebarNavItems = document.querySelectorAll('.sidebar-nav-item');
+        
         // Theme Toggle
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
@@ -1233,40 +1173,281 @@
             themeToggle.addEventListener('click', toggleTheme);
         }
         
-        // Share Button
-        if (shareButtoon) {
-            shareButtoon.addEventListener('click', function() {
-                showToast('Article link copied to clipboard', 'success');
-            });
+        // Sidebar Toggle
+        function toggleSidebar() {
+            if (sidebar) {
+                sidebar.classList.toggle('active');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.toggle('active');
+                }
+                
+                // Close search panel if open
+                if (searchPanel && searchPanel.classList.contains('active')) {
+                    toggleSearchPanel();
+                }
+            }
         }
         
-        // Source Tabs
-        if (sourceTabs) {
-            sourceTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Deactivate all tabs
-                    sourceTabs.forEach(t => t.classList.remove('active'));
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (closeSidebar) {
+            closeSidebar.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+        
+        // Sidebar Navigation Items
+        if (sidebarNavItems) {
+            sidebarNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Prevent default link behavior
+                    e.preventDefault();
                     
-                    // Activate this tab
+                    // Set this item as active
+                    sidebarNavItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
                     this.classList.add('active');
                     
-                    // Hide all content
-                    document.querySelectorAll('.source-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
+                    // Check if this item has a category attribute
+                    const category = this.getAttribute('data-category');
+                    if (category) {
+                        // Find the matching category tab and click it
+                        const matchingTab = document.querySelector(`.category-tab[data-category="${category}"]`);
+                        if (matchingTab) {
+                            matchingTab.click();
+                        }
+                    }
                     
-                    // Show selected content
-                    const sourceType = this.getAttribute('data-source');
-                    if (sourceType === 'all') {
-                        document.getElementById('all-content').classList.add('active');
-                    } else {
-                        document.getElementById(`${sourceType}-content`).classList.add('active');
+                    // Close the sidebar on mobile
+                    if (window.innerWidth < 768) {
+                        toggleSidebar();
                     }
                 });
             });
         }
         
-        // Toast Message
+        // Search Panel Toggle
+        function toggleSearchPanel() {
+            searchPanel.classList.toggle('active');
+            if (searchPanel.classList.contains('active')) {
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) searchInput.focus();
+            }
+        }
+        
+        if (searchToggle && searchPanel) {
+            searchToggle.addEventListener('click', toggleSearchPanel);
+        }
+        
+        // Category Tabs
+        if (categoryTabs) {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    filterByCategory(this.dataset.category);
+                });
+            });
+        }
+        
+        // Search Filter Options
+        if (searchFilterOptions) {
+            searchFilterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (this.textContent === 'More...') {
+                        return;
+                    }
+                    
+                    const group = this.closest('.search-filter-options');
+                    
+                    if (this.textContent.includes('All') || 
+                        this.textContent === 'Everywhere' || 
+                        this.textContent === 'Most Recent') {
+                        // If "All" option is selected, deactivate all other options in this group
+                        group.querySelectorAll('.search-filter-option').forEach(opt => {
+                            opt.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    } else {
+                        // If a specific option is selected, deactivate the "All" option
+                        const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => 
+                            opt.textContent.includes('All') || 
+                            opt.textContent === 'Everywhere' || 
+                            opt.textContent === 'Most Recent'
+                        );
+                        
+                        if (allOption) {
+                            allOption.classList.remove('active');
+                        }
+                        
+                        // Toggle this option
+                        this.classList.toggle('active');
+                        
+                        // If no options are selected, activate the "All" option
+                        const activeOptions = group.querySelectorAll('.search-filter-option.active');
+                        if (activeOptions.length === 0 && allOption) {
+                            allOption.classList.add('active');
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Search Reset Button
+        if (searchReset) {
+            searchReset.addEventListener('click', function() {
+                // Reset all filter options
+                document.querySelectorAll('.search-filter-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                
+                // Activate default options
+                document.querySelectorAll('.search-filter-options').forEach(group => {
+                    const defaultOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => 
+                        opt.textContent.includes('All') || 
+                        opt.textContent === 'Everywhere' || 
+                        opt.textContent === 'Most Recent'
+                    );
+                    
+                    if (defaultOption) {
+                        defaultOption.classList.add('active');
+                    }
+                });
+                
+                // Clear date inputs
+                document.querySelectorAll('.search-date-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Clear search input
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) searchInput.value = '';
+            });
+        }
+        
+        // Search Submit Button
+        if (searchSubmit) {
+            searchSubmit.addEventListener('click', function() {
+                // Get the search query
+                const searchInput = document.querySelector('.search-input');
+                const searchQuery = searchInput ? searchInput.value : '';
+                
+                // Get active filters
+                const activeSources = getActiveOptions(1);
+                const activeCategories = getActiveOptions(2);
+                const activeSearchIn = getActiveOptions(4);
+                const activeSortBy = getActiveOptions(5);
+                
+                // Get date range
+                const dateInputs = document.querySelectorAll('.search-date-input');
+                let startDate = '';
+                let endDate = '';
+                
+                if (dateInputs && dateInputs.length >= 2) {
+                    startDate = dateInputs[0].value;
+                    endDate = dateInputs[1].value;
+                }
+                
+                // Log the search parameters
+                console.log('Search query:', searchQuery);
+                console.log('Sources:', activeSources);
+                console.log('Categories:', activeCategories);
+                console.log('Search in:', activeSearchIn);
+                console.log('Sort by:', activeSortBy);
+                console.log('Date range:', startDate, 'to', endDate);
+                
+                // Apply visual effects to simulate search
+                const newsCards = document.querySelectorAll('.news-card');
+                newsCards.forEach(card => {
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.98)';
+                });
+                
+                setTimeout(() => {
+                    newsCards.forEach(card => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(-3px)';
+                    });
+                    
+                    // Show success message
+                    showToast('Search results updated', 'success');
+                    
+                    // Close search panel
+                    toggleSearchPanel();
+                }, 500);
+            });
+        }
+        
+        // Close search panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (searchPanel && searchPanel.classList.contains('active') && 
+                !searchPanel.contains(e.target) && 
+                !searchToggle.contains(e.target)) {
+                toggleSearchPanel();
+            }
+        });
+        
+        // Close search panel on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchPanel && searchPanel.classList.contains('active')) {
+                toggleSearchPanel();
+            }
+        });
+        
+        // Helper Functions
+        function getActiveOptions(groupIndex) {
+            const activeOptions = [];
+            const groups = document.querySelectorAll('.search-filter-group');
+            
+            if (groups && groups.length >= groupIndex) {
+                const options = groups[groupIndex - 1].querySelectorAll('.search-filter-option.active');
+                options.forEach(option => {
+                    activeOptions.push(option.textContent);
+                });
+            }
+            
+            return activeOptions;
+        }
+        
+        function filterByCategory(category) {
+            console.log('Filtering by category:', category);
+            
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                const categoryElement = card.querySelector('.news-category');
+                if (!categoryElement) return;
+                
+                const cardCategory = categoryElement.textContent.toLowerCase();
+                
+                if (category === 'all' || cardCategory.includes(category.toLowerCase())) {
+                    // Show card with animation
+                    card.style.display = 'block';
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.98)';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(-3px)';
+                    }, 300);
+                } else {
+                    // Hide card with animation
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.95)';
+                    
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            showToast(`Showing ${category === 'all' ? 'all categories' : category} articles`, 'info');
+        }
+        
         function showToast(message, type = 'info') {
             // Remove any existing toasts
             const existingToasts = document.querySelectorAll('.toast');
