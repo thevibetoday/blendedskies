@@ -3,10 +3,943 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus - Connect Through Ideas</title>
+    <title>Perspectify - Multiple Perspectives News</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css">
+    <style>
+    :root {
+        /* Core Brand Colors */
+        --primary: #6366F1;
+        --primary-dark: #4F46E5;
+        --primary-light: #818CF8;
+        --secondary: #22D3EE;
+        --tertiary: #F43F5E;
+        --quaternary: #10B981;
+        --quinary: #F59E0B;
+        
+        /* Perspective Colors */
+        --perspective-left: #3B82F6;
+        --perspective-right: #EF4444;
+        --perspective-center: #8B5CF6;
+        --perspective-facts: #10B981;
+        
+        /* Functional Colors */
+        --success: #10B981;
+        --warning: #F59E0B;
+        --error: #F43F5E;
+        --info: #22D3EE;
+        
+        /* Neutrals */
+        --white: #FFFFFF;
+        --gray-50: #F9FAFB;
+        --gray-100: #F3F4F6;
+        --gray-200: #E5E7EB;
+        --gray-300: #D1D5DB;
+        --gray-400: #9CA3AF;
+        --gray-500: #6B7280;
+        --gray-600: #4B5563;
+        --gray-700: #374151;
+        --gray-800: #1F2937;
+        --gray-900: #111827;
+        --black: #000000;
+        
+        /* Theme Colors - Light */
+        --light-bg: #F9FAFB;
+        --light-card: #FFFFFF;
+        --light-surface: #F3F4F6;
+        --light-border: #E5E7EB;
+        --light-text: #111827;
+        --light-text-secondary: #4B5563;
+        --light-icon: #6B7280;
+        
+        /* Theme Colors - Dark */
+        --dark-bg: #0F172A;
+        --dark-card: #1E293B;
+        --dark-surface: #334155;
+        --dark-border: #475569;
+        --dark-text: #F1F5F9;
+        --dark-text-secondary: #94A3B8;
+        --dark-icon: #94A3B8;
+        
+        /* Dimensions */
+        --header-height: 80px;
+        --floating-nav-height: 64px;
+        --sidebar-width: 280px;
+        
+        /* Typography */
+        --font-primary: 'Inter', sans-serif;
+        --font-secondary: 'Poppins', sans-serif;
+        
+        /* Transitions */
+        --transition-fast: 150ms ease;
+        --transition-normal: 300ms ease;
+        --transition-slow: 500ms ease;
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        
+        /* Z-index layers */
+        --z-floating-nav: 100;
+        --z-sidebar: 90;
+        --z-dropdown: 110;
+        --z-modal: 200;
+        --z-toast: 300;
+        --z-tooltip: 400;
+        
+        /* Border radius */
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --radius-xl: 16px;
+        --radius-full: 9999px;
+        
+        /* Spacing */
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 20px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --space-10: 40px;
+        --space-12: 48px;
+        --space-16: 64px;
+        --space-20: 80px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: var(--font-secondary);
+        font-size: 16px;
+        line-height: 1.5;
+        transition: background-color 0.3s, color 0.3s;
+        background-color: var(--light-bg);
+        color: var(--light-text);
+    }
+
+    body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-primary);
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.2s;
+    }
+
+    button {
+        cursor: pointer;
+        font-family: var(--font-primary);
+        border: none;
+        background: none;
+        transition: all 0.2s;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    input, textarea, select {
+        font-family: var(--font-secondary);
+        font-size: 16px;
+    }
+
+    /* App Container */
+    .app-container {
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* Floating Navigation */
+    .floating-nav {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        height: var(--floating-nav-height);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: var(--z-floating-nav);
+        backdrop-filter: blur(8px);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: var(--radius-full);
+        padding: 0 var(--space-4);
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-normal);
+    }
+
+    .dark-mode .floating-nav {
+        background-color: rgba(30, 41, 59, 0.8);
+    }
+
+    .nav-section {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    .main-actions {
+        justify-content: flex-start;
+    }
+
+    .logo-section {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .user-section {
+        justify-content: flex-end;
+    }
+
+    .platform-logo {
+        font-family: var(--font-primary);
+        font-size: 24px;
+        font-weight: 800;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-action-button {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--light-icon);
+        background-color: var(--white);
+        box-shadow: var(--shadow-sm);
+        font-size: 18px;
+        transition: all var(--transition-fast);
+    }
+
+    .dark-mode .nav-action-button {
+        color: var(--dark-icon);
+        background-color: var(--dark-surface);
+    }
+
+    .nav-action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: var(--primary);
+    }
+
+    /* Main Sidebar */
+    .main-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width);
+        background-color: var(--white);
+        z-index: var(--z-sidebar);
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+    }
+
+    .dark-mode .main-sidebar {
+        background-color: var(--dark-card);
+    }
+
+    .main-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-header {
+        padding: var(--space-6) var(--space-4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--light-border);
+    }
+
+    .dark-mode .sidebar-header {
+        border-color: var(--dark-border);
+    }
+
+    .sidebar-logo {
+        font-family: var(--font-primary);
+        font-size: 24px;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .close-sidebar {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--light-icon);
+        font-size: 20px;
+    }
+
+    .dark-mode .close-sidebar {
+        color: var(--dark-icon);
+    }
+
+    .close-sidebar:hover {
+        background-color: var(--light-surface);
+        color: var(--tertiary);
+    }
+
+    .dark-mode .close-sidebar:hover {
+        background-color: var(--dark-surface);
+    }
+
+    .sidebar-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--space-4);
+    }
+
+    .nav-group {
+        margin-bottom: var(--space-6);
+    }
+
+    .nav-group-title {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--light-text-secondary);
+        margin-bottom: var(--space-2);
+        padding: 0 var(--space-2);
+    }
+
+    .dark-mode .nav-group-title {
+        color: var(--dark-text-secondary);
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: var(--space-3) var(--space-2);
+        border-radius: var(--radius-md);
+        color: var(--light-text);
+        margin-bottom: var(--space-1);
+        font-weight: 500;
+    }
+
+    .dark-mode .nav-link {
+        color: var(--dark-text);
+    }
+
+    .nav-link i, .nav-link .space-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--space-3);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        font-size: 14px;
+    }
+
+    .dark-mode .nav-link i, .dark-mode .nav-link .space-icon {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+
+    .nav-link:hover {
+        background-color: var(--light-surface);
+    }
+
+    .dark-mode .nav-link:hover {
+        background-color: var(--dark-surface);
+    }
+
+    .nav-link.active {
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        font-weight: 600;
+    }
+
+    .dark-mode .nav-link.active {
+        background-color: rgba(99, 102, 241, 0.2);
+        color: var(--primary-light);
+    }
+
+    .nav-link.active i, .nav-link.active .space-icon {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    /* Filter Header */
+    .filter-header {
+        margin-bottom: var(--space-6);
+        border-bottom: 1px solid var(--light-border);
+        padding-bottom: var(--space-4);
+    }
+
+    .dark-mode .filter-header {
+        border-color: var(--dark-border);
+    }
+
+    .filter-section {
+        margin-bottom: var(--space-4);
+    }
+
+    .filter-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: var(--space-2);
+        color: var(--light-text-secondary);
+    }
+
+    .dark-mode .filter-title {
+        color: var(--dark-text-secondary);
+    }
+
+    .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .filter-option {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        font-size: 14px;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .dark-mode .filter-option {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+
+    .filter-option:hover {
+        background-color: var(--light-border);
+        transform: translateY(-2px);
+    }
+
+    .dark-mode .filter-option:hover {
+        background-color: var(--dark-border);
+    }
+
+    .filter-option.active {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    /* Perspective Filters */
+    .perspective-filters {
+        display: flex;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+        overflow-x: auto;
+        padding-bottom: var(--space-2);
+    }
+    
+    .perspective-filters::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .perspective-filters::-webkit-scrollbar-track {
+        background: var(--light-surface);
+        border-radius: var(--radius-full);
+    }
+    
+    .dark-mode .perspective-filters::-webkit-scrollbar-track {
+        background: var(--dark-surface);
+    }
+    
+    .perspective-filters::-webkit-scrollbar-thumb {
+        background-color: var(--gray-300);
+        border-radius: var(--radius-full);
+    }
+    
+    .dark-mode .perspective-filters::-webkit-scrollbar-thumb {
+        background-color: var(--gray-600);
+    }
+
+    .perspective-filter {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        font-weight: 500;
+        font-size: 14px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        transition: all var(--transition-fast);
+    }
+
+    .perspective-filter:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .perspective-filter.left {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--perspective-left);
+    }
+
+    .perspective-filter.left.active {
+        background-color: var(--perspective-left);
+        color: white;
+    }
+
+    .perspective-filter.right {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--perspective-right);
+    }
+
+    .perspective-filter.right.active {
+        background-color: var(--perspective-right);
+        color: white;
+    }
+
+    .perspective-filter.center {
+        background-color: rgba(139, 92, 246, 0.1);
+        color: var(--perspective-center);
+    }
+
+    .perspective-filter.center.active {
+        background-color: var(--perspective-center);
+        color: white;
+    }
+
+    .perspective-filter.facts {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--perspective-facts);
+    }
+
+    .perspective-filter.facts.active {
+        background-color: var(--perspective-facts);
+        color: white;
+    }
+
+    .perspective-filter.all {
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+    }
+
+    .dark-mode .perspective-filter.all {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+
+    .perspective-filter.all.active {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    /* News Cards */
+    .news-stream {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+    }
+
+    .news-card {
+        background-color: var(--white);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-fast);
+    }
+
+    .dark-mode .news-card {
+        background-color: var(--dark-card);
+    }
+
+    .news-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .news-meta {
+        padding: var(--space-4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--light-border);
+    }
+
+    .dark-mode .news-meta {
+        border-color: var(--dark-border);
+    }
+
+    .news-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .news-category {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--primary);
+        margin-bottom: var(--space-1);
+    }
+
+    .news-date {
+        font-size: 12px;
+        color: var(--light-text-secondary);
+    }
+
+    .dark-mode .news-date {
+        color: var(--dark-text-secondary);
+    }
+
+    .news-perspective {
+        font-size: 12px;
+        font-weight: 600;
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-full);
+    }
+
+    .news-perspective.left {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--perspective-left);
+    }
+
+    .news-perspective.right {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--perspective-right);
+    }
+
+    .news-perspective.center {
+        background-color: rgba(139, 92, 246, 0.1);
+        color: var(--perspective-center);
+    }
+
+    .news-perspective.facts {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--perspective-facts);
+    }
+
+    .news-content {
+        padding: var(--space-4);
+    }
+
+    .news-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: var(--space-3);
+    }
+
+    .news-summary {
+        color: var(--light-text-secondary);
+        margin-bottom: var(--space-4);
+    }
+
+    .dark-mode .news-summary {
+        color: var(--dark-text-secondary);
+    }
+
+    .news-image {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-4);
+    }
+
+    .news-sources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-3);
+    }
+
+    .news-source {
+        font-size: 12px;
+        font-weight: 500;
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-full);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+    }
+
+    .dark-mode .news-source {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+
+    .news-footer {
+        padding: var(--space-4);
+        border-top: 1px solid var(--light-border);
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .dark-mode .news-footer {
+        border-color: var(--dark-border);
+    }
+
+    .news-related {
+        display: flex;
+        gap: var(--space-2);
+    }
+
+    .related-perspective {
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-full);
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        transition: all var(--transition-fast);
+    }
+
+    .related-perspective:hover {
+        transform: translateY(-2px);
+    }
+
+    .related-perspective.left {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--perspective-left);
+    }
+
+    .related-perspective.right {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--perspective-right);
+    }
+
+    .related-perspective.center {
+        background-color: rgba(139, 92, 246, 0.1);
+        color: var(--perspective-center);
+    }
+
+    .related-perspective.facts {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--perspective-facts);
+    }
+
+    .news-read-more {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        background-color: var(--primary);
+        color: white;
+        font-weight: 600;
+        transition: all var(--transition-fast);
+    }
+
+    .news-read-more:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    /* Archive Calendar */
+    .archive-calendar {
+        background-color: var(--white);
+        border-radius: var(--radius-lg);
+        padding: var(--space-4);
+        margin-bottom: var(--space-6);
+        box-shadow: var(--shadow-md);
+    }
+
+    .dark-mode .archive-calendar {
+        background-color: var(--dark-card);
+    }
+
+    .calendar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-4);
+    }
+
+    .calendar-title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .calendar-nav {
+        display: flex;
+        gap: var(--space-2);
+    }
+
+    .calendar-nav-button {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        transition: all var(--transition-fast);
+    }
+
+    .dark-mode .calendar-nav-button {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+
+    .calendar-nav-button:hover {
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: var(--space-2);
+    }
+
+    .calendar-weekday {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--light-text-secondary);
+        margin-bottom: var(--space-2);
+    }
+
+    .dark-mode .calendar-weekday {
+        color: var(--dark-text-secondary);
+    }
+
+    .calendar-day {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+
+    .calendar-day:hover {
+        background-color: var(--light-surface);
+        cursor: pointer;
+    }
+
+    .dark-mode .calendar-day:hover {
+        background-color: var(--dark-surface);
+    }
+
+    .calendar-day.has-news {
+        background-color: rgba(99, 102, 241, 0.1);
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    .calendar-day.has-news:hover {
+        background-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .calendar-day.today {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .calendar-day.inactive {
+        color: var(--gray-300);
+    }
+
+    .dark-mode .calendar-day.inactive {
+        color: var(--gray-600);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .floating-nav {
+            bottom: 20px;
+            top: auto;
+        }
+        
+        .main-content {
+            padding-bottom: calc(var(--floating-nav-height) + 40px);
+        }
+        
+        .filter-options {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            padding-bottom: var(--space-2);
+        }
+        
+        .filter-options::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .news-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-2);
+        }
+        
+        .news-footer {
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        
+        .news-related {
+            overflow-x: auto;
+            padding-bottom: var(--space-2);
+        }
+        
+        .news-related::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    </style>
 </head>
 <body>
     <div id="app" class="app-container">
@@ -24,23 +957,19 @@
                 </button>
             </div>
             <div class="nav-section logo-section">
-                <div class="platform-logo">N</div>
+                <div class="platform-logo">P</div>
             </div>
             <div class="nav-section user-section">
-                <div class="notification-indicator" id="notification-toggle">
-                    <i class="fas fa-bell"></i>
-                    <span class="indicator-badge">3</span>
-                </div>
-                <div class="avatar-container">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile" class="user-avatar">
-                </div>
+                <button class="nav-action-button" id="archive-toggle">
+                    <i class="fas fa-calendar-alt"></i>
+                </button>
             </div>
         </nav>
 
         <!-- Main Sidebar -->
         <aside class="main-sidebar" id="main-sidebar">
             <div class="sidebar-header">
-                <h1 class="sidebar-logo">nexus</h1>
+                <h1 class="sidebar-logo">perspectify</h1>
                 <button class="close-sidebar" id="close-sidebar">
                     <i class="fas fa-times"></i>
                 </button>
@@ -49,400 +978,508 @@
                 <div class="nav-group">
                     <h2 class="nav-group-title">Navigate</h2>
                     <a href="#" class="nav-link active">
-                        <i class="fas fa-compass"></i>
-                        <span>Discover</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-bolt"></i>
-                        <span>For You</span>
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
                     </a>
                     <a href="#" class="nav-link">
                         <i class="fas fa-fire"></i>
                         <span>Trending</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-satellite-dish"></i>
-                        <span>Live Spaces</span>
+                        <i class="fas fa-clock"></i>
+                        <span>Recent</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-map"></i>
-                        <span>ThoughtMaps</span>
+                        <i class="fas fa-archive"></i>
+                        <span>Archives</span>
                     </a>
                 </div>
                 <div class="nav-group">
-                    <h2 class="nav-group-title">Dimensions</h2>
+                    <h2 class="nav-group-title">Categories</h2>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-brain"></i>
-                        <span>Intellectual</span>
+                        <i class="fas fa-landmark"></i>
+                        <span>Politics</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-palette"></i>
-                        <span>Creative</span>
+                        <i class="fas fa-futbol"></i>
+                        <span>Sports</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-microscope"></i>
-                        <span>Scientific</span>
+                        <i class="fas fa-flask"></i>
+                        <span>Science</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-leaf"></i>
-                        <span>Wellness</span>
+                        <i class="fas fa-home"></i>
+                        <span>Home & Living</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <i class="fas fa-globe"></i>
-                        <span>Worldview</span>
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Health</span>
                     </a>
                 </div>
                 <div class="nav-group">
-                    <h2 class="nav-group-title">Your Spaces</h2>
+                    <h2 class="nav-group-title">About</h2>
                     <a href="#" class="nav-link">
-                        <span class="space-icon">T</span>
-                        <span>Technology</span>
+                        <i class="fas fa-info-circle"></i>
+                        <span>About Perspectify</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <span class="space-icon">P</span>
-                        <span>Philosophy</span>
+                        <i class="fas fa-question-circle"></i>
+                        <span>How It Works</span>
                     </a>
                     <a href="#" class="nav-link">
-                        <span class="space-icon">D</span>
-                        <span>Design</span>
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact</span>
                     </a>
                 </div>
-            </div>
-            <div class="sidebar-footer">
-                <button class="create-button">
-                    <i class="fas fa-plus"></i>
-                    <span>Create</span>
-                </button>
             </div>
         </aside>
         
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Immersive Header -->
-            <div class="immersive-header">
-                <div class="perspective-selector">
-                    <div class="perspective-label">Viewing through:</div>
-                    <div class="perspective-options">
-                        <button class="perspective-option active">All Perspectives</button>
-                        <button class="perspective-option">Contrasting Views</button>
-                        <button class="perspective-option">Emerging Ideas</button>
+            <!-- Filter Header -->
+            <div class="filter-header">
+                <div class="filter-section">
+                    <h2 class="filter-title">Sources</h2>
+                    <div class="filter-options">
+                        <button class="filter-option active">All Sources</button>
+                        <button class="filter-option">CNN</button>
+                        <button class="filter-option">Fox News</button>
+                        <button class="filter-option">BBC</button>
+                        <button class="filter-option">Reuters</button>
+                        <button class="filter-option">AP</button>
+                        <button class="filter-option">WSJ</button>
+                        <button class="filter-option">Economist</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h2 class="filter-title">Date Range</h2>
+                    <div class="filter-options">
+                        <button class="filter-option active">Today</button>
+                        <button class="filter-option">This Week</button>
+                        <button class="filter-option">This Month</button>
+                        <button class="filter-option">Last 3 Months</button>
+                        <button class="filter-option">This Year</button>
+                        <button class="filter-option">All Time</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h2 class="filter-title">Categories</h2>
+                    <div class="filter-options">
+                        <button class="filter-option active">All Categories</button>
+                        <button class="filter-option">Politics</button>
+                        <button class="filter-option">Sports</button>
+                        <button class="filter-option">Science</button>
+                        <button class="filter-option">Home & Living</button>
+                        <button class="filter-option">Health</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Thought Composer -->
-            <div class="thought-composer">
-                <div class="composer-avatar">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Your profile">
+            <!-- Perspective Filters -->
+            <div class="perspective-filters">
+                <button class="perspective-filter all active">
+                    <i class="fas fa-globe"></i>
+                    <span>All Perspectives</span>
+                </button>
+                <button class="perspective-filter left">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Left View</span>
+                </button>
+                <button class="perspective-filter center">
+                    <i class="fas fa-grip-lines-vertical"></i>
+                    <span>Center View</span>
+                </button>
+                <button class="perspective-filter right">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Right View</span>
+                </button>
+                <button class="perspective-filter facts">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Just the Facts</span>
+                </button>
+            </div>
+            
+            <!-- News Stream -->
+            <div class="news-stream">
+                <!-- News Card 1 - Facts perspective -->
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Politics</div>
+                            <div class="news-date">May 12, 2025</div>
+                        </div>
+                        <div class="news-perspective facts">Just the Facts</div>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h3>
+                        <p class="news-summary">The $1.2 trillion infrastructure bill passed the Senate with a 69-30 vote, allocating funds for roads, bridges, public transit, and broadband internet. The bill now moves to the House for consideration.</p>
+                        <img src="/api/placeholder/800/400" alt="Infrastructure Bill Signing" class="news-image" />
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> AP</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> WSJ</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> CNN</span>
+                        </div>
+                    </div>
+                    <div class="news-footer">
+                        <div class="news-related">
+                            <button class="related-perspective left">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Left View</span>
+                            </button>
+                            <button class="related-perspective right">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Right View</span>
+                            </button>
+                        </div>
+                        <button class="news-read-more">Read Full Analysis</button>
+                    </div>
                 </div>
-                <div class="composer-input-container">
-                    <textarea class="composer-input" placeholder="Share a thought that elevates the conversation..."></textarea>
-                    <div class="composer-actions">
-                        <button class="composer-action">
-                            <i class="fas fa-image"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-link"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </button>
-                        <button class="composer-action">
-                            <i class="fas fa-poll"></i>
-                        </button>
-                        <button class="composer-submit" disabled>Share</button>
+                
+                <!-- News Card 2 - Left perspective -->
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Science</div>
+                            <div class="news-date">May 11, 2025</div>
+                        </div>
+                        <div class="news-perspective left">Left View</div>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">New Study Shows Accelerating Climate Change Effects on Global Food Production</h3>
+                        <p class="news-summary">Research published in Nature Climate Change indicates that agricultural yields could decrease by up to 30% in some regions by 2050 if current carbon emission trends continue, threatening global food security.</p>
+                        <img src="/api/placeholder/800/400" alt="Climate Change Impact" class="news-image" />
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> The Guardian</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> NPR</span>
+                            <span class="news-source"><i class="fas fa-flask"></i> Nature Climate Change</span>
+                        </div>
+                    </div>
+                    <div class="news-footer">
+                        <div class="news-related">
+                            <button class="related-perspective right">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Right View</span>
+                            </button>
+                            <button class="related-perspective facts">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>Just the Facts</span>
+                            </button>
+                        </div>
+                        <button class="news-read-more">Read Full Analysis</button>
+                    </div>
+                </div>
+                
+                <!-- News Card 3 - Right perspective -->
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Economy</div>
+                            <div class="news-date">May 10, 2025</div>
+                        </div>
+                        <div class="news-perspective right">Right View</div>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Tax Cuts Credited for Record Small Business Growth in Q1 2025</h3>
+                        <p class="news-summary">Small business formations reached an all-time high in the first quarter of 2025, with many crediting recent tax policy changes for encouraging entrepreneurship and investment.</p>
+                        <img src="/api/placeholder/800/400" alt="Small Business Growth" class="news-image" />
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> Fox Business</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> WSJ</span>
+                            <span class="news-source"><i class="fas fa-chart-line"></i> Small Business Administration</span>
+                        </div>
+                    </div>
+                    <div class="news-footer">
+                        <div class="news-related">
+                            <button class="related-perspective left">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Left View</span>
+                            </button>
+                            <button class="related-perspective facts">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>Just the Facts</span>
+                            </button>
+                        </div>
+                        <button class="news-read-more">Read Full Analysis</button>
+                    </div>
+                </div>
+                
+                <!-- News Card 4 - Center perspective -->
+                <div class="news-card">
+                    <div class="news-meta">
+                        <div class="news-info">
+                            <div class="news-category">Health</div>
+                            <div class="news-date">May 9, 2025</div>
+                        </div>
+                        <div class="news-perspective center">Center View</div>
+                    </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Breakthrough in Alzheimer's Treatment Shows Promise in Clinical Trials</h3>
+                        <p class="news-summary">A new antibody treatment has shown a 42% reduction in cognitive decline in phase III clinical trials, representing the most promising advancement in Alzheimer's treatment in decades.</p>
+                        <img src="/api/placeholder/800/400" alt="Alzheimer's Research" class="news-image" />
+                        <div class="news-sources">
+                            <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
+                            <span class="news-source"><i class="fas fa-newspaper"></i> BBC</span>
+                            <span class="news-source"><i class="fas fa-flask"></i> New England Journal of Medicine</span>
+                        </div>
+                    </div>
+                    <div class="news-footer">
+                        <div class="news-related">
+                            <button class="related-perspective left">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Left View</span>
+                            </button>
+                            <button class="related-perspective right">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Right View</span>
+                            </button>
+                            <button class="related-perspective facts">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>Just the Facts</span>
+                            </button>
+                        </div>
+                        <button class="news-read-more">Read Full Analysis</button>
                     </div>
                 </div>
             </div>
             
-            <!-- ThoughtStream -->
-            <div class="thought-stream">
-                <!-- Thought Card 1 -->
-                <div class="thought-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=visionary" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">visionary_thinker</div>
-                                <div class="thought-time">2h ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Intellectual</div>
-                    </div>
-                    <div class="thought-content">
-                        <div class="depth-indicator">
-                            <div class="depth-dots">
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot"></span>
-                                <span class="depth-dot"></span>
-                            </div>
-                            <span class="depth-label">Thought-Provoking</span>
-                        </div>
-                        <p>We're experiencing a fascinating paradox: as our digital connections multiply, the value of genuine human interaction increases exponentially. This creates a new kind of social economy where authenticity becomes the true currency.</p>
-                        <div class="thought-tags">
-                            <span class="thought-tag">#DigitalParadox</span>
-                            <span class="thought-tag">#HumanConnection</span>
-                            <span class="thought-tag">#SocialEconomics</span>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-metrics">
-                            <span class="metric"><i class="fas fa-comment"></i> 42</span>
-                            <span class="metric"><i class="fas fa-retweet"></i> 128</span>
-                            <span class="metric"><i class="fas fa-eye"></i> 1.5k</span>
-                        </div>
-                        <div class="engagement-actions">
-                            <button class="engage-action elevate">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>Elevate</span>
-                            </button>
-                            <button class="engage-action amplify">
-                                <i class="fas fa-broadcast-tower"></i>
-                                <span>Amplify</span>
-                            </button>
-                            <button class="engage-action illuminate">
-                                <i class="fas fa-lightbulb"></i>
-                                <span>Illuminate</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-comment"></i>
-                                <span>Respond</span>
-                            </button>
-                        </div>
+            <!-- Archive Calendar -->
+            <div class="archive-calendar">
+                <div class="calendar-header">
+                    <h3 class="calendar-title">May 2025</h3>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-button">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="calendar-nav-button">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
                 </div>
-                
-                <!-- Thought Card 2 -->
-                <div class="thought-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=scientist" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">quantum_thinker</div>
-                                <div class="thought-time">4h ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Scientific</div>
-                    </div>
-                    <div class="thought-content">
-                        <div class="depth-indicator">
-                            <div class="depth-dots">
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot active"></span>
-                                <span class="depth-dot"></span>
-                            </div>
-                            <span class="depth-label">Insightful</span>
-                        </div>
-                        <p>The recent breakthrough in quantum materials offers a glimpse into how we might create self-healing infrastructure. By embedding engineered microorganisms into construction materials, we're essentially creating buildings that can repair themselves.</p>
-                        <div class="thought-media">
-                            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=quantum" alt="Quantum Illustration" class="thought-image">
-                        </div>
-                        <div class="thought-tags">
-                            <span class="thought-tag">#QuantumMaterials</span>
-                            <span class="thought-tag">#SelfHealing</span>
-                            <span class="thought-tag">#Biotechnology</span>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-metrics">
-                            <span class="metric"><i class="fas fa-comment"></i> 76</span>
-                            <span class="metric"><i class="fas fa-retweet"></i> 215</span>
-                            <span class="metric"><i class="fas fa-eye"></i> 3.2k</span>
-                        </div>
-                        <div class="engagement-actions">
-                            <button class="engage-action elevate active">
-                                <i class="fas fa-arrow-up"></i>
-                                <span>Elevate</span>
-                            </button>
-                            <button class="engage-action amplify">
-                                <i class="fas fa-broadcast-tower"></i>
-                                <span>Amplify</span>
-                            </button>
-                            <button class="engage-action illuminate active">
-                                <i class="fas fa-lightbulb"></i>
-                                <span>Illuminate</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-comment"></i>
-                                <span>Respond</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ThoughtMap Card -->
-                <div class="thought-card thought-map-card">
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=creator" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">mindmapper</div>
-                                <div class="thought-time">Yesterday</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag special">ThoughtMap</div>
-                    </div>
-                    <div class="thought-content">
-                        <h3 class="thought-map-title">The Future of Work: Connected Perspectives</h3>
-                        <div class="thought-map-preview">
-                            <div class="thought-map-container">
-                                <div class="map-node central">Remote Work</div>
-                                <div class="map-node connected-1">Productivity</div>
-                                <div class="map-node connected-2">Mental Health</div>
-                                <div class="map-node connected-3">Technology</div>
-                                <div class="map-node connected-4">Community</div>
-                                <div class="map-node connected-5">Sustainability</div>
-                            </div>
-                            <div class="thought-map-stats">
-                                <div class="map-stat"><i class="fas fa-sitemap"></i> 42 connected thoughts</div>
-                                <div class="map-stat"><i class="fas fa-users"></i> 18 contributors</div>
-                                <div class="map-stat"><i class="fas fa-eye"></i> 12.4k views</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-actions centered">
-                            <button class="engage-action special">
-                                <i class="fas fa-expand-alt"></i>
-                                <span>Explore Map</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-plus"></i>
-                                <span>Contribute</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Live Thought Space Card -->
-                <div class="thought-card live-space-card">
-                    <div class="live-indicator">
-                        <span class="pulse-dot"></span>
-                        <span class="live-text">LIVE NOW</span>
-                    </div>
-                    <div class="thought-meta">
-                        <div class="thought-author">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Author" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">future_visionary</div>
-                                <div class="thought-time">Started 28min ago</div>
-                            </div>
-                        </div>
-                        <div class="thought-dimension-tag">Live Space</div>
-                    </div>
-                    <div class="thought-content">
-                        <h3 class="live-space-title">Reimagining Creative Collaboration in Virtual Spaces</h3>
-                        <div class="live-space-participants">
-                            <div class="participant-avatars">
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=speaker" alt="Speaker">
-                                    <div class="speaking-indicator active"></div>
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=designer" alt="Designer">
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=engineer" alt="Engineer">
-                                </div>
-                                <div class="participant-avatar">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=artist" alt="Artist">
-                                </div>
-                            </div>
-                            <div class="participant-count">
-                                <i class="fas fa-user-friends"></i> 4 speakers • 238 listening
-                            </div>
-                        </div>
-                        <div class="live-transcript">
-                            <p><strong>future_visionary:</strong> ...when we remove physical constraints, we can reimagine collaboration entirely...</p>
-                            <p><strong>designer:</strong> Absolutely, and the spatial aspect becomes more conceptual than literal...</p>
-                        </div>
-                    </div>
-                    <div class="thought-engagement">
-                        <div class="engagement-actions centered">
-                            <button class="engage-action primary">
-                                <i class="fas fa-headphones"></i>
-                                <span>Join Space</span>
-                            </button>
-                            <button class="engage-action">
-                                <i class="fas fa-bell"></i>
-                                <span>Notify</span>
-                            </button>
-                        </div>
-                    </div>
+                <div class="calendar-grid">
+                    <div class="calendar-weekday">Sun</div>
+                    <div class="calendar-weekday">Mon</div>
+                    <div class="calendar-weekday">Tue</div>
+                    <div class="calendar-weekday">Wed</div>
+                    <div class="calendar-weekday">Thu</div>
+                    <div class="calendar-weekday">Fri</div>
+                    <div class="calendar-weekday">Sat</div>
+                    
+                    <div class="calendar-day inactive">27</div>
+                    <div class="calendar-day inactive">28</div>
+                    <div class="calendar-day inactive">29</div>
+                    <div class="calendar-day inactive">30</div>
+                    <div class="calendar-day">1</div>
+                    <div class="calendar-day">2</div>
+                    <div class="calendar-day">3</div>
+                    
+                    <div class="calendar-day">4</div>
+                    <div class="calendar-day">5</div>
+                    <div class="calendar-day has-news">6</div>
+                    <div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div>
+                    <div class="calendar-day has-news">9</div>
+                    <div class="calendar-day has-news">10</div>
+                    
+                    <div class="calendar-day">11</div>
+                    <div class="calendar-day today">12</div>
+                    <div class="calendar-day">13</div>
+                    <div class="calendar-day">14</div>
+                    <div class="calendar-day">15</div>
+                    <div class="calendar-day">16</div>
+                    <div class="calendar-day">17</div>
+                    
+                    <div class="calendar-day">18</div>
+                    <div class="calendar-day">19</div>
+                    <div class="calendar-day">20</div>
+                    <div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div>
+                    <div class="calendar-day">23</div>
+                    <div class="calendar-day">24</div>
+                    
+                    <div class="calendar-day">25</div>
+                    <div class="calendar-day">26</div>
+                    <div class="calendar-day">27</div>
+                    <div class="calendar-day">28</div>
+                    <div class="calendar-day">29</div>
+                    <div class="calendar-day">30</div>
+                    <div class="calendar-day">31</div>
                 </div>
             </div>
         </main>
-        
-        <!-- Notification Panel -->
-        <div class="notification-panel" id="notification-panel">
-            <div class="panel-header">
-                <h2 class="panel-title">Notifications</h2>
-                <button class="panel-close" id="close-notifications">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="notification-filters">
-                <button class="notification-filter active">All</button>
-                <button class="notification-filter">Mentions</button>
-                <button class="notification-filter">Responses</button>
-                <button class="notification-filter">Network</button>
-            </div>
-            <div class="notification-list">
-                <div class="notification-item unread">
-                    <div class="notification-icon illuminate">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>quantum_thinker</strong> and <strong>14 others</strong> illuminated your thought about digital paradoxes.</p>
-                        <span class="notification-time">12 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notification-item unread">
-                    <div class="notification-icon response">
-                        <i class="fas fa-reply"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>mindmapper</strong> responded to your thought: "This is exactly what I've been thinking about recently..."</p>
-                        <span class="notification-time">43 minutes ago</span>
-                    </div>
-                </div>
-                <div class="notification-item unread">
-                    <div class="notification-icon mention">
-                        <i class="fas fa-at"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>future_visionary</strong> mentioned you in a ThoughtMap about creativity.</p>
-                        <span class="notification-time">2 hours ago</span>
-                    </div>
-                </div>
-                <div class="notification-item">
-                    <div class="notification-icon network">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="notification-content">
-                        <p class="notification-text"><strong>creator_mind</strong> and <strong>8 others</strong> connected with you.</p>
-                        <span class="notification-time">Yesterday</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Tooltip -->
-        <div class="action-tooltip" id="action-tooltip">
-            <div class="tooltip-content">
-                <span class="tooltip-title">Elevate</span>
-                <span class="tooltip-description">Content that raises the conversation</span>
-            </div>
-        </div>
     </div>
 
-    <script src="index.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // DOM Elements
+        const floatingNav = document.getElementById('floating-nav');
+        const menuToggle = document.getElementById('menu-toggle');
+        const themeToggle = document.getElementById('theme-toggle');
+        const mainSidebar = document.getElementById('main-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const archiveToggle = document.getElementById('archive-toggle');
+        const archiveCalendar = document.querySelector('.archive-calendar');
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const perspectiveFilters = document.querySelectorAll('.perspective-filter');
+        const relatedPerspectives = document.querySelectorAll('.related-perspective');
+        const calendarDays = document.querySelectorAll('.calendar-day');
+        
+        // Initialize theme from localStorage
+        initTheme();
+        
+        // Event Listeners
+        // Toggle sidebar
+        menuToggle.addEventListener('click', toggleSidebar);
+        closeSidebar.addEventListener('click', toggleSidebar);
+        
+        // Toggle theme
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        // Toggle archive calendar
+        archiveToggle.addEventListener('click', toggleArchiveCalendar);
+        
+        // Filter options
+        filterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                filterContent();
+            });
+        });
+        
+        // Perspective filters
+        perspectiveFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                perspectiveFilters.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                filterByPerspective(this.classList.contains('left') ? 'left' : 
+                                   this.classList.contains('right') ? 'right' : 
+                                   this.classList.contains('center') ? 'center' : 
+                                   this.classList.contains('facts') ? 'facts' : 'all');
+            });
+        });
+        
+        // Related perspective buttons
+        relatedPerspectives.forEach(button => {
+            button.addEventListener('click', function() {
+                const perspective = this.classList.contains('left') ? 'left' : 
+                                   this.classList.contains('right') ? 'right' : 
+                                   this.classList.contains('center') ? 'center' : 'facts';
+                
+                // Find the corresponding perspective filter and click it
+                document.querySelector(`.perspective-filter.${perspective}`).click();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+        
+        // Calendar days
+        calendarDays.forEach(day => {
+            day.addEventListener('click', function() {
+                if (!this.classList.contains('inactive')) {
+                    calendarDays.forEach(d => d.classList.remove('selected'));
+                    this.classList.add('selected');
+                    filterByDate(this.textContent);
+                }
+            });
+        });
+        
+        // Close panels when clicking outside
+        document.addEventListener('click', function(e) {
+            // Close sidebar when clicking outside
+            if (mainSidebar.classList.contains('active') && 
+                !mainSidebar.contains(e.target) && 
+                !menuToggle.contains(e.target)) {
+                toggleSidebar();
+            }
+        });
+        
+        // Scroll handling for floating nav
+        window.addEventListener('scroll', handleScroll);
+        
+        // Functions
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        function toggleTheme() {
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        function toggleSidebar() {
+            mainSidebar.classList.toggle('active');
+        }
+        
+        function toggleArchiveCalendar() {
+            archiveCalendar.style.display = archiveCalendar.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function filterContent() {
+            // In a real app, we'd filter the content based on the selected filters
+            // For demo purposes, we'll just log the active filters
+            const activeFilters = [];
+            document.querySelectorAll('.filter-option.active').forEach(filter => {
+                activeFilters.push(filter.textContent);
+            });
+            console.log('Active filters:', activeFilters);
+        }
+        
+        function filterByPerspective(perspective) {
+            // In a real app, we'd filter the content based on the selected perspective
+            // For demo purposes, we'll just log the active perspective
+            console.log('Active perspective:', perspective);
+            
+            // Simple animation for filtered cards
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                card.style.opacity = '0.5';
+                card.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(-3px)';
+                }, 300);
+            });
+        }
+        
+        function filterByDate(date) {
+            // In a real app, we'd filter the content based on the selected date
+            // For demo purposes, we'll just log the selected date
+            console.log('Selected date:', date);
+        }
+        
+        function handleScroll() {
+            if (window.scrollY > 20) {
+                floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                    ? 'rgba(30, 41, 59, 0.95)' 
+                    : 'rgba(255, 255, 255, 0.95)';
+            } else {
+                floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
+                    ? 'rgba(30, 41, 59, 0.8)' 
+                    : 'rgba(255, 255, 255, 0.8)';
+            }
+        }
+    });
+    </script>
 </body>
-</html>
+</html
