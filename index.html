@@ -1,1277 +1,747 @@
-/* Toast */
-    .toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        z-index: 1000;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        max-width: 90%;
-    }
-    
-    .dark-mode .toast {
-        background-color: #1E293B;
-        color: #F1F5F9;
-    }
-    
-    .toast.active {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-    
-    .toast-icon {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
-    
-    .toast.info .toast-icon {
-        background-color: rgba(34, 211, 238, 0.1);
-        color: #22D3EE;
-    }
-    
-    .toast.success .toast-icon {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: #10B981;
-    }
-    
-    .toast.error .toast-icon {
-        background-color: rgba(244, 63, 94, 0.1);
-        color: #F43F5E;
-    }
-    
-    .toast.warning .toast-icon {
-        background-color: rgba(245, 158, 11, 0.1);
-        color: #F59E0B;
-    }
-    
-    .toast-message {
-        flex: 1;
-        font-weight: 500;
-    }
-    
-    .toast-close {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        cursor: pointer;
-        color: #6B7280;
-    }
-    
-    .dark-mode .toast-close {
-        color: #94A3B8;
-    }
-    
-    .toast-close:hover {
-        background-color: #F3F4F6;
-    }
-    
-    .dark-mode .toast-close:hover {
-        background-color: #334155;
-    }        // Toggle search panel
-        const searchToggle = document.getElementById('search-toggle');
-        const searchPanel = document.getElementById('search-panel');
-        
-        searchToggle.addEventListener('click', toggleSearchPanel);
-        
-        function toggleSearchPanel() {
-            searchPanel.classList.toggle('active');
-            
-            if (searchPanel.classList.contains('active')) {
-                // Focus the search input
-                document.querySelector('.search-input').focus();
-                
-                // Close the sidebar if it's open
-                if (mainSidebar.classList.contains('active')) {
-                    toggleSidebar();
-                }
-            }
-        }
-        
-        // Search filter options
-        const searchFilterOptions = document.querySelectorAll('.search-filter-option');
-        searchFilterOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                if (this.textContent === 'More...') {
-                    // In a real app, we'd show more options
-                    return;
-                }
-                
-                if (this.textContent.includes('All')) {
-                    // If "All" option is selected, deactivate all other options in this group
-                    const group = this.closest('.search-filter-options');
-                    group.querySelectorAll('.search-filter-option').forEach(opt => {
-                        opt.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                } else {
-                    // If a specific option is selected, deactivate the "All" option
-                    const group = this.closest('.search-filter-options');
-                    const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => opt.textContent.includes('All'));
-                    if (allOption) {
-                        allOption.classList.remove('active');
-                    }
-                    
-                    // Toggle this option
-                    this.classList.toggle('active');
-                    
-                    // If no options are selected, activate the "All" option
-                    const activeOptions = group.querySelectorAll('.search-filter-option.active');
-                    if (activeOptions.length === 0 && allOption) {
-                        allOption.classList.add('active');
-                    }
-                }
-            });
-        });
-        
-        // Search reset button
-        document.querySelector('.search-reset').addEventListener('click', function() {
-            // Reset all filter options
-            document.querySelectorAll('.search-filter-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            // Activate "All" options
-            document.querySelectorAll('.search-filter-options').forEach(group => {
-                const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => opt.textContent.includes('All'));
-                if (allOption) {
-                    allOption.classList.add('active');
-                }
-            });
-            
-            // Clear date inputs
-            document.querySelectorAll('.search-date-input').forEach(input => {
-                input.value = '';
-            });
-            
-            // Clear search input
-            document.querySelector('.search-input').value = '';
-        });
-        
-        // Search submit button
-        document.querySelector('.search-submit').addEventListener('click', function() {
-            // Get the search query
-            const searchQuery = document.querySelector('.search-input').value;
-            
-            // Get active source filters
-            const activeSources = [];
-            document.querySelectorAll('.search-filter-options:nth-of-type(1) .search-filter-option.active').forEach(option => {
-                activeSources.push(option.textContent);
-            });
-            
-            // Get active category filters
-            const activeCategories = [];
-            document.querySelectorAll('.search-filter-options:nth-of-type(2) .search-filter-option.active').forEach(option => {
-                activeCategories.push(option.textContent);
-            });
-            
-            // Get date range
-            const dateInputs = document.querySelectorAll('.search-date-input');
-            const startDate = dateInputs[0].value;
-            const endDate = dateInputs[1].value;
-            
-            // Log the search parameters (in a real app, we'd perform the search here)
-            console.log('Search query:', searchQuery);
-            console.log('Sources:', activeSources);
-            console.log('Categories:', activeCategories);
-            console.log('Date range:', startDate, 'to', endDate);
-            
-            // Close the search panel after submitting
-            toggleSearchPanel();
-            
-            // Simulate search results loading
-            const newsCards = document.querySelectorAll('.news-card');
-            newsCards.forEach(card => {
-                card.style.opacity = '0.5';
-                card.style.transform = 'scale(0.98)';
-            });
-            
-            setTimeout(() => {
-                newsCards.forEach(card => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(-3px)';
-                });
-                
-                // Show a toast message
-                showToast('Search results updated', 'success');
-            }, 500);
-        });
-        
-        // Close search panel when clicking outside
-        document.addEventListener('click', function(e) {
-            if (searchPanel.classList.contains('active') && 
-                !searchPanel.contains(e.target) && 
-                !searchToggle.contains(e.target)) {
-                toggleSearchPanel();
-            }
-        });
-        
-        // Close search panel when pressing Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && searchPanel.classList.contains('active')) {
-                toggleSearchPanel();
-            }
-        });    /* Search Panel */
-    .search-panel {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background-color: var(--white);
-        box-shadow: var(--shadow-lg);
-        z-index: var(--z-dropdown);
-        padding: var(--space-6) var(--space-4);
-        transform: translateY(-100%);
-        transition: transform var(--transition-normal);
-        overflow-y: auto;
-        max-height: 80vh;
-    }
-    
-    .dark-mode .search-panel {
-        background-color: var(--dark-card);
-    }
-    
-    .search-panel.active {
-        transform: translateY(0);
-    }
-    
-    .search-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-4);
-    }
-    
-    .search-input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
-        border: 2px solid var(--primary);
-        border-radius: var(--radius-lg);
-        font-size: 18px;
-        outline: none;
-        background-color: var(--white);
-        color: var(--light-text);
-        transition: all var(--transition-fast);
-    }
-    
-    .dark-mode .search-input {
-        background-color: var(--dark-surface);
-        color: var(--dark-text);
-        border-color: var(--primary-dark);
-    }
-    
-    .search-input:focus {
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
-    }
-    
-    .search-button {
-        position: absolute;
-        right: var(--space-3);
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-full);
-        background-color: var(--primary);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all var(--transition-fast);
-    }
-    
-    .search-button:hover {
-        background-color: var(--primary-dark);
-        transform: scale(1.05);
-    }
-    
-    .search-filters {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-4);
-    }
-    
-    .search-filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-2);
-    }
-    
-    .search-filter-label {
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--light-text-secondary);
-    }
-    
-    .dark-mode .search-filter-label {
-        color: var(--dark-text-secondary);
-    }
-    
-    .search-filter-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-    }
-    
-    .search-filter-option {
-        padding: var(--space-2) var(--space-3);
-        border-radius: var(--radius-full);
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        font-size: 14px;
-        cursor: pointer;
-        transition: all var(--transition-fast);
-    }
-    
-    .dark-mode .search-filter-option {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-    
-    .search-filter-option:hover {
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-    }
-    
-    .search-filter-option.active {
-        background-color: var(--primary);
-        color: white;
-    }
-    
-    .search-date-range {
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-    }
-    
-    .search-date-input {
-        padding: var(--space-2) var(--space-3);
-        border: 1px solid var(--light-border);
-        border-radius: var(--radius-md);
-        background-color: var(--white);
-        color: var(--light-text);
-        font-size: 14px;
-        outline: none;
-    }
-    
-    .dark-mode .search-date-input {
-        background-color: var(--dark-surface);
-        color: var(--dark-text);
-        border-color: var(--dark-border);
-    }
-    
-    .search-date-separator {
-        color: var(--light-text-secondary);
-    }
-    
-    .dark-mode .search-date-separator {
-        color: var(--dark-text-secondary);
-    }
-    
-    .search-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--space-3);
-    }
-    
-    .search-reset {
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-md);
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        font-weight: 500;
-        transition: all var(--transition-fast);
-    }
-    
-    .dark-mode .search-reset {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-    
-    .search-reset:hover {
-        background-color: var(--light-border);
-    }
-    
-    .dark-mode .search-reset:hover {
-        background-color: var(--dark-border);
-    }
-    
-    .search-submit {
-        padding: var(--space-2) var(--space-6);
-        border-radius: var(--radius-md);
-        background-color: var(--primary);
-        color: white;
-        font-weight: 600;
-        transition: all var(--transition-fast);
-    }
-    
-    .search-submit:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
-    }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perspectify - Multiple Perspectives News</title>
+    <title>News Site with Working Search</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-    :root {
-        /* Core Brand Colors */
-        --primary: #6366F1;
-        --primary-dark: #4F46E5;
-        --primary-light: #818CF8;
-        --secondary: #22D3EE;
-        --tertiary: #F43F5E;
-        --quaternary: #10B981;
-        --quinary: #F59E0B;
-        
-        /* Perspective Colors */
-        --perspective-left: #3B82F6;
-        --perspective-right: #EF4444;
-        --perspective-center: #8B5CF6;
-        --perspective-facts: #10B981;
-        
-        /* Functional Colors */
-        --success: #10B981;
-        --warning: #F59E0B;
-        --error: #F43F5E;
-        --info: #22D3EE;
-        
-        /* Neutrals */
-        --white: #FFFFFF;
-        --gray-50: #F9FAFB;
-        --gray-100: #F3F4F6;
-        --gray-200: #E5E7EB;
-        --gray-300: #D1D5DB;
-        --gray-400: #9CA3AF;
-        --gray-500: #6B7280;
-        --gray-600: #4B5563;
-        --gray-700: #374151;
-        --gray-800: #1F2937;
-        --gray-900: #111827;
-        --black: #000000;
-        
-        /* Theme Colors - Light */
-        --light-bg: #F9FAFB;
-        --light-card: #FFFFFF;
-        --light-surface: #F3F4F6;
-        --light-border: #E5E7EB;
-        --light-text: #111827;
-        --light-text-secondary: #4B5563;
-        --light-icon: #6B7280;
-        
-        /* Theme Colors - Dark */
-        --dark-bg: #0F172A;
-        --dark-card: #1E293B;
-        --dark-surface: #334155;
-        --dark-border: #475569;
-        --dark-text: #F1F5F9;
-        --dark-text-secondary: #94A3B8;
-        --dark-icon: #94A3B8;
-        
-        /* Dimensions */
-        --header-height: 80px;
-        --floating-nav-height: 64px;
-        --sidebar-width: 280px;
-        
-        /* Typography */
-        --font-primary: 'Inter', sans-serif;
-        --font-secondary: 'Poppins', sans-serif;
-        
-        /* Transitions */
-        --transition-fast: 150ms ease;
-        --transition-normal: 300ms ease;
-        --transition-slow: 500ms ease;
-        
-        /* Shadows */
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        
-        /* Z-index layers */
-        --z-floating-nav: 100;
-        --z-sidebar: 90;
-        --z-dropdown: 110;
-        --z-modal: 200;
-        --z-toast: 300;
-        --z-tooltip: 400;
-        
-        /* Border radius */
-        --radius-sm: 4px;
-        --radius-md: 8px;
-        --radius-lg: 12px;
-        --radius-xl: 16px;
-        --radius-full: 9999px;
-        
-        /* Spacing */
-        --space-1: 4px;
-        --space-2: 8px;
-        --space-3: 12px;
-        --space-4: 16px;
-        --space-5: 20px;
-        --space-6: 24px;
-        --space-8: 32px;
-        --space-10: 40px;
-        --space-12: 48px;
-        --space-16: 64px;
-        --space-20: 80px;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: var(--font-secondary);
-        font-size: 16px;
-        line-height: 1.5;
-        transition: background-color 0.3s, color 0.3s;
-        background-color: var(--light-bg);
-        color: var(--light-text);
-    }
-
-    body.dark-mode {
-        background-color: var(--dark-bg);
-        color: var(--dark-text);
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-primary);
-        font-weight: 700;
-        line-height: 1.2;
-    }
-
-    a {
-        text-decoration: none;
-        color: inherit;
-        transition: color 0.2s;
-    }
-
-    button {
-        cursor: pointer;
-        font-family: var(--font-primary);
-        border: none;
-        background: none;
-        transition: all 0.2s;
-    }
-
-    ul {
-        list-style: none;
-    }
-
-    input, textarea, select {
-        font-family: var(--font-secondary);
-        font-size: 16px;
-    }
-
-    /* App Container */
-    .app-container {
-        min-height: 100vh;
-        position: relative;
-    }
-
-    /* Floating Navigation */
-    .floating-nav {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        right: 20px;
-        height: var(--floating-nav-height);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        z-index: var(--z-floating-nav);
-        backdrop-filter: blur(8px);
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: var(--radius-full);
-        padding: 0 var(--space-4);
-        box-shadow: var(--shadow-md);
-        transition: all var(--transition-normal);
-    }
-
-    .dark-mode .floating-nav {
-        background-color: rgba(30, 41, 59, 0.8);
-    }
-
-    .nav-section {
-        display: flex;
-        align-items: center;
-        gap: var(--space-3);
-    }
-
-    .main-actions {
-        justify-content: flex-start;
-    }
-
-    .logo-section {
-        flex: 1;
-        justify-content: center;
-    }
-
-    .user-section {
-        justify-content: flex-end;
-    }
-
-    .platform-logo {
-        font-family: var(--font-primary);
-        font-size: 24px;
-        font-weight: 800;
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-full);
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .nav-action-button {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-full);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--light-icon);
-        background-color: var(--white);
-        box-shadow: var(--shadow-sm);
-        font-size: 18px;
-        transition: all var(--transition-fast);
-    }
-
-    .dark-mode .nav-action-button {
-        color: var(--dark-icon);
-        background-color: var(--dark-surface);
-    }
-
-    .nav-action-button:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        color: var(--primary);
-    }
-
-    /* Main Sidebar */
-    .main-sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: var(--sidebar-width);
-        background-color: var(--white);
-        z-index: var(--z-sidebar);
-        display: flex;
-        flex-direction: column;
-        box-shadow: var(--shadow-lg);
-        transform: translateX(-100%);
-        transition: transform var(--transition-normal);
-    }
-
-    .dark-mode .main-sidebar {
-        background-color: var(--dark-card);
-    }
-
-    .main-sidebar.active {
-        transform: translateX(0);
-    }
-
-    .sidebar-header {
-        padding: var(--space-6) var(--space-4);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--light-border);
-    }
-
-    .dark-mode .sidebar-header {
-        border-color: var(--dark-border);
-    }
-
-    .sidebar-logo {
-        font-family: var(--font-primary);
-        font-size: 24px;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .close-sidebar {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-full);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--light-icon);
-        font-size: 20px;
-    }
-
-    .dark-mode .close-sidebar {
-        color: var(--dark-icon);
-    }
-
-    .close-sidebar:hover {
-        background-color: var(--light-surface);
-        color: var(--tertiary);
-    }
-
-    .dark-mode .close-sidebar:hover {
-        background-color: var(--dark-surface);
-    }
-
-    .sidebar-content {
-        flex: 1;
-        overflow-y: auto;
-        padding: var(--space-4);
-    }
-
-    .nav-group {
-        margin-bottom: var(--space-6);
-    }
-
-    .nav-group-title {
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--light-text-secondary);
-        margin-bottom: var(--space-2);
-        padding: 0 var(--space-2);
-    }
-
-    .dark-mode .nav-group-title {
-        color: var(--dark-text-secondary);
-    }
-
-    .nav-link {
-        display: flex;
-        align-items: center;
-        padding: var(--space-3) var(--space-2);
-        border-radius: var(--radius-md);
-        color: var(--light-text);
-        margin-bottom: var(--space-1);
-        font-weight: 500;
-    }
-
-    .dark-mode .nav-link {
-        color: var(--dark-text);
-    }
-
-    .nav-link i, .nav-link .space-icon {
-        width: 28px;
-        height: 28px;
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: var(--space-3);
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        font-size: 14px;
-    }
-
-    .dark-mode .nav-link i, .dark-mode .nav-link .space-icon {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-
-    .nav-link:hover {
-        background-color: var(--light-surface);
-    }
-
-    .dark-mode .nav-link:hover {
-        background-color: var(--dark-surface);
-    }
-
-    .nav-link.active {
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-        font-weight: 600;
-    }
-
-    .dark-mode .nav-link.active {
-        background-color: rgba(99, 102, 241, 0.2);
-        color: var(--primary-light);
-    }
-
-    .nav-link.active i, .nav-link.active .space-icon {
-        background-color: var(--primary);
-        color: white;
-    }
-
-    /* Main Content */
-    .main-content {
-        padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-
-    /* Category Bar */
-    .category-bar {
-        display: flex;
-        overflow-x: auto;
-        gap: var(--space-2);
-        margin-bottom: var(--space-6);
-        padding-bottom: var(--space-2);
-        border-bottom: 1px solid var(--light-border);
-        scrollbar-width: thin;
-    }
-    
-    .category-bar::-webkit-scrollbar {
-        height: 4px;
-    }
-    
-    .category-bar::-webkit-scrollbar-track {
-        background: var(--light-surface);
-        border-radius: var(--radius-full);
-    }
-    
-    .dark-mode .category-bar::-webkit-scrollbar-track {
-        background: var(--dark-surface);
-    }
-    
-    .category-bar::-webkit-scrollbar-thumb {
-        background-color: var(--gray-300);
-        border-radius: var(--radius-full);
-    }
-    
-    .dark-mode .category-bar::-webkit-scrollbar-thumb {
-        background-color: var(--gray-600);
-    }
-
-    .dark-mode .category-bar {
-        border-color: var(--dark-border);
-    }
-
-    .category-tab {
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 500;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-        transition: all var(--transition-fast);
-        color: var(--light-text-secondary);
-        background-color: var(--light-surface);
-    }
-
-    .dark-mode .category-tab {
-        color: var(--dark-text-secondary);
-        background-color: var(--dark-surface);
-    }
-
-    .category-tab:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .category-tab.active {
-        background-color: var(--primary);
-        color: white;
-    }
-    
-    /* Category-specific colors */
-    .category-tab.politics:hover:not(.active) {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--perspective-left);
-    }
-    
-    .category-tab.sports:hover:not(.active) {
-        background-color: rgba(245, 158, 11, 0.1);
-        color: var(--quinary);
-    }
-    
-    .category-tab.science:hover:not(.active) {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: var(--perspective-facts);
-    }
-    
-    .category-tab.health:hover:not(.active) {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--perspective-right);
-    }
-    
-    .category-tab.living:hover:not(.active) {
-        background-color: rgba(139, 92, 246, 0.1);
-        color: var(--perspective-center);
-    }
-
-    /* News Cards */
-    .news-stream {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-6);
-    }
-
-    .news-card {
-        background-color: var(--white);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-md);
-        transition: all var(--transition-fast);
-    }
-
-    .dark-mode .news-card {
-        background-color: var(--dark-card);
-    }
-
-    .news-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .news-meta {
-        padding: var(--space-4);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--light-border);
-    }
-
-    .dark-mode .news-meta {
-        border-color: var(--dark-border);
-    }
-
-    .news-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .news-category {
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        color: var(--primary);
-        margin-bottom: var(--space-1);
-    }
-
-    .news-date {
-        font-size: 12px;
-        color: var(--light-text-secondary);
-    }
-
-    .dark-mode .news-date {
-        color: var(--dark-text-secondary);
-    }
-    
-    .news-sources {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-    }
-
-    .news-source {
-        font-size: 12px;
-        font-weight: 500;
-        padding: var(--space-1) var(--space-2);
-        border-radius: var(--radius-full);
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        display: flex;
-        align-items: center;
-        gap: var(--space-1);
-    }
-
-    .dark-mode .news-source {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-
-    .news-content {
-        padding: var(--space-4);
-    }
-
-    .news-title {
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: var(--space-3);
-    }
-
-    .news-summary {
-        color: var(--light-text-secondary);
-        margin-bottom: var(--space-4);
-    }
-
-    .dark-mode .news-summary {
-        color: var(--dark-text-secondary);
-    }
-
-    .news-image {
-        width: 100%;
-        max-height: 300px;
-        object-fit: cover;
-        border-radius: var(--radius-md);
-        margin-bottom: var(--space-4);
-    }
-
-    .news-footer {
-        padding: var(--space-4);
-        border-top: 1px solid var(--light-border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .dark-mode .news-footer {
-        border-color: var(--dark-border);
-    }
-    
-    .news-meta-info {
-        display: flex;
-        gap: var(--space-4);
-    }
-    
-    .news-source-count, .news-read-time {
-        font-size: 14px;
-        color: var(--light-text-secondary);
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-    }
-    
-    .dark-mode .news-source-count, .dark-mode .news-read-time {
-        color: var(--dark-text-secondary);
-    }
-
-    .news-read-more {
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-full);
-        background-color: var(--primary);
-        color: white;
-        font-weight: 600;
-        transition: all var(--transition-fast);
-    }
-
-    .news-read-more:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
-    }
-
-    /* Archive Calendar */
-    .archive-calendar {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: var(--z-modal);
-        background-color: var(--white);
-        border-radius: var(--radius-lg);
-        padding: var(--space-4);
-        box-shadow: var(--shadow-xl);
-        max-width: 400px;
-        width: 90%;
-        animation: fadeIn 0.3s ease;
-    }
-
-    .dark-mode .archive-calendar {
-        background-color: var(--dark-card);
-    }
-
-    .calendar-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--space-4);
-    }
-
-    .calendar-title {
-        font-size: 18px;
-        font-weight: 700;
-    }
-
-    .calendar-nav {
-        display: flex;
-        gap: var(--space-2);
-    }
-
-    .calendar-nav-button, .calendar-close {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--radius-full);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        transition: all var(--transition-fast);
-    }
-
-    .dark-mode .calendar-nav-button, .dark-mode .calendar-close {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-
-    .calendar-nav-button:hover {
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-    }
-
-    .calendar-close:hover {
-        background-color: rgba(244, 63, 94, 0.1);
-        color: var(--tertiary);
-    }
-
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: var(--space-2);
-    }
-
-    .calendar-weekday {
-        text-align: center;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--light-text-secondary);
-        margin-bottom: var(--space-2);
-    }
-
-    .dark-mode .calendar-weekday {
-        color: var(--dark-text-secondary);
-    }
-
-    .calendar-day {
-        aspect-ratio: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: var(--radius-md);
-        font-size: 14px;
-        font-weight: 500;
-        transition: all var(--transition-fast);
-    }
-
-    .calendar-day:hover:not(.inactive) {
-        background-color: var(--light-surface);
-        cursor: pointer;
-    }
-
-    .dark-mode .calendar-day:hover:not(.inactive) {
-        background-color: var(--dark-surface);
-    }
-
-    .calendar-day.has-news {
-        background-color: rgba(99, 102, 241, 0.1);
-        color: var(--primary);
-        font-weight: 600;
-    }
-
-    .calendar-day.has-news:hover {
-        background-color: rgba(99, 102, 241, 0.2);
-    }
-
-    .calendar-day.today {
-        background-color: var(--primary);
-        color: white;
-    }
-
-    .calendar-day.inactive {
-        color: var(--gray-300);
-    }
-
-    .dark-mode .calendar-day.inactive {
-        color: var(--gray-600);
-    }
-    
-    /* Modal overlay */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: var(--z-modal) - 1;
-        backdrop-filter: blur(2px);
-        animation: fadeIn 0.3s ease;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
+        :root {
+            /* Core Brand Colors */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #22D3EE;
+            --tertiary: #F43F5E;
+            --quaternary: #10B981;
+            --quinary: #F59E0B;
+            
+            /* Functional Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #F43F5E;
+            --info: #22D3EE;
+            
+            /* Neutrals */
+            --white: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --black: #000000;
+            
+            /* Theme Colors - Light */
+            --light-bg: #F9FAFB;
+            --light-card: #FFFFFF;
+            --light-surface: #F3F4F6;
+            --light-border: #E5E7EB;
+            --light-text: #111827;
+            --light-text-secondary: #4B5563;
+            --light-icon: #6B7280;
+            
+            /* Theme Colors - Dark */
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --dark-surface: #334155;
+            --dark-border: #475569;
+            --dark-text: #F1F5F9;
+            --dark-text-secondary: #94A3B8;
+            --dark-icon: #94A3B8;
+            
+            /* Dimensions */
+            --floating-nav-height: 64px;
+            
+            /* Typography */
+            --font-primary: 'Inter', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Z-index layers */
+            --z-floating-nav: 100;
+            --z-dropdown: 110;
+            --z-toast: 300;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: var(--font-primary);
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+
+        /* Floating Navigation */
         .floating-nav {
-            bottom: 20px;
-            top: auto;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: var(--floating-nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: var(--z-floating-nav);
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-full);
+            padding: 0 var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
         }
-        
+
+        .dark-mode .floating-nav {
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .main-actions {
+            justify-content: flex-start;
+        }
+
+        .logo-section {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .user-section {
+            justify-content: flex-end;
+        }
+
+        .platform-logo {
+            font-family: var(--font-primary);
+            font-size: 24px;
+            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-action-button {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-icon);
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            font-size: 18px;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .nav-action-button {
+            color: var(--dark-icon);
+            background-color: var(--dark-surface);
+        }
+
+        .nav-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--primary);
+        }
+
+        /* Main Content */
         .main-content {
-            padding-bottom: calc(var(--floating-nav-height) + 40px);
+            padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        
-        .filter-options {
+
+        /* Category Bar */
+        .category-bar {
+            display: flex;
             overflow-x: auto;
-            flex-wrap: nowrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
             padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--light-border);
+            scrollbar-width: thin;
         }
         
-        .filter-options::-webkit-scrollbar {
-            display: none;
+        .category-bar::-webkit-scrollbar {
+            height: 4px;
         }
         
-        .news-meta {
+        .category-bar::-webkit-scrollbar-track {
+            background: var(--light-surface);
+            border-radius: var(--radius-full);
+        }
+        
+        .dark-mode .category-bar::-webkit-scrollbar-track {
+            background: var(--dark-surface);
+        }
+        
+        .category-bar::-webkit-scrollbar-thumb {
+            background-color: var(--gray-300);
+            border-radius: var(--radius-full);
+        }
+        
+        .dark-mode .category-bar::-webkit-scrollbar-thumb {
+            background-color: var(--gray-600);
+        }
+
+        .dark-mode .category-bar {
+            border-color: var(--dark-border);
+        }
+
+        .category-tab {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            transition: all var(--transition-fast);
+            color: var(--light-text-secondary);
+            background-color: var(--light-surface);
+        }
+
+        .dark-mode .category-tab {
+            color: var(--dark-text-secondary);
+            background-color: var(--dark-surface);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* News Cards */
+        .news-stream {
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            gap: var(--space-6);
+        }
+
+        .news-card {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .news-card {
+            background-color: var(--dark-card);
+        }
+
+        .news-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .news-meta {
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .news-meta {
+            border-color: var(--dark-border);
+        }
+
+        .news-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-category {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .news-date {
+            color: var(--dark-text-secondary);
+        }
+        
+        .news-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .news-source {
+            font-size: 12px;
+            font-weight: 500;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .dark-mode .news-source {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
+        }
+
+        .news-content {
+            padding: var(--space-4);
+        }
+
+        .news-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: var(--space-3);
+        }
+
+        .news-summary {
+            color: var(--light-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .news-summary {
+            color: var(--dark-text-secondary);
+        }
+
+        .news-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+        }
+
+        .news-footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--light-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .news-footer {
+            border-color: var(--dark-border);
+        }
+        
+        .news-meta-info {
+            display: flex;
+            gap: var(--space-4);
+        }
+        
+        .news-source-count, .news-read-time {
+            font-size: 14px;
+            color: var(--light-text-secondary);
+            display: flex;
+            align-items: center;
             gap: var(--space-2);
         }
         
-        .news-footer {
+        .dark-mode .news-source-count, .dark-mode .news-read-time {
+            color: var(--dark-text-secondary);
+        }
+
+        .news-read-more {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .news-read-more:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Search Panel */
+        .search-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-dropdown);
+            padding: var(--space-6) var(--space-4);
+            transform: translateY(-100%);
+            transition: transform var(--transition-normal);
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+        
+        .dark-mode .search-panel {
+            background-color: var(--dark-card);
+        }
+        
+        .search-panel.active {
+            transform: translateY(0);
+        }
+        
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
             flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-lg);
+            font-size: 18px;
+            outline: none;
+            background-color: var(--white);
+            color: var(--light-text);
+            transition: all var(--transition-fast);
+        }
+        
+        .dark-mode .search-input {
+            background-color: var(--dark-surface);
+            color: var(--dark-text);
+            border-color: var(--primary-dark);
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        
+        .search-button {
+            position: absolute;
+            right: var(--space-3);
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        .search-filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .search-filter-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--light-text-secondary);
+        }
+        
+        .dark-mode .search-filter-label {
+            color: var(--dark-text-secondary);
+        }
+        
+        .search-filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+        
+        .search-filter-option {
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .dark-mode .search-filter-option {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
+        }
+        
+        .search-filter-option:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .search-filter-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .search-date-range {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .search-date-input {
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius-md);
+            background-color: var(--white);
+            color: var(--light-text);
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .dark-mode .search-date-input {
+            background-color: var(--dark-surface);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+        
+        .search-date-separator {
+            color: var(--light-text-secondary);
+        }
+        
+        .dark-mode .search-date-separator {
+            color: var(--dark-text-secondary);
+        }
+        
+        .search-actions {
+            display: flex;
+            justify-content: flex-end;
             gap: var(--space-3);
         }
         
-        .news-related {
-            overflow-x: auto;
-            padding-bottom: var(--space-2);
+        .search-reset {
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            font-weight: 500;
+            transition: all var(--transition-fast);
         }
         
-        .news-related::-webkit-scrollbar {
-            display: none;
+        .dark-mode .search-reset {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
         }
-    }
+        
+        .search-reset:hover {
+            background-color: var(--light-border);
+        }
+        
+        .dark-mode .search-reset:hover {
+            background-color: var(--dark-border);
+        }
+        
+        .search-submit {
+            padding: var(--space-2) var(--space-6);
+            border-radius: var(--radius-md);
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+        
+        .search-submit:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
 
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 90%;
+        }
+        
+        .dark-mode .toast {
+            background-color: #1E293B;
+            color: #F1F5F9;
+        }
+        
+        .toast.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .toast.info .toast-icon {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: #22D3EE;
+        }
+        
+        .toast.success .toast-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        
+        .toast.error .toast-icon {
+            background-color: rgba(244, 63, 94, 0.1);
+            color: #F43F5E;
+        }
+        
+        .toast.warning .toast-icon {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+        
+        .toast-message {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .toast-close {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #6B7280;
+        }
+        
+        .dark-mode .toast-close {
+            color: #94A3B8;
+        }
+        
+        .toast-close:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .dark-mode .toast-close:hover {
+            background-color: #334155;
+        }
 
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .news-meta,
+            .news-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-3);
+            }
+            
+            .news-footer .news-meta-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .news-footer .news-read-more {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1282,10 +752,10 @@
                 <button class="nav-action-button" id="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <button class="nav-action-button search-toggle" id="search-toggle">
+                <button class="nav-action-button" id="search-toggle">
                     <i class="fas fa-search"></i>
                 </button>
-                <button class="nav-action-button theme-toggle" id="theme-toggle">
+                <button class="nav-action-button" id="theme-toggle">
                     <i class="fas fa-moon"></i>
                 </button>
             </div>
@@ -1293,7 +763,7 @@
                 <div class="platform-logo">P</div>
             </div>
             <div class="nav-section user-section">
-                <!-- Empty section to balance the layout -->
+                <!-- Empty section for balance -->
             </div>
         </nav>
         
@@ -1369,78 +839,9 @@
             </div>
         </div>
 
-        <!-- Main Sidebar -->
-        <aside class="main-sidebar" id="main-sidebar">
-            <div class="sidebar-header">
-                <h1 class="sidebar-logo">perspectify</h1>
-                <button class="close-sidebar" id="close-sidebar">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="sidebar-content">
-                <div class="nav-group">
-                    <h2 class="nav-group-title">Navigate</h2>
-                    <a href="#" class="nav-link active">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-fire"></i>
-                        <span>Trending</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-clock"></i>
-                        <span>Recent</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-archive"></i>
-                        <span>Archives</span>
-                    </a>
-                </div>
-                <div class="nav-group">
-                    <h2 class="nav-group-title">Categories</h2>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-landmark"></i>
-                        <span>Politics</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-futbol"></i>
-                        <span>Sports</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-flask"></i>
-                        <span>Science</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-home"></i>
-                        <span>Home & Living</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>Health</span>
-                    </a>
-                </div>
-                <div class="nav-group">
-                    <h2 class="nav-group-title">About</h2>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-info-circle"></i>
-                        <span>About Perspectify</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>How It Works</span>
-                    </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>Contact</span>
-                    </a>
-                </div>
-            </div>
-        </aside>
-        
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Compact Category Bar -->
+            <!-- Category Bar -->
             <div class="category-bar">
                 <button class="category-tab all active" data-category="all">
                     <i class="fas fa-globe"></i>
@@ -1523,306 +924,230 @@
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
                 </div>
-                
-                <!-- News Card 3 -->
-                <div class="news-card">
-                    <div class="news-meta">
-                        <div class="news-info">
-                            <div class="news-category">Economy</div>
-                            <div class="news-date">May 10, 2025</div>
-                        </div>
-                        <div class="news-sources">
-                            <span class="news-source"><i class="fas fa-newspaper"></i> Fox Business</span>
-                            <span class="news-source"><i class="fas fa-newspaper"></i> WSJ</span>
-                            <span class="news-source"><i class="fas fa-chart-line"></i> Small Business Administration</span>
-                        </div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">Tax Cuts Credited for Record Small Business Growth in Q1 2025</h3>
-                        <p class="news-summary">Small business formations reached an all-time high in the first quarter of 2025, with many crediting recent tax policy changes for encouraging entrepreneurship and investment.</p>
-                        <img src="https://placehold.co/800x400?text=Small+Business+Growth" alt="Small Business Growth" class="news-image" />
-                    </div>
-                    <div class="news-footer">
-                        <div class="news-meta-info">
-                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
-                            <span class="news-read-time"><i class="far fa-clock"></i> 4 min read</span>
-                        </div>
-                        <button class="news-read-more">Read Full Analysis</button>
-                    </div>
-                </div>
-                
-                <!-- News Card 4 -->
-                <div class="news-card">
-                    <div class="news-meta">
-                        <div class="news-info">
-                            <div class="news-category">Health</div>
-                            <div class="news-date">May 9, 2025</div>
-                        </div>
-                        <div class="news-sources">
-                            <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
-                            <span class="news-source"><i class="fas fa-newspaper"></i> BBC</span>
-                            <span class="news-source"><i class="fas fa-flask"></i> New England Journal of Medicine</span>
-                        </div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">Breakthrough in Alzheimer's Treatment Shows Promise in Clinical Trials</h3>
-                        <p class="news-summary">A new antibody treatment has shown a 42% reduction in cognitive decline in phase III clinical trials, representing the most promising advancement in Alzheimer's treatment in decades.</p>
-                        <img src="https://placehold.co/800x400?text=Alzheimer's+Research" alt="Alzheimer's Research" class="news-image" />
-                    </div>
-                    <div class="news-footer">
-                        <div class="news-meta-info">
-                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
-                            <span class="news-read-time"><i class="far fa-clock"></i> 6 min read</span>
-                        </div>
-                        <button class="news-read-more">Read Full Analysis</button>
-                    </div>
-                </div>
             </div>
-            <!-- Archive Calendar (removed) -->
-
         </main>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
         // DOM Elements
-        const floatingNav = document.getElementById('floating-nav');
-        const menuToggle = document.getElementById('menu-toggle');
         const themeToggle = document.getElementById('theme-toggle');
-        const mainSidebar = document.getElementById('main-sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
-        const archiveToggle = document.getElementById('archive-toggle');
-        const archiveCalendar = document.querySelector('.archive-calendar');
-        const filterOptions = document.querySelectorAll('.filter-option');
-        const perspectiveFilters = document.querySelectorAll('.perspective-filter');
-        const relatedPerspectives = document.querySelectorAll('.related-perspective');
-        const calendarDays = document.querySelectorAll('.calendar-day');
+        const menuToggle = document.getElementById('menu-toggle');
+        const searchToggle = document.getElementById('search-toggle');
+        const searchPanel = document.getElementById('search-panel');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const searchFilterOptions = document.querySelectorAll('.search-filter-option');
+        const searchReset = document.querySelector('.search-reset');
+        const searchSubmit = document.querySelector('.search-submit');
         
-        // Initialize theme from localStorage
-        initTheme();
-        
-        // Event Listeners
-        // Toggle sidebar
-        menuToggle.addEventListener('click', toggleSidebar);
-        closeSidebar.addEventListener('click', toggleSidebar);
-        
-        // Toggle theme
-        themeToggle.addEventListener('click', toggleTheme);
-        
-        // Toggle archive calendar
-        archiveToggle.addEventListener('click', toggleArchiveCalendar);
-        
-        // Filter options
-        filterOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const parent = this.parentElement;
-                parent.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
-                updateActiveFilterTags();
-                filterContent();
-            });
-        });
-        
-        // Perspective tabs
-        const perspectiveTabs = document.querySelectorAll('.perspective-tab');
-        perspectiveTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                perspectiveTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                filterByPerspective(this.dataset.perspective);
-            });
-        });
-        
-        // Active filter tags
-        const activeFilterTags = document.querySelectorAll('.active-filter-tag i');
-        activeFilterTags.forEach(tag => {
-            tag.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const tagElement = this.parentElement;
-                const filterText = tagElement.textContent.trim().replace(' ×', '');
-                resetFilter(filterText);
-                tagElement.remove();
-            });
-        });
-        
-        // Related perspective buttons
-        relatedPerspectives.forEach(button => {
-            button.addEventListener('click', function() {
-                const perspective = this.classList.contains('left') ? 'left' : 
-                                   this.classList.contains('right') ? 'right' : 
-                                   this.classList.contains('center') ? 'center' : 'facts';
-                
-                // Find the corresponding perspective filter and click it
-                document.querySelector(`.perspective-filter.${perspective}`).click();
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-        
-        // Calendar days
-        calendarDays.forEach(day => {
-            day.addEventListener('click', function() {
-                if (!this.classList.contains('inactive')) {
-                    calendarDays.forEach(d => d.classList.remove('selected'));
-                    this.classList.add('selected');
-                    filterByDate(this.textContent);
-                    toggleArchiveCalendar(); // Close the calendar after selection
-                }
-            });
-        });
-        
-        // Close panels when clicking outside
-        document.addEventListener('click', function(e) {
-            // Close sidebar when clicking outside
-            if (mainSidebar.classList.contains('active') && 
-                !mainSidebar.contains(e.target) && 
-                !menuToggle.contains(e.target)) {
-                toggleSidebar();
-            }
-        });
-        
-        // Scroll handling for floating nav
-        window.addEventListener('scroll', handleScroll);
-        
-        // Functions
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                document.body.classList.remove('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-        
+        // Theme Toggle
         function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
             if (document.body.classList.contains('dark-mode')) {
-                document.body.classList.remove('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.classList.add('dark-mode');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
         }
         
-        function toggleSidebar() {
-            mainSidebar.classList.toggle('active');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
         }
         
-        // Toggle archive calendar
-        archiveToggle.addEventListener('click', toggleArchiveCalendar);
-        document.querySelector('.calendar-close').addEventListener('click', toggleArchiveCalendar);
+        // Search Panel Toggle
+        function toggleSearchPanel() {
+            searchPanel.classList.toggle('active');
+            if (searchPanel.classList.contains('active')) {
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) searchInput.focus();
+            }
+        }
         
-        function toggleArchiveCalendar() {
-            const archiveCalendar = document.getElementById('archive-calendar');
-            
-            if (archiveCalendar.style.display === 'none') {
-                // Create modal overlay
-                const overlay = document.createElement('div');
-                overlay.className = 'modal-overlay';
-                overlay.id = 'modal-overlay';
-                document.body.appendChild(overlay);
-                
-                // Show calendar
-                archiveCalendar.style.display = 'block';
-                
-                // Add click event to overlay to close calendar
-                overlay.addEventListener('click', function(e) {
-                    if (e.target === overlay) {
-                        toggleArchiveCalendar();
+        if (searchToggle && searchPanel) {
+            searchToggle.addEventListener('click', toggleSearchPanel);
+        }
+        
+        // Category Tabs
+        if (categoryTabs) {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    filterByCategory(this.dataset.category);
+                });
+            });
+        }
+        
+        // Search Filter Options
+        if (searchFilterOptions) {
+            searchFilterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (this.textContent === 'More...') {
+                        return;
+                    }
+                    
+                    const group = this.closest('.search-filter-options');
+                    
+                    if (this.textContent.includes('All') || 
+                        this.textContent === 'Everywhere' || 
+                        this.textContent === 'Most Recent') {
+                        // If "All" option is selected, deactivate all other options in this group
+                        group.querySelectorAll('.search-filter-option').forEach(opt => {
+                            opt.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    } else {
+                        // If a specific option is selected, deactivate the "All" option
+                        const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => 
+                            opt.textContent.includes('All') || 
+                            opt.textContent === 'Everywhere' || 
+                            opt.textContent === 'Most Recent'
+                        );
+                        
+                        if (allOption) {
+                            allOption.classList.remove('active');
+                        }
+                        
+                        // Toggle this option
+                        this.classList.toggle('active');
+                        
+                        // If no options are selected, activate the "All" option
+                        const activeOptions = group.querySelectorAll('.search-filter-option.active');
+                        if (activeOptions.length === 0 && allOption) {
+                            allOption.classList.add('active');
+                        }
                     }
                 });
-            } else {
-                // Hide calendar
-                archiveCalendar.style.display = 'none';
-                
-                // Remove overlay
-                const overlay = document.getElementById('modal-overlay');
-                if (overlay) {
-                    overlay.remove();
-                }
-            }
+            });
         }
         
-        function updateActiveFilterTags() {
-            // Get active filters
-            const activeTags = [];
-            document.querySelectorAll('.filter-option.active').forEach(filter => {
-                activeTags.push(filter.textContent);
-            });
-            
-            // Update active filter tags
-            const activeFilterTags = document.querySelector('.active-filter-tags');
-            activeFilterTags.innerHTML = '';
-            
-            activeTags.forEach(tag => {
-                const tagElement = document.createElement('span');
-                tagElement.className = 'active-filter-tag';
-                tagElement.innerHTML = `${tag} <i class="fas fa-times"></i>`;
-                
-                // Add click event to remove icon
-                tagElement.querySelector('i').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    resetFilter(tag);
-                    tagElement.remove();
+        // Search Reset Button
+        if (searchReset) {
+            searchReset.addEventListener('click', function() {
+                // Reset all filter options
+                document.querySelectorAll('.search-filter-option').forEach(option => {
+                    option.classList.remove('active');
                 });
                 
-                activeFilterTags.appendChild(tagElement);
+                // Activate default options
+                document.querySelectorAll('.search-filter-options').forEach(group => {
+                    const defaultOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => 
+                        opt.textContent.includes('All') || 
+                        opt.textContent === 'Everywhere' || 
+                        opt.textContent === 'Most Recent'
+                    );
+                    
+                    if (defaultOption) {
+                        defaultOption.classList.add('active');
+                    }
+                });
+                
+                // Clear date inputs
+                document.querySelectorAll('.search-date-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Clear search input
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) searchInput.value = '';
             });
         }
         
-        function resetFilter(filterText) {
-            // Find the corresponding default filter and click it
-            document.querySelectorAll('.filter-option').forEach(option => {
-                if (option.textContent.includes('All') && 
-                    option.parentElement.querySelector('.filter-title').textContent.includes(
-                        filterText.includes('Sources') ? 'Sources' : 
-                        filterText.includes('Categories') ? 'Categories' : 'Date'
-                    )) {
-                    option.click();
+        // Search Submit Button
+        if (searchSubmit) {
+            searchSubmit.addEventListener('click', function() {
+                // Get the search query
+                const searchInput = document.querySelector('.search-input');
+                const searchQuery = searchInput ? searchInput.value : '';
+                
+                // Get active filters
+                const activeSources = getActiveOptions(1);
+                const activeCategories = getActiveOptions(2);
+                const activeSearchIn = getActiveOptions(4);
+                const activeSortBy = getActiveOptions(5);
+                
+                // Get date range
+                const dateInputs = document.querySelectorAll('.search-date-input');
+                let startDate = '';
+                let endDate = '';
+                
+                if (dateInputs && dateInputs.length >= 2) {
+                    startDate = dateInputs[0].value;
+                    endDate = dateInputs[1].value;
                 }
-            });
-        }
-        
-        function filterContent() {
-            // In a real app, we'd filter the content based on the selected filters
-            // For demo purposes, we'll add a visual effect
-            const newsCards = document.querySelectorAll('.news-card');
-            newsCards.forEach(card => {
-                card.style.opacity = '0.5';
-                card.style.transform = 'scale(0.98)';
+                
+                // Log the search parameters
+                console.log('Search query:', searchQuery);
+                console.log('Sources:', activeSources);
+                console.log('Categories:', activeCategories);
+                console.log('Search in:', activeSearchIn);
+                console.log('Sort by:', activeSortBy);
+                console.log('Date range:', startDate, 'to', endDate);
+                
+                // Apply visual effects to simulate search
+                const newsCards = document.querySelectorAll('.news-card');
+                newsCards.forEach(card => {
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.98)';
+                });
                 
                 setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(-3px)';
-                }, 300);
+                    newsCards.forEach(card => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(-3px)';
+                    });
+                    
+                    // Show success message
+                    showToast('Search results updated', 'success');
+                    
+                    // Close search panel
+                    toggleSearchPanel();
+                }, 500);
             });
-            
-            // Log active filters
-            const activeFilters = [];
-            document.querySelectorAll('.filter-option.active').forEach(filter => {
-                activeFilters.push(filter.textContent);
-            });
-            console.log('Active filters:', activeFilters);
         }
         
-        function filterByPerspective(perspective) {
-            console.log('Active perspective:', perspective);
+        // Close search panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (searchPanel && searchPanel.classList.contains('active') && 
+                !searchPanel.contains(e.target) && 
+                !searchToggle.contains(e.target)) {
+                toggleSearchPanel();
+            }
+        });
+        
+        // Close search panel on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchPanel && searchPanel.classList.contains('active')) {
+                toggleSearchPanel();
+            }
+        });
+        
+        // Helper Functions
+        function getActiveOptions(groupIndex) {
+            const activeOptions = [];
+            const groups = document.querySelectorAll('.search-filter-group');
             
-            // Update all cards with visual indication of filtering
+            if (groups && groups.length >= groupIndex) {
+                const options = groups[groupIndex - 1].querySelectorAll('.search-filter-option.active');
+                options.forEach(option => {
+                    activeOptions.push(option.textContent);
+                });
+            }
+            
+            return activeOptions;
+        }
+        
+        function filterByCategory(category) {
+            console.log('Filtering by category:', category);
+            
             const newsCards = document.querySelectorAll('.news-card');
-            
-            // First make all cards semi-transparent
             newsCards.forEach(card => {
-                const cardPerspective = card.querySelector('.news-perspective');
+                const categoryElement = card.querySelector('.news-category');
+                if (!categoryElement) return;
                 
-                if (perspective === 'all' || 
-                    (cardPerspective && cardPerspective.classList.contains(perspective))) {
-                    // Matches the filter - show normally after brief animation
+                const cardCategory = categoryElement.textContent.toLowerCase();
+                
+                if (category === 'all' || cardCategory.includes(category.toLowerCase())) {
+                    // Show card with animation
                     card.style.display = 'block';
                     card.style.opacity = '0.5';
                     card.style.transform = 'scale(0.98)';
@@ -1832,7 +1157,7 @@
                         card.style.transform = 'translateY(-3px)';
                     }, 300);
                 } else {
-                    // Doesn't match - hide with animation
+                    // Hide card with animation
                     card.style.opacity = '0.5';
                     card.style.transform = 'scale(0.95)';
                     
@@ -1841,26 +1166,68 @@
                     }, 300);
                 }
             });
+            
+            showToast(`Showing ${category === 'all' ? 'all categories' : category} articles`, 'info');
         }
         
-        function filterByDate(date) {
-            // In a real app, we'd filter the content based on the selected date
-            // For demo purposes, we'll just log the selected date
-            console.log('Selected date:', date);
-        }
-        
-        function handleScroll() {
-            if (window.scrollY > 20) {
-                floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
-                    ? 'rgba(30, 41, 59, 0.95)' 
-                    : 'rgba(255, 255, 255, 0.95)';
-            } else {
-                floatingNav.style.backgroundColor = document.body.classList.contains('dark-mode') 
-                    ? 'rgba(30, 41, 59, 0.8)' 
-                    : 'rgba(255, 255, 255, 0.8)';
+        function showToast(message, type = 'info') {
+            // Remove any existing toasts
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(toast => {
+                toast.remove();
+            });
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            // Add icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('active');
+            }, 10);
+            
+            // Add close event
+            const closeButton = toast.querySelector('.toast-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                });
             }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
         }
-    });
     </script>
 </body>
 </html>
