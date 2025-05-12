@@ -1,4 +1,89 @@
-// Toggle search panel
+/* Toast */
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+        max-width: 90%;
+    }
+    
+    .dark-mode .toast {
+        background-color: #1E293B;
+        color: #F1F5F9;
+    }
+    
+    .toast.active {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    
+    .toast-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    
+    .toast.info .toast-icon {
+        background-color: rgba(34, 211, 238, 0.1);
+        color: #22D3EE;
+    }
+    
+    .toast.success .toast-icon {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: #10B981;
+    }
+    
+    .toast.error .toast-icon {
+        background-color: rgba(244, 63, 94, 0.1);
+        color: #F43F5E;
+    }
+    
+    .toast.warning .toast-icon {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #F59E0B;
+    }
+    
+    .toast-message {
+        flex: 1;
+        font-weight: 500;
+    }
+    
+    .toast-close {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #6B7280;
+    }
+    
+    .dark-mode .toast-close {
+        color: #94A3B8;
+    }
+    
+    .toast-close:hover {
+        background-color: #F3F4F6;
+    }
+    
+    .dark-mode .toast-close:hover {
+        background-color: #334155;
+    }        // Toggle search panel
         const searchToggle = document.getElementById('search-toggle');
         const searchPanel = document.getElementById('search-panel');
         
@@ -1382,7 +1467,7 @@
                     <div class="news-content">
                         <h3 class="news-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h3>
                         <p class="news-summary">The $1.2 trillion infrastructure bill passed the Senate with a 69-30 vote, allocating funds for roads, bridges, public transit, and broadband internet. The bill now moves to the House for consideration.</p>
-                        <img src="/api/placeholder/800/400" alt="Infrastructure Bill Signing" class="news-image" />
+                        <img src="https://placehold.co/800x400?text=Infrastructure+Bill" alt="Infrastructure Bill Signing" class="news-image" />
                     </div>
                     <div class="news-footer">
                         <div class="news-meta-info">
@@ -1409,7 +1494,7 @@
                     <div class="news-content">
                         <h3 class="news-title">New Study Shows Accelerating Climate Change Effects on Global Food Production</h3>
                         <p class="news-summary">Research published in Nature Climate Change indicates that agricultural yields could decrease by up to 30% in some regions by 2050 if current carbon emission trends continue, threatening global food security.</p>
-                        <img src="/api/placeholder/800/400" alt="Climate Change Impact" class="news-image" />
+                        <img src="https://placehold.co/800x400?text=Climate+Change" alt="Climate Change Impact" class="news-image" />
                     </div>
                     <div class="news-footer">
                         <div class="news-meta-info">
@@ -1436,7 +1521,7 @@
                     <div class="news-content">
                         <h3 class="news-title">Tax Cuts Credited for Record Small Business Growth in Q1 2025</h3>
                         <p class="news-summary">Small business formations reached an all-time high in the first quarter of 2025, with many crediting recent tax policy changes for encouraging entrepreneurship and investment.</p>
-                        <img src="/api/placeholder/800/400" alt="Small Business Growth" class="news-image" />
+                        <img src="https://placehold.co/800x400?text=Small+Business+Growth" alt="Small Business Growth" class="news-image" />
                     </div>
                     <div class="news-footer">
                         <div class="news-meta-info">
@@ -1463,7 +1548,7 @@
                     <div class="news-content">
                         <h3 class="news-title">Breakthrough in Alzheimer's Treatment Shows Promise in Clinical Trials</h3>
                         <p class="news-summary">A new antibody treatment has shown a 42% reduction in cognitive decline in phase III clinical trials, representing the most promising advancement in Alzheimer's treatment in decades.</p>
-                        <img src="/api/placeholder/800/400" alt="Alzheimer's Research" class="news-image" />
+                        <img src="https://placehold.co/800x400?text=Alzheimer's+Research" alt="Alzheimer's Research" class="news-image" />
                     </div>
                     <div class="news-footer">
                         <div class="news-meta-info">
