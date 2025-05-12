@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newark Liberty Airport Suffers Third System Outage - Perspectify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core Brand Colors */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #22D3EE;
+            --tertiary: #F43F5E;
+            --quaternary: #10B981;
+            --quinary: #F59E0B;
+            
+            /* Source Colors */
+            --cnn-color: #CC0000;
+            --fox-color: #006699;
+            --bbc-color: #BB1919;
+            --reuters-color: #FF8000;
+            --ap-color: #000000;
+            --wsj-color: #337AB7;
+            --cbs-color: #0092CB;
+            --nyt-color: #121212;
+            
+            /* Functional Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #F43F5E;
+            --info: #22D3EE;
+            
+            /* Neutrals */
+            --white: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --black: #000000;
+            
+            /* Theme Colors - Light */
+            --light-bg: #F9FAFB;
+            --light-card: #FFFFFF;
+            --light-surface: #F3F4F6;
+            --light-border: #E5E7EB;
+            --light-text: #111827;
+            --light-text-secondary: #4B5563;
+            --light-icon: #6B7280;
+            
+            /* Theme Colors - Dark */
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --dark-surface: #334155;
+            --dark-border: #475569;
+            --dark-text: #F1F5F9;
+            --dark-text-secondary: #94A3B8;
+            --dark-icon: #94A3B8;
+            
+            /* Dimensions */
+            --floating-nav-height: 64px;
+            
+            /* Typography */
+            --font-primary: 'Inter', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Z-index layers */
+            --z-floating-nav: 100;
+            --z-dropdown: 110;
+            --z-toast: 300;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: var(--font-primary);
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: var(--floating-nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: var(--z-floating-nav);
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-full);
+            padding: 0 var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .dark-mode .floating-nav {
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .main-actions {
+            justify-content: flex-start;
+        }
+
+        .logo-section {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .user-section {
+            justify-content: flex-end;
+        }
+
+        .platform-logo {
+            font-family: var(--font-primary);
+            font-size: 24px;
+            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-action-button {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-icon);
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            font-size: 18px;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .nav-action-button {
+            color: var(--dark-icon);
+            background-color: var(--dark-surface);
+        }
+
+        .nav-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: var(--space-6);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Article Container */
+        .article-container {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .dark-mode .article-container {
+            background-color: var(--dark-card);
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .article-header {
+            border-color: var(--dark-border);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .article-category {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.1);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+        }
+
+        .article-date {
+            font-size: 14px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .article-date {
+            color: var(--dark-text-secondary);
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+        }
+
+        .article-subtitle {
+            font-size: 18px;
+            color: var(--light-text-secondary);
+            font-weight: 400;
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .article-subtitle {
+            color: var(--dark-text-secondary);
+        }
+
+        .article-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .article-source {
+            font-size: 12px;
+            font-weight: 500;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .dark-mode .article-source {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
+        }
+
+        /* Article Image */
+        .article-hero-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        /* Article Content */
+        .article-content {
+            padding: var(--space-6);
+        }
+
+        .article-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-2);
+            border-bottom: 2px solid var(--light-border);
+        }
+
+        .dark-mode .section-title {
+            border-color: var(--dark-border);
+        }
+
+        .article-text {
+            margin-bottom: var(--space-4);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .article-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .article-text a:hover {
+            text-decoration: underline;
+        }
+
+        .summary-box {
+            background-color: var(--light-surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .summary-box {
+            background-color: var(--dark-surface);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+
+        .summary-list {
+            padding-left: var(--space-5);
+        }
+
+        .summary-list li {
+            margin-bottom: var(--space-2);
+        }
+
+        /* Source Perspectives */
+        .source-perspectives {
+            margin-top: var(--space-8);
+        }
+
+        .perspectives-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+        }
+
+        .perspective-card {
+            background-color: var(--light-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            border-left: 4px solid var(--gray-300);
+        }
+
+        .dark-mode .perspective-card {
+            background-color: var(--dark-surface);
+            border-left-color: var(--gray-600);
+        }
+
+        .perspective-card.cnn {
+            border-left-color: var(--cnn-color);
+        }
+
+        .perspective-card.nyt {
+            border-left-color: var(--nyt-color);
+        }
+
+        .perspective-card.cbs {
+            border-left-color: var(--cbs-color);
+        }
+
+        .perspective-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .perspective-source {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .perspective-date {
+            font-size: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .perspective-date {
+            color: var(--dark-text-secondary);
+        }
+
+        .perspective-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .perspective-content p {
+            margin-bottom: var(--space-3);
+        }
+
+        .perspective-quote {
+            border-left: 2px solid var(--gray-300);
+            padding-left: var(--space-3);
+            font-style: italic;
+            color: var(--light-text-secondary);
+            margin: var(--space-3) 0;
+        }
+
+        .dark-mode .perspective-quote {
+            border-left-color: var(--gray-600);
+            color: var(--dark-text-secondary);
+        }
+
+        .perspective-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--light-border);
+            font-size: 12px;
+        }
+
+        .dark-mode .perspective-footer {
+            border-color: var(--dark-border);
+        }
+
+        .perspective-author {
+            font-weight: 600;
+        }
+
+        .perspective-link a {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .perspective-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sidebar */
+        .article-sidebar {
+            align-self: start;
+            position: sticky;
+            top: calc(var(--floating-nav-height) + 40px);
+        }
+
+        .sidebar-widget {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dark-mode .sidebar-widget {
+            background-color: var(--dark-card);
+        }
+
+        .widget-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .widget-title {
+            border-color: var(--dark-border);
+        }
+
+        .key-points-list {
+            list-style: none;
+        }
+
+        .key-points-list li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-4);
+            position: relative;
+        }
+
+        .key-points-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .metadata-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .metadata-item {
+            border-color: var(--dark-border);
+        }
+
+        .metadata-item:last-child {
+            border-bottom: none;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .metadata-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .metadata-value {
+            font-weight: 500;
+        }
+
+        .related-articles-list {
+            list-style: none;
+        }
+
+        .related-article-item {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .related-article-item {
+            border-color: var(--dark-border);
+        }
+
+        .related-article-item:last-child {
+            border-bottom: none;
+        }
+
+        .related-article-link {
+            text-decoration: none;
+            color: var(--light-text);
+            display: block;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .related-article-link {
+            color: var(--dark-text);
+        }
+
+        .related-article-link:hover {
+            color: var(--primary);
+        }
+
+        .related-article-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: var(--space-1);
+        }
+
+        .related-article-date {
+            font-size: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .related-article-date {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Interactive Elements */
+        .interactive-sources {
+            margin-bottom: var(--space-8);
+        }
+
+        .source-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-border);
+            margin-bottom: var(--space-4);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .dark-mode .source-tabs {
+            border-color: var(--dark-border);
+        }
+
+        .source-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .source-tabs::-webkit-scrollbar-track {
+            background: var(--light-surface);
+            border-radius: var(--radius-full);
+        }
+
+        .dark-mode .source-tabs::-webkit-scrollbar-track {
+            background: var(--dark-surface);
+        }
+
+        .source-tabs::-webkit-scrollbar-thumb {
+            background-color: var(--gray-300);
+            border-radius: var(--radius-full);
+        }
+
+        .dark-mode .source-tabs::-webkit-scrollbar-thumb {
+            background-color: var(--gray-600);
+        }
+
+        .source-tab {
+            padding: var(--space-3) var(--space-4);
+            white-space: nowrap;
+            font-weight: 600;
+            color: var(--light-text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .source-tab {
+            color: var(--dark-text-secondary);
+        }
+
+        .source-tab:hover {
+            color: var(--light-text);
+        }
+
+        .dark-mode .source-tab:hover {
+            color: var(--dark-text);
+        }
+
+        .source-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .source-content {
+            display: none;
+        }
+
+        .source-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: var(--space-8);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--light-border);
+        }
+
+        .dark-mode .article-footer {
+            border-color: var(--dark-border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 90%;
+        }
+        
+        .dark-mode .toast {
+            background-color: #1E293B;
+            color: #F1F5F9;
+        }
+        
+        .toast.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .toast.info .toast-icon {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: #22D3EE;
+        }
+        
+        .toast.success .toast-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        
+        .toast-message {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .toast-close {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #6B7280;
+        }
+        
+        .dark-mode .toast-close {
+            color: #94A3B8;
+        }
+        
+        .toast-close:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .dark-mode .toast-close:hover {
+            background-color: #334155;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 24px;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Floating Navigation -->
+        <nav class="floating-nav" id="floating-nav">
+            <div class="nav-section main-actions">
+                <a href="index.html" class="nav-action-button" id="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <button class="nav-action-button" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="nav-action-button" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="nav-section logo-section">
+                <div class="platform-logo">P</div>
+            </div>
+            <div class="nav-section user-section">
+                <button class="nav-action-button" id="share-button">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="article-container">
+                <!-- Article Header -->
+                <header class="article-header">
+                    <div class="article-meta">
+                        <span class="article-category">Transportation</span>
+                        <span class="article-date">May 12, 2025</span>
+                    </div>
+                    <h1 class="article-title">Newark Liberty Airport Suffers Third System Outage in Less Than Two Weeks</h1>
+                    <p class="article-subtitle">Backup air traffic control system failure causes delays and cancellations as Transportation Secretary announces flight reductions</p>
+                    <div class="article-sources">
+                        <span class="article-source"><i class="fas fa-newspaper"></i> CBS News</span>
+                        <span class="article-source"><i class="fas fa-newspaper"></i> NY Times</span>
+                        <span class="article-source"><i class="fas fa-newspaper"></i> CNN</span>
+                    </div>
+                </header>
+
+                <!-- Hero Image -->
+                <img src="https://placehold.co/1200x500?text=Newark+Liberty+International+Airport" alt="Newark Liberty International Airport" class="article-hero-image">
+
+                <!-- Article Content -->
+                <div class="article-content">
+                    <!-- Key Facts Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Key Facts</h2>
+                        <div class="summary-box">
+                            <p class="summary-title">What You Need to Know:</p>
+                            <ul class="summary-list">
+                                <li>Newark Liberty International Airport experienced its third system outage in less than two weeks</li>
+                                <li>The latest outage involved a momentary failure of a backup air traffic control system</li>
+                                <li>The FAA implemented a 45-minute ground stop to ensure systems were functioning properly</li>
+                                <li>Over 250 flights were delayed and at least 80 were canceled due to the outage</li>
+                                <li>Transportation Secretary Sean Duffy has announced plans to temporarily reduce flight capacity at Newark</li>
+                            </ul>
+                        </div>
+                        <p class="article-text">
+                            Newark Liberty International Airport (EWR) has been hit by yet another equipment outage, the third in less than two weeks, causing widespread delays and flight cancellations over the weekend. The Federal Aviation Administration (FAA) confirmed that Sunday's outage involved a momentary failure of a backup air traffic control system, prompting a 45-minute ground stop to ensure the system was functioning properly.
+                        </p>
+                        <p class="article-text">
+                            Unlike the previous two outages, which originated at the Philadelphia facility that now controls Newark's operations, this latest incident affected a backup system. While the FAA stated that operations returned to normal after the ground stop, the impact cascaded throughout the day, resulting in more than 250 flight delays and at least 80 cancellations affecting both domestic and international travelers.
+                        </p>
+                    </section>
+
+                    <!-- System Outages Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Recent System Outages</h2>
+                        <p class="article-text">
+                            The latest incident follows a troubling pattern of technical failures at Newark. On Friday, May 9, controllers at the Philadelphia facility lost radio contact and radar for about 90 seconds in the early morning hours. Prior to that, on April 28, a more severe outage occurred during a busy afternoon period, when controllers temporarily lost both radar and radio communication with aircraft.
+                        </p>
+                        <p class="article-text">
+                            The April 28 outage was particularly concerning, with multiple sources reporting that at least five air traffic controllers took 45 days of trauma leave following the incident. Pilots and controllers have expressed growing frustration with the situation, with one pilot radioing to a controller on Sunday: "Newark, just so you know, we're all rooting for you for better equipment and more staffing."
+                        </p>
+                        <p class="article-text">
+                            These technical failures come after the FAA moved Newark's air traffic control operations from a facility in Long Island, New York, to one in Philadelphia last summer. The move was intended to help with controller recruitment by relocating to a more affordable area. However, as of March 2024, only 59 percent of available controller positions were filled at the facility that previously handled flights for Newark and other New York area airports.
+                        </p>
+                    </section>
+
+                    <!-- Response and Plans Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Government Response</h2>
+                        <p class="article-text">
+                            In response to the ongoing issues, Transportation Secretary Sean Duffy announced plans to temporarily reduce the number of flights at Newark Airport. "We're going to have this reduced capacity at Newark. I'm convening a meeting of all the airlines that serve Newark, get them to agree on how they're gonna reduce the capacity," Duffy said at a news conference on Monday.
+                        </p>
+                        <p class="article-text">
+                            Duffy also outlined infrastructure improvements to address the technical problems, saying, "We are building a new line that goes directly from Newark to the Philly TRACON, which controls the New York airspace. What happens now is it goes from Newark to N90, which is where it used to be controlled, and then down to Philly. That doesn't make sense. We're gonna have a direct line there."
+                        </p>
+                        <p class="article-text">
+                            The Department of Transportation will conduct a "delay reduction meeting" on Wednesday with all airlines operating out of Newark to work on eliminating additional problems. The FAA has also created an "emergency task force" comprised of experts from the FAA, L3 Harris Corporation, and Verizon to ensure Newark operates safely and efficiently.
+                        </p>
+                        <p class="article-text">
+                            Additionally, Duffy announced that the FAA implemented a software update on Friday night to prevent future outages, and that fiberoptic cables have been installed and are being tested at Newark, JFK, and LaGuardia airports.
+                        </p>
+                    </section>
+
+                    <!-- Political Controversy Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Political Dimension</h2>
+                        <p class="article-text">
+                            The Newark situation has become politically charged, with Secretary Duffy placing blame on the previous Biden administration. "I think it is clear that the blame belongs with the last administration," he said during Monday's press conference. "Pete Buttigieg and Joe Biden did nothing to fix the system that they knew was broken."
+                        </p>
+                        <p class="article-text">
+                            Duffy has requested that the inspector general open an investigation "into the failures of the last administration" and the move of controllers from New York to Philadelphia. "There was a number of things that weren't done in preparation for the move, which has left us in the situation in which we now have," he stated. "What I'm criticizing is the fact that I don't believe that telecom was adequately tested."
+                        </p>
+                        <p class="article-text">
+                            In response, Chris Meagher, an adviser to former Transportation Secretary Pete Buttigieg, said that Duffy "needs to spend more time doing what the American people are paying him to do — fix problems — and less time blaming others."
+                        </p>
+                        <p class="article-text">
+                            Senate Minority Leader Chuck Schumer has called for quick action, stating, "The FAA must put Newark first and must put everything they've got into fixing Newark ASAP. This situation cannot last. We need all hands on deck at the FAA."
+                        </p>
+                    </section>
+
+                    <!-- Passenger Impact Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Impact on Travelers</h2>
+                        <p class="article-text">
+                            Passengers have expressed growing frustration with the situation at Newark. Teah Thompson, who was traveling to Georgia with her four children, told CBS News, "We didn't think we were going to be here delayed and not at home already. We have to stay overnight until 12 p.m. tomorrow."
+                        </p>
+                        <p class="article-text">
+                            Keirsten Jones of Los Angeles noted it was the "second delay we are experiencing within three delays," while another traveler simply stated, "This airport is horrible."
+                        </p>
+                        <p class="article-text">
+                            Some frequent flyers are reconsidering their use of Newark altogether. Melissa Rodriguez, 46, of Bayonne, N.J., who regularly flies from Newark because of its proximity, told the New York Times she is now considering using other New York area airports after chaperoning a cheerleading team that landed at Newark on Monday.
+                        </p>
+                        <p class="article-text">
+                            "Everybody got either delayed or their flights were canceled, and this was going both ways," Rodriguez said. "They were very unhappy." She mentioned looking into flights arriving at Kennedy or LaGuardia as a backup, adding, "With all the problems at Newark, you've got to look at plans A, B, C, and D."
+                        </p>
+                    </section>
+
+                    <!-- Safety Assurances Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Safety Assurances</h2>
+                        <p class="article-text">
+                            Despite the ongoing issues, officials have emphasized that flying in and out of Newark remains safe. United Airlines CEO Scott Kirby sent an email to customers on Monday reassuring them that all flights to and from Newark are "absolutely safe."
+                        </p>
+                        <p class="article-text">
+                            "When there are F.A.A. issues, such as technology outages or staffing shortages, the F.A.A. requires all airlines to fly fewer aircraft to maintain the highest levels of safety," Kirby wrote.
+                        </p>
+                        <p class="article-text">
+                            Acting FAA Administrator Chris Rocheleau also stressed at Monday's news conference that flying at the airport is safe. Secretary Duffy echoed this sentiment, stating, "Our commitment is always safety. We're going to make sure that if you fly, you're going to fly safely. And if we reduce the number of flights at Newark, we're not doing it to annoy people. We're not doing it to delay people's travel. What we're doing is guaranteeing safety."
+                        </p>
+                    </section>
+
+                    <!-- Source Perspectives Section -->
+                    <section class="source-perspectives">
+                        <h2 class="perspectives-title">Source Perspectives</h2>
+                        
+                        <!-- Interactive Source Tabs -->
+                        <div class="interactive-sources">
+                            <div class="source-tabs">
+                                <button class="source-tab active" data-source="all">All Sources</button>
+                                <button class="source-tab" data-source="cbs">CBS News</button>
+                                <button class="source-tab" data-source="nyt">New York Times</button>
+                                <button class="source-tab" data-source="cnn">CNN</button>
+                            </div>
+                            
+                            <!-- All Sources Content -->
+                            <div class="source-content active" id="all-content">
+                                <!-- CBS News Perspective -->
+                                <div class="perspective-card cbs">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CBS News
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CBS News emphasizes the pattern of system failures and highlights the impact on travelers, with personal accounts from affected passengers.</p>
+                                        <div class="perspective-quote">
+                                            "The FAA confirmed the latest system outage, but unlike the previous two out of the Philadelphia facility that controls Newark Liberty's operations, this one involved a momentary failure of a backup system, which prompted a 45-minute ground stop to ensure that system was back up and running properly."
+                                        </div>
+                                        <p>The report focuses on passenger experiences and frustrations, giving voice to travelers whose plans were disrupted. It also highlights Senate Minority Leader Chuck Schumer's call for immediate action from the FAA.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Naveen Dhaliwal, CBS New York</div>
+                                        <div class="perspective-link">
+                                            <a href="https://www.cbsnews.com/newyork/news/newark-liberty-international-airport-system-outage-delays-cancellations/" target="_blank">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- NYT Perspective -->
+                                <div class="perspective-card nyt">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> New York Times
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>The New York Times provides detailed context on the technical issues and staffing shortages, explaining how the move of air traffic operations from Long Island to Philadelphia was intended to help with recruitment but has led to ongoing problems.</p>
+                                        <div class="perspective-quote">
+                                            "That outage, on the afternoon of Monday, April 28, had followed months of glitches and other problems that have rattled the controllers who manage the Newark airspace. The F.A.A. moved that work from a facility in Long Island, New York, to the one in Philadelphia last summer in the hopes that relocating to a more affordable area would help in hiring more controllers."
+                                        </div>
+                                        <p>The Times coverage includes statement from Transportation Secretary Sean Duffy about the technical causes of the outages, noting that they resulted from "an antiquated backup telecommunications line that had been overwhelmed when a primary line failed."</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Niraj Chokshi, New York Times</div>
+                                        <div class="perspective-link">
+                                            <a href="https://www.nytimes.com/2025/05/12/business/newark-airport-delays-staffing-shortage.html" target="_blank">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CNN Perspective -->
+                                <div class="perspective-card cnn">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CNN
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CNN's coverage focuses on the political dimension of the Newark issues, highlighting Transportation Secretary Duffy's criticism of the previous administration and the response from Buttigieg's team.</p>
+                                        <div class="perspective-quote">
+                                            "The Biden administration is to blame for the ongoing air traffic control failures at New Jersey's Newark Liberty International Airport, and throughout the system, Department of Transportation Secretary Sean Duffy said Monday."
+                                        </div>
+                                        <p>The report also details the timeline of recent outages and notes that at least five controllers took 45 days of trauma leave after losing radar and radio communication during the busy afternoon of April 28. CNN points out that Newark is not the only airport facing equipment problems and staffing shortages, mentioning similar issues at Hartsfield–Jackson Atlanta International Airport and in Austin, Texas.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Pete Muntean, Alexandra Skores, and Aaron Cooper, CNN</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- CBS Content -->
+                            <div class="source-content" id="cbs-content">
+                                <!-- CBS News Perspective (expanded) -->
+                                <div class="perspective-card cbs">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CBS News
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CBS News reports that Newark Liberty International Airport suffered yet another equipment outage over the weekend, marking the third such incident in less than two weeks. The Federal Aviation Administration said this latest outage occurred Sunday morning after a backup air traffic control system momentarily failed.</p>
+                                        <div class="perspective-quote">
+                                            "The FAA confirmed the latest system outage, but unlike the previous two out of the Philadelphia facility that controls Newark Liberty's operations, this one involved a momentary failure of a backup system, which prompted a 45-minute ground stop to ensure that system was back up and running properly."
+                                        </div>
+                                        <p>The report highlights the impact on travelers, noting that as of late Sunday night, there were more than 250 delays and at least 80 cancellations affecting both domestic and international flights. CBS News quotes several affected passengers, including Teah Thompson who was traveling to Georgia with her children: "We have to stay overnight until 12 p.m. tomorrow."</p>
+                                        <p>The CBS coverage includes statements from Transportation Secretary Sean Duffy, who outlined plans to reduce flight capacity at Newark and build a new direct communication line between Newark and the Philadelphia TRACON facility. The report also mentions Senate Minority Leader Chuck Schumer's call for the FAA to "put Newark first" and use "all hands on deck" to fix the situation.</p>
+                                        <p>CBS News balances its reporting by noting the Mother's Day holiday resulted in smaller crowds at Terminal B, which mitigated some of the potential disruption.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Naveen Dhaliwal, CBS New York</div>
+                                        <div class="perspective-link">
+                                            <a href="https://www.cbsnews.com/newyork/news/newark-liberty-international-airport-system-outage-delays-cancellations/" target="_blank">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- NYT Content -->
+                            <div class="source-content" id="nyt-content">
+                                <!-- NYT Perspective (expanded) -->
+                                <div class="perspective-card nyt">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> New York Times
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>The New York Times provides extensive context on the ongoing issues at Newark Liberty International Airport, framing Monday's staffing shortage as the latest in a series of problems plaguing the facility.</p>
+                                        <div class="perspective-quote">
+                                            "Most flights destined for Newark were being delayed at their origin airports by more than an hour and 40 minutes midday on Monday because too few air traffic controllers were available."
+                                        </div>
+                                        <p>The Times details the chronology of recent technical failures, including a brief radar outage at the Philadelphia air traffic control facility on Friday and a similar outage in late April that left controllers unable to communicate with pilots for about 30 seconds.</p>
+                                        <p>The report provides important historical context, explaining that the FAA moved Newark's air traffic control operations from Long Island to Philadelphia last summer hoping to improve controller recruitment in a more affordable area. The Times notes that as of March 2024, only 59 percent of available controller positions were filled at the facility that previously handled New York area flights.</p>
+                                        <p>The article includes perspectives from travelers, including Melissa Rodriguez of Bayonne, N.J., who is now considering alternative airports despite Newark's convenient location. It also features statements from United Airlines CEO Scott Kirby reassuring customers about safety, and from Transportation Secretary Sean Duffy explaining the technical causes of the outages.</p>
+                                        <p>The Times notes the political dimension, mentioning Duffy's criticism of the Biden administration for "bungling" the move to Philadelphia and his request for an inspector general investigation.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Niraj Chokshi, New York Times</div>
+                                        <div class="perspective-link">
+                                            <a href="https://www.nytimes.com/2025/05/12/business/newark-airport-delays-staffing-shortage.html" target="_blank">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- CNN Content -->
+                            <div class="source-content" id="cnn-content">
+                                <!-- CNN Perspective (expanded) -->
+                                <div class="perspective-card cnn">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CNN
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CNN's coverage emphasizes the political aspect of the Newark situation, leading with Transportation Secretary Sean Duffy's criticism of the Biden administration for the ongoing air traffic control failures.</p>
+                                        <div class="perspective-quote">
+                                            "I think it is clear that the blame belongs with the last administration," he said in a press conference at the DOT headquarters. "Pete Buttigieg and Joe Biden did nothing to fix the system that they knew was broken."
+                                        </div>
+                                        <p>The report includes the response from Chris Meagher, a Buttigieg adviser, who said Duffy "needs to spend more time doing what the American people are paying him to do — fix problems — and less time blaming others."</p>
+                                        <p>CNN provides a comprehensive timeline of the recent technical failures at Newark, noting that Monday afternoon flight delays averaged more than an hour and 40 minutes. The report details that there have been at least four outages at the Philadelphia TRACON Area C facility since November, including three in the last two weeks.</p>
+                                        <p>The article includes a poignant radio exchange between a pilot and controller on Sunday: "Newark, just so you know, we're all rooting for you for better equipment and more staffing," to which the controller responded, "Hey man, we appreciate it, thanks."</p>
+                                        <p>CNN broadens the scope beyond Newark, reporting that Hartsfield–Jackson Atlanta International Airport experienced problems with runway equipment on Sunday that delayed 55% of flights, and that FAA staffing shortages at the Austin, Texas, control tower led to nearly 20% of flights being delayed.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Pete Muntean, Alexandra Skores, and Aaron Cooper, CNN</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Article Footer -->
+                    <footer class="article-footer">
+                        <div class="footer-links">
+                            <a href="#" class="footer-link" onclick="showToast('Navigating to previous article', 'info'); return false;">
+                                <i class="fas fa-arrow-left"></i> Previous Article
+                            </a>
+                            <a href="#" class="footer-link" onclick="showToast('Navigating to next article', 'info'); return false;">
+                                Next Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="article-sidebar">
+                <!-- Key Points Widget -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Key Points</h3>
+                    <ul class="key-points-list">
+                        <li>Third system outage at Newark in less than two weeks</li>
+                        <li>45-minute ground stop implemented after backup system failure</li>
+                        <li>250+ flights delayed, 80+ canceled due to the outage</li>
+                        <li>Flight capacity at Newark to be temporarily reduced</li>
+                        <li>New direct communication line being built between Newark and Philadelphia</li>
+                    </ul>
+                </div>
+
+                <!-- Article Metadata -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Article Details</h3>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Published</span>
+                        <span class="metadata-value">May 12, 2025</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Word Count</span>
+                        <span class="metadata-value">1,380</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Reading Time</span>
+                        <span class="metadata-value">7 minutes</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Sources</span>
+                        <span class="metadata-value">3</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Last Updated</span>
+                        <span class="metadata-value">May 12, 2025 6:16 PM ET</span>
+                    </div>
+                </div>
+
+                <!-- Related Articles -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Related Articles</h3>
+                    <ul class="related-articles-list">
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">Audio Between Air Traffic Controllers, Pilots Obtained Following Newark Airport Radar Outage</div>
+                                <div class="related-article-date">May 11, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">Transportation Secretary Duffy Says Newark Air Traffic Issues Won't Be Fully Fixed Until Summer</div>
+                                <div class="related-article-date">May 10, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">To Fix Newark Airport Delays, The FAA Should Take These Steps, United Airlines CEO Says</div>
+                                <div class="related-article-date">May 8, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">Air Traffic Control Staffing Crisis: A National Problem</div>
+                                <div class="related-article-date">May 5, 2025</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const shareButton = document.getElementById('share-button');
+        const sourceTabs = document.querySelectorAll('.source-tab');
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Share Button
+        if (shareButton) {
+            shareButton.addEventListener('click', function() {
+                showToast('Article link copied to clipboard', 'success');
+            });
+        }
+        
+        // Source Tabs
+        if (sourceTabs) {
+            sourceTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Deactivate all tabs
+                    sourceTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Activate this tab
+                    this.classList.add('active');
+                    
+                    // Hide all content
+                    document.querySelectorAll('.source-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected content
+                    const sourceType = this.getAttribute('data-source');
+                    if (sourceType === 'all') {
+                        document.getElementById('all-content').classList.add('active');
+                    } else {
+                        document.getElementById(`${sourceType}-content`).classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // Toast Message
+        function showToast(message, type = 'info') {
+            // Remove any existing toasts
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(toast => {
+                toast.remove();
+            });
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            // Add icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('active');
+            }, 10);
+            
+            // Add close event
+            const closeButton = toast.querySelector('.toast-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                });
+            }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
