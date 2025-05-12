@@ -1,4 +1,350 @@
-<!DOCTYPE html>
+// Toggle search panel
+        const searchToggle = document.getElementById('search-toggle');
+        const searchPanel = document.getElementById('search-panel');
+        
+        searchToggle.addEventListener('click', toggleSearchPanel);
+        
+        function toggleSearchPanel() {
+            searchPanel.classList.toggle('active');
+            
+            if (searchPanel.classList.contains('active')) {
+                // Focus the search input
+                document.querySelector('.search-input').focus();
+                
+                // Close the sidebar if it's open
+                if (mainSidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            }
+        }
+        
+        // Search filter options
+        const searchFilterOptions = document.querySelectorAll('.search-filter-option');
+        searchFilterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                if (this.textContent === 'More...') {
+                    // In a real app, we'd show more options
+                    return;
+                }
+                
+                if (this.textContent.includes('All')) {
+                    // If "All" option is selected, deactivate all other options in this group
+                    const group = this.closest('.search-filter-options');
+                    group.querySelectorAll('.search-filter-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                } else {
+                    // If a specific option is selected, deactivate the "All" option
+                    const group = this.closest('.search-filter-options');
+                    const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => opt.textContent.includes('All'));
+                    if (allOption) {
+                        allOption.classList.remove('active');
+                    }
+                    
+                    // Toggle this option
+                    this.classList.toggle('active');
+                    
+                    // If no options are selected, activate the "All" option
+                    const activeOptions = group.querySelectorAll('.search-filter-option.active');
+                    if (activeOptions.length === 0 && allOption) {
+                        allOption.classList.add('active');
+                    }
+                }
+            });
+        });
+        
+        // Search reset button
+        document.querySelector('.search-reset').addEventListener('click', function() {
+            // Reset all filter options
+            document.querySelectorAll('.search-filter-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Activate "All" options
+            document.querySelectorAll('.search-filter-options').forEach(group => {
+                const allOption = Array.from(group.querySelectorAll('.search-filter-option')).find(opt => opt.textContent.includes('All'));
+                if (allOption) {
+                    allOption.classList.add('active');
+                }
+            });
+            
+            // Clear date inputs
+            document.querySelectorAll('.search-date-input').forEach(input => {
+                input.value = '';
+            });
+            
+            // Clear search input
+            document.querySelector('.search-input').value = '';
+        });
+        
+        // Search submit button
+        document.querySelector('.search-submit').addEventListener('click', function() {
+            // Get the search query
+            const searchQuery = document.querySelector('.search-input').value;
+            
+            // Get active source filters
+            const activeSources = [];
+            document.querySelectorAll('.search-filter-options:nth-of-type(1) .search-filter-option.active').forEach(option => {
+                activeSources.push(option.textContent);
+            });
+            
+            // Get active category filters
+            const activeCategories = [];
+            document.querySelectorAll('.search-filter-options:nth-of-type(2) .search-filter-option.active').forEach(option => {
+                activeCategories.push(option.textContent);
+            });
+            
+            // Get date range
+            const dateInputs = document.querySelectorAll('.search-date-input');
+            const startDate = dateInputs[0].value;
+            const endDate = dateInputs[1].value;
+            
+            // Log the search parameters (in a real app, we'd perform the search here)
+            console.log('Search query:', searchQuery);
+            console.log('Sources:', activeSources);
+            console.log('Categories:', activeCategories);
+            console.log('Date range:', startDate, 'to', endDate);
+            
+            // Close the search panel after submitting
+            toggleSearchPanel();
+            
+            // Simulate search results loading
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                card.style.opacity = '0.5';
+                card.style.transform = 'scale(0.98)';
+            });
+            
+            setTimeout(() => {
+                newsCards.forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(-3px)';
+                });
+                
+                // Show a toast message
+                showToast('Search results updated', 'success');
+            }, 500);
+        });
+        
+        // Close search panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (searchPanel.classList.contains('active') && 
+                !searchPanel.contains(e.target) && 
+                !searchToggle.contains(e.target)) {
+                toggleSearchPanel();
+            }
+        });
+        
+        // Close search panel when pressing Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchPanel.classList.contains('active')) {
+                toggleSearchPanel();
+            }
+        });    /* Search Panel */
+    .search-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--white);
+        box-shadow: var(--shadow-lg);
+        z-index: var(--z-dropdown);
+        padding: var(--space-6) var(--space-4);
+        transform: translateY(-100%);
+        transition: transform var(--transition-normal);
+        overflow-y: auto;
+        max-height: 80vh;
+    }
+    
+    .dark-mode .search-panel {
+        background-color: var(--dark-card);
+    }
+    
+    .search-panel.active {
+        transform: translateY(0);
+    }
+    
+    .search-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .search-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
+        border: 2px solid var(--primary);
+        border-radius: var(--radius-lg);
+        font-size: 18px;
+        outline: none;
+        background-color: var(--white);
+        color: var(--light-text);
+        transition: all var(--transition-fast);
+    }
+    
+    .dark-mode .search-input {
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+        border-color: var(--primary-dark);
+    }
+    
+    .search-input:focus {
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    
+    .search-button {
+        position: absolute;
+        right: var(--space-3);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        background-color: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+    
+    .search-button:hover {
+        background-color: var(--primary-dark);
+        transform: scale(1.05);
+    }
+    
+    .search-filters {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .search-filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .search-filter-label {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--light-text-secondary);
+    }
+    
+    .dark-mode .search-filter-label {
+        color: var(--dark-text-secondary);
+    }
+    
+    .search-filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+    
+    .search-filter-option {
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-full);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+    
+    .dark-mode .search-filter-option {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+    
+    .search-filter-option:hover {
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+    }
+    
+    .search-filter-option.active {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .search-date-range {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+    
+    .search-date-input {
+        padding: var(--space-2) var(--space-3);
+        border: 1px solid var(--light-border);
+        border-radius: var(--radius-md);
+        background-color: var(--white);
+        color: var(--light-text);
+        font-size: 14px;
+        outline: none;
+    }
+    
+    .dark-mode .search-date-input {
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+        border-color: var(--dark-border);
+    }
+    
+    .search-date-separator {
+        color: var(--light-text-secondary);
+    }
+    
+    .dark-mode .search-date-separator {
+        color: var(--dark-text-secondary);
+    }
+    
+    .search-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--space-3);
+    }
+    
+    .search-reset {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-md);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        font-weight: 500;
+        transition: all var(--transition-fast);
+    }
+    
+    .dark-mode .search-reset {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
+    }
+    
+    .search-reset:hover {
+        background-color: var(--light-border);
+    }
+    
+    .dark-mode .search-reset:hover {
+        background-color: var(--dark-border);
+    }
+    
+    .search-submit {
+        padding: var(--space-2) var(--space-6);
+        border-radius: var(--radius-md);
+        background-color: var(--primary);
+        color: white;
+        font-weight: 600;
+        transition: all var(--transition-fast);
+    }
+    
+    .search-submit:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -615,55 +961,21 @@
         border-color: var(--dark-border);
     }
     
-    .news-perspectives {
+    .news-meta-info {
         display: flex;
-        flex-direction: column;
-        gap: var(--space-1);
+        gap: var(--space-4);
     }
     
-    .news-perspective-label {
-        font-size: 12px;
-        font-weight: 500;
+    .news-source-count, .news-read-time {
+        font-size: 14px;
         color: var(--light-text-secondary);
-    }
-    
-    .dark-mode .news-perspective-label {
-        color: var(--dark-text-secondary);
-    }
-    
-    .news-perspective-indicators {
         display: flex;
+        align-items: center;
         gap: var(--space-2);
     }
     
-    .perspective-indicator {
-        width: 28px;
-        height: 28px;
-        border-radius: var(--radius-full);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-    }
-    
-    .perspective-indicator.left {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--perspective-left);
-    }
-    
-    .perspective-indicator.right {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--perspective-right);
-    }
-    
-    .perspective-indicator.center {
-        background-color: rgba(139, 92, 246, 0.1);
-        color: var(--perspective-center);
-    }
-    
-    .perspective-indicator.facts {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: var(--perspective-facts);
+    .dark-mode .news-source-count, .dark-mode .news-read-time {
+        color: var(--dark-text-secondary);
     }
 
     .news-read-more {
@@ -885,7 +1197,7 @@
                 <button class="nav-action-button" id="menu-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <button class="nav-action-button search-toggle">
+                <button class="nav-action-button search-toggle" id="search-toggle">
                     <i class="fas fa-search"></i>
                 </button>
                 <button class="nav-action-button theme-toggle" id="theme-toggle">
@@ -901,6 +1213,57 @@
                 </button>
             </div>
         </nav>
+        
+        <!-- Search Panel -->
+        <div class="search-panel" id="search-panel">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" class="search-input" placeholder="Search by keywords, sources, dates, or categories...">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Sources:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option">All Sources</span>
+                            <span class="search-filter-option">CNN</span>
+                            <span class="search-filter-option">Fox News</span>
+                            <span class="search-filter-option">BBC</span>
+                            <span class="search-filter-option">Reuters</span>
+                            <span class="search-filter-option">AP</span>
+                            <span class="search-filter-option">WSJ</span>
+                            <span class="search-filter-option">More...</span>
+                        </div>
+                    </div>
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Categories:</label>
+                        <div class="search-filter-options">
+                            <span class="search-filter-option">All Categories</span>
+                            <span class="search-filter-option">Politics</span>
+                            <span class="search-filter-option">Economy</span>
+                            <span class="search-filter-option">Science</span>
+                            <span class="search-filter-option">Health</span>
+                            <span class="search-filter-option">Sports</span>
+                            <span class="search-filter-option">More...</span>
+                        </div>
+                    </div>
+                    <div class="search-filter-group">
+                        <label class="search-filter-label">Date Range:</label>
+                        <div class="search-date-range">
+                            <input type="date" class="search-date-input">
+                            <span class="search-date-separator">to</span>
+                            <input type="date" class="search-date-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button class="search-reset">Reset Filters</button>
+                    <button class="search-submit">Search</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Sidebar -->
         <aside class="main-sidebar" id="main-sidebar">
@@ -1022,14 +1385,9 @@
                         <img src="/api/placeholder/800/400" alt="Infrastructure Bill Signing" class="news-image" />
                     </div>
                     <div class="news-footer">
-                        <div class="news-perspectives">
-                            <span class="news-perspective-label">Perspectives included:</span>
-                            <div class="news-perspective-indicators">
-                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
-                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
-                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
-                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
-                            </div>
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 4 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 5 min read</span>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
@@ -1054,14 +1412,9 @@
                         <img src="/api/placeholder/800/400" alt="Climate Change Impact" class="news-image" />
                     </div>
                     <div class="news-footer">
-                        <div class="news-perspectives">
-                            <span class="news-perspective-label">Perspectives included:</span>
-                            <div class="news-perspective-indicators">
-                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
-                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
-                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
-                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
-                            </div>
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 7 min read</span>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
@@ -1086,13 +1439,9 @@
                         <img src="/api/placeholder/800/400" alt="Small Business Growth" class="news-image" />
                     </div>
                     <div class="news-footer">
-                        <div class="news-perspectives">
-                            <span class="news-perspective-label">Perspectives included:</span>
-                            <div class="news-perspective-indicators">
-                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
-                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
-                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
-                            </div>
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 4 min read</span>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
@@ -1117,12 +1466,9 @@
                         <img src="/api/placeholder/800/400" alt="Alzheimer's Research" class="news-image" />
                     </div>
                     <div class="news-footer">
-                        <div class="news-perspectives">
-                            <span class="news-perspective-label">Perspectives included:</span>
-                            <div class="news-perspective-indicators">
-                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
-                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
-                            </div>
+                        <div class="news-meta-info">
+                            <span class="news-source-count"><i class="fas fa-newspaper"></i> 3 sources analyzed</span>
+                            <span class="news-read-time"><i class="far fa-clock"></i> 6 min read</span>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
