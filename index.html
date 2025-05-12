@@ -403,231 +403,96 @@
         margin: 0 auto;
     }
 
-    /* Filter Bar */
-    .filter-bar {
+    /* Category Bar */
+    .category-bar {
         display: flex;
-        flex-direction: column;
-        gap: var(--space-3);
+        overflow-x: auto;
+        gap: var(--space-2);
         margin-bottom: var(--space-6);
-        padding-bottom: var(--space-4);
+        padding-bottom: var(--space-2);
         border-bottom: 1px solid var(--light-border);
+        scrollbar-width: thin;
+    }
+    
+    .category-bar::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .category-bar::-webkit-scrollbar-track {
+        background: var(--light-surface);
+        border-radius: var(--radius-full);
+    }
+    
+    .dark-mode .category-bar::-webkit-scrollbar-track {
+        background: var(--dark-surface);
+    }
+    
+    .category-bar::-webkit-scrollbar-thumb {
+        background-color: var(--gray-300);
+        border-radius: var(--radius-full);
+    }
+    
+    .dark-mode .category-bar::-webkit-scrollbar-thumb {
+        background-color: var(--gray-600);
     }
 
-    .dark-mode .filter-bar {
+    .dark-mode .category-bar {
         border-color: var(--dark-border);
     }
 
-    /* Filter Dropdown */
-    .filter-dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .filter-dropdown-button {
+    .category-tab {
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-full);
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
         display: flex;
         align-items: center;
         gap: var(--space-2);
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-md);
-        background-color: var(--light-surface);
-        color: var(--light-text);
-        font-weight: 500;
         transition: all var(--transition-fast);
-    }
-
-    .dark-mode .filter-dropdown-button {
-        background-color: var(--dark-surface);
-        color: var(--dark-text);
-    }
-
-    .filter-dropdown-button:hover {
-        background-color: var(--light-border);
-    }
-
-    .dark-mode .filter-dropdown-button:hover {
-        background-color: var(--dark-border);
-    }
-
-    .filter-dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: var(--z-dropdown);
-        width: 300px;
-        background-color: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-lg);
-        padding: var(--space-4);
-        margin-top: var(--space-2);
-    }
-
-    .dark-mode .filter-dropdown-content {
-        background-color: var(--dark-card);
-    }
-
-    .filter-dropdown:hover .filter-dropdown-content {
-        display: block;
-        animation: fadeIn 0.2s ease;
-    }
-
-    .filter-section {
-        margin-bottom: var(--space-4);
-    }
-
-    .filter-section:last-child {
-        margin-bottom: 0;
-    }
-
-    .filter-title {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: var(--space-2);
         color: var(--light-text-secondary);
-    }
-
-    .dark-mode .filter-title {
-        color: var(--dark-text-secondary);
-    }
-
-    .filter-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-    }
-
-    .filter-option {
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-full);
         background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        font-size: 14px;
-        font-weight: 500;
-        transition: all var(--transition-fast);
     }
 
-    .dark-mode .filter-option {
-        background-color: var(--dark-surface);
+    .dark-mode .category-tab {
         color: var(--dark-text-secondary);
+        background-color: var(--dark-surface);
     }
 
-    .filter-option:hover {
-        background-color: var(--light-border);
+    .category-tab:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
     }
 
-    .dark-mode .filter-option:hover {
-        background-color: var(--dark-border);
-    }
-
-    .filter-option.active {
+    .category-tab.active {
         background-color: var(--primary);
         color: white;
     }
-
-    /* Perspective Selector */
-    .perspective-selector {
-        margin-bottom: var(--space-3);
+    
+    /* Category-specific colors */
+    .category-tab.politics:hover:not(.active) {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--perspective-left);
     }
-
-    .perspective-tabs {
-        display: flex;
-        align-items: center;
-        background-color: var(--light-surface);
-        padding: var(--space-1);
-        border-radius: var(--radius-full);
-        width: fit-content;
+    
+    .category-tab.sports:hover:not(.active) {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--quinary);
     }
-
-    .dark-mode .perspective-tabs {
-        background-color: var(--dark-surface);
+    
+    .category-tab.science:hover:not(.active) {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--perspective-facts);
     }
-
-    .perspective-tab {
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-        transition: all var(--transition-fast);
+    
+    .category-tab.health:hover:not(.active) {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--perspective-right);
     }
-
-    .perspective-tab:not(.active) {
-        color: var(--light-text-secondary);
-    }
-
-    .dark-mode .perspective-tab:not(.active) {
-        color: var(--dark-text-secondary);
-    }
-
-    .perspective-tab.active {
-        color: white;
-    }
-
-    .perspective-tab.all.active {
-        background-color: var(--primary);
-    }
-
-    .perspective-tab.left.active {
-        background-color: var(--perspective-left);
-    }
-
-    .perspective-tab.right.active {
-        background-color: var(--perspective-right);
-    }
-
-    .perspective-tab.center.active {
-        background-color: var(--perspective-center);
-    }
-
-    .perspective-tab.facts.active {
-        background-color: var(--perspective-facts);
-    }
-
-    /* Active Filters */
-    .active-filters {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-    }
-
-    .active-filter-label {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--light-text-secondary);
-    }
-
-    .dark-mode .active-filter-label {
-        color: var(--dark-text-secondary);
-    }
-
-    .active-filter-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-    }
-
-    .active-filter-tag {
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-        padding: var(--space-1) var(--space-3);
-        border-radius: var(--radius-full);
-        background-color: var(--primary-light);
-        color: var(--primary-dark);
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .dark-mode .active-filter-tag {
-        background-color: rgba(99, 102, 241, 0.2);
-        color: var(--primary-light);
-    }
-
-    .active-filter-tag i {
-        cursor: pointer;
+    
+    .category-tab.living:hover:not(.active) {
+        background-color: rgba(139, 92, 246, 0.1);
+        color: var(--perspective-center);
     }
 
     /* News Cards */
@@ -687,32 +552,28 @@
     .dark-mode .news-date {
         color: var(--dark-text-secondary);
     }
+    
+    .news-sources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
 
-    .news-perspective {
+    .news-source {
         font-size: 12px;
-        font-weight: 600;
-        padding: var(--space-1) var(--space-3);
+        font-weight: 500;
+        padding: var(--space-1) var(--space-2);
         border-radius: var(--radius-full);
+        background-color: var(--light-surface);
+        color: var(--light-text-secondary);
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
     }
 
-    .news-perspective.left {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--perspective-left);
-    }
-
-    .news-perspective.right {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--perspective-right);
-    }
-
-    .news-perspective.center {
-        background-color: rgba(139, 92, 246, 0.1);
-        color: var(--perspective-center);
-    }
-
-    .news-perspective.facts {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: var(--perspective-facts);
+    .dark-mode .news-source {
+        background-color: var(--dark-surface);
+        color: var(--dark-text-secondary);
     }
 
     .news-content {
@@ -742,77 +603,65 @@
         margin-bottom: var(--space-4);
     }
 
-    .news-sources {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-2);
-        margin-bottom: var(--space-3);
-    }
-
-    .news-source {
-        font-size: 12px;
-        font-weight: 500;
-        padding: var(--space-1) var(--space-2);
-        border-radius: var(--radius-full);
-        background-color: var(--light-surface);
-        color: var(--light-text-secondary);
-        display: flex;
-        align-items: center;
-        gap: var(--space-1);
-    }
-
-    .dark-mode .news-source {
-        background-color: var(--dark-surface);
-        color: var(--dark-text-secondary);
-    }
-
     .news-footer {
         padding: var(--space-4);
         border-top: 1px solid var(--light-border);
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 
     .dark-mode .news-footer {
         border-color: var(--dark-border);
     }
-
-    .news-related {
+    
+    .news-perspectives {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+    
+    .news-perspective-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--light-text-secondary);
+    }
+    
+    .dark-mode .news-perspective-label {
+        color: var(--dark-text-secondary);
+    }
+    
+    .news-perspective-indicators {
         display: flex;
         gap: var(--space-2);
     }
-
-    .related-perspective {
-        padding: var(--space-1) var(--space-3);
+    
+    .perspective-indicator {
+        width: 28px;
+        height: 28px;
         border-radius: var(--radius-full);
-        font-size: 14px;
-        font-weight: 500;
         display: flex;
         align-items: center;
-        gap: var(--space-2);
-        transition: all var(--transition-fast);
+        justify-content: center;
+        font-size: 12px;
     }
-
-    .related-perspective:hover {
-        transform: translateY(-2px);
-    }
-
-    .related-perspective.left {
+    
+    .perspective-indicator.left {
         background-color: rgba(59, 130, 246, 0.1);
         color: var(--perspective-left);
     }
-
-    .related-perspective.right {
+    
+    .perspective-indicator.right {
         background-color: rgba(239, 68, 68, 0.1);
         color: var(--perspective-right);
     }
-
-    .related-perspective.center {
+    
+    .perspective-indicator.center {
         background-color: rgba(139, 92, 246, 0.1);
         color: var(--perspective-center);
     }
-
-    .related-perspective.facts {
+    
+    .perspective-indicator.facts {
         background-color: rgba(16, 185, 129, 0.1);
         color: var(--perspective-facts);
     }
@@ -1124,107 +973,42 @@
         
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Compact Filter Bar -->
-            <div class="filter-bar">
-                <div class="filter-dropdown">
-                    <button class="filter-dropdown-button">
-                        <i class="fas fa-filter"></i>
-                        <span>Filters</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="filter-dropdown-content">
-                        <div class="filter-section">
-                            <h2 class="filter-title">Sources</h2>
-                            <div class="filter-options">
-                                <button class="filter-option active">All Sources</button>
-                                <button class="filter-option">CNN</button>
-                                <button class="filter-option">Fox News</button>
-                                <button class="filter-option">BBC</button>
-                                <button class="filter-option">Reuters</button>
-                                <button class="filter-option">AP</button>
-                                <button class="filter-option">WSJ</button>
-                                <button class="filter-option">Economist</button>
-                            </div>
-                        </div>
-                        
-                        <div class="filter-section">
-                            <h2 class="filter-title">Date Range</h2>
-                            <div class="filter-options">
-                                <button class="filter-option active">Today</button>
-                                <button class="filter-option">This Week</button>
-                                <button class="filter-option">This Month</button>
-                                <button class="filter-option">Last 3 Months</button>
-                                <button class="filter-option">This Year</button>
-                                <button class="filter-option">All Time</button>
-                            </div>
-                        </div>
-                        
-                        <div class="filter-section">
-                            <h2 class="filter-title">Categories</h2>
-                            <div class="filter-options">
-                                <button class="filter-option active">All Categories</button>
-                                <button class="filter-option">Politics</button>
-                                <button class="filter-option">Sports</button>
-                                <button class="filter-option">Science</button>
-                                <button class="filter-option">Home & Living</button>
-                                <button class="filter-option">Health</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Perspective Selector -->
-                <div class="perspective-selector">
-                    <div class="perspective-tabs">
-                        <button class="perspective-tab all active" data-perspective="all">
-                            <i class="fas fa-globe"></i>
-                            <span>All Views</span>
-                        </button>
-                        <button class="perspective-tab left" data-perspective="left">
-                            <i class="fas fa-arrow-left"></i>
-                            <span>Left</span>
-                        </button>
-                        <button class="perspective-tab center" data-perspective="center">
-                            <i class="fas fa-grip-lines-vertical"></i>
-                            <span>Center</span>
-                        </button>
-                        <button class="perspective-tab right" data-perspective="right">
-                            <i class="fas fa-arrow-right"></i>
-                            <span>Right</span>
-                        </button>
-                        <button class="perspective-tab facts" data-perspective="facts">
-                            <i class="fas fa-balance-scale"></i>
-                            <span>Facts</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Active Filters Display -->
-                <div class="active-filters">
-                    <span class="active-filter-label">Active Filters:</span>
-                    <div class="active-filter-tags">
-                        <span class="active-filter-tag">Today <i class="fas fa-times"></i></span>
-                        <span class="active-filter-tag">All Sources <i class="fas fa-times"></i></span>
-                        <span class="active-filter-tag">All Categories <i class="fas fa-times"></i></span>
-                    </div>
-                </div>
+            <!-- Compact Category Bar -->
+            <div class="category-bar">
+                <button class="category-tab all active" data-category="all">
+                    <i class="fas fa-globe"></i>
+                    <span>All Categories</span>
+                </button>
+                <button class="category-tab politics" data-category="politics">
+                    <i class="fas fa-landmark"></i>
+                    <span>Politics</span>
+                </button>
+                <button class="category-tab sports" data-category="sports">
+                    <i class="fas fa-futbol"></i>
+                    <span>Sports</span>
+                </button>
+                <button class="category-tab science" data-category="science">
+                    <i class="fas fa-flask"></i>
+                    <span>Science</span>
+                </button>
+                <button class="category-tab health" data-category="health">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Health</span>
+                </button>
+                <button class="category-tab living" data-category="living">
+                    <i class="fas fa-home"></i>
+                    <span>Home & Living</span>
+                </button>
             </div>
             
             <!-- News Stream -->
             <div class="news-stream">
-                <!-- News Card 1 - Facts perspective -->
                 <div class="news-card">
                     <div class="news-meta">
                         <div class="news-info">
                             <div class="news-category">Politics</div>
                             <div class="news-date">May 12, 2025</div>
                         </div>
-                        <div class="news-perspective facts">Just the Facts</div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h3>
-                        <p class="news-summary">The $1.2 trillion infrastructure bill passed the Senate with a 69-30 vote, allocating funds for roads, bridges, public transit, and broadband internet. The bill now moves to the House for consideration.</p>
-                        <img src="/api/placeholder/800/400" alt="Infrastructure Bill Signing" class="news-image" />
                         <div class="news-sources">
                             <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
                             <span class="news-source"><i class="fas fa-newspaper"></i> AP</span>
@@ -1232,122 +1016,113 @@
                             <span class="news-source"><i class="fas fa-newspaper"></i> CNN</span>
                         </div>
                     </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h3>
+                        <p class="news-summary">The $1.2 trillion infrastructure bill passed the Senate with a 69-30 vote, allocating funds for roads, bridges, public transit, and broadband internet. The bill now moves to the House for consideration.</p>
+                        <img src="/api/placeholder/800/400" alt="Infrastructure Bill Signing" class="news-image" />
+                    </div>
                     <div class="news-footer">
-                        <div class="news-related">
-                            <button class="related-perspective left">
-                                <i class="fas fa-arrow-left"></i>
-                                <span>Left View</span>
-                            </button>
-                            <button class="related-perspective right">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Right View</span>
-                            </button>
+                        <div class="news-perspectives">
+                            <span class="news-perspective-label">Perspectives included:</span>
+                            <div class="news-perspective-indicators">
+                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
+                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
+                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
+                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
+                            </div>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
                 </div>
                 
-                <!-- News Card 2 - Left perspective -->
+                <!-- News Card 2 -->
                 <div class="news-card">
                     <div class="news-meta">
                         <div class="news-info">
                             <div class="news-category">Science</div>
                             <div class="news-date">May 11, 2025</div>
                         </div>
-                        <div class="news-perspective left">Left View</div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">New Study Shows Accelerating Climate Change Effects on Global Food Production</h3>
-                        <p class="news-summary">Research published in Nature Climate Change indicates that agricultural yields could decrease by up to 30% in some regions by 2050 if current carbon emission trends continue, threatening global food security.</p>
-                        <img src="/api/placeholder/800/400" alt="Climate Change Impact" class="news-image" />
                         <div class="news-sources">
                             <span class="news-source"><i class="fas fa-newspaper"></i> The Guardian</span>
                             <span class="news-source"><i class="fas fa-newspaper"></i> NPR</span>
                             <span class="news-source"><i class="fas fa-flask"></i> Nature Climate Change</span>
                         </div>
                     </div>
+                    <div class="news-content">
+                        <h3 class="news-title">New Study Shows Accelerating Climate Change Effects on Global Food Production</h3>
+                        <p class="news-summary">Research published in Nature Climate Change indicates that agricultural yields could decrease by up to 30% in some regions by 2050 if current carbon emission trends continue, threatening global food security.</p>
+                        <img src="/api/placeholder/800/400" alt="Climate Change Impact" class="news-image" />
+                    </div>
                     <div class="news-footer">
-                        <div class="news-related">
-                            <button class="related-perspective right">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Right View</span>
-                            </button>
-                            <button class="related-perspective facts">
-                                <i class="fas fa-balance-scale"></i>
-                                <span>Just the Facts</span>
-                            </button>
+                        <div class="news-perspectives">
+                            <span class="news-perspective-label">Perspectives included:</span>
+                            <div class="news-perspective-indicators">
+                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
+                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
+                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
+                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
+                            </div>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
                 </div>
                 
-                <!-- News Card 3 - Right perspective -->
+                <!-- News Card 3 -->
                 <div class="news-card">
                     <div class="news-meta">
                         <div class="news-info">
                             <div class="news-category">Economy</div>
                             <div class="news-date">May 10, 2025</div>
                         </div>
-                        <div class="news-perspective right">Right View</div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">Tax Cuts Credited for Record Small Business Growth in Q1 2025</h3>
-                        <p class="news-summary">Small business formations reached an all-time high in the first quarter of 2025, with many crediting recent tax policy changes for encouraging entrepreneurship and investment.</p>
-                        <img src="/api/placeholder/800/400" alt="Small Business Growth" class="news-image" />
                         <div class="news-sources">
                             <span class="news-source"><i class="fas fa-newspaper"></i> Fox Business</span>
                             <span class="news-source"><i class="fas fa-newspaper"></i> WSJ</span>
                             <span class="news-source"><i class="fas fa-chart-line"></i> Small Business Administration</span>
                         </div>
                     </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Tax Cuts Credited for Record Small Business Growth in Q1 2025</h3>
+                        <p class="news-summary">Small business formations reached an all-time high in the first quarter of 2025, with many crediting recent tax policy changes for encouraging entrepreneurship and investment.</p>
+                        <img src="/api/placeholder/800/400" alt="Small Business Growth" class="news-image" />
+                    </div>
                     <div class="news-footer">
-                        <div class="news-related">
-                            <button class="related-perspective left">
-                                <i class="fas fa-arrow-left"></i>
-                                <span>Left View</span>
-                            </button>
-                            <button class="related-perspective facts">
-                                <i class="fas fa-balance-scale"></i>
-                                <span>Just the Facts</span>
-                            </button>
+                        <div class="news-perspectives">
+                            <span class="news-perspective-label">Perspectives included:</span>
+                            <div class="news-perspective-indicators">
+                                <span class="perspective-indicator left" title="Left View"><i class="fas fa-arrow-left"></i></span>
+                                <span class="perspective-indicator right" title="Right View"><i class="fas fa-arrow-right"></i></span>
+                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
+                            </div>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
                 </div>
                 
-                <!-- News Card 4 - Center perspective -->
+                <!-- News Card 4 -->
                 <div class="news-card">
                     <div class="news-meta">
                         <div class="news-info">
                             <div class="news-category">Health</div>
                             <div class="news-date">May 9, 2025</div>
                         </div>
-                        <div class="news-perspective center">Center View</div>
-                    </div>
-                    <div class="news-content">
-                        <h3 class="news-title">Breakthrough in Alzheimer's Treatment Shows Promise in Clinical Trials</h3>
-                        <p class="news-summary">A new antibody treatment has shown a 42% reduction in cognitive decline in phase III clinical trials, representing the most promising advancement in Alzheimer's treatment in decades.</p>
-                        <img src="/api/placeholder/800/400" alt="Alzheimer's Research" class="news-image" />
                         <div class="news-sources">
                             <span class="news-source"><i class="fas fa-newspaper"></i> Reuters</span>
                             <span class="news-source"><i class="fas fa-newspaper"></i> BBC</span>
                             <span class="news-source"><i class="fas fa-flask"></i> New England Journal of Medicine</span>
                         </div>
                     </div>
+                    <div class="news-content">
+                        <h3 class="news-title">Breakthrough in Alzheimer's Treatment Shows Promise in Clinical Trials</h3>
+                        <p class="news-summary">A new antibody treatment has shown a 42% reduction in cognitive decline in phase III clinical trials, representing the most promising advancement in Alzheimer's treatment in decades.</p>
+                        <img src="/api/placeholder/800/400" alt="Alzheimer's Research" class="news-image" />
+                    </div>
                     <div class="news-footer">
-                        <div class="news-related">
-                            <button class="related-perspective left">
-                                <i class="fas fa-arrow-left"></i>
-                                <span>Left View</span>
-                            </button>
-                            <button class="related-perspective right">
-                                <i class="fas fa-arrow-right"></i>
-                                <span>Right View</span>
-                            </button>
-                            <button class="related-perspective facts">
-                                <i class="fas fa-balance-scale"></i>
-                                <span>Just the Facts</span>
-                            </button>
+                        <div class="news-perspectives">
+                            <span class="news-perspective-label">Perspectives included:</span>
+                            <div class="news-perspective-indicators">
+                                <span class="perspective-indicator center" title="Center View"><i class="fas fa-grip-lines-vertical"></i></span>
+                                <span class="perspective-indicator facts" title="Just the Facts"><i class="fas fa-balance-scale"></i></span>
+                            </div>
                         </div>
                         <button class="news-read-more">Read Full Analysis</button>
                     </div>
