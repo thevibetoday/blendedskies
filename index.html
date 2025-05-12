@@ -1,4 +1,170 @@
-<!DOCTYPE html>
+/* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background-color: var(--white);
+            z-index: var(--z-dropdown);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform var(--transition-normal);
+        }
+        
+        .dark-mode .sidebar {
+            background-color: var(--dark-card);
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: calc(var(--z-dropdown) - 1);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        }
+        
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-6) var(--space-4);
+            border-bottom: 1px solid var(--light-border);
+        }
+        
+        .dark-mode .sidebar-header {
+            border-color: var(--dark-border);
+        }
+        
+        .sidebar-logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        .close-sidebar {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            color: var(--light-icon);
+            transition: all var(--transition-fast);
+        }
+        
+        .dark-mode .close-sidebar {
+            color: var(--dark-icon);
+        }
+        
+        .close-sidebar:hover {
+            background-color: var(--light-surface);
+            color: var(--tertiary);
+        }
+        
+        .dark-mode .close-sidebar:hover {
+            background-color: var(--dark-surface);
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-4);
+        }
+        
+        .sidebar-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .sidebar-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--light-text-secondary);
+            margin-bottom: var(--space-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dark-mode .sidebar-section-title {
+            color: var(--dark-text-secondary);
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--light-text);
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+        
+        .dark-mode .sidebar-nav-item {
+            color: var(--dark-text);
+        }
+        
+        .sidebar-nav-item:hover {
+            background-color: var(--light-surface);
+        }
+        
+        .dark-mode .sidebar-nav-item:hover {
+            background-color: var(--dark-surface);
+        }
+        
+        .sidebar-nav-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .dark-mode .sidebar-nav-item.active {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+        }
+        
+        .sidebar-nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--light-border);
+            font-size: 12px;
+            color: var(--light-text-secondary);
+            text-align: center;
+        }
+        
+        .dark-mode .sidebar-footer {
+            border-color: var(--dark-border);
+            color: var(--dark-text-secondary);
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -767,6 +933,54 @@
             </div>
         </nav>
         
+        <!-- Sidebar Menu -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-logo">Perspectify</h1>
+                <button class="close-sidebar" id="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Navigate</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item active"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-bolt"></i> Featured</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-fire"></i> Trending</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-history"></i> Recent</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-bookmark"></i> Saved</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Categories</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item" data-category="politics"><i class="fas fa-landmark"></i> Politics</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="sports"><i class="fas fa-futbol"></i> Sports</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="science"><i class="fas fa-flask"></i> Science</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="health"><i class="fas fa-heartbeat"></i> Health</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="business"><i class="fas fa-chart-line"></i> Business</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="technology"><i class="fas fa-microchip"></i> Technology</a></li>
+                        <li><a href="#" class="sidebar-nav-item" data-category="living"><i class="fas fa-home"></i> Home & Living</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">About</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-question-circle"></i> How It Works</a></li>
+                        <li><a href="#" class="sidebar-nav-item"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p>© 2025 Perspectify News</p>
+            </div>
+        </aside>
+        
+        <!-- Overlay for Sidebar -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        
         <!-- Search Panel -->
         <div class="search-panel" id="search-panel">
             <div class="search-container">
@@ -932,12 +1146,16 @@
         // DOM Elements
         const themeToggle = document.getElementById('theme-toggle');
         const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
         const searchToggle = document.getElementById('search-toggle');
         const searchPanel = document.getElementById('search-panel');
         const categoryTabs = document.querySelectorAll('.category-tab');
         const searchFilterOptions = document.querySelectorAll('.search-filter-option');
         const searchReset = document.querySelector('.search-reset');
         const searchSubmit = document.querySelector('.search-submit');
+        const sidebarNavItems = document.querySelectorAll('.sidebar-nav-item');
         
         // Theme Toggle
         function toggleTheme() {
@@ -951,6 +1169,64 @@
         
         if (themeToggle) {
             themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Sidebar Toggle
+        function toggleSidebar() {
+            if (sidebar) {
+                sidebar.classList.toggle('active');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.toggle('active');
+                }
+                
+                // Close search panel if open
+                if (searchPanel && searchPanel.classList.contains('active')) {
+                    toggleSearchPanel();
+                }
+            }
+        }
+        
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (closeSidebar) {
+            closeSidebar.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
+        
+        // Sidebar Navigation Items
+        if (sidebarNavItems) {
+            sidebarNavItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Prevent default link behavior
+                    e.preventDefault();
+                    
+                    // Set this item as active
+                    sidebarNavItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Check if this item has a category attribute
+                    const category = this.getAttribute('data-category');
+                    if (category) {
+                        // Find the matching category tab and click it
+                        const matchingTab = document.querySelector(`.category-tab[data-category="${category}"]`);
+                        if (matchingTab) {
+                            matchingTab.click();
+                        }
+                    }
+                    
+                    // Close the sidebar on mobile
+                    if (window.innerWidth < 768) {
+                        toggleSidebar();
+                    }
+                });
+            });
         }
         
         // Search Panel Toggle
