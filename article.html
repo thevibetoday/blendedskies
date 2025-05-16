@@ -1,75 +1,1458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Perspectify – Briefing Desk</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-:root{
---primary:#6366F1;--primary-dark:#4F46E5;--secondary:#22D3EE;--light-bg:#F9FAFB;--dark-bg:#0F172A;--radius-lg:12px;--shadow-md:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--light-bg);color:#111827;min-height:100vh}
-body.dark{background:var(--dark-bg);color:#F1F5F9}
-nav{position:fixed;top:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);z-index:1000}
-body.dark nav{background:rgba(15,23,42,.8)}
-.logo{font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-size:24px}
-.icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#6B7280;font-size:16px;transition:.2s}
-.icon-btn:hover{transform:translateY(-2px);color:var(--primary)}
-#pulse{margin-top:64px;white-space:nowrap;overflow:hidden;background:#fff;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB}
-body.dark #pulse{background:#1E293B;border-color:#334155}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;font-weight:600;color:#374151;border-right:1px solid #E5E7EB}
-body.dark .pill{color:#E2E8F0;border-color:#334155}
-.spark{color:#EF4444}
-main{max-width:1200px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-.cluster{position:relative;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;display:flex;flex-direction:column;transition:.3s}
-body.dark .cluster{background:#1E293B}
-.cluster.big{grid-column:span 2}
-.cluster img{width:100%;height:160px;object-fit:cover}
-.cluster .body{padding:16px;display:flex;flex-direction:column;gap:12px}
-.cluster h2{font-size:18px;font-weight:700}
-.cluster p{font-size:14px;color:#4B5563}
-body.dark .cluster p{color:#94A3B8}
-.sources{display:flex;gap:4px;flex-wrap:wrap}
-.sources span{font-size:10px;padding:2px 6px;border-radius:9999px;background:#F3F4F6;color:#374151}
-body.dark .sources span{background:#334155;color:#E2E8F0}
-.flip{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#fff;color:#111827;padding:24px;transform:rotateY(180deg);backface-visibility:hidden}
-body.dark .flip{background:#0F172A;color:#F1F5F9}
-.cluster-inner{position:relative;perspective:1000px}
-.cluster-inner .front,.cluster-inner .flip{width:100%;height:100%;position:absolute;top:0;left:0;transition:transform .6s;transform-style:preserve-3d}
-.cluster-inner:hover .front{transform:rotateY(180deg)}
-.cluster-inner:hover .flip{transform:rotateY(0)}
-.slider{margin:32px auto 0;max-width:320px;display:flex;align-items:center;gap:8px}
-.slider input{flex:1}
-.slider label{font-size:12px;font-weight:600}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senate Passes New Infrastructure Bill - Full Analysis | Perspectify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core Brand Colors */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #22D3EE;
+            --tertiary: #F43F5E;
+            --quaternary: #10B981;
+            --quinary: #F59E0B;
+            
+            /* Source Colors */
+            --cnn-color: #CC0000;
+            --fox-color: #006699;
+            --bbc-color: #BB1919;
+            --reuters-color: #FF8000;
+            --ap-color: #000000;
+            --wsj-color: #337AB7;
+            
+            /* Functional Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #F43F5E;
+            --info: #22D3EE;
+            
+            /* Neutrals */
+            --white: #FFFFFF;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --black: #000000;
+            
+            /* Theme Colors - Light */
+            --light-bg: #F9FAFB;
+            --light-card: #FFFFFF;
+            --light-surface: #F3F4F6;
+            --light-border: #E5E7EB;
+            --light-text: #111827;
+            --light-text-secondary: #4B5563;
+            --light-icon: #6B7280;
+            
+            /* Theme Colors - Dark */
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --dark-surface: #334155;
+            --dark-border: #475569;
+            --dark-text: #F1F5F9;
+            --dark-text-secondary: #94A3B8;
+            --dark-icon: #94A3B8;
+            
+            /* Dimensions */
+            --floating-nav-height: 64px;
+            
+            /* Typography */
+            --font-primary: 'Inter', sans-serif;
+            --font-secondary: 'Poppins', sans-serif;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Z-index layers */
+            --z-floating-nav: 100;
+            --z-dropdown: 110;
+            --z-toast: 300;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: var(--font-primary);
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: var(--floating-nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: var(--z-floating-nav);
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-full);
+            padding: 0 var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .dark-mode .floating-nav {
+            background-color: rgba(30, 41, 59, 0.8);
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .main-actions {
+            justify-content: flex-start;
+        }
+
+        .logo-section {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .user-section {
+            justify-content: flex-end;
+        }
+
+        .platform-logo {
+            font-family: var(--font-primary);
+            font-size: 24px;
+            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-action-button {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-icon);
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            font-size: 18px;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .nav-action-button {
+            color: var(--dark-icon);
+            background-color: var(--dark-surface);
+        }
+
+        .nav-action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: calc(var(--floating-nav-height) + 40px) var(--space-4) var(--space-4);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: var(--space-6);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Article Container */
+        .article-container {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .dark-mode .article-container {
+            background-color: var(--dark-card);
+        }
+
+        /* Article Header */
+        .article-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .article-header {
+            border-color: var(--dark-border);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .article-category {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.1);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+        }
+
+        .article-date {
+            font-size: 14px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .article-date {
+            color: var(--dark-text-secondary);
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+        }
+
+        .article-subtitle {
+            font-size: 18px;
+            color: var(--light-text-secondary);
+            font-weight: 400;
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .article-subtitle {
+            color: var(--dark-text-secondary);
+        }
+
+        .article-sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .article-source {
+            font-size: 12px;
+            font-weight: 500;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            background-color: var(--light-surface);
+            color: var(--light-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .dark-mode .article-source {
+            background-color: var(--dark-surface);
+            color: var(--dark-text-secondary);
+        }
+
+        /* Article Image */
+        .article-hero-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+        }
+
+        /* Article Content */
+        .article-content {
+            padding: var(--space-6);
+        }
+
+        .article-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-2);
+            border-bottom: 2px solid var(--light-border);
+        }
+
+        .dark-mode .section-title {
+            border-color: var(--dark-border);
+        }
+
+        .article-text {
+            margin-bottom: var(--space-4);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .article-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .article-text a:hover {
+            text-decoration: underline;
+        }
+
+        .summary-box {
+            background-color: var(--light-surface);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .dark-mode .summary-box {
+            background-color: var(--dark-surface);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+
+        .summary-list {
+            padding-left: var(--space-5);
+        }
+
+        .summary-list li {
+            margin-bottom: var(--space-2);
+        }
+
+        /* Source Perspectives */
+        .source-perspectives {
+            margin-top: var(--space-8);
+        }
+
+        .perspectives-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+        }
+
+        .perspective-card {
+            background-color: var(--light-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            border-left: 4px solid var(--gray-300);
+        }
+
+        .dark-mode .perspective-card {
+            background-color: var(--dark-surface);
+            border-left-color: var(--gray-600);
+        }
+
+        .perspective-card.cnn {
+            border-left-color: var(--cnn-color);
+        }
+
+        .perspective-card.fox {
+            border-left-color: var(--fox-color);
+        }
+
+        .perspective-card.bbc {
+            border-left-color: var(--bbc-color);
+        }
+
+        .perspective-card.reuters {
+            border-left-color: var(--reuters-color);
+        }
+
+        .perspective-card.ap {
+            border-left-color: var(--ap-color);
+        }
+
+        .perspective-card.wsj {
+            border-left-color: var(--wsj-color);
+        }
+
+        .perspective-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .perspective-source {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .perspective-date {
+            font-size: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .perspective-date {
+            color: var(--dark-text-secondary);
+        }
+
+        .perspective-content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .perspective-content p {
+            margin-bottom: var(--space-3);
+        }
+
+        .perspective-quote {
+            border-left: 2px solid var(--gray-300);
+            padding-left: var(--space-3);
+            font-style: italic;
+            color: var(--light-text-secondary);
+            margin: var(--space-3) 0;
+        }
+
+        .dark-mode .perspective-quote {
+            border-left-color: var(--gray-600);
+            color: var(--dark-text-secondary);
+        }
+
+        .perspective-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--light-border);
+            font-size: 12px;
+        }
+
+        .dark-mode .perspective-footer {
+            border-color: var(--dark-border);
+        }
+
+        .perspective-author {
+            font-weight: 600;
+        }
+
+        .perspective-link a {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .perspective-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sidebar */
+        .article-sidebar {
+            align-self: start;
+            position: sticky;
+            top: calc(var(--floating-nav-height) + 40px);
+        }
+
+        .sidebar-widget {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dark-mode .sidebar-widget {
+            background-color: var(--dark-card);
+        }
+
+        .widget-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .widget-title {
+            border-color: var(--dark-border);
+        }
+
+        .key-points-list {
+            list-style: none;
+        }
+
+        .key-points-list li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-4);
+            position: relative;
+        }
+
+        .key-points-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .metadata-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .metadata-item {
+            border-color: var(--dark-border);
+        }
+
+        .metadata-item:last-child {
+            border-bottom: none;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .metadata-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .metadata-value {
+            font-weight: 500;
+        }
+
+        .related-articles-list {
+            list-style: none;
+        }
+
+        .related-article-item {
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        .dark-mode .related-article-item {
+            border-color: var(--dark-border);
+        }
+
+        .related-article-item:last-child {
+            border-bottom: none;
+        }
+
+        .related-article-link {
+            text-decoration: none;
+            color: var(--light-text);
+            display: block;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .related-article-link {
+            color: var(--dark-text);
+        }
+
+        .related-article-link:hover {
+            color: var(--primary);
+        }
+
+        .related-article-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: var(--space-1);
+        }
+
+        .related-article-date {
+            font-size: 12px;
+            color: var(--light-text-secondary);
+        }
+
+        .dark-mode .related-article-date {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Interactive Elements */
+        .interactive-sources {
+            margin-bottom: var(--space-8);
+        }
+
+        .source-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-border);
+            margin-bottom: var(--space-4);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .dark-mode .source-tabs {
+            border-color: var(--dark-border);
+        }
+
+        .source-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .source-tabs::-webkit-scrollbar-track {
+            background: var(--light-surface);
+            border-radius: var(--radius-full);
+        }
+
+        .dark-mode .source-tabs::-webkit-scrollbar-track {
+            background: var(--dark-surface);
+        }
+
+        .source-tabs::-webkit-scrollbar-thumb {
+            background-color: var(--gray-300);
+            border-radius: var(--radius-full);
+        }
+
+        .dark-mode .source-tabs::-webkit-scrollbar-thumb {
+            background-color: var(--gray-600);
+        }
+
+        .source-tab {
+            padding: var(--space-3) var(--space-4);
+            white-space: nowrap;
+            font-weight: 600;
+            color: var(--light-text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .dark-mode .source-tab {
+            color: var(--dark-text-secondary);
+        }
+
+        .source-tab:hover {
+            color: var(--light-text);
+        }
+
+        .dark-mode .source-tab:hover {
+            color: var(--dark-text);
+        }
+
+        .source-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .source-content {
+            display: none;
+        }
+
+        .source-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: var(--space-8);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--light-border);
+        }
+
+        .dark-mode .article-footer {
+            border-color: var(--dark-border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 90%;
+        }
+        
+        .dark-mode .toast {
+            background-color: #1E293B;
+            color: #F1F5F9;
+        }
+        
+        .toast.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .toast.info .toast-icon {
+            background-color: rgba(34, 211, 238, 0.1);
+            color: #22D3EE;
+        }
+        
+        .toast.success .toast-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        
+        .toast-message {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .toast-close {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #6B7280;
+        }
+        
+        .dark-mode .toast-close {
+            color: #94A3B8;
+        }
+        
+        .toast-close:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .dark-mode .toast-close:hover {
+            background-color: #334155;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 24px;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-2);
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+        }
+    </style>
 </head>
 <body>
-<nav>
-<div class="logo">P</div>
-<button class="icon-btn" id="theme"><i class="fas fa-moon"></i></button>
-</nav>
-<div id="pulse"></div>
-<div class="slider"><label>Left</label><input type="range" id="persp" min="0" max="2" value="1"><label>Right</label></div>
-<main id="board"></main>
-<script>
-const state={bias:1};
-const clusters=[
-{title:"Senate Approves $1.2T Infrastructure Deal",brief:["Bipartisan vote clears historic upgrade plan","Republicans split over fiscal impact","Funds roads, broadband and EV chargers"],img:"https://placehold.co/600x400?text=Infrastructure",sources:["Reuters","CNN","Fox","AP"],velocity:42},
-{title:"NASA Confirms First Human Moon Base by 2032",brief:["Artemis roadmap accelerates lunar habitat","Budget concerns loom in Congress","Commercial partners to supply power"],img:"https://placehold.co/600x400?text=Moon+Base",sources:["NASA","BBC","WSJ"],velocity:61},
-{title:"Global Markets Rally After AI Chip Breakthrough",brief:["Semiconductor index hits record high","Analysts cite 40% efficiency jump","Regulators watch for supply crunch"],img:"https://placehold.co/600x400?text=AI+Chip",sources:["Bloomberg","FT","Guardian"],velocity:53},
-{title:"Historic Climate Accord Reached in Nairobi",brief:["196 nations agree on methane cuts","Climate fund swells to $200B","Critics say enforcement unclear"],img:"https://placehold.co/600x400?text=Climate+Accord",sources:["UN","NYT","Al Jazeera"],velocity:48}
-];
-function renderPulse(){const html=clusters.sort((a,b)=>b.velocity-a.velocity).slice(0,12).map(c=>`<span class="pill"><span class="spark">${c.velocity}🔥</span>${c.title.split(' ').slice(0,6).join(' ')}…</span>`).join('');document.getElementById('pulse').innerHTML=html}
-function renderBoard(){const board=document.getElementById('board');board.innerHTML=clusters.map((c,i)=>{
-const brief=c.brief[state.bias];
-return `<article class="cluster ${i===0?'big':''}" id="cluster-${i}"><div class="cluster-inner"><div class="front"><img src="${c.img}" alt><div class="body"><h2>${c.title}</h2><p data-brief0="${c.brief[0]}" data-brief1="${c.brief[1]}" data-brief2="${c.brief[2]}" class="brief">${brief}</p><div class="sources">${c.sources.map(s=>`<span>${s}</span>`).join('')}</div></div></div><div class="flip"><ul>${c.brief.map(b=>`<li>${b}</li>`).join('')}</ul></div></div></article>`}).join('')}
-renderPulse();renderBoard();
-setInterval(()=>{clusters.forEach(c=>c.velocity=Math.max(1,Math.floor(c.velocity+Math.random()*6-3)));renderPulse()},30000);
-const persp=document.getElementById('persp');persp.addEventListener('input',e=>{state.bias=+e.target.value;document.querySelectorAll('.brief').forEach(el=>el.textContent=el.dataset['brief'+state.bias])});
-const themeBtn=document.getElementById('theme');themeBtn.onclick=()=>{document.body.classList.toggle('dark');themeBtn.innerHTML=document.body.classList.contains('dark')?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>'};
-</script>
+    <div id="app" class="app-container">
+        <!-- Floating Navigation -->
+        <nav class="floating-nav" id="floating-nav">
+            <div class="nav-section main-actions">
+                <a href="index.html" class="nav-action-button" id="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <button class="nav-action-button" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="nav-action-button" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="nav-section logo-section">
+                <div class="platform-logo">P</div>
+            </div>
+            <div class="nav-section user-section">
+                <button class="nav-action-button" id="share-button">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="article-container">
+                <!-- Article Header -->
+                <header class="article-header">
+                    <div class="article-meta">
+                        <span class="article-category">Politics</span>
+                        <span class="article-date">May 12, 2025</span>
+                    </div>
+                    <h1 class="article-title">Senate Passes New Infrastructure Bill with Bipartisan Support</h1>
+                    <p class="article-subtitle">The $1.2 trillion legislation represents a major investment in America's roads, bridges, public transit, and broadband internet</p>
+                    <div class="article-sources">
+                        <span class="article-source"><i class="fas fa-newspaper"></i> Reuters</span>
+                        <span class="article-source"><i class="fas fa-newspaper"></i> AP</span>
+                        <span class="article-source"><i class="fas fa-newspaper"></i> WSJ</span>
+                        <span class="article-source"><i class="fas fa-newspaper"></i> CNN</span>
+                    </div>
+                </header>
+
+                <!-- Hero Image -->
+                <img src="https://placehold.co/1200x500?text=Infrastructure+Bill+Signing+Ceremony" alt="Infrastructure Bill Signing Ceremony" class="article-hero-image">
+
+                <!-- Article Content -->
+                <div class="article-content">
+                    <!-- Key Facts Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Key Facts</h2>
+                        <div class="summary-box">
+                            <p class="summary-title">What You Need to Know:</p>
+                            <ul class="summary-list">
+                                <li>The Senate passed a $1.2 trillion infrastructure bill with a 69-30 vote, showing rare bipartisan cooperation</li>
+                                <li>The bill includes $550 billion in new spending on transportation, utilities, and pollution cleanup</li>
+                                <li>Key investments include $110 billion for roads and bridges, $66 billion for passenger and freight rail, and $65 billion for broadband internet</li>
+                                <li>The bill now moves to the House of Representatives for consideration</li>
+                                <li>President is expected to sign the legislation if it passes the House</li>
+                            </ul>
+                        </div>
+                        <p class="article-text">
+                            In a significant showing of bipartisan cooperation, the Senate has passed a $1.2 trillion infrastructure bill, marking a major step toward fulfilling a key legislative priority for the administration. The vote, which ended with 69 senators in favor and 30 opposed, demonstrates that bipartisan agreement is still possible on major legislation despite the highly polarized political climate.
+                        </p>
+                        <p class="article-text">
+                            The Infrastructure Investment and Jobs Act represents the largest investment in America's physical infrastructure in decades. The bill includes approximately $550 billion in new federal spending over five years, with the remainder coming from the reallocation of existing funds.
+                        </p>
+                        <p class="article-text">
+                            The legislation now moves to the House of Representatives, where its passage may face additional challenges. Some progressive Democrats have indicated they won't support the infrastructure bill unless it moves in tandem with a larger social policy and climate bill that Democrats plan to pass through the budget reconciliation process, which doesn't require Republican support.
+                        </p>
+                    </section>
+
+                    <!-- What's in the Bill Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">What's in the Bill</h2>
+                        <p class="article-text">
+                            The infrastructure package includes significant investments in various sectors of American infrastructure:
+                        </p>
+                        <p class="article-text">
+                            <strong>Transportation:</strong> The bill allocates $110 billion for roads and bridges, $66 billion for passenger and freight rail, $39 billion for public transit, $25 billion for airports, and $17 billion for ports.
+                        </p>
+                        <p class="article-text">
+                            <strong>Utilities:</strong> The legislation includes $65 billion for broadband internet, $65 billion for the power grid, and $55 billion for water infrastructure.
+                        </p>
+                        <p class="article-text">
+                            <strong>Environmental Remediation:</strong> The bill provides $21 billion for environmental cleanup, addressing pollution and contaminants in soil and groundwater.
+                        </p>
+                        <p class="article-text">
+                            <strong>Electric Vehicles:</strong> The legislation allocates $7.5 billion for a network of electric vehicle charging stations and another $7.5 billion for electric buses and ferries.
+                        </p>
+                    </section>
+
+                    <!-- How It's Funded Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">How It's Funded</h2>
+                        <p class="article-text">
+                            Unlike many large spending bills, the infrastructure package includes provisions designed to offset its costs, though the Congressional Budget Office has estimated it will add about $256 billion to the deficit over the next decade.
+                        </p>
+                        <p class="article-text">
+                            Funding sources in the bill include:
+                        </p>
+                        <p class="article-text">
+                            - Repurposing unspent COVID-19 relief funds<br>
+                            - Delaying a Medicare rebate rule<br>
+                            - Applying new reporting requirements for cryptocurrency transactions<br>
+                            - Extending certain government fees<br>
+                            - Strategic petroleum reserve sales<br>
+                            - Spectrum auctions for 5G services
+                        </p>
+                        <p class="article-text">
+                            The bill does not include corporate or individual tax increases, which had been a red line for Republican negotiators.
+                        </p>
+                    </section>
+
+                    <!-- Political Analysis Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">Political Analysis</h2>
+                        <p class="article-text">
+                            The bipartisan nature of the Senate vote represents a significant achievement in today's polarized political climate. Nineteen Republican senators, including Minority Leader Mitch McConnell, joined all 50 Democrats in supporting the bill.
+                        </p>
+                        <p class="article-text">
+                            For the President, the bill's passage is a step toward fulfilling a campaign promise to work across the aisle and demonstrate that government can still function effectively. The administration has argued that the infrastructure investments will create jobs, enhance American competitiveness, and address climate change.
+                        </p>
+                        <p class="article-text">
+                            Republican supporters have emphasized the benefits of infrastructure improvements for their constituents and the economy, while arguing that they successfully prevented more ambitious Democratic spending proposals from being included in the bill.
+                        </p>
+                    </section>
+
+                    <!-- What's Next Section -->
+                    <section class="article-section">
+                        <h2 class="section-title">What's Next</h2>
+                        <p class="article-text">
+                            The bill now moves to the House of Representatives, where its fate is tied to a separate $3.5 trillion budget resolution focused on social programs, healthcare, and climate initiatives. Progressive Democrats have indicated they won't support the infrastructure bill unless the larger package moves forward simultaneously.
+                        </p>
+                        <p class="article-text">
+                            House Speaker Nancy Pelosi has suggested that the chamber won't take up the infrastructure bill until the Senate passes the larger package through budget reconciliation, a process that allows legislation to pass with a simple majority, avoiding the 60-vote threshold typically required to overcome a filibuster.
+                        </p>
+                        <p class="article-text">
+                            If the bill ultimately passes both chambers, it would represent one of the most significant investments in American infrastructure in generations and a rare example of bipartisan cooperation on major legislation.
+                        </p>
+                    </section>
+
+                    <!-- Source Perspectives Section -->
+                    <section class="source-perspectives">
+                        <h2 class="perspectives-title">Source Perspectives</h2>
+                        
+                        <!-- Interactive Source Tabs -->
+                        <div class="interactive-sources">
+                            <div class="source-tabs">
+                                <button class="source-tab active" data-source="all">All Sources</button>
+                                <button class="source-tab" data-source="cnn">CNN</button>
+                                <button class="source-tab" data-source="fox">Fox News</button>
+                                <button class="source-tab" data-source="reuters">Reuters</button>
+                                <button class="source-tab" data-source="ap">Associated Press</button>
+                                <button class="source-tab" data-source="wsj">Wall Street Journal</button>
+                            </div>
+                            
+                            <!-- All Sources Content -->
+                            <div class="source-content active" id="all-content">
+                                <!-- CNN Perspective -->
+                                <div class="perspective-card cnn">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CNN
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CNN highlights the bill as a significant victory for the Biden administration, emphasizing the bipartisan nature of the vote and framing it as a fulfillment of Biden's campaign promise to work across the aisle.</p>
+                                        <div class="perspective-quote">
+                                            "The bipartisan infrastructure bill represents a historic achievement in President Biden's effort to demonstrate that democracy can still work and deliver real results for the American people."
+                                        </div>
+                                        <p>The report emphasizes the job creation potential of the legislation and notes that it represents an important step in addressing climate change, particularly through investments in electric vehicle infrastructure and clean energy transmission.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Jane Smith, CNN Political Analyst</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fox News Perspective -->
+                                <div class="perspective-card fox">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Fox News
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>Fox News coverage focuses on the concerns raised by some Republican senators who voted against the bill, questioning its fiscal responsibility and highlighting the Congressional Budget Office's estimate that it will add to the deficit.</p>
+                                        <div class="perspective-quote">
+                                            "While some Republicans joined Democrats to pass this massive spending package, critics argue it fails to adequately offset its costs and could contribute to rising inflation pressures."
+                                        </div>
+                                        <p>The report also emphasizes concerns about the bill's connection to the larger $3.5 trillion reconciliation package, which some conservatives have labeled as "reckless spending" on "liberal wish list items."</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Robert Johnson, Fox News Congressional Correspondent</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reuters Perspective -->
+                                <div class="perspective-card reuters">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Reuters
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>Reuters provides a balanced, fact-focused account of the bill's passage, detailing the specific investments included and the legislative process ahead.</p>
+                                        <div class="perspective-quote">
+                                            "The $1.2 trillion infrastructure package, a cornerstone of Biden's agenda, represents the largest investment in the nation's physical infrastructure in decades."
+                                        </div>
+                                        <p>The report contextualizes the bill within historical infrastructure spending and includes reactions from economists who suggest the long-term economic benefits may outweigh concerns about short-term deficit increases.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Reuters Staff</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- CNN Content -->
+                            <div class="source-content" id="cnn-content">
+                                <!-- CNN Perspective (expanded) -->
+                                <div class="perspective-card cnn">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> CNN
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>CNN highlights the bill as a significant victory for the Biden administration, emphasizing the bipartisan nature of the vote and framing it as a fulfillment of Biden's campaign promise to work across the aisle.</p>
+                                        <div class="perspective-quote">
+                                            "The bipartisan infrastructure bill represents a historic achievement in President Biden's effort to demonstrate that democracy can still work and deliver real results for the American people."
+                                        </div>
+                                        <p>The report emphasizes the job creation potential of the legislation and notes that it represents an important step in addressing climate change, particularly through investments in electric vehicle infrastructure and clean energy transmission.</p>
+                                        <p>CNN's analysis suggests that the bill's passage could provide momentum for other elements of Biden's agenda, including the larger $3.5 trillion reconciliation package focused on social programs and climate initiatives.</p>
+                                        <p>The report features interviews with Democratic senators who emphasize the transformative potential of the infrastructure investments, particularly for rural and underserved communities that lack reliable broadband access.</p>
+                                        <div class="perspective-quote">
+                                            "This is what governing looks like," said a senior Democratic senator quoted in the report. "We've shown that both parties can come together to address the nation's most pressing needs."
+                                        </div>
+                                        <p>CNN's coverage also highlights the political implications of the bipartisan vote, suggesting it could provide electoral benefits for both Democratic and Republican senators who supported the bill and can now point to concrete achievements when campaigning for reelection.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Jane Smith, CNN Political Analyst</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Fox News Content -->
+                            <div class="source-content" id="fox-content">
+                                <!-- Fox News Perspective (expanded) -->
+                                <div class="perspective-card fox">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Fox News
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>Fox News coverage focuses on the concerns raised by some Republican senators who voted against the bill, questioning its fiscal responsibility and highlighting the Congressional Budget Office's estimate that it will add to the deficit.</p>
+                                        <div class="perspective-quote">
+                                            "While some Republicans joined Democrats to pass this massive spending package, critics argue it fails to adequately offset its costs and could contribute to rising inflation pressures."
+                                        </div>
+                                        <p>The report also emphasizes concerns about the bill's connection to the larger $3.5 trillion reconciliation package, which some conservatives have labeled as "reckless spending" on "liberal wish list items."</p>
+                                        <p>Fox's coverage includes interviews with Republican senators who voted against the bill, with several expressing concern about the deficit implications and arguing that the bill contains provisions unrelated to traditional infrastructure.</p>
+                                        <div class="perspective-quote">
+                                            "This is being sold as an infrastructure bill, but a significant portion of the spending goes to projects that most Americans wouldn't consider infrastructure," said one Republican senator opposed to the legislation.
+                                        </div>
+                                        <p>The report also notes that the bill's passage represents a win for the Biden administration, but suggests that internal divisions among Democrats over the reconciliation package could complicate efforts to advance the rest of the president's agenda.</p>
+                                        <p>Fox News coverage includes analysis suggesting that Republican support for the bill could provide political cover for Democrats to pass the larger reconciliation package, which contains more controversial spending initiatives.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Robert Johnson, Fox News Congressional Correspondent</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Reuters Content -->
+                            <div class="source-content" id="reuters-content">
+                                <!-- Reuters Perspective (expanded) -->
+                                <div class="perspective-card reuters">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Reuters
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>Reuters provides a balanced, fact-focused account of the bill's passage, detailing the specific investments included and the legislative process ahead.</p>
+                                        <div class="perspective-quote">
+                                            "The $1.2 trillion infrastructure package, a cornerstone of Biden's agenda, represents the largest investment in the nation's physical infrastructure in decades."
+                                        </div>
+                                        <p>The report contextualizes the bill within historical infrastructure spending and includes reactions from economists who suggest the long-term economic benefits may outweigh concerns about short-term deficit increases.</p>
+                                        <p>Reuters details each major spending category in the bill and reports on the funding mechanisms included to offset some of the costs, noting that the Congressional Budget Office projects the legislation will add approximately $256 billion to the deficit over the next decade.</p>
+                                        <p>The article includes quotes from both Republican and Democratic senators who supported the bill, as well as those who opposed it, providing a balanced view of perspectives on the legislation.</p>
+                                        <p>Reuters notes that the path forward in the House remains uncertain, as progressive Democrats have indicated they will not support the infrastructure bill unless it moves in tandem with the larger budget reconciliation package, while moderate Democrats have expressed concerns about the size of the reconciliation bill.</p>
+                                        <p>The report concludes with analysis from political scientists who suggest that while the bipartisan vote represents a rare moment of cooperation in a deeply divided Congress, significant challenges remain for the Biden administration's broader legislative agenda.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Reuters Staff</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- AP Content -->
+                            <div class="source-content" id="ap-content">
+                                <!-- AP Perspective -->
+                                <div class="perspective-card ap">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Associated Press
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>The Associated Press provides a straightforward, factual account of the infrastructure bill's passage, with a focus on the bill's contents and the legislative process.</p>
+                                        <div class="perspective-quote">
+                                            "The 2,700-page bill has been negotiated for months and represents a rare area of agreement between the Biden administration and Republican lawmakers on a major policy initiative."
+                                        </div>
+                                        <p>AP's reporting includes a detailed breakdown of the bill's spending provisions, noting that the $1.2 trillion package includes approximately $550 billion in new spending, with the remainder coming from previously appropriated funds.</p>
+                                        <p>The article explains the legislative hurdles that remain, including consideration in the House and the complications arising from progressive Democrats' insistence on linking the infrastructure bill to the larger reconciliation package.</p>
+                                        <p>The AP report includes quotes from key senators involved in negotiating the bill, including both Republicans and Democrats who played central roles in the bipartisan process.</p>
+                                        <p>The article also notes reactions from industry groups, labor unions, and transportation advocates, many of whom praised the bill's investments in America's aging infrastructure.</p>
+                                        <p>AP provides context on how the bill compares to previous infrastructure initiatives, noting that it represents the largest investment in infrastructure since the interstate highway system was constructed in the 1950s and 1960s.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Associated Press Staff</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- WSJ Content -->
+                            <div class="source-content" id="wsj-content">
+                                <!-- WSJ Perspective -->
+                                <div class="perspective-card wsj">
+                                    <div class="perspective-header">
+                                        <div class="perspective-source">
+                                            <i class="fas fa-newspaper"></i> Wall Street Journal
+                                        </div>
+                                        <div class="perspective-date">May 12, 2025</div>
+                                    </div>
+                                    <div class="perspective-content">
+                                        <p>The Wall Street Journal offers analysis focused on the economic and market implications of the infrastructure bill, along with detailed reporting on its fiscal impact.</p>
+                                        <div class="perspective-quote">
+                                            "The passage of the infrastructure package represents a significant investment in the nation's physical capital, but markets remain focused on the potential inflationary effects of increased government spending."
+                                        </div>
+                                        <p>WSJ's coverage emphasizes the Congressional Budget Office's analysis that the bill would add approximately $256 billion to the deficit over the next decade, despite claims from its proponents that it would be fully paid for.</p>
+                                        <p>The article includes reactions from business leaders and industry groups, with many expressing support for the investments in transportation, broadband, and utilities while expressing concerns about certain funding mechanisms in the bill.</p>
+                                        <p>WSJ notes that bond markets showed little immediate reaction to the bill's passage, as many investors had already priced in the likelihood of significant infrastructure spending. However, certain sectors, including construction, materials, and utilities, saw stock price increases following the Senate vote.</p>
+                                        <p>The report includes analysis suggesting that while the infrastructure investments may provide a modest economic boost in the short term, their primary benefit would be enhancing long-term productivity and economic competitiveness.</p>
+                                        <p>WSJ also examines the potential impact of the bill on labor markets, noting that the infrastructure spending could create demand for skilled workers in construction and related fields, potentially exacerbating existing labor shortages in those sectors.</p>
+                                    </div>
+                                    <div class="perspective-footer">
+                                        <div class="perspective-author">By Thomas Wilson, WSJ Economics Reporter</div>
+                                        <div class="perspective-link">
+                                            <a href="#" onclick="showToast('External link would open in a new tab', 'info'); return false;">
+                                                Read Original <i class="fas fa-external-link-alt"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Article Footer -->
+                    <footer class="article-footer">
+                        <div class="footer-links">
+                            <a href="#" class="footer-link" onclick="showToast('Navigating to previous article', 'info'); return false;">
+                                <i class="fas fa-arrow-left"></i> Previous Article
+                            </a>
+                            <a href="#" class="footer-link" onclick="showToast('Navigating to next article', 'info'); return false;">
+                                Next Article <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="article-sidebar">
+                <!-- Key Points Widget -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Key Points</h3>
+                    <ul class="key-points-list">
+                        <li>$1.2 trillion infrastructure package passed with 69-30 Senate vote</li>
+                        <li>Includes $550 billion in new spending</li>
+                        <li>Funds roads, bridges, transit, broadband, and power grid</li>
+                        <li>Represents rare bipartisan cooperation</li>
+                        <li>Now moves to House for consideration</li>
+                    </ul>
+                </div>
+
+                <!-- Article Metadata -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Article Details</h3>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Published</span>
+                        <span class="metadata-value">May 12, 2025</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Word Count</span>
+                        <span class="metadata-value">1,450</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Reading Time</span>
+                        <span class="metadata-value">5 minutes</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Sources</span>
+                        <span class="metadata-value">4</span>
+                    </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Last Updated</span>
+                        <span class="metadata-value">May 12, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Related Articles -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Related Articles</h3>
+                    <ul class="related-articles-list">
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">What The Infrastructure Bill Means For Your State</div>
+                                <div class="related-article-date">May 11, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">History of Major Infrastructure Legislation in America</div>
+                                <div class="related-article-date">May 10, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">How Infrastructure Funding Gets Distributed</div>
+                                <div class="related-article-date">May 8, 2025</div>
+                            </a>
+                        </li>
+                        <li class="related-article-item">
+                            <a href="#" class="related-article-link" onclick="showToast('Opening related article', 'info'); return false;">
+                                <div class="related-article-title">The Bipartisan Negotiators Behind The Bill</div>
+                                <div class="related-article-date">May 7, 2025</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const shareButton = document.getElementById('share-button');
+        const sourceTabs = document.querySelectorAll('.source-tab');
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Share Button
+        if (shareButton) {
+            shareButton.addEventListener('click', function() {
+                showToast('Article link copied to clipboard', 'success');
+            });
+        }
+        
+        // Source Tabs
+        if (sourceTabs) {
+            sourceTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Deactivate all tabs
+                    sourceTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Activate this tab
+                    this.classList.add('active');
+                    
+                    // Hide all content
+                    document.querySelectorAll('.source-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show selected content
+                    const sourceType = this.getAttribute('data-source');
+                    if (sourceType === 'all') {
+                        document.getElementById('all-content').classList.add('active');
+                    } else {
+                        document.getElementById(`${sourceType}-content`).classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // Toast Message
+        function showToast(message, type = 'info') {
+            // Remove any existing toasts
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(toast => {
+                toast.remove();
+            });
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            // Add icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to DOM
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('active');
+            }, 10);
+            
+            // Add close event
+            const closeButton = toast.querySelector('.toast-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300);
+                });
+            }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            toast.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
